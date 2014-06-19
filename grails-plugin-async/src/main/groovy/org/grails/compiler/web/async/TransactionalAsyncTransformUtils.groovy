@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.codehaus.groovy.grails.compiler.web.async
+package org.grails.compiler.web.async
 
 import grails.async.services.TransactionalPromiseDecorator
 import groovy.transform.CompileStatic
