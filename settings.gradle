@@ -1,0 +1,3 @@
+include 'grails-async'
+include 'grails-plugin-async'
+include 'grails-plugin-events'
