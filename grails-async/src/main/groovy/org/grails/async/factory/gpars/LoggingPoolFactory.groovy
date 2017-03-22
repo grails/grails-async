@@ -21,8 +21,6 @@ import groovyx.gpars.scheduler.Pool
 import groovyx.gpars.scheduler.ResizeablePool
 import groovyx.gpars.util.PoolFactory
 import groovyx.gpars.util.PoolUtils
-import org.apache.commons.logging.Log
-import org.apache.commons.logging.LogFactory
 
 import java.lang.reflect.Method
 import java.util.concurrent.RejectedExecutionHandler
@@ -30,7 +28,7 @@ import java.util.concurrent.SynchronousQueue
 import java.util.concurrent.ThreadFactory
 import java.util.concurrent.ThreadPoolExecutor
 import java.util.concurrent.TimeUnit
-
+import org.slf4j.*
 /**
  * A pool factory that logs error instead of printing them to standard err as is the default in GPars
  *
@@ -40,7 +38,7 @@ import java.util.concurrent.TimeUnit
 @CompileStatic
 class LoggingPoolFactory implements PoolFactory {
     private static final long KEEP_ALIVE_TIME = 10L;
-    public static final Log LOG = LogFactory.getLog(LoggingPoolFactory)
+    public static final Logger LOG = LoggerFactory.getLogger(LoggingPoolFactory)
 
     public static Method createThreadNameMethod
 
