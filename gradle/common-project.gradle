@@ -1,0 +1,26 @@
+apply plugin:'groovy'
+apply plugin:"io.github.groovylang.groovydoc"
+
+repositories {
+    mavenLocal()
+    maven { url "https://repo.grails.org/grails/core" }
+}
+
+configurations {
+    documentation
+}
+
+dependencies {
+    compile "org.codehaus.groovy:groovy:$groovyVersion"
+
+    testCompile("org.spockframework:spock-core:${spockVersion}")
+    testCompile "cglib:cglib-nodep:2.2.2"
+    testCompile "org.objenesis:objenesis:1.4"
+
+    documentation("org.fusesource.jansi:jansi:1.14")
+
+}
+
+groovydoc {
+    classpath += (configurations.documentation + configurations.compileOnly)
+}

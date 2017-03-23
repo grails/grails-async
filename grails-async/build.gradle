@@ -5,6 +5,8 @@ dependencies {
     }
     compile "io.projectreactor:reactor-core:$reactorCoreVersion"
     compile "io.projectreactor:reactor-stream:$reactorCoreVersion"
+
+    documentation("org.fusesource.jansi:jansi:1.14")
 }
 
 

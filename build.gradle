@@ -1,32 +1,21 @@
+buildscript {
+    repositories {
+        maven { url "https://repo.grails.org/grails/core" }
+    }
+    dependencies {
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
+        classpath 'com.bmuschko:gradle-nexus-plugin:2.3.1'
+        classpath 'io.github.groovylang.groovydoc:groovydoc-gradle-plugin:1.0.1'
+    }
+}
+
 subprojects {
     ext {
         userOrg = "grails"
     }
     group "org.grails"
     version "3.3.0.BUILD-SNAPSHOT"
-    
-    apply plugin:'groovy'
-    apply plugin: 'maven-publish'
 
-    repositories {
-        mavenLocal()
-        mavenCentral()
-        maven { url "https://repo.grails.org/grails/core" }
-    }
-
-    dependencies {
-        compile "org.codehaus.groovy:groovy:$groovyVersion"
-
-        testCompile("org.spockframework:spock-core:${spockVersion}")
-    }
-
-    task sourcesJar(type:Jar) {
-        classifier = 'sources'
-        from project.sourceSets.main.allSource
-    }
-
-    task javadocJar(type:Jar) {
-        classifier = 'javadoc'
-        from groovydoc.outputs
-    }
+    apply from:"${rootProject.projectDir}/gradle/common-project.gradle"
+    apply from:"${rootProject.projectDir}/gradle/common-publishing.gradle"
 }
