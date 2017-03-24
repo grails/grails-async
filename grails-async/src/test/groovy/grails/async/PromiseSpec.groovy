@@ -16,7 +16,6 @@
 package grails.async
 
 import grails.async.decorator.PromiseDecorator
-import reactor.Environment
 import spock.lang.Specification
 
 import java.util.concurrent.TimeUnit
@@ -28,13 +27,6 @@ import java.util.concurrent.TimeoutException
  */
 class PromiseSpec extends Specification {
 
-    void setup() {
-        Environment.initializeIfEmpty()
-    }
-
-    void cleanupSpec() {
-        Environment.terminate()
-    }
 
     void "Test add promise decorator"() {
         when:"A decorator is added"
