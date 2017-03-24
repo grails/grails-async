@@ -2,13 +2,11 @@ package grails.async.web
 
 import grails.async.Promise
 import grails.async.PromiseFactory
-import grails.async.Promises
 import grails.async.decorator.PromiseDecorator
 import groovy.transform.CompileStatic
 import org.grails.async.factory.SynchronousPromiseFactory
 import org.grails.async.factory.gpars.GparsPromiseFactory
 import org.grails.plugins.web.async.AsyncWebRequestPromiseDecoratorLookupStrategy
-import org.grails.plugins.web.async.WebRequestPromiseDecoratorLookupStrategy
 
 import java.util.concurrent.TimeUnit
 

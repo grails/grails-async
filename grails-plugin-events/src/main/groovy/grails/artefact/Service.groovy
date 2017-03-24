@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 SpringSource
+ * Copyright 2014 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,24 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.grails.plugins.web.async
+package grails.artefact
 
-import grails.plugins.Plugin
-import grails.util.GrailsUtil
-import org.grails.plugins.web.async.mvc.AsyncActionResultTransformer
+import grails.events.Events
+
 
 /**
- * Async support for the Grails 2.0. Doesn't do much right now, most logic handled
- * by the compile time transform.
+ * A trait implemented for services that implement events
  *
  * @author Graeme Rocher
- * @since 2.0
+ * @since 3.0
+ * @deprecated Trait bound to Reactor 2, don't use directly, here for compatibility only
  */
-class ControllersAsyncGrailsPlugin extends Plugin {
-    def version = GrailsUtil.getGrailsVersion()
-    def loadAfter = ['controllers']
-
-    Closure doWithSpring() {{->
-        asyncPromiseResponseActionResultTransformer(AsyncActionResultTransformer)
-    }}
+@Deprecated
+trait Service extends Events {
 }
