@@ -27,9 +27,7 @@ import org.grails.plugins.web.async.mvc.AsyncActionResultTransformer
  * @since 2.0
  */
 class ControllersAsyncGrailsPlugin extends Plugin {
-    def version = GrailsUtil.getGrailsVersion()
     def loadAfter = ['controllers']
-
     Closure doWithSpring() {{->
         asyncPromiseResponseActionResultTransformer(AsyncActionResultTransformer)
     }}

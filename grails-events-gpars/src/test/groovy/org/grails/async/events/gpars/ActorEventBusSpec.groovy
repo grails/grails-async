@@ -72,6 +72,7 @@ class ActorEventBusSpec extends Specification {
         sleep(500)
 
         expect:
-        result == null
+        result instanceof Throwable
     }
+
 }

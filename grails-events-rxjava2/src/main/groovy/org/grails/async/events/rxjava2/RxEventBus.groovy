@@ -1,17 +1,18 @@
-package org.grails.async.events.rxjava
+package org.grails.async.events.rxjava2
 
 import grails.async.events.Event
 import grails.async.events.emitter.EventEmitter
 import grails.async.events.registry.EventRegistry
+import grails.async.events.registry.Subscription
 import groovy.transform.CompileDynamic
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
+import io.reactivex.Scheduler
+import io.reactivex.disposables.Disposable
+import io.reactivex.functions.Consumer
+import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.PublishSubject
 import org.grails.async.events.bus.AbstractEventBus
-import rx.Scheduler
-import rx.Subscription
-import rx.functions.Action1
-import rx.schedulers.Schedulers
-import rx.subjects.PublishSubject
 
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.ConcurrentLinkedQueue
@@ -29,8 +30,8 @@ class RxEventBus extends AbstractEventBus {
     protected final Map<CharSequence, PublishSubject> subjects = new ConcurrentHashMap<CharSequence, PublishSubject>().withDefault {
         PublishSubject.create()
     }
-    protected final Map<CharSequence, Collection<Subscription>> subscriptions = new ConcurrentHashMap<CharSequence, Collection<Subscription>>().withDefault {
-        new ConcurrentLinkedQueue<Subscription>()
+    protected final Map<CharSequence, Collection<Disposable>> subscriptions = new ConcurrentHashMap<CharSequence, Collection<Disposable>>().withDefault {
+        new ConcurrentLinkedQueue<Disposable>()
     }
 
 
@@ -41,12 +42,12 @@ class RxEventBus extends AbstractEventBus {
     }
 
     @Override
-    grails.async.events.registry.Subscription on(CharSequence event, Closure listener) {
+    Subscription on(CharSequence event, Closure listener) {
         String eventKey = event.toString()
         int argCount = listener.parameterTypes?.length ?: 1
-        Subscription sub = subjects.get(eventKey)
-                                        .observeOn(scheduler)
-                                        .subscribe( { data ->
+        Disposable sub = subjects.get(eventKey)
+                .observeOn(scheduler)
+                .subscribe( { data ->
 
             Closure reply = null
             if(data  instanceof EventWithReply) {
@@ -75,10 +76,10 @@ class RxEventBus extends AbstractEventBus {
                 }
             }
 
-        }  as Action1, { Throwable t ->
+        }  as Consumer, { Throwable t ->
             log.error("Error occurred triggering event listener for event [$event]: ${t.message}", t)
-        } as Action1<Throwable>)
-        Collection<Subscription> subs = subscriptions.get(eventKey)
+        } as Consumer<Throwable>)
+        Collection<Disposable> subs = subscriptions.get(eventKey)
         subs.add(sub)
         return new RxSubscription(sub, subs)
     }
@@ -91,10 +92,10 @@ class RxEventBus extends AbstractEventBus {
     @Override
     EventRegistry unsubscribeAll(CharSequence event) {
         String eventKey = event.toString()
-        Collection<Subscription> subs = subscriptions.get(eventKey)
+        Collection<Disposable> subs = subscriptions.get(eventKey)
         for(sub in subs) {
-            if(!sub.isUnsubscribed()) {
-                sub.unsubscribe()
+            if(!sub.isDisposed()) {
+                sub.dispose()
             }
         }
         subs.clear()
@@ -104,7 +105,7 @@ class RxEventBus extends AbstractEventBus {
     @Override
     EventEmitter notify(Event event) {
         PublishSubject sub = subjects.get(event.id)
-        if(sub.hasObservers() && !sub.hasCompleted()) {
+        if(sub.hasObservers() && !sub.hasComplete()) {
             sub.onNext(event.data)
         }
         return this
@@ -113,25 +114,25 @@ class RxEventBus extends AbstractEventBus {
     @Override
     EventEmitter sendAndReceive(Event event, Closure reply) {
         PublishSubject sub = subjects.get(event.id)
-        if(sub.hasObservers() && !sub.hasCompleted()) {
+        if(sub.hasObservers() && !sub.hasComplete()) {
             sub.onNext(new EventWithReply(event, reply))
         }
         return this
     }
 
-    private static class RxSubscription implements grails.async.events.registry.Subscription {
-        final Subscription subscription
-        final Collection<Subscription> subscriptions
+    private static class RxSubscription implements Subscription {
+        final Disposable subscription
+        final Collection<Disposable> subscriptions
 
-        RxSubscription(Subscription subscription, Collection<Subscription> subscriptions) {
+        RxSubscription(Disposable subscription, Collection<Disposable> subscriptions) {
             this.subscription = subscription
             this.subscriptions = subscriptions
         }
 
         @Override
-        grails.async.events.registry.Subscription cancel() {
-            if(!subscription.isUnsubscribed()) {
-                subscription.unsubscribe()
+        Subscription cancel() {
+            if(!subscription.isDisposed()) {
+                subscription.dispose()
             }
             subscriptions.remove(subscription)
             return this
@@ -139,7 +140,7 @@ class RxEventBus extends AbstractEventBus {
 
         @Override
         boolean isCancelled() {
-            return subscription.isUnsubscribed()
+            return subscription.isDisposed()
         }
     }
 }

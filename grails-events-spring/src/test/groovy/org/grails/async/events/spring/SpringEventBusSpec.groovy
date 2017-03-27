@@ -54,4 +54,22 @@ class SpringEventBusSpec extends Specification{
         expect:
         result == 'foo bar baz'
     }
+
+    void 'test spring event bus error handling'() {
+        given:
+        def context = new GenericApplicationContext()
+        context.refresh()
+
+        SpringEventBus eventBus = new SpringEventBus(context)
+        def result
+        eventBus.on("test") { String data ->
+            throw new RuntimeException("bad")
+        }
+        eventBus.sendAndReceive("test", "bar") {
+            result = it
+        }
+
+        expect:
+        result instanceof Throwable
+    }
 }

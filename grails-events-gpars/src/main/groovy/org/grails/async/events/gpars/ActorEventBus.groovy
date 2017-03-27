@@ -37,12 +37,19 @@ class ActorEventBus extends AbstractEventBus implements Closeable {
                         for(reg in all.get(msg.id)) {
                             Closure listener = reg.listener
                             def data = msg.data
-                            if(data.getClass().isArray() && reg.argCount == ((Object[])data).length) {
-                                replyIfExists listener.call(*data)
+                            try {
+                                def result
+                                if(data.getClass().isArray() && reg.argCount == ((Object[])data).length) {
+                                    result = listener.call(*data)
+                                }
+                                else {
+                                    result = listener.call(data)
+                                }
+                                replyIfExists(result)
+                            } catch (Throwable e) {
+                                replyIfExists(e)
                             }
-                            else {
-                                replyIfExists listener.call(data)
-                            }
+
                         }
 
                     }

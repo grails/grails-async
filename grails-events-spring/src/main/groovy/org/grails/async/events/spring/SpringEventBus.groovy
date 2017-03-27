@@ -6,6 +6,7 @@ import grails.async.events.registry.EventRegistry
 import grails.async.events.registry.Subscription
 import groovy.transform.CompileDynamic
 import groovy.transform.CompileStatic
+import groovy.util.logging.Slf4j
 import org.grails.async.events.bus.AbstractEventBus
 import org.grails.async.events.DefaultSubscription
 import org.springframework.context.ApplicationListener
@@ -63,6 +64,7 @@ class SpringEventBus extends AbstractEventBus {
         return this
     }
 
+    @Slf4j
     private static class EventBusListener implements ApplicationListener<SpringEventBusEvent> {
         final Map<CharSequence, Collection<DefaultSubscription>> registrations
 
@@ -74,22 +76,29 @@ class SpringEventBus extends AbstractEventBus {
         @CompileDynamic
         void onApplicationEvent(SpringEventBusEvent event) {
             Event e = event.source
-            Closure replyTo = event.replyTo
+            Closure reply = event.replyTo
             def data = e.data
 
             for(reg in registrations.get(e.id)) {
                 Closure listener = reg.listener
-                boolean isSpread = data.getClass().isArray() && reg.argCount == ((Object[]) data).length
-                if(isSpread) {
-                    def result = listener.call(*data)
-                    if(replyTo != null) {
-                        replyTo.call(*result)
+                try {
+                    boolean isSpread = data.getClass().isArray() && reg.argCount == ((Object[]) data).length
+                    if(isSpread) {
+                        def result = listener.call(*data)
+                        if(reply != null) {
+                            reply.call(*result)
+                        }
                     }
-                }
-                else {
-                    def result = listener.call(data)
-                    if(replyTo != null) {
-                        replyTo.call(result)
+                    else {
+                        def result = listener.call(data)
+                        if(reply != null) {
+                            reply.call(result)
+                        }
+                    }
+                } catch (Throwable t) {
+                    log.error("Error occurred triggering event listener for event [$event]: ${t.message}", t)
+                    if(reply != null && reply.parameterTypes && reply.parameterTypes[0].isInstance(t)) {
+                        reply.call(t)
                     }
                 }
             }

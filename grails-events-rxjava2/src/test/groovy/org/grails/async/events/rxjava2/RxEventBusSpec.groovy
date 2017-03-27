@@ -1,7 +1,6 @@
-package org.grails.async.events.rxjava
+package org.grails.async.events.rxjava2
 
-import org.grails.async.events.bus.SynchronousEventBus
-import rx.schedulers.Schedulers
+import io.reactivex.schedulers.Schedulers
 import spock.lang.Specification
 
 /**
@@ -10,7 +9,7 @@ import spock.lang.Specification
 class RxEventBusSpec extends Specification {
     void 'test rx event bus single arg'() {
         given:
-        RxEventBus eventBus = new RxEventBus(Schedulers.immediate())
+        RxEventBus eventBus = new RxEventBus(Schedulers.trampoline())
         def result
         eventBus.on("test") {
             result = "foo $it"
@@ -23,7 +22,7 @@ class RxEventBusSpec extends Specification {
 
     void 'test rx event bus multiple args'() {
         given:
-        RxEventBus eventBus = new RxEventBus(Schedulers.immediate())
+        RxEventBus eventBus = new RxEventBus(Schedulers.trampoline())
         def result
         eventBus.on("test") {
             result = "foo $it"
@@ -36,7 +35,7 @@ class RxEventBusSpec extends Specification {
 
     void 'test rx event bus multiple args listener'() {
         given:
-        RxEventBus eventBus = new RxEventBus(Schedulers.immediate())
+        RxEventBus eventBus = new RxEventBus(Schedulers.trampoline())
         def result
         eventBus.on("test") { String one, String two ->
             result = "foo $one $two"
@@ -49,7 +48,7 @@ class RxEventBusSpec extends Specification {
 
     void 'test rx event bus send and receive'() {
         given:
-        RxEventBus eventBus = new RxEventBus(Schedulers.immediate())
+        RxEventBus eventBus = new RxEventBus(Schedulers.trampoline())
         def result
         eventBus.on("test") { String data ->
             "foo $data"
@@ -63,7 +62,7 @@ class RxEventBusSpec extends Specification {
 
     void 'test rx event bus error handling'() {
         given:
-        RxEventBus eventBus = new RxEventBus(Schedulers.immediate())
+        RxEventBus eventBus = new RxEventBus(Schedulers.trampoline())
         def result
         eventBus.on("test") { String data ->
             throw new RuntimeException("bad")
