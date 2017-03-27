@@ -1,3 +1,8 @@
 include 'grails-async'
+include 'grails-events'
+include 'grails-events-compat'
+include 'grails-events-gpars'
+include 'grails-events-spring'
+include 'grails-events-rxjava'
 include 'grails-plugin-async'
 include 'grails-plugin-events'
