@@ -4,6 +4,7 @@ import grails.async.events.bus.EventBus
 import grails.async.events.bus.EventBusFactory
 import grails.async.events.emitter.EventEmitter
 import groovy.transform.CompileStatic
+import org.springframework.transaction.event.TransactionPhase
 
 import javax.annotation.Resource
 
@@ -23,26 +24,46 @@ trait EventPublisher implements EventEmitter {
         this.eventBus = eventBus
     }
 
-    private EventBus getEventBus() {
-        if(this.eventBus == null) {
-            this.eventBus = new EventBusFactory().create()
-        }
-        return this.eventBus
-    }
-
+    /**
+     * @see {@link EventEmitter#notify(java.lang.CharSequence, java.lang.Object[])}
+     */
     @Override
     EventEmitter notify(CharSequence eventId, Object... data) {
         assertEventBus()
         return getEventBus().notify(eventId, data)
     }
 
-
+    /**
+     * @see {@link EventEmitter#notify(grails.async.events.Event)}
+     */
     @Override
     EventEmitter notify(Event event) {
         assertEventBus()
         return getEventBus().notify(event)
     }
 
+
+    /**
+     * @see {@link EventEmitter#notify(grails.async.events.Event, org.springframework.transaction.event.TransactionPhase)}
+     */
+    @Override
+    EventEmitter notify(Event event, TransactionPhase transactionPhase) {
+        assertEventBus()
+        return getEventBus().notify(event, transactionPhase)
+    }
+
+    /**
+     * @see {@link EventEmitter#notify(grails.async.events.Event, org.springframework.transaction.event.TransactionPhase)}
+     */
+    @Override
+    EventEmitter publish(Event event, TransactionPhase transactionPhase) {
+        assertEventBus()
+        return getEventBus().notify(event, transactionPhase)
+    }
+
+    /**
+     * @see {@link EventEmitter#notify(java.lang.CharSequence, java.lang.Object[])} )}
+     */
     @Override
     EventEmitter publish(CharSequence eventId, Object... data) {
         assertEventBus()
@@ -71,6 +92,13 @@ trait EventPublisher implements EventEmitter {
         if (eventBus == null) {
             throw new IllegalStateException("No EventBus configured. Please set the 'eventBus' property")
         }
+    }
+
+    private EventBus getEventBus() {
+        if(this.eventBus == null) {
+            this.eventBus = new EventBusFactory().create()
+        }
+        return this.eventBus
     }
 
 }

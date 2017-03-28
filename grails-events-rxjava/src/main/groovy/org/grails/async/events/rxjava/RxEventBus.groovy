@@ -33,10 +33,6 @@ class RxEventBus extends AbstractEventBus {
     protected final Map<CharSequence, PublishSubject> subjects = new ConcurrentHashMap<CharSequence, PublishSubject>().withDefault {
         PublishSubject.create()
     }
-    protected final Map<CharSequence, Collection<Subscription>> subscriptions = new ConcurrentHashMap<CharSequence, Collection<Subscription>>().withDefault {
-        new ConcurrentLinkedQueue<Subscription>()
-    }
-
 
     final Scheduler scheduler
 
@@ -45,14 +41,7 @@ class RxEventBus extends AbstractEventBus {
     }
 
     @Override
-    Subscription on(CharSequence eventId, Closure subscriber) {
-        String eventKey = eventId.toString()
-        Subject subject = subjects.get(eventKey)
-        return new RxClosureSubscription(eventId, subscriptions, subscriber, subject, scheduler)
-    }
-
-    @Override
-    Subscription subscribe(CharSequence eventId, EventSubscriber subscriber) {
+    protected EventSubscriberSubscription buildSubscriberSubscription(CharSequence eventId, EventSubscriber subscriber) {
         String eventKey = eventId.toString()
         Subject subject = subjects.get(eventKey)
 
@@ -60,34 +49,31 @@ class RxEventBus extends AbstractEventBus {
     }
 
     @Override
-    Subjects unsubscribeAll(CharSequence event) {
-        String eventKey = event.toString()
-        Collection<Subscription> subs = subscriptions.get(eventKey)
-        for(sub in subs) {
-            if(!sub.isCancelled()) {
-                sub.cancel()
+    protected ClosureSubscription buildClosureSubscription(CharSequence eventId, Closure subscriber) {
+        String eventKey = eventId.toString()
+        Subject subject = subjects.get(eventKey)
+        return new RxClosureSubscription(eventId, subscriptions, subscriber, subject, scheduler)
+    }
+
+
+    @Override
+    protected AbstractEventBus.NotificationTrigger buildNotificationTrigger(Event event, Collection<Subscription> eventSubscriptions, Closure reply) {
+        Map<CharSequence, PublishSubject> subjects = this.subjects
+        return new AbstractEventBus.NotificationTrigger(event, eventSubscriptions, reply) {
+
+            @Override
+            void run() {
+                PublishSubject sub = subjects.get(event.id)
+                if(sub.hasObservers() && !sub.hasCompleted()) {
+                    if(reply != null) {
+                        sub.onNext(new EventWithReply(event, reply))
+                    }
+                    else {
+                        sub.onNext(event)
+                    }
+                }
             }
         }
-        subs.clear()
-        return this
-    }
-
-    @Override
-    EventEmitter notify(Event event) {
-        PublishSubject sub = subjects.get(event.id)
-        if(sub.hasObservers() && !sub.hasCompleted()) {
-            sub.onNext(event)
-        }
-        return this
-    }
-
-    @Override
-    EventEmitter sendAndReceive(Event event, Closure reply) {
-        PublishSubject sub = subjects.get(event.id)
-        if(sub.hasObservers() && !sub.hasCompleted()) {
-            sub.onNext(new EventWithReply(event, reply))
-        }
-        return this
     }
 
     private static class RxClosureSubscription extends ClosureSubscription {

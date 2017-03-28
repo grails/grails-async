@@ -6,7 +6,7 @@ package grails.async.events.transform
  * @author Graeme Rocher
  * @since 3.3
  */
-@interface Listener {
+@interface Subscriber {
     /**
      * @return A closure that returns the event to listen for
      */

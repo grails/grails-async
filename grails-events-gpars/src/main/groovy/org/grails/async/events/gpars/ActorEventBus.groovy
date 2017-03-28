@@ -1,21 +1,12 @@
 package org.grails.async.events.gpars
 
 import grails.async.events.Event
-import grails.async.events.subscriber.EventSubscriber
-import grails.async.events.trigger.EventTrigger
-import grails.async.events.emitter.EventEmitter
-import grails.async.events.subscriber.Subjects
 import grails.async.events.subscriber.Subscription
+import grails.async.events.trigger.EventTrigger
 import groovy.transform.CompileDynamic
 import groovy.transform.CompileStatic
 import groovyx.gpars.actor.Actor
-import groovyx.gpars.agent.Agent
 import org.grails.async.events.bus.AbstractEventBus
-import org.grails.async.events.registry.ClosureSubscription
-import org.grails.async.events.registry.EventSubscriberSubscription
-
-import java.util.concurrent.ConcurrentHashMap
-import java.util.concurrent.ConcurrentLinkedQueue
 
 import static groovyx.gpars.actor.Actors.actor
 
@@ -29,17 +20,17 @@ import static groovyx.gpars.actor.Actors.actor
 class ActorEventBus extends AbstractEventBus implements Closeable {
 
     final Actor actor
-    final Agent<Map<CharSequence, Collection<Subscription>>> registrations
 
     @CompileDynamic
     ActorEventBus() {
         actor = actor {
             loop {
                 react() { Event msg ->
-                    registrations.sendAndWait { Map<Object, Collection<ClosureSubscription>> all ->
-                        for(reg in all.get(msg.id)) {
+                    if(subscriptions.containsKey(msg.id)) {
+                        Collection<Subscription> subscriptions = subscriptions.get(msg.id)
+                        for(Subscription sub in subscriptions) {
                             try {
-                                EventTrigger eventTrigger = reg.buildTrigger(msg)
+                                EventTrigger eventTrigger = sub.buildTrigger(msg)
                                 replyIfExists( eventTrigger.proceed() )
                             } catch (Throwable e) {
                                 replyIfExists(e)
@@ -49,51 +40,24 @@ class ActorEventBus extends AbstractEventBus implements Closeable {
                 }
             }
         }
-        registrations = new Agent<>( new ConcurrentHashMap<CharSequence, Collection<ClosureSubscription>>().withDefault {
-            new ConcurrentLinkedQueue<ClosureSubscription>()
-        })
     }
-    @Override
-    Subscription on(CharSequence event, Closure subscriber) {
-        ClosureSubscription registration
-        registrations.sendAndWait {  Map<CharSequence, Collection<Subscription>> all ->
-            registration = new ClosureSubscription(event, all, subscriber)
 
+    @Override
+    protected AbstractEventBus.NotificationTrigger buildNotificationTrigger(Event event, Collection<Subscription> eventSubscriptions, Closure reply) {
+        Actor actor = this.actor
+        return new AbstractEventBus.NotificationTrigger(event, eventSubscriptions, reply) {
+
+            @Override
+            void run() {
+                if(reply != null) {
+                    actor.sendAndContinue(event, reply)
+                }
+                else {
+                    actor.send(event)
+                }
+            }
         }
-        return registration
     }
-
-    @Override
-    Subscription subscribe(CharSequence event, EventSubscriber subscriber) {
-        EventSubscriberSubscription registration
-        registrations.sendAndWait {  Map<CharSequence, Collection<Subscription>> all ->
-            registration = new EventSubscriberSubscription(event, all, subscriber)
-
-        }
-        return registration
-    }
-
-    @Override
-    Subjects unsubscribeAll(CharSequence event) {
-        registrations.sendAndWait { Map<Object, Collection<ClosureSubscription>> all ->
-            all.get(event).clear()
-
-        }
-        return this
-    }
-
-    @Override
-    EventEmitter notify(Event event) {
-        actor.send(event)
-        return this
-    }
-
-    @Override
-    EventEmitter sendAndReceive(Event event, Closure reply) {
-        actor.sendAndContinue(event, reply)
-        return this
-    }
-
 
     @Override
     void close() throws IOException {

@@ -28,10 +28,6 @@ import java.util.concurrent.ConcurrentLinkedQueue
 class SpringEventBus extends AbstractEventBus {
 
     final ConfigurableApplicationContext applicationContext
-    protected final Map<CharSequence, Collection<Subscription>> subscriptions = new ConcurrentHashMap<CharSequence, Collection<Subscription>>().withDefault {
-        new ConcurrentLinkedQueue<Subscription>()
-    }
-
 
     SpringEventBus(ConfigurableApplicationContext applicationContext) {
         this.applicationContext = applicationContext
@@ -41,31 +37,16 @@ class SpringEventBus extends AbstractEventBus {
     }
 
     @Override
-    Subscription on(CharSequence event, Closure subscriber) {
-        return new ClosureSubscription(event, subscriptions, subscriber)
-    }
+    protected AbstractEventBus.NotificationTrigger buildNotificationTrigger(Event event, Collection<Subscription> eventSubscriptions, Closure reply) {
 
-    @Override
-    Subscription subscribe(CharSequence event, EventSubscriber subscriber) {
-        return new EventSubscriberSubscription(event, subscriptions, subscriber)
-    }
+        ConfigurableApplicationContext applicationContext = this.applicationContext
+        return new AbstractEventBus.NotificationTrigger(event, eventSubscriptions, reply) {
 
-    @Override
-    Subjects unsubscribeAll(CharSequence event) {
-        subscriptions.get(event.toString()).clear()
-        return this
-    }
-
-    @Override
-    EventEmitter notify(Event event) {
-        applicationContext.publishEvent(new SpringEventBusEvent(event))
-        return this
-    }
-
-    @Override
-    EventEmitter sendAndReceive(Event event, Closure reply) {
-        applicationContext.publishEvent(new SpringEventBusEvent(event, reply))
-        return this
+            @Override
+            void run() {
+                applicationContext.publishEvent(new SpringEventBusEvent(event, reply))
+            }
+        }
     }
 
     @Slf4j

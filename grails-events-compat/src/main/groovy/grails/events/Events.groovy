@@ -103,7 +103,7 @@ trait Events {
      */
     Bus notify(Object key, data) {
         LoggerFactory.getLogger(getClass()).warn("The class [${getClass()}] used the legacy Reactor 2 event bus and needs to be re-compiled")
-        eventBus.notify Event.wrap(key.toString(), data)
+        eventBus.notify Event.from(key.toString(), data)
         return eventBus
     }
 
