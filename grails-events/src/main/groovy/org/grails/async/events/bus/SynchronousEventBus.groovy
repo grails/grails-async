@@ -1,12 +1,14 @@
 package org.grails.async.events.bus
 
 import grails.async.events.Event
+import grails.async.events.subscriber.EventSubscriber
+import grails.async.events.trigger.EventTrigger
 import grails.async.events.emitter.EventEmitter
-import grails.async.events.registry.EventRegistry
-import grails.async.events.registry.Subscription
-import groovy.transform.CompileDynamic
+import grails.async.events.subscriber.Subjects
+import grails.async.events.subscriber.Subscription
 import groovy.transform.CompileStatic
-import org.grails.async.events.DefaultSubscription
+import org.grails.async.events.registry.ClosureSubscription
+import org.grails.async.events.registry.EventSubscriberSubscription
 
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.ConcurrentLinkedQueue
@@ -19,61 +21,43 @@ import java.util.concurrent.ConcurrentLinkedQueue
  */
 @CompileStatic
 class SynchronousEventBus extends AbstractEventBus {
-    protected final Map<CharSequence, Collection<DefaultSubscription>> registrations = new ConcurrentHashMap<CharSequence, Collection<DefaultSubscription>>().withDefault {
-        new ConcurrentLinkedQueue<DefaultSubscription>()
+    protected final Map<CharSequence, Collection<Subscription>> subscriptions = new ConcurrentHashMap<CharSequence, Collection<Subscription>>().withDefault {
+        new ConcurrentLinkedQueue<ClosureSubscription>()
     }
 
     @Override
-    Subscription on(CharSequence event, Closure listener) {
-        return new DefaultSubscription(event, registrations, listener)
+    Subscription on(CharSequence event, Closure subscriber) {
+        return new ClosureSubscription(event, subscriptions, subscriber)
     }
 
     @Override
-    EventRegistry unsubscribeAll(CharSequence event) {
-        registrations.get(event).clear()
+    Subscription subscribe(CharSequence event, EventSubscriber subscriber) {
+        return new EventSubscriberSubscription(event, subscriptions, subscriber)
+    }
+
+    @Override
+    Subjects unsubscribeAll(CharSequence event) {
+        subscriptions.get(event).clear()
         return this
     }
 
     @Override
     EventEmitter sendAndReceive(Event event, Closure reply) {
-        Object data = event.data
-        int dataLength = data.getClass().isArray() ? ((Object[])data).length : 1
-        for(reg in registrations.get(event.id)) {
-            Closure listener = reg.listener
-            if(reg.argCount == dataLength) {
-                reply.call(
-                        callSpread(listener, data)
-                )
+        for(reg in subscriptions.get(event.id)) {
+            EventTrigger trigger = reg.buildTrigger(event, reply)
+            trigger.proceed()
 
-            }
-            else {
-                reply.call(
-                        listener.call(data)
-                )
-
-            }
         }
         return this
     }
 
     @Override
     EventEmitter notify(Event event) {
-        Object data = event.data
-        int dataLength = data.getClass().isArray() ? ((Object[])data).length : 1
-        for(reg in registrations.get(event.id)) {
-            Closure listener = reg.listener
-            if(dataLength > 1 && reg.argCount == dataLength) {
-                callSpread(listener, data)
-            }
-            else {
-                listener.call(data)
-            }
+        for(reg in subscriptions.get(event.id)) {
+            EventTrigger trigger = reg.buildTrigger(event)
+            trigger.proceed()
         }
         return this
     }
 
-    @CompileDynamic
-    protected Object callSpread(Closure listener, Object data) {
-        listener.call(*data)
-    }
 }

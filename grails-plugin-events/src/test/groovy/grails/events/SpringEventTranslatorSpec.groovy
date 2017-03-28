@@ -1,11 +1,9 @@
 package grails.events
 
+import grails.async.events.bus.EventBus
 import org.grails.events.spring.SpringEventTranslator
 import org.springframework.context.event.ContextStartedEvent
 import org.springframework.context.support.GenericApplicationContext
-import reactor.Environment
-import reactor.bus.Event
-import reactor.bus.EventBus
 import spock.lang.Specification
 
 /*
@@ -31,11 +29,11 @@ class SpringEventTranslatorSpec extends Specification {
 
     void "Test event translator translates Spring events"() {
         setup:
-        def env = Environment.initialize()
 
 
         def eventBus = Mock(EventBus)
-        def translator = new SpringEventTranslator(eventBus: eventBus)
+        eventBus.isActive() >> true
+        def translator = new SpringEventTranslator(eventBus)
 
         when:"A Spring event occurs"
 
@@ -45,8 +43,6 @@ class SpringEventTranslatorSpec extends Specification {
         then:"The event bus is notified"
         1 * eventBus.notify("spring:contextStarted", _)
 
-        cleanup:
-        env.close()
     }
 
 }

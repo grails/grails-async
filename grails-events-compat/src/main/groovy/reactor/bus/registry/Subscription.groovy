@@ -3,5 +3,5 @@ package reactor.bus.registry
  * @deprecated Here for compatibility only. Do not use directly
  */
 @Deprecated
-interface Subscription<K, V> extends grails.async.events.registry.Subscription{
+interface Subscription<K, V> extends grails.async.events.subscriber.Subscription{
 }
