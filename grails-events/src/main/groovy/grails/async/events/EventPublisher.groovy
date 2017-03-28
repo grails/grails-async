@@ -19,13 +19,13 @@ trait EventPublisher implements EventEmitter {
     private EventBus eventBus
 
     @Resource
-    void setEventBus(EventBus eventBus) {
+    void setTargetEventBus(EventBus eventBus) {
         this.eventBus = eventBus
     }
 
-    EventBus getEventBus() {
+    private EventBus getEventBus() {
         if(this.eventBus == null) {
-            this.eventBus = EventBusFactory.create()
+            this.eventBus = new EventBusFactory().create()
         }
         return this.eventBus
     }

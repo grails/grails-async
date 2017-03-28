@@ -1,15 +1,4 @@
 dependencies {
     compile "org.grails:grails-core:$grailsVersion"
-    compile project(":grails-async")
-
-    compile "io.projectreactor:reactor-core:$reactorCoreVersion"
-    compile "io.projectreactor:reactor-stream:$reactorCoreVersion"
-    compile "io.projectreactor:reactor-bus:$reactorCoreVersion"
-
-    compile "io.projectreactor.spring:reactor-spring-context:$reactorVersion", {
-        exclude module:'reactor-bus', group:'io.projectreactor'
-        exclude module:'json-path', group:'com.jayway.jsonpath'
-    }
-
-
+    compile project(":grails-events-compat")
 }

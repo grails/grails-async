@@ -100,4 +100,8 @@ class ActorEventBus extends AbstractEventBus implements Closeable {
         }
     }
 
+    @Override
+    boolean isActive() {
+        return actor.isActive()
+    }
 }

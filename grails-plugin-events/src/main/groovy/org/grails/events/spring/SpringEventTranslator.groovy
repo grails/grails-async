@@ -15,7 +15,7 @@
  */
 package org.grails.events.spring
 
-import grails.events.Events
+import grails.async.events.bus.EventBus
 import grails.util.GrailsNameUtils
 import groovy.transform.CompileStatic
 import org.springframework.beans.BeansException
@@ -25,8 +25,6 @@ import org.springframework.context.ApplicationEvent
 import org.springframework.context.ApplicationListener
 import org.springframework.context.event.ContextClosedEvent
 import org.springframework.context.support.GenericApplicationContext
-import reactor.Environment
-
 import java.util.concurrent.ConcurrentHashMap
 
 
@@ -37,7 +35,7 @@ import java.util.concurrent.ConcurrentHashMap
  * @since 3.0.8
  */
 @CompileStatic
-class SpringEventTranslator implements ApplicationListener, Events, ApplicationContextAware {
+class SpringEventTranslator implements ApplicationListener,  ApplicationContextAware {
 
     public static final String GDM_EVENT_PACKAGE = 'org.grails.datastore'
     public static final String EVENT_SUFFIX = "Event"
@@ -57,13 +55,20 @@ class SpringEventTranslator implements ApplicationListener, Events, ApplicationC
         }
     }
 
+
+    private final EventBus eventBus
+
+    SpringEventTranslator(EventBus eventBus) {
+        this.eventBus = eventBus
+    }
+
     void onApplicationEvent(ApplicationEvent event) {
         def eventName = eventClassToName[event.getClass()]
 
-        if(Environment.alive()) {
+        if(eventBus.isActive()) {
             // don't relay context closed events because Reactor would have been shutdown
             if(!(event instanceof ContextClosedEvent)) {
-                notify(eventName, eventFor(event))
+                eventBus.notify(eventName, event)
             }
         }
     }

@@ -1,6 +1,7 @@
 package grails.events
 
 import groovy.transform.CompileStatic
+import org.slf4j.LoggerFactory
 import reactor.bus.Bus
 import reactor.bus.Event
 import reactor.bus.EventBus
@@ -22,6 +23,7 @@ trait Events {
      * @see #on(reactor.bus.selector.Selector, reactor.fn.Consumer)
      */
     def <E extends Event<?>> Subscription<Object, Consumer<E>> on(Class key, Closure consumer) {
+        LoggerFactory.getLogger(getClass()).warn("The class [${getClass()}] used the legacy Reactor 2 event bus and needs to be re-compiled")
         on key.name, consumer
     }
 
@@ -36,6 +38,8 @@ trait Events {
      * @see #on(reactor.bus.selector.Selector, reactor.fn.Consumer)
      */
     def <E extends Event<?> > Subscription<Object, Consumer<E>> on(key, Closure consumer) {
+        LoggerFactory.getLogger(getClass()).warn("The class [${getClass()}] used the legacy Reactor 2 event bus and needs to be re-compiled")
+
         eventBus.on(key.toString(), consumer) as Subscription
     }
 
@@ -43,6 +47,7 @@ trait Events {
      * @see #on(reactor.bus.selector.Selector, reactor.fn.Consumer)
      */
     def <E extends Event<?> > Subscription<Object, Consumer<E>> on(key, Consumer<E> consumer) {
+        LoggerFactory.getLogger(getClass()).warn("The class [${getClass()}] used the legacy Reactor 2 event bus and needs to be re-compiled")
         if(key instanceof CharSequence) {
             key = key.toString()
         }
@@ -55,6 +60,7 @@ trait Events {
      * @see #on(reactor.bus.selector.Selector, reactor.fn.Consumer)
      */
     def <E extends Event<?> > Subscription<Object, Consumer<E>> on(Class type, Consumer<E> consumer) {
+        LoggerFactory.getLogger(getClass()).warn("The class [${getClass()}] used the legacy Reactor 2 event bus and needs to be re-compiled")
         on(type.name, consumer)
     }
 
@@ -79,6 +85,7 @@ trait Events {
      * @see reactor.bus.Bus#notify(java.lang.Object, java.lang.Object)
      */
     Bus notify(Object key, Event<?> ev) {
+        LoggerFactory.getLogger(getClass()).warn("The class [${getClass()}] used the legacy Reactor 2 event bus and needs to be re-compiled")
         if(eventBus == null) throw new IllegalStateException("EventBus not present. Event notification attempted outside of application context.")
         if(ev.replyTo) {
             eventBus.sendAndReceive( ev ) {
@@ -95,22 +102,26 @@ trait Events {
      * @see reactor.bus.Bus#notify(java.lang.Object, reactor.bus.Event)
      */
     Bus notify(Object key, data) {
+        LoggerFactory.getLogger(getClass()).warn("The class [${getClass()}] used the legacy Reactor 2 event bus and needs to be re-compiled")
         eventBus.notify Event.wrap(key.toString(), data)
         return eventBus
     }
 
     def <E extends Event<?>> Bus notify(Object key, Closure<E> supplier) {
         if(eventBus == null) throw new IllegalStateException("EventBus not present. Event notification attempted outside of application context.")
+        LoggerFactory.getLogger(getClass()).warn("The class [${getClass()}] used the legacy Reactor 2 event bus and needs to be re-compiled")
         eventBus.notify( (CharSequence)key.toString(), supplier.call() )
         return eventBus
     }
 
     Bus sendAndReceive(Object key, data, Closure reply) {
+        LoggerFactory.getLogger(getClass()).warn("The class [${getClass()}] used the legacy Reactor 2 event bus and needs to be re-compiled")
         eventBus.sendAndReceive(key.toString(), data, reply)
         return eventBus
     }
 
     def <E extends Event<?>>    Bus sendAndReceive(Object key, Closure reply) {
+        LoggerFactory.getLogger(getClass()).warn("The class [${getClass()}] used the legacy Reactor 2 event bus and needs to be re-compiled")
         eventBus.sendAndReceive key.toString(), new grails.async.events.Event(key.toString(), new Object[0]), reply
         return eventBus
     }
@@ -156,6 +167,7 @@ trait Events {
      * @return True if modifications were made
      */
     boolean clearEventConsumers(key) {
+        LoggerFactory.getLogger(getClass()).warn("The class [${getClass()}] used the legacy Reactor 2 event bus and needs to be re-compiled")
         if(eventBus) {
             eventBus.unsubscribeAll(key.toString())
             return true

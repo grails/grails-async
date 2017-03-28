@@ -14,7 +14,10 @@ import org.grails.async.events.bus.SynchronousEventBus
 @Slf4j
 class EventBusFactory {
 
-    static EventBus create() {
+    /**
+     * @return Tries to auto discover and create the event bus
+     */
+    EventBus create() {
         List<EventBus> eventBuses = ServiceLoader.load(EventBus).toList()
         if(eventBuses.size() == 1) {
             EventBus eventBus = eventBuses.get(0)
@@ -25,8 +28,12 @@ class EventBusFactory {
             throw new IllegalStateException("More than one event bus implementation found on classpath ${eventBuses}. Remove one to continue.")
         }
         else {
-            log.warn("No event bus implementations found on classpath, using synchronous implementation.")
-            return new SynchronousEventBus()
+            return createDefaultEventBus()
         }
+    }
+
+    protected EventBus createDefaultEventBus() {
+        log.warn("No event bus implementations found on classpath, using synchronous implementation.")
+        return new SynchronousEventBus()
     }
 }

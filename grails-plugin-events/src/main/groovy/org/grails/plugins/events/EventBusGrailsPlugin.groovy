@@ -16,18 +16,12 @@
 
 package org.grails.plugins.events
 
+import grails.async.events.bus.EventBusFactory
 import grails.config.Config
-import grails.config.Settings
 import grails.plugins.Plugin
-import grails.util.GrailsUtil
-import groovy.transform.CompileStatic
-import groovy.util.logging.Commons
-import org.grails.events.reactor.GrailsReactorConfigurationReader
+import groovy.util.logging.Slf4j
 import org.grails.events.spring.SpringEventTranslator
-import org.springframework.beans.factory.config.MethodInvokingFactoryBean
-import reactor.Environment
 import reactor.bus.EventBus
-import reactor.spring.context.config.ConsumerBeanAutoConfiguration
 
 
 /**
@@ -36,49 +30,28 @@ import reactor.spring.context.config.ConsumerBeanAutoConfiguration
  * @author Graeme Rocher
  * @since 3.0
  */
-@Commons
+@Slf4j
 class EventBusGrailsPlugin extends Plugin {
-
-    def version = GrailsUtil.grailsVersion
+    /**
+     * Whether to translate GORM events into reactor events
+     */
+    public static final String TRANSLATE_SPRING_EVENTS = "grails.events.spring"
 
     @Override
     Closure doWithSpring() {
         {->
             Config config = grailsApplication.config
-            reactorConfigurationReader(GrailsReactorConfigurationReader, config, ref("grailsConfigProperties"))
-            reactorEnv(Environment, ref("reactorConfigurationReader"))
 
-            eventBus(MethodInvokingFactoryBean) { bean ->
-                targetClass = EventBus
-                targetMethod = "create"
-                arguments = [reactorEnv]
-            }
+            grailsEventBusFactory(EventBusFactory)
+            grailsEventBus(grailsEventBusFactory:'create')
+
+            // the legacy reactor EventBus, here for backwards compatibility
+            eventBus(EventBus, ref('grailsEventBus'))
 
             // make it possible to disable reactor events
-            if(config.getProperty(Settings.GORM_REACTOR_EVENTS, Boolean.class, true)) {
-                springReactorEventTranslator(SpringEventTranslator)
+            if(config.getProperty(TRANSLATE_SPRING_EVENTS, Boolean.class, false)) {
+                springReactorEventTranslator(SpringEventTranslator, ref('grailsEventBus'))
             }
-            consumerBeanAutoConfiguration(ConsumerBeanAutoConfiguration)
-        }
-    }
-
-    @Override
-    @CompileStatic
-    void doWithApplicationContext() {
-        if( !Environment.alive() ) {
-            Environment.assign applicationContext.getBean('reactorEnv', Environment)
-        }
-    }
-
-    @Override
-    @CompileStatic
-    void onShutdown(Map<String, Object> event) {
-        try {
-            if( Environment.alive() ) {
-                Environment.terminate()
-            }
-        } catch (Throwable e) {
-            log.warn("Error shutting down Reactor: ${e.message}", e)
         }
     }
 }

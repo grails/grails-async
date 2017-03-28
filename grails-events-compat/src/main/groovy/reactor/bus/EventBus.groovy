@@ -1,5 +1,6 @@
 package reactor.bus
 
+import groovy.util.logging.Slf4j
 import reactor.bus.registry.Subscription
 import reactor.bus.selector.Selector
 import reactor.fn.Consumer
@@ -8,9 +9,14 @@ import reactor.fn.Consumer
  * @deprecated Here for compatibility only. Do not use directly
  */
 @Deprecated
+@Slf4j
 class EventBus  implements Bus {
 
     @Delegate grails.async.events.bus.EventBus eventBus
+
+    EventBus(grails.async.events.bus.EventBus eventBus) {
+        this.eventBus = eventBus
+    }
 
     @Override
     boolean respondsToKey(Object key) {

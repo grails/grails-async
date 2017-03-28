@@ -12,6 +12,12 @@ import grails.async.events.registry.Subscription
  * @since 6.1
  */
 abstract class AbstractEventBus implements EventBus {
+
+    @Override
+    boolean isActive() {
+        return true
+    }
+
     @Override
     EventEmitter notify(CharSequence eventId, Object... data) {
         return notify(new Event(eventId.toString(), data.length == 1 ? data[0] : data))

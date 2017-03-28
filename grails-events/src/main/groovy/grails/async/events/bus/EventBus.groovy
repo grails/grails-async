@@ -9,5 +9,10 @@ import grails.async.events.registry.EventRegistry
  * @author Graeme Rocher
  * @since 3.3
  */
-interface EventBus extends EventEmitter, EventRegistry{
+interface EventBus extends EventEmitter, EventRegistry {
+
+    /**
+     * @return Whether the event bus is active or has been shutdown
+     */
+    boolean isActive()
 }
