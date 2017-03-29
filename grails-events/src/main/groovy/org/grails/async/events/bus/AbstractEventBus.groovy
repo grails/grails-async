@@ -3,8 +3,8 @@ package org.grails.async.events.bus
 import grails.async.events.Event
 import grails.async.events.bus.EventBus
 import grails.async.events.emitter.EventEmitter
-import grails.async.events.subscriber.EventSubscriber
 import grails.async.events.subscriber.Subjects
+import grails.async.events.subscriber.Subscriber
 import grails.async.events.subscriber.Subscription
 import groovy.transform.CompileStatic
 import org.grails.async.events.registry.ClosureSubscription
@@ -69,7 +69,7 @@ abstract class AbstractEventBus implements EventBus {
     }
 
     @Override
-    Subscription subscribe(CharSequence event, EventSubscriber subscriber) {
+    Subscription subscribe(CharSequence event, Subscriber subscriber) {
         return buildSubscriberSubscription(event, subscriber)
     }
 
@@ -192,7 +192,7 @@ abstract class AbstractEventBus implements EventBus {
     }
 
 
-    protected EventSubscriberSubscription buildSubscriberSubscription(CharSequence eventId, EventSubscriber subscriber) {
+    protected EventSubscriberSubscription buildSubscriberSubscription(CharSequence eventId, Subscriber subscriber) {
         return new EventSubscriberSubscription(eventId, subscriptions, subscriber)
     }
 

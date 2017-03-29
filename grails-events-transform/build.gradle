@@ -1,4 +1,7 @@
 dependencies {
     compile project(":grails-events")
     compile "org.grails:grails-datastore-gorm:$gormVersion"
+
+    testRuntime "org.springframework:spring-aop:$springVersion"
+    testRuntime "org.springframework:spring-expression:$springVersion"
 }

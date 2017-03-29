@@ -1,18 +1,12 @@
 package grails.async.events.subscriber
 
+import grails.async.events.Event
+
 /**
- * Functional interface for event listeners
+ * An interface for subscribers that accept the Event as an argument
  *
  * @author Graeme Rocher
  * @since 3.3
  */
-interface EventSubscriber<T, R> {
-
-    /**
-     * Calls the event subscriber
-     *
-     * @param arg The argument
-     * @return The result
-     */
-    R call(T arg)
+interface EventSubscriber<T> extends Subscriber<Event, T> {
 }

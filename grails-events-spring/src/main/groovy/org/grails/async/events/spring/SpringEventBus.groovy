@@ -1,22 +1,14 @@
 package org.grails.async.events.spring
 
 import grails.async.events.Event
-import grails.async.events.emitter.EventEmitter
-import grails.async.events.subscriber.EventSubscriber
 import grails.async.events.subscriber.Subscription
-import grails.async.events.subscriber.Subjects
 import groovy.transform.CompileDynamic
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.grails.async.events.bus.AbstractEventBus
-import org.grails.async.events.registry.ClosureSubscription
-import org.grails.async.events.registry.EventSubscriberSubscription
 import org.springframework.context.ApplicationListener
 import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.context.event.GenericApplicationListenerAdapter
-
-import java.util.concurrent.ConcurrentHashMap
-import java.util.concurrent.ConcurrentLinkedQueue
 
 /**
  * An event bus that uses the Spring Event Publisher

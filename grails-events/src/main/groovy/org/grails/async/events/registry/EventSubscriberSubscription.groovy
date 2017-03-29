@@ -1,23 +1,23 @@
 package org.grails.async.events.registry
 
 import grails.async.events.Event
-import grails.async.events.subscriber.EventSubscriber
+import grails.async.events.subscriber.Subscriber
 import grails.async.events.trigger.EventTrigger
 import grails.async.events.subscriber.Subscription
 import groovy.transform.CompileStatic
 import org.grails.async.events.EventSubscriberTrigger
 
 /**
- * An event subscription for an {@link EventSubscriber}
+ * An event subscription for an {@link Subscriber}
  *
  * @author Graeme Rocher
  * @since 3.3
  */
 @CompileStatic
 class EventSubscriberSubscription extends AbstractSubscription {
-    final EventSubscriber subscriber
+    final Subscriber subscriber
 
-    EventSubscriberSubscription(CharSequence eventKey, Map<CharSequence, Collection<Subscription>> subscriptions, EventSubscriber subscriber) {
+    EventSubscriberSubscription(CharSequence eventKey, Map<CharSequence, Collection<Subscription>> subscriptions, Subscriber subscriber) {
         super(eventKey, subscriptions)
         this.subscriber = subscriber
     }

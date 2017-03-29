@@ -1,7 +1,6 @@
 package grails.events.transform
 
 import org.codehaus.groovy.transform.GroovyASTTransformationClass
-import org.springframework.transaction.event.TransactionPhase
 
 import java.lang.annotation.Documented
 import java.lang.annotation.ElementType

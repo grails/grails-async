@@ -29,7 +29,7 @@ interface Subjects {
      * @param event The event
      * @param subscriber The listener
      */
-    Subscription subscribe(CharSequence event, EventSubscriber subscriber)
+    Subscription subscribe(CharSequence event, Subscriber subscriber)
 
 
     /**

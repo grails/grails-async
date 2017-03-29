@@ -1,7 +1,7 @@
 package org.grails.async.events
 
 import grails.async.events.Event
-import grails.async.events.subscriber.EventSubscriber
+import grails.async.events.subscriber.Subscriber
 import grails.async.events.trigger.EventTrigger
 import groovy.transform.CompileDynamic
 import groovy.transform.CompileStatic
@@ -34,8 +34,8 @@ class ClosureEventTrigger<T> implements EventTrigger<T> {
     }
 
     @Override
-    EventSubscriber getSubscriber() {
-        return subscriberClosure as EventSubscriber
+    Subscriber getSubscriber() {
+        return subscriberClosure as Subscriber
     }
 
     @Override

@@ -1,12 +1,9 @@
 package grails.async.events
 
-import grails.async.events.bus.EventBus
-import grails.async.events.bus.EventBusFactory
+import grails.async.events.bus.EventBusAware
 import grails.async.events.emitter.EventEmitter
 import groovy.transform.CompileStatic
 import org.springframework.transaction.event.TransactionPhase
-
-import javax.annotation.Resource
 
 /**
  * A trait that can be implemented to make a class an event publisher
@@ -15,22 +12,14 @@ import javax.annotation.Resource
  * @author Graeme Rocher
  */
 @CompileStatic
-trait EventPublisher implements EventEmitter {
-
-    private EventBus eventBus
-
-    @Resource
-    void setTargetEventBus(EventBus eventBus) {
-        this.eventBus = eventBus
-    }
+trait EventPublisher extends EventBusAware implements EventEmitter {
 
     /**
      * @see {@link EventEmitter#notify(java.lang.CharSequence, java.lang.Object[])}
      */
     @Override
     EventEmitter notify(CharSequence eventId, Object... data) {
-        assertEventBus()
-        return getEventBus().notify(eventId, data)
+        return eventBus.notify(eventId, data)
     }
 
     /**
@@ -38,8 +27,7 @@ trait EventPublisher implements EventEmitter {
      */
     @Override
     EventEmitter notify(Event event) {
-        assertEventBus()
-        return getEventBus().notify(event)
+        return eventBus.notify(event)
     }
 
 
@@ -48,8 +36,7 @@ trait EventPublisher implements EventEmitter {
      */
     @Override
     EventEmitter notify(Event event, TransactionPhase transactionPhase) {
-        assertEventBus()
-        return getEventBus().notify(event, transactionPhase)
+        return eventBus.notify(event, transactionPhase)
     }
 
     /**
@@ -57,8 +44,7 @@ trait EventPublisher implements EventEmitter {
      */
     @Override
     EventEmitter publish(Event event, TransactionPhase transactionPhase) {
-        assertEventBus()
-        return getEventBus().notify(event, transactionPhase)
+        return eventBus.notify(event, transactionPhase)
     }
 
     /**
@@ -66,39 +52,22 @@ trait EventPublisher implements EventEmitter {
      */
     @Override
     EventEmitter publish(CharSequence eventId, Object... data) {
-        assertEventBus()
-        return getEventBus().publish(eventId, data)
+        return eventBus.publish(eventId, data)
     }
 
     @Override
     EventEmitter publish(Event event) {
-        assertEventBus()
-        return getEventBus().publish(event)
+        return eventBus.publish(event)
     }
 
     @Override
     EventEmitter sendAndReceive(Event event, Closure reply) {
-        assertEventBus()
         return eventBus.sendAndReceive(event, reply)
     }
 
     @Override
     EventEmitter sendAndReceive(CharSequence eventId, Object data, Closure reply) {
-        assertEventBus()
-        return getEventBus().sendAndReceive(eventId, data, reply)
-    }
-
-    private void assertEventBus() {
-        if (eventBus == null) {
-            throw new IllegalStateException("No EventBus configured. Please set the 'eventBus' property")
-        }
-    }
-
-    private EventBus getEventBus() {
-        if(this.eventBus == null) {
-            this.eventBus = new EventBusFactory().create()
-        }
-        return this.eventBus
+        return eventBus.sendAndReceive(eventId, data, reply)
     }
 
 }

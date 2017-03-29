@@ -1,10 +1,8 @@
 package org.grails.async.events.rxjava
 
 import grails.async.events.Event
-import grails.async.events.subscriber.EventSubscriber
+import grails.async.events.subscriber.Subscriber
 import grails.async.events.trigger.EventTrigger
-import grails.async.events.emitter.EventEmitter
-import grails.async.events.subscriber.Subjects
 import grails.async.events.subscriber.Subscription
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
@@ -18,7 +16,6 @@ import rx.subjects.PublishSubject
 import rx.subjects.Subject
 
 import java.util.concurrent.ConcurrentHashMap
-import java.util.concurrent.ConcurrentLinkedQueue
 
 /**
  * An EventBus implementation that uses RxJava
@@ -41,7 +38,7 @@ class RxEventBus extends AbstractEventBus {
     }
 
     @Override
-    protected EventSubscriberSubscription buildSubscriberSubscription(CharSequence eventId, EventSubscriber subscriber) {
+    protected EventSubscriberSubscription buildSubscriberSubscription(CharSequence eventId, Subscriber subscriber) {
         String eventKey = eventId.toString()
         Subject subject = subjects.get(eventKey)
 
@@ -119,7 +116,7 @@ class RxEventBus extends AbstractEventBus {
     private static class RxEventSubscriberSubscription extends EventSubscriberSubscription {
         final rx.Subscription subscription
 
-        RxEventSubscriberSubscription(CharSequence eventId, Map<CharSequence, Collection<Subscription>> subscriptions, EventSubscriber subscriber, Subject subject, Scheduler scheduler) {
+        RxEventSubscriberSubscription(CharSequence eventId, Map<CharSequence, Collection<Subscription>> subscriptions, Subscriber subscriber, Subject subject, Scheduler scheduler) {
             super(eventId, subscriptions, subscriber)
             this.subscription = subject.observeOn(scheduler)
                     .subscribe( { Event event ->

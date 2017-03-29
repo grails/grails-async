@@ -1,11 +1,11 @@
 package grails.events.transform
 
+import grails.async.events.Event
 import grails.async.events.EventPublisher
 import grails.async.events.bus.EventBus
 import org.grails.datastore.mapping.core.Datastore
 import org.grails.datastore.mapping.core.Session
 import org.grails.datastore.mapping.transactions.DatastoreTransactionManager
-import org.springframework.transaction.PlatformTransactionManager
 import org.springframework.transaction.event.TransactionPhase
 import spock.lang.Specification
 
@@ -13,6 +13,33 @@ import spock.lang.Specification
  * Created by graemerocher on 28/03/2017.
  */
 class PublisherSpec extends Specification {
+
+    void "test publisher transform on method that returns void"() {
+        given:
+        def service = new GroovyClassLoader().parseClass('''
+class TestService {
+
+    @grails.events.transform.Publisher('total')
+    void sum(int a, int b) {
+        a + b
+    }
+}
+
+''').newInstance()
+        when:
+        def eventBus = Mock(EventBus)
+        service.targetEventBus = eventBus
+
+        then:
+        service instanceof EventPublisher
+
+        when:
+        service.sum(1, 2)
+
+        then:
+        0 * eventBus.publish("total", 3)
+    }
+
 
     void "test publisher transform"() {
         given:
@@ -38,7 +65,7 @@ class TestService {
 
         then:
         result == 3
-        1 * eventBus.publish("total", 3)
+        1 * eventBus.publish(new Event("total", [a:1, b:2], 3))
     }
 
     void "test publisher transform on transactional service"() {
@@ -71,7 +98,7 @@ class TestService {
 
         then:
         result == 3
-        1 * eventBus.publish("total", 3, TransactionPhase.AFTER_COMMIT)
+        1 * eventBus.notify(new Event("total", [a:1, b:2], 3), TransactionPhase.AFTER_COMMIT)
     }
 }
 

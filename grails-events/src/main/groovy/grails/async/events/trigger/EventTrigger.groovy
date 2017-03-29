@@ -1,7 +1,7 @@
 package grails.async.events.trigger
 
 import grails.async.events.Event
-import grails.async.events.subscriber.EventSubscriber
+import grails.async.events.subscriber.Subscriber
 
 /**
  * Encapsulates the execution of an event
@@ -19,7 +19,7 @@ interface EventTrigger<T> {
     /**
      * @return The event listener
      */
-    EventSubscriber getSubscriber()
+    Subscriber getSubscriber()
 
     /**
      * @return Proceed to trigger the event

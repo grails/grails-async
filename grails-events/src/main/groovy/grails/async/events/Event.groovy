@@ -1,6 +1,8 @@
 package grails.async.events
 
 import groovy.transform.CompileStatic
+import groovy.transform.EqualsAndHashCode
+import groovy.transform.ToString
 
 /**
  * Wraps an event
@@ -9,6 +11,8 @@ import groovy.transform.CompileStatic
  * @author Graeme Rocher
  */
 @CompileStatic
+@EqualsAndHashCode
+@ToString
 class Event<T> extends EventObject {
     /**
      * The id of the event

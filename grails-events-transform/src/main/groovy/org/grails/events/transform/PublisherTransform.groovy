@@ -1,5 +1,6 @@
 package org.grails.events.transform
 
+import grails.async.events.Event
 import grails.async.events.EventPublisher
 import grails.events.transform.Publisher
 import grails.gorm.transactions.Transactional
@@ -8,7 +9,9 @@ import org.codehaus.groovy.ast.AnnotationNode
 import org.codehaus.groovy.ast.ClassHelper
 import org.codehaus.groovy.ast.ClassNode
 import org.codehaus.groovy.ast.MethodNode
+import org.codehaus.groovy.ast.expr.ConstantExpression
 import org.codehaus.groovy.ast.expr.Expression
+import org.codehaus.groovy.ast.expr.MapExpression
 import org.codehaus.groovy.ast.expr.MethodCallExpression
 import org.codehaus.groovy.ast.expr.PropertyExpression
 import org.codehaus.groovy.ast.stmt.BlockStatement
@@ -61,13 +64,28 @@ class PublisherTransform extends AbstractMethodDecoratingTransformation implemen
 
     @Override
     protected MethodCallExpression buildDelegatingMethodCall(SourceUnit sourceUnit, AnnotationNode annotationNode, ClassNode classNode, MethodNode methodNode, MethodCallExpression originalMethodCallExpr, BlockStatement newMethodBody) {
-        def result = varX('$result')
+        Expression resultValue
+        if(methodNode.returnType != ClassHelper.VOID_TYPE) {
+            resultValue = originalMethodCallExpr
+        }
+        else {
+            resultValue = ConstantExpression.NULL
+        }
+        Expression result = varX('$result')
         newMethodBody.addStatement(
-            declS(result, originalMethodCallExpr)
+            declS(result, resultValue)
         )
         Expression eventId = annotationNode.getMember("value")
         Expression phase = annotationNode.getMember("phase")
-        def args = args(eventId, result)
+        MapExpression params = new MapExpression()
+        for(param in methodNode.parameters) {
+            params.addMapEntryExpression(
+                constX(param.name),
+                varX(param)
+            )
+        }
+        Expression newEvent = ctorX(ClassHelper.make(Event), args(eventId, params, resultValue))
+        def args = args(newEvent)
         if(phase != null) {
             args.addExpression(phase)
         }
