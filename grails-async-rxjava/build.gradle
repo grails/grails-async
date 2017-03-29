@@ -1,4 +1,7 @@
 dependencies {
-    compile project(":grails-events")
+    compile project(":grails-async")
     compile "io.reactivex:rxjava:$rxJavaVersion"
 }
+
+
+
