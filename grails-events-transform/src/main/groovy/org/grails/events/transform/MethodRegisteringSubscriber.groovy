@@ -1,6 +1,5 @@
 package org.grails.events.transform
 
-import com.sun.jdi.event.Event
 import grails.async.events.bus.EventBusAware
 import grails.async.events.subscriber.MethodEventSubscriber
 import grails.async.events.subscriber.MethodSubscriber

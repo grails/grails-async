@@ -1,6 +1,8 @@
 dependencies {
     compile project(":grails-events")
-    compile "org.grails:grails-datastore-gorm:$gormVersion"
+    compile "org.grails:grails-datastore-gorm:$gormVersion", {
+        exclude group:'org.grails', module:'grails-datastore-gorm-validation'
+    }
 
     testRuntime "org.springframework:spring-aop:$springVersion"
     testRuntime "org.springframework:spring-expression:$springVersion"

@@ -1,4 +1,5 @@
 dependencies {
     compile "org.grails:grails-core:$grailsVersion"
+    compile project(":grails-events"), project(":grails-events-transform")
     compile project(":grails-events-compat")
 }
