@@ -103,19 +103,18 @@ class PromiseList<T> implements Promise<List<T>> {
      */
     @SuppressWarnings("unchecked")
     Promise onComplete(Closure callable ) {
-        Promises.onComplete(promises, callable)
-        return this
+        return Promises.onComplete(promises, callable)
     }
 
     @SuppressWarnings("unchecked")
     Promise onError(Closure callable) {
-        Promises.onError(promises, callable)
-        return this
+        return Promises.onError(promises, callable)
     }
 
     @SuppressWarnings("unchecked")
     Promise then(Closure callable) {
-        Promises.onComplete(promises, { List values -> values}).then(callable)
+        Promises.onComplete(promises, { List values -> values})
+                .then(callable)
     }
 
     /**

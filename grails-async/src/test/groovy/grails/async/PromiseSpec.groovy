@@ -131,7 +131,7 @@ class PromiseSpec extends Specification {
         then:"The onComplete handler is invoked and the onError handler is ignored"
             result == null
             error != null
-            error.message == "bad"
+            error.message == "java.lang.RuntimeException: bad"
     }
 
     void "Test promise chaining"() {

@@ -108,7 +108,7 @@ class PromiseMapSpec extends Specification{
         then:"An appropriately populated map is returned to the onComplete event"
             result == null
             err != null
-            err.message == "bad"
+            err.message == "java.lang.RuntimeException: bad"
 
     }
 

@@ -17,6 +17,8 @@ package grails.async
 
 import spock.lang.Specification
 
+import java.util.concurrent.ExecutionException
+
 /**
  * @author Graeme Rocher
  * @since 2.3
@@ -60,7 +62,14 @@ class PromiseListSpec extends Specification{
         when:"A promise list is used with then chaining"
             def list = new PromiseList<Integer>()
             list << { 1 }
-            def promise = list.then { it << 2; it }.then { it << 3; it}
+            def promise = list
+                            .then {
+                                it << 2; it
+                            }
+                            .then {
+                                Thread.dumpStack()
+                                it << 3; it
+                            }
             def result = promise.get()
         then:"An appropriately populated list is produced"
             result == [1,2,3]
@@ -70,22 +79,31 @@ class PromiseListSpec extends Specification{
     void "Test promise list with an exception"() {
         when:"A promise list with a promise that throws an exception"
             def list = new PromiseList()
-            list << { 1 }
-            list << { throw new RuntimeException("bad") }
-            list << { 3 }
+            list << {
+                1
+            }
+            list << {
+                throw new RuntimeException("bad")
+            }
+            list << {
+                3
+            }
             def res
             list.onComplete { List results ->
                 res = results
+
             }
-            def err
+            Throwable err
             list.onError { Throwable t ->
-                err = t
-            }
-            sleep 500
+               err = t
+            }.get()
+
+            list.get()
 
         then:'the onError handler is invoked with the exception'
+            thrown(ExecutionException)
             err != null
-            err.message == "bad"
+            err.message == "java.lang.RuntimeException: bad"
             res == null
     }
 }

@@ -17,8 +17,7 @@ package grails.async
 
 import grails.async.decorator.PromiseDecorator
 import groovy.transform.CompileStatic
-import org.grails.async.factory.SynchronousPromiseFactory
-import org.grails.async.factory.gpars.GparsPromiseFactory
+import org.grails.async.factory.PromiseFactoryBuilder
 
 import java.util.concurrent.TimeUnit
 
@@ -33,26 +32,12 @@ class Promises {
 
     static PromiseFactory promiseFactory
 
-    static {
-        if (GparsPromiseFactory.isGparsAvailable()) {
-            promiseFactory = new GparsPromiseFactory()
-        }
-        else {
-            promiseFactory = new SynchronousPromiseFactory()
-        }
-    }
-
     private Promises() {
     }
 
     static PromiseFactory getPromiseFactory() {
         if (promiseFactory == null) {
-            if (GparsPromiseFactory.isGparsAvailable()) {
-                promiseFactory = new GparsPromiseFactory()
-            }
-            else {
-                promiseFactory = new SynchronousPromiseFactory()
-            }
+            promiseFactory = new PromiseFactoryBuilder().build()
         }
         return promiseFactory
     }
