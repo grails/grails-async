@@ -79,6 +79,7 @@ class TwoService {
     @Subscriber('total')
     @Transactional
     void doSomething(Event event) {
+        transactionStatus != null
         transactionalInvoked = true
     }
 }
