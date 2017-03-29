@@ -4,6 +4,7 @@ import grails.async.Promise
 import grails.async.PromiseList
 import grails.async.factory.AbstractPromiseFactory
 import groovy.transform.CompileStatic
+import org.grails.async.factory.BoundPromise
 import rx.Observable
 import rx.Single
 import rx.schedulers.Schedulers
@@ -36,7 +37,6 @@ class RxJavaPromiseFactory extends AbstractPromiseFactory {
         else {
             def promiseList = new PromiseList()
             for (p in closures) {
-                applyDecorators(p, null)
                 promiseList << p
             }
             return promiseList
@@ -56,7 +56,14 @@ class RxJavaPromiseFactory extends AbstractPromiseFactory {
     @Override
     def <T> Promise<List<T>> onComplete(List<Promise<T>> promises, Closure<?> callable) {
         new RxPromise<>(Observable.concat(
-                promises.collect() { Promise p-> ((RxPromise)p).subject }
+                promises.collect() { Promise p ->
+                    if(p instanceof BoundPromise) {
+                        return Observable.just(((BoundPromise)p).value)
+                    }
+                    else {
+                        return ((RxPromise)p).subject
+                    }
+                }
         ).toList())
         .onComplete(callable)
     }
