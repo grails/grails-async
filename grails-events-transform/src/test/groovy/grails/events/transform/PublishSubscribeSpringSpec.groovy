@@ -1,9 +1,13 @@
 package grails.events.transform
 
 import grails.async.events.Event
+import grails.gorm.transactions.Transactional
 import org.grails.async.events.bus.SynchronousEventBus
+import org.grails.datastore.mapping.simple.SimpleMapDatastore
 import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.stereotype.Component
+import spock.lang.AutoCleanup
+import spock.lang.Shared
 import spock.lang.Specification
 
 /**
@@ -11,6 +15,7 @@ import spock.lang.Specification
  */
 class PublishSubscribeSpringSpec extends Specification {
 
+    @Shared @AutoCleanup SimpleMapDatastore datastore = new SimpleMapDatastore()
 
     def "test event publisher within Spring"() {
         given:
@@ -31,6 +36,7 @@ class PublishSubscribeSpringSpec extends Specification {
         subscriber.total == 3
         subscriber.events.size() == 1
         subscriber.events[0].parameters == [a:1,b:2]
+        subscriber.transactionalInvoked
 
         when:
         publisher.wrongType()
@@ -58,7 +64,7 @@ class OneService {
 class TwoService {
     int total = 0
     List<Event> events = []
-
+    boolean transactionalInvoked = false
 
     @Subscriber('total')
     void onSum(int num) {
@@ -68,5 +74,11 @@ class TwoService {
     @Subscriber('total')
     void onSum2(Event event) {
         events.add(event)
+    }
+
+    @Subscriber('total')
+    @Transactional
+    void doSomething(Event event) {
+        transactionalInvoked = true
     }
 }

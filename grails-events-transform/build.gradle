@@ -6,4 +6,7 @@ dependencies {
 
     testRuntime "org.springframework:spring-aop:$springVersion"
     testRuntime "org.springframework:spring-expression:$springVersion"
+    testCompile "org.grails:grails-datastore-gorm-test:$gormVersion", {
+        exclude group:'org.grails', module:'grails-datastore-gorm-validation'
+    }
 }
