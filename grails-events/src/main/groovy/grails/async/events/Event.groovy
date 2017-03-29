@@ -32,7 +32,7 @@ class Event<T> extends EventObject {
     }
 
     Event(String id, Map<String, Object> parameters, T data) {
-        super(data)
+        super(id)
         this.id = id
         this.data = data
         this.parameters = Collections.unmodifiableMap(parameters)

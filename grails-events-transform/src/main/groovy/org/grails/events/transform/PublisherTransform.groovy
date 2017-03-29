@@ -96,8 +96,7 @@ class PublisherTransform extends AbstractMethodDecoratingTransformation implemen
         }
 
         newMethodBody.addStatement(
-            ifS(notNullX(result), stmt( callThisX("publish", args) ))
-
+            stmt( callThisX("publish", args) )
         )
         return callX(result, "find")
     }

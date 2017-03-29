@@ -37,7 +37,7 @@ class TestService {
         service.sum(1, 2)
 
         then:
-        0 * eventBus.publish("total", 3)
+        1 * eventBus.publish(new Event("total", [a:1, b:2], null))
     }
 
 
