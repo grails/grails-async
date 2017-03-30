@@ -39,7 +39,7 @@ class PublisherTransform extends AbstractMethodDecoratingTransformation implemen
     /**
      * The position of the transform. Before the transactional transform
      */
-    public static final int POSITION = TransactionalTransform.POSITION - 50
+    public static final int POSITION = TransactionalTransform.POSITION + 50
     public static final Object APPLIED_MARKER = new Object()
 
     @Override
@@ -98,12 +98,17 @@ class PublisherTransform extends AbstractMethodDecoratingTransformation implemen
         newMethodBody.addStatement(
             stmt( callThisX("publish", args) )
         )
-        return callX(result, "find")
+        return callX(classX(PublisherTransform), "returnSelf", result)
     }
 
     @Override
     protected ClassNode getAnnotationType() {
         return ClassHelper.make(Publisher)
+    }
+
+    // remove this hack when GORM 6.1.1 is out
+    public static Object returnSelf(Object o) {
+        return o
     }
 
     @Override

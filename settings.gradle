@@ -10,3 +10,6 @@ include 'grails-events-rxjava'
 include 'grails-events-rxjava2'
 include 'grails-plugin-async'
 include 'grails-plugin-events'
+
+// examples
+include 'examples/pubsub-demo'

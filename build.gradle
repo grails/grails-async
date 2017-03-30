@@ -1,8 +1,10 @@
 buildscript {
     repositories {
+        mavenLocal()
         maven { url "https://repo.grails.org/grails/core" }
     }
     dependencies {
+        classpath "org.grails:grails-gradle-plugin:$grailsVersion"
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
         classpath 'com.bmuschko:gradle-nexus-plugin:2.3.1'
         classpath 'io.github.groovylang.groovydoc:groovydoc-gradle-plugin:1.0.1'
@@ -15,7 +17,16 @@ subprojects {
     }
     group "org.grails"
     version "3.3.0.BUILD-SNAPSHOT"
+    repositories {
+        mavenLocal()
+        maven { url "https://repo.grails.org/grails/core" }
+    }
 
-    apply from:"${rootProject.projectDir}/gradle/common-project.gradle"
-    apply from:"${rootProject.projectDir}/gradle/common-publishing.gradle"
+    if(!it.name.startsWith("examples")) {
+        apply from:"${rootProject.projectDir}/gradle/common-project.gradle"
+        apply from:"${rootProject.projectDir}/gradle/common-publishing.gradle"
+    }
+    else {
+        apply plugin:"org.grails.grails-web"
+    }
 }
