@@ -8,6 +8,8 @@ import groovy.transform.CompileStatic
 import groovyx.gpars.actor.Actor
 import org.grails.async.events.bus.AbstractEventBus
 
+import java.util.concurrent.Callable
+
 import static groovyx.gpars.actor.Actors.actor
 
 /**
@@ -43,18 +45,14 @@ class ActorEventBus extends AbstractEventBus implements Closeable {
     }
 
     @Override
-    protected AbstractEventBus.NotificationTrigger buildNotificationTrigger(Event event, Collection<Subscription> eventSubscriptions, Closure reply) {
+    protected Callable buildNotificationCallable(Event event, Collection<Subscription> eventSubscriptions, Closure reply) {
         Actor actor = this.actor
-        return new AbstractEventBus.NotificationTrigger(event, eventSubscriptions, reply) {
-
-            @Override
-            void run() {
-                if(reply != null) {
-                    actor.sendAndContinue(event, reply)
-                }
-                else {
-                    actor.send(event)
-                }
+        return {
+            if(reply != null) {
+                actor.sendAndContinue(event, reply)
+            }
+            else {
+                actor.send(event)
             }
         }
     }

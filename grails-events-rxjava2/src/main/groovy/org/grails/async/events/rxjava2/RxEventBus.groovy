@@ -16,6 +16,7 @@ import org.grails.async.events.bus.AbstractEventBus
 import org.grails.async.events.registry.ClosureSubscription
 import org.grails.async.events.registry.EventSubscriberSubscription
 
+import java.util.concurrent.Callable
 import java.util.concurrent.ConcurrentHashMap
 
 /**
@@ -39,24 +40,20 @@ class RxEventBus extends AbstractEventBus {
     }
 
     @Override
-    protected AbstractEventBus.NotificationTrigger buildNotificationTrigger(Event event, Collection<Subscription> eventSubscriptions, Closure reply) {
-        Map<CharSequence, PublishSubject> subjects = this.subjects
-        return new AbstractEventBus.NotificationTrigger(event, eventSubscriptions, reply) {
-
-            @Override
-            void run() {
-                PublishSubject sub = subjects.get(event.id)
-                if(sub.hasObservers() && !sub.hasComplete()) {
-                    if(reply != null) {
-                        sub.onNext(new EventWithReply(event, reply))
-                    }
-                    else {
-                        sub.onNext(event)
-                    }
+    protected Callable buildNotificationCallable(Event event, Collection<Subscription> eventSubscriptions, Closure reply) {
+        return {
+            PublishSubject sub = subjects.get(event.id)
+            if(sub.hasObservers() && !sub.hasComplete()) {
+                if(reply != null) {
+                    sub.onNext(new EventWithReply(event, reply))
+                }
+                else {
+                    sub.onNext(event)
                 }
             }
         }
     }
+
     @Override
     protected EventSubscriberSubscription buildSubscriberSubscription(CharSequence eventId, Subscriber subscriber) {
         String eventKey = eventId.toString()

@@ -15,6 +15,7 @@ import rx.schedulers.Schedulers
 import rx.subjects.PublishSubject
 import rx.subjects.Subject
 
+import java.util.concurrent.Callable
 import java.util.concurrent.ConcurrentHashMap
 
 /**
@@ -52,22 +53,16 @@ class RxEventBus extends AbstractEventBus {
         return new RxClosureSubscription(eventId, subscriptions, subscriber, subject, scheduler)
     }
 
-
     @Override
-    protected AbstractEventBus.NotificationTrigger buildNotificationTrigger(Event event, Collection<Subscription> eventSubscriptions, Closure reply) {
-        Map<CharSequence, PublishSubject> subjects = this.subjects
-        return new AbstractEventBus.NotificationTrigger(event, eventSubscriptions, reply) {
-
-            @Override
-            void run() {
-                PublishSubject sub = subjects.get(event.id)
-                if(sub.hasObservers() && !sub.hasCompleted()) {
-                    if(reply != null) {
-                        sub.onNext(new EventWithReply(event, reply))
-                    }
-                    else {
-                        sub.onNext(event)
-                    }
+    protected Callable buildNotificationCallable(Event event, Collection<Subscription> eventSubscriptions, Closure reply) {
+        return {
+            PublishSubject sub = subjects.get(event.id)
+            if(sub.hasObservers() && !sub.hasCompleted()) {
+                if(reply != null) {
+                    sub.onNext(new EventWithReply(event, reply))
+                }
+                else {
+                    sub.onNext(event)
                 }
             }
         }

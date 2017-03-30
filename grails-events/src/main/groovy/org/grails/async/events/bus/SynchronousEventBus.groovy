@@ -4,6 +4,8 @@ import grails.async.events.Event
 import grails.async.events.subscriber.Subscription
 import groovy.transform.CompileStatic
 
+import java.util.concurrent.Callable
+
 /**
  * A default synchronous event bus for testing
  *
@@ -14,14 +16,11 @@ import groovy.transform.CompileStatic
 class SynchronousEventBus extends AbstractEventBus {
 
     @Override
-    protected NotificationTrigger buildNotificationTrigger(Event event, Collection<Subscription> eventSubscriptions, Closure reply) {
-        return new AbstractEventBus.NotificationTrigger(event, eventSubscriptions, reply) {
-            @Override
-            void run() {
-                for(Subscription subscription in eventSubscriptions) {
-                    subscription.buildTrigger(event, reply)
-                            .proceed()
-                }
+    protected Callable buildNotificationCallable(Event event, Collection<Subscription> eventSubscriptions, Closure reply) {
+        return {
+            for(Subscription subscription in eventSubscriptions) {
+                subscription.buildTrigger(event, reply)
+                        .proceed()
             }
         }
     }

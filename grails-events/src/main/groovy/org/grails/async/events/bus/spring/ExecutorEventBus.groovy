@@ -7,6 +7,7 @@ import groovy.transform.CompileStatic
 import org.grails.async.events.bus.AbstractEventBus
 import org.springframework.core.task.SyncTaskExecutor
 
+import java.util.concurrent.Callable
 import java.util.concurrent.Executor
 
 /**
@@ -24,17 +25,14 @@ class ExecutorEventBus extends AbstractEventBus {
     }
 
     @Override
-    protected NotificationTrigger buildNotificationTrigger(Event event, Collection<Subscription> eventSubscriptions, Closure reply) {
+    protected Callable buildNotificationCallable(Event event, Collection<Subscription> eventSubscriptions, Closure reply) {
         Executor executor = this.executor
-        return new AbstractEventBus.NotificationTrigger(event, eventSubscriptions, reply) {
-            @Override
-            void run() {
-                executor.execute {
-                    for (Subscription subscription in eventSubscriptions) {
-                        executor.execute {
-                            EventTrigger trigger = subscription.buildTrigger(event, reply)
-                            trigger.proceed()
-                        }
+        return {
+            executor.execute {
+                for (Subscription subscription in eventSubscriptions) {
+                    executor.execute {
+                        EventTrigger trigger = subscription.buildTrigger(event, reply)
+                        trigger.proceed()
                     }
                 }
             }

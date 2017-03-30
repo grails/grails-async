@@ -10,6 +10,8 @@ import org.springframework.context.ApplicationListener
 import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.context.event.GenericApplicationListenerAdapter
 
+import java.util.concurrent.Callable
+
 /**
  * An event bus that uses the Spring Event Publisher
  *
@@ -29,15 +31,9 @@ class SpringEventBus extends AbstractEventBus {
     }
 
     @Override
-    protected AbstractEventBus.NotificationTrigger buildNotificationTrigger(Event event, Collection<Subscription> eventSubscriptions, Closure reply) {
-
-        ConfigurableApplicationContext applicationContext = this.applicationContext
-        return new AbstractEventBus.NotificationTrigger(event, eventSubscriptions, reply) {
-
-            @Override
-            void run() {
-                applicationContext.publishEvent(new SpringEventBusEvent(event, reply))
-            }
+    protected Callable buildNotificationCallable(Event event, Collection<Subscription> eventSubscriptions, Closure reply) {
+        return {
+            applicationContext.publishEvent(new SpringEventBusEvent(event, reply))
         }
     }
 

@@ -13,6 +13,7 @@ import org.springframework.transaction.event.TransactionPhase
 import org.springframework.transaction.support.TransactionSynchronizationAdapter
 import org.springframework.transaction.support.TransactionSynchronizationManager
 
+import java.util.concurrent.Callable
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.ConcurrentLinkedQueue
 
@@ -142,9 +143,27 @@ abstract class AbstractEventBus implements EventBus {
      * @param reply
      * @return
      */
-    protected abstract NotificationTrigger buildNotificationTrigger(Event event, Collection<Subscription> eventSubscriptions, Closure reply = null)
+    protected final NotificationTrigger buildNotificationTrigger(Event event, Collection<Subscription> eventSubscriptions, Closure reply = null) {
+        final Callable callable = buildNotificationCallable(event, eventSubscriptions, reply)
+        return new AbstractEventBus.NotificationTrigger(event, eventSubscriptions, reply) {
+            @Override
+            void run() {
+                callable.call()
+            }
+        }
+    }
 
-    static abstract class NotificationTrigger implements Runnable {
+    /**
+     * Build a new trigger to set off notifications
+     *
+     * @param event The event
+     * @param eventSubscriptions The subscriptions
+     * @param reply
+     * @return
+     */
+    protected abstract Callable buildNotificationCallable(Event event, Collection<Subscription> eventSubscriptions, Closure reply = null)
+
+    protected static abstract class NotificationTrigger implements Runnable {
         final Event event
         final Collection<Subscription> subscriptions
         final Closure reply
