@@ -1,5 +1,6 @@
 package org.grails.events.transform
 
+import grails.async.events.Event
 import grails.async.events.bus.EventBusAware
 import grails.async.events.subscriber.MethodEventSubscriber
 import grails.async.events.subscriber.MethodSubscriber
@@ -28,7 +29,16 @@ trait MethodRegisteringSubscriber extends EventBusAware {
             Subscriber sub = m.getAnnotation(Subscriber)
             if(sub != null) {
                 String eventId = sub.value()
-                if(m.parameterTypes.length == 1 && m.parameterTypes[0].isAssignableFrom(grails.async.events.Event)) {
+                if(!eventId) {
+                    String methodName = m.name
+                    if(methodName ==~ /on[A-Z]\S+/) {
+                        eventId = methodName.substring(2).toLowerCase(Locale.ENGLISH)
+                    }
+                    else {
+                        eventId = methodName
+                    }
+                }
+                if(m.parameterTypes.length == 1 && m.parameterTypes[0].isAssignableFrom(Event)) {
                     eventBus.subscribe(eventId, new MethodEventSubscriber(this, m))
                 }
                 else {

@@ -7,13 +7,13 @@ class TotalService {
 
     int accumulatedTotal = 0
 
-    @Subscriber('total')
-    void newTotal(int total) {
+    @Subscriber
+    void onSum(int total) {
         accumulatedTotal += total
     }
 
-    @Subscriber('total')
-    void newTotal(Event<Integer> event) {
+    @Subscriber
+    void onSum(Event<Integer> event) {
         println "Event $event.data"
         println "Data $event.data"
         println "Parameters $event.parameters"

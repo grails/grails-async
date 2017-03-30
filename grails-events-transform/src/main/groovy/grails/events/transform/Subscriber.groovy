@@ -24,5 +24,5 @@ import java.lang.annotation.Target
     /**
      * @return The id of the event
      */
-    String value()
+    String value() default ""
 }

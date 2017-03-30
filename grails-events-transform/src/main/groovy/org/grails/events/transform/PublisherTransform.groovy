@@ -76,6 +76,10 @@ class PublisherTransform extends AbstractMethodDecoratingTransformation implemen
             declS(result, resultValue)
         )
         Expression eventId = annotationNode.getMember("value")
+        if(!eventId?.text) {
+            eventId = constX(methodNode.name)
+        }
+
         Expression phase = annotationNode.getMember("phase")
         MapExpression params = new MapExpression()
         for(param in methodNode.parameters) {

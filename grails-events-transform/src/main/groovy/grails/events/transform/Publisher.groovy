@@ -28,7 +28,7 @@ import java.lang.annotation.Target
     /**
      * @return The id of the event
      */
-    String value()
+    String value() default ""
 
     /**
      * @return The transaction phase to subscribe on

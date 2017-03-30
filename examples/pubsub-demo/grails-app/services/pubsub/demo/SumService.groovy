@@ -5,7 +5,7 @@ import grails.gorm.transactions.Transactional
 
 class SumService {
 
-    @Publisher("total")
+    @Publisher
     @Transactional
     int sum(int a, int b) {
         return a + b
