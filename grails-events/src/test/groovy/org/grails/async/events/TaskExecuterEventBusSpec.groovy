@@ -1,6 +1,6 @@
 package org.grails.async.events
 
-import org.grails.async.events.bus.spring.TaskExecutorEventBus
+import org.grails.async.events.bus.spring.ExecutorEventBus
 import spock.lang.Specification
 
 /**
@@ -10,7 +10,7 @@ class TaskExecuterEventBusSpec  extends Specification {
 
     void 'test task executor event bus single arg'() {
         given:
-        TaskExecutorEventBus eventBus = new TaskExecutorEventBus()
+        ExecutorEventBus eventBus = new ExecutorEventBus()
         def result
         eventBus.on("test") {
             result = "foo $it"
@@ -23,7 +23,7 @@ class TaskExecuterEventBusSpec  extends Specification {
 
     void 'test task executor event bus multiple args'() {
         given:
-        TaskExecutorEventBus eventBus = new TaskExecutorEventBus()
+        ExecutorEventBus eventBus = new ExecutorEventBus()
         def result
         eventBus.on("test") {
             result = "foo $it"
@@ -36,7 +36,7 @@ class TaskExecuterEventBusSpec  extends Specification {
 
     void 'test task executor event bus multiple args listener'() {
         given:
-        TaskExecutorEventBus eventBus = new TaskExecutorEventBus()
+        ExecutorEventBus eventBus = new ExecutorEventBus()
         def result
         eventBus.on("test") { String one, String two ->
             result = "foo $one $two"
@@ -49,7 +49,7 @@ class TaskExecuterEventBusSpec  extends Specification {
 
     void 'test task executor event bus send and receive'() {
         given:
-        TaskExecutorEventBus eventBus = new TaskExecutorEventBus()
+        ExecutorEventBus eventBus = new ExecutorEventBus()
         def result
         eventBus.on("test") { String data ->
             "foo $data"
@@ -63,7 +63,7 @@ class TaskExecuterEventBusSpec  extends Specification {
 
     void 'test task executor bus error handling'() {
         given:
-        TaskExecutorEventBus eventBus = new TaskExecutorEventBus()
+        ExecutorEventBus eventBus = new ExecutorEventBus()
         def result
         eventBus.on("test") { String data ->
             throw new RuntimeException("bad")
@@ -78,7 +78,7 @@ class TaskExecuterEventBusSpec  extends Specification {
 
     void 'test task executor bus error handling with publish'() {
         given:
-        TaskExecutorEventBus eventBus = new TaskExecutorEventBus()
+        ExecutorEventBus eventBus = new ExecutorEventBus()
         when:
         def result
         eventBus.on("test") { String data ->

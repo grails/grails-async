@@ -1,7 +1,7 @@
 package org.grails.async.events
 
 import grails.async.events.Event
-import org.grails.async.events.bus.spring.TaskExecutorEventBus
+import org.grails.async.events.bus.spring.ExecutorEventBus
 import org.springframework.transaction.event.TransactionPhase
 import org.springframework.transaction.support.TransactionSynchronizationManager
 import org.springframework.transaction.support.TransactionSynchronizationUtils
@@ -14,7 +14,7 @@ class TransactionAwareEventSpec extends Specification {
 
     void 'test task executor event bus with transactional event'() {
         given:
-        TaskExecutorEventBus eventBus = new TaskExecutorEventBus()
+        ExecutorEventBus eventBus = new ExecutorEventBus()
         def result
         eventBus.on("test") {
             result = "foo $it"

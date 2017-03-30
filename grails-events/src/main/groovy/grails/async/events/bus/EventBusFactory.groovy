@@ -2,7 +2,7 @@ package grails.async.events.bus
 
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
-import org.grails.async.events.bus.spring.TaskExecutorEventBus
+import org.grails.async.events.bus.spring.ExecutorEventBus
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.core.task.AsyncTaskExecutor
 
@@ -40,11 +40,11 @@ class EventBusFactory {
     protected EventBus createDefaultEventBus() {
         if(springTaskExecutor != null) {
             log.debug("Creating event bus from Spring task executor {}", springTaskExecutor)
-            return new TaskExecutorEventBus(springTaskExecutor)
+            return new ExecutorEventBus(springTaskExecutor)
         }
         else {
             log.warn("No event bus implementations found on classpath, using synchronous implementation.")
-            return new TaskExecutorEventBus()
+            return new ExecutorEventBus()
         }
     }
 }

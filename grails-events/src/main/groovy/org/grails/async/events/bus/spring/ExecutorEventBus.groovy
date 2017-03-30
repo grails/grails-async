@@ -6,31 +6,32 @@ import grails.async.events.trigger.EventTrigger
 import groovy.transform.CompileStatic
 import org.grails.async.events.bus.AbstractEventBus
 import org.springframework.core.task.SyncTaskExecutor
-import org.springframework.core.task.TaskExecutor
+
+import java.util.concurrent.Executor
 
 /**
- * An event bus that uses Spring's {@link TaskExecutor} interface
+ * An event bus that uses an {@link Executor}
  *
  * @author Graeme Rocher
  * @since 3.3
  */
 @CompileStatic
-class TaskExecutorEventBus extends AbstractEventBus {
-    final TaskExecutor taskExecutor
+class ExecutorEventBus extends AbstractEventBus {
+    final Executor executor
 
-    TaskExecutorEventBus(TaskExecutor taskExecutor = new SyncTaskExecutor()) {
-        this.taskExecutor = taskExecutor
+    ExecutorEventBus(Executor executor = new SyncTaskExecutor()) {
+        this.executor = executor
     }
 
     @Override
     protected NotificationTrigger buildNotificationTrigger(Event event, Collection<Subscription> eventSubscriptions, Closure reply) {
-        TaskExecutor taskExecutor = this.taskExecutor
+        Executor executor = this.executor
         return new AbstractEventBus.NotificationTrigger(event, eventSubscriptions, reply) {
             @Override
             void run() {
-                taskExecutor.execute {
+                executor.execute {
                     for (Subscription subscription in eventSubscriptions) {
-                        taskExecutor.execute {
+                        executor.execute {
                             EventTrigger trigger = subscription.buildTrigger(event, reply)
                             trigger.proceed()
                         }

@@ -29,10 +29,8 @@ class FutureTaskPromiseFactory extends AbstractPromiseFactory implements Closeab
         this.executorService = executorService
     }
 
-    FutureTaskPromiseFactory() {
-        this.executorService = new ThreadPoolExecutor(0, Integer.MAX_VALUE,
-                                        60L, TimeUnit.SECONDS,
-                                        new SynchronousQueue<Runnable>()) {
+    FutureTaskPromiseFactory(int maxPoolSize = Integer.MAX_VALUE, long timeout = 60L, TimeUnit unit = TimeUnit.SECONDS) {
+        this.executorService = new ThreadPoolExecutor(0, maxPoolSize, timeout, unit, new SynchronousQueue<Runnable>()) {
             @Override
             protected <T> RunnableFuture<T> newTaskFor(Callable<T> callable) {
                 return new FutureTaskPromise<T>(callable)
