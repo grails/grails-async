@@ -35,4 +35,9 @@ import java.lang.annotation.Target
      */
     TransactionPhase phase() default TransactionPhase.AFTER_COMMIT
 
+    /**
+     * @return The id of the event to notify in the case of an error
+     */
+    String error() default ""
+
 }

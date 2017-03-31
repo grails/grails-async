@@ -2,6 +2,7 @@ package grails.events.transform
 
 import grails.async.events.bus.EventBus
 import grails.async.events.subscriber.MethodSubscriber
+import org.grails.datastore.mapping.reflect.ClassPropertyFetcher
 import org.grails.events.transform.MethodRegisteringSubscriber
 import spock.lang.Specification
 
@@ -29,6 +30,7 @@ class TestService {
         service.targetEventBus = eventBus
 
         then:
+        ClassPropertyFetcher.forClass(service.getClass()).getPropertyValue("lazyInit") == false
         service instanceof MethodRegisteringSubscriber
 
         when:

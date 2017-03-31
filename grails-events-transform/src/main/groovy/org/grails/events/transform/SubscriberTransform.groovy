@@ -4,6 +4,8 @@ import grails.events.transform.Subscriber
 import groovy.transform.CompileStatic
 import org.codehaus.groovy.ast.*
 import org.codehaus.groovy.ast.expr.ArgumentListExpression
+import org.codehaus.groovy.ast.expr.BooleanExpression
+import org.codehaus.groovy.ast.expr.ConstantExpression
 import org.codehaus.groovy.ast.expr.ListExpression
 import org.codehaus.groovy.ast.stmt.ExpressionStatement
 import org.codehaus.groovy.ast.tools.GenericsUtils
@@ -41,10 +43,13 @@ class SubscriberTransform extends AbstractTraitApplyingGormASTTransformation {
 
     @Override
     void visit(SourceUnit source, AnnotationNode annotationNode, AnnotatedNode annotatedNode) {
-        if(annotatedNode instanceof MethodNode) {
+        if(annotatedNode instanceof MethodNode && !Modifier.isAbstract(annotatedNode.getModifiers())) {
             MethodNode methodNode = (MethodNode)annotatedNode
             ClassNode declaringClass = methodNode.getDeclaringClass()
             if ( shouldWeave(annotationNode, declaringClass) ) {
+                if(declaringClass.getField("lazyInit") == null) {
+                    declaringClass.addField("lazyInit", Modifier.PUBLIC | Modifier.STATIC | Modifier.FINAL, ClassHelper.Boolean_TYPE, ConstantExpression.FALSE)
+                }
                 weaveTrait(declaringClass, source, traitClass)
             }
 

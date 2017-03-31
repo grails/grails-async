@@ -9,12 +9,18 @@ import org.codehaus.groovy.ast.AnnotationNode
 import org.codehaus.groovy.ast.ClassHelper
 import org.codehaus.groovy.ast.ClassNode
 import org.codehaus.groovy.ast.MethodNode
+import org.codehaus.groovy.ast.Parameter
 import org.codehaus.groovy.ast.expr.ConstantExpression
+import org.codehaus.groovy.ast.expr.EmptyExpression
 import org.codehaus.groovy.ast.expr.Expression
 import org.codehaus.groovy.ast.expr.MapExpression
 import org.codehaus.groovy.ast.expr.MethodCallExpression
 import org.codehaus.groovy.ast.expr.PropertyExpression
 import org.codehaus.groovy.ast.stmt.BlockStatement
+import org.codehaus.groovy.ast.stmt.CatchStatement
+import org.codehaus.groovy.ast.stmt.EmptyStatement
+import org.codehaus.groovy.ast.stmt.Statement
+import org.codehaus.groovy.ast.stmt.TryCatchStatement
 import org.codehaus.groovy.control.CompilePhase
 import org.codehaus.groovy.control.SourceUnit
 import org.codehaus.groovy.transform.GroovyASTTransformation
@@ -26,6 +32,8 @@ import org.grails.datastore.mapping.reflect.AstUtils
 import org.springframework.transaction.event.TransactionPhase
 
 import static org.codehaus.groovy.ast.tools.GeneralUtils.*
+import static org.codehaus.groovy.ast.tools.GeneralUtils.args
+import static org.codehaus.groovy.ast.tools.GeneralUtils.args
 
 /**
  * A transform that transforms a method publishing the result to the given event
@@ -64,20 +72,36 @@ class PublisherTransform extends AbstractMethodDecoratingTransformation implemen
 
     @Override
     protected MethodCallExpression buildDelegatingMethodCall(SourceUnit sourceUnit, AnnotationNode annotationNode, ClassNode classNode, MethodNode methodNode, MethodCallExpression originalMethodCallExpr, BlockStatement newMethodBody) {
-        Expression resultValue
-        if(methodNode.returnType != ClassHelper.VOID_TYPE) {
-            resultValue = originalMethodCallExpr
-        }
-        else {
-            resultValue = ConstantExpression.NULL
-        }
+
         Expression result = varX('$result')
+        // if the return type is void
+        // def $result = null
+        // callMethod()
+
+        BlockStatement tryBody = new BlockStatement()
+        TryCatchStatement tryCatch = new TryCatchStatement(tryBody, new EmptyStatement())
+        newMethodBody.addStatement(declS(result, new EmptyExpression()))
+        if(methodNode.returnType != ClassHelper.VOID_TYPE) {
+            tryBody.addStatement(assignS(result, originalMethodCallExpr))
+        }
+        // otherwise..
+        // def $result = callMethod()
+        else {
+            tryBody.addStatement(stmt(originalMethodCallExpr))
+            newMethodBody.addStatement(assignS(result, ConstantExpression.NULL))
+        }
         newMethodBody.addStatement(
-            declS(result, resultValue)
+            tryCatch
         )
+
         Expression eventId = annotationNode.getMember("value")
         if(!eventId?.text) {
             eventId = constX(methodNode.name)
+        }
+
+        Expression errorEventId = annotationNode.getMember("error")
+        if(!errorEventId?.text) {
+            errorEventId = eventId
         }
 
         Expression phase = annotationNode.getMember("phase")
@@ -88,19 +112,37 @@ class PublisherTransform extends AbstractMethodDecoratingTransformation implemen
                 varX(param)
             )
         }
-        Expression newEvent = ctorX(ClassHelper.make(Event), args(eventId, params, resultValue))
-        def args = args(newEvent)
+        Expression newEvent = ctorX(ClassHelper.make(Event), args(eventId, params, result))
+        def eventArgs = args(newEvent)
         if(phase != null) {
-            args.addExpression(phase)
+            eventArgs.addExpression(phase)
         }
         else {
             if( AstUtils.hasAnnotation(methodNode, Transactional) ) {
-                args.addExpression(propX(classX(TransactionPhase), "AFTER_COMMIT"))
+                eventArgs.addExpression(propX(classX(TransactionPhase), "AFTER_COMMIT"))
             }
         }
 
-        newMethodBody.addStatement(
-            stmt( callThisX("publish", args) )
+        Parameter exceptionParam = param(ClassHelper.make(Throwable), '$t')
+        Expression errorEvent = ctorX(ClassHelper.make(Event), args(errorEventId, params, varX(exceptionParam)))
+        def errorArgs = args(errorEvent)
+        if(phase != null) {
+            errorArgs.addExpression(phase)
+        }
+        else {
+            if( AstUtils.hasAnnotation(methodNode, Transactional) ) {
+                errorArgs.addExpression(propX(classX(TransactionPhase), "AFTER_ROLLBACK"))
+            }
+        }
+
+        Statement catchBody = block(
+            stmt(callThisX("publish", errorArgs)),
+            throwS(varX(exceptionParam))
+        )
+        CatchStatement catchStatement = new CatchStatement(exceptionParam, catchBody)
+        tryCatch.addCatch(catchStatement)
+        tryBody.addStatement(
+            stmt( callThisX("publish", eventArgs) )
         )
         return callX(classX(PublisherTransform), "returnSelf", result)
     }

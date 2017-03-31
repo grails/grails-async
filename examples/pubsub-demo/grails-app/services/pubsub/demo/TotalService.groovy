@@ -18,4 +18,9 @@ class TotalService {
         println "Data $event.data"
         println "Parameters $event.parameters"
     }
+
+    @Subscriber
+    void onSum(Throwable error) {
+        println "Oh NO!!! $error.message"
+    }
 }
