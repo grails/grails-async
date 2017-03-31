@@ -1,4 +1,4 @@
 dependencies {
     compile project(":grails-events")
-    compile 'io.reactivex.rxjava2:rxjava:2.0.7'
+    compile "io.reactivex.rxjava2:rxjava:$rxJava2Version"
 }

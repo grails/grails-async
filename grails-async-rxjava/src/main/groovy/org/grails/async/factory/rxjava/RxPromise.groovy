@@ -50,12 +50,12 @@ class RxPromise<T>  implements Promise<T> {
     }
 
     RxPromise(Single single, Subject subject) {
-        single.subscribe(subject)
+        this.subscription = single.subscribe(subject)
         this.subject = subject
     }
 
     RxPromise(Observable observable, Subject subject) {
-        observable.subscribe(subject)
+        this.subscription = observable.subscribe(subject)
         this.subject = subject
     }
 

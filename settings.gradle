@@ -1,6 +1,7 @@
 include 'grails-async'
 include 'grails-async-gpars'
 include 'grails-async-rxjava'
+include 'grails-async-rxjava2'
 include 'grails-events'
 include 'grails-events-compat'
 include 'grails-events-transform'
