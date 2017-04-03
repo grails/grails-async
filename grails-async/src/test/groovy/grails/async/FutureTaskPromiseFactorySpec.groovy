@@ -74,11 +74,10 @@ class FutureTaskPromiseFactorySpec extends Specification {
         def hasError = false
         promise.onComplete { val ->
             result = val
-        }
+        }.get()
         promise.onError {
             hasError = true
-        }
-        sleep 1000
+        }.get()
 
         then:"The onComplete handler is invoked and the onError handler is ignored"
         result == 2
