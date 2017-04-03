@@ -2,7 +2,7 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>5 Asynchronous GORM unspecified</title>
+    <title>4 Asynchronous GORM unspecified</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
@@ -35,13 +35,13 @@ function addJsClass() {
                         <div class="toc-item" style="margin-left:0"><a href="../guide/promises.html"><strong>2</strong><span>Promises</span></a>
                         </div>
                         
-                        <div class="toc-item" style="margin-left:0"><a href="../guide/rxjava.html"><strong>3</strong><span>Reactive Programming with RxJava</span></a>
+                        <div class="toc-item" style="margin-left:0"><a href="../guide/events.html"><strong>3</strong><span>Events</span></a>
                         </div>
                         
-                        <div class="toc-item" style="margin-left:0"><a href="../guide/events.html"><strong>4</strong><span>Events</span></a>
+                        <div class="toc-item" style="margin-left:0"><a href="../guide/asyncGorm.html"><strong>4</strong><span>Asynchronous GORM</span></a>
                         </div>
                         
-                        <div class="toc-item" style="margin-left:0"><a href="../guide/asyncGorm.html"><strong>5</strong><span>Asynchronous GORM</span></a>
+                        <div class="toc-item" style="margin-left:0"><a href="../guide/rxjava.html"><strong>5</strong><span>RxJava Support</span></a>
                         </div>
                         
                         <div class="toc-item" style="margin-left:0"><a href="../guide/asyncRequests.html"><strong>6</strong><span>Asynchronous Request Handling</span></a>
@@ -68,18 +68,18 @@ function addJsClass() {
             <div id="main" class="corner-all">
 
                 
-                    <div class="toc-item prev-left"><a href="../guide/events.html">&lt;&lt; <strong>4</strong><span>Events</span></a></div>
+                    <div class="toc-item prev-left"><a href="../guide/events.html">&lt;&lt; <strong>3</strong><span>Events</span></a></div>
                 
 
                 <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
 
                 
-                    <div class="toc-item next-right"><a href="../guide/asyncRequests.html"><strong>6</strong><span>Asynchronous Request Handling</span> >></a></div>
+                    <div class="toc-item next-right"><a href="../guide/rxjava.html"><strong>5</strong><span>RxJava Support</span> >></a></div>
                 
 
 
                 <div class="project">
-                    <h1>5 Asynchronous GORM</h1>
+                    <h1>4 Asynchronous GORM</h1>
 
                     <p><strong>Version:</strong> unspecified</p>
                 </div>
@@ -88,7 +88,7 @@ function addJsClass() {
 
                 
 
-<h1 id="asyncGorm">5 Asynchronous GORM</h1>
+<h1 id="asyncGorm">4 Asynchronous GORM</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/master/src/main/docs/guide/asyncGorm.adoc"'>
@@ -113,9 +113,33 @@ Although GORM executes persistence operations asynchronously, these operations s
 </table>
 </div>
 <div class="sect2">
+<h3 id="_the_asyncentity_trait">The AsyncEntity Trait</h3>
+<div class="paragraph">
+<p>Since Grails 3.3, the asynchronous part of GORM is optional. To enable it you first need to add the <code>grails-datastore-gorm-async</code> dependency to <code>build.gradle</code>:</p>
+</div>
+<div class="listingblock">
+<div class="title">build.gradle</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy">compile <span class="string"><span class="delimiter">&quot;</span><span class="content">org.grails:grails-datastore-gorm-async</span><span class="delimiter">&quot;</span></span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Then in your domain classes you wish to allow asynchronous processing you should use the <code>AsyncEntity</code> trait:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">import</span> <span class="include">grails.gorm.async.*</span>
+
+<span class="type">class</span> <span class="class">MyEntity</span> <span class="directive">implements</span> AsyncEntity {
+   ...
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
 <h3 id="_async_namespace">Async Namespace</h3>
 <div class="paragraph">
-<p>The Asynchronous GORM API is available on every domain class via the <code>async</code> namespace.</p>
+<p>The <code>AsyncEntity</code> entity trait provides an <code>async</code> namespace that exposes all of the GORM methods in an asynchronous manner.</p>
 </div>
 <div class="paragraph">
 <p>For example, the following code listing reads 3 objects from the database asynchronously:</p>
@@ -245,9 +269,9 @@ Person updatedPerson = promise.get()</code></pre>
 
                 <div style="clear:both;margin-top:15px;"></div>
                 
-                    <div class="toc-item prev-left"><a href="../guide/events.html">&lt;&lt; <strong>4</strong><span>Events</span></a></div>
+                    <div class="toc-item prev-left"><a href="../guide/events.html">&lt;&lt; <strong>3</strong><span>Events</span></a></div>
                 
-                    <div class="toc-item next-right"><a href="../guide/asyncRequests.html"><strong>6</strong><span>Asynchronous Request Handling</span> >></a></div>
+                    <div class="toc-item next-right"><a href="../guide/rxjava.html"><strong>5</strong><span>RxJava Support</span> >></a></div>
                 
                 <div style="clear:both"></div>
             </div>

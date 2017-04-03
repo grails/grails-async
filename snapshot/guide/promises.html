@@ -35,13 +35,13 @@ function addJsClass() {
                         <div class="toc-item" style="margin-left:0"><a href="../guide/promises.html"><strong>2</strong><span>Promises</span></a>
                         </div>
                         
-                        <div class="toc-item" style="margin-left:0"><a href="../guide/rxjava.html"><strong>3</strong><span>Reactive Programming with RxJava</span></a>
+                        <div class="toc-item" style="margin-left:0"><a href="../guide/events.html"><strong>3</strong><span>Events</span></a>
                         </div>
                         
-                        <div class="toc-item" style="margin-left:0"><a href="../guide/events.html"><strong>4</strong><span>Events</span></a>
+                        <div class="toc-item" style="margin-left:0"><a href="../guide/asyncGorm.html"><strong>4</strong><span>Asynchronous GORM</span></a>
                         </div>
                         
-                        <div class="toc-item" style="margin-left:0"><a href="../guide/asyncGorm.html"><strong>5</strong><span>Asynchronous GORM</span></a>
+                        <div class="toc-item" style="margin-left:0"><a href="../guide/rxjava.html"><strong>5</strong><span>RxJava Support</span></a>
                         </div>
                         
                         <div class="toc-item" style="margin-left:0"><a href="../guide/asyncRequests.html"><strong>6</strong><span>Asynchronous Request Handling</span></a>
@@ -74,7 +74,7 @@ function addJsClass() {
                 <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
 
                 
-                    <div class="toc-item next-right"><a href="../guide/rxjava.html"><strong>3</strong><span>Reactive Programming with RxJava</span> >></a></div>
+                    <div class="toc-item next-right"><a href="../guide/events.html"><strong>3</strong><span>Events</span> >></a></div>
                 
 
 
@@ -166,6 +166,76 @@ p.onComplete { result -&gt;
 <span class="comment">// block for the specified time</span>
 <span class="keyword">def</span> result = p.get(<span class="integer">1</span>,MINUTES)</code></pre>
 </div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_the_promisefactory_interface">The PromiseFactory Interface</h3>
+<div class="paragraph">
+<p>By default the <code>Promises</code> static methods use an instance of <code>PromiseFactory</code>. This <code>PromiseFactory</code> interface has various implementations. The default implementation is <a href="../api/org/grails/async/factory/future/CachedThreadPoolPromiseFactory.html">CachedThreadPoolPromiseFactory</a> which uses a thread pool that will create threads as needed (the same as <code>java.util.concurrent.Executors.newCachedThreadPool()</code>)</p>
+</div>
+<div class="paragraph">
+<p>However, the design of the Grails promises framework is such that you can swap out the underlying implementation for your own or one of the pre-supported implementations. For example to use RxJava 1.x simply add the RxJava dependency to <code>build.gradle</code>:</p>
+</div>
+<div class="listingblock">
+<div class="title">build.gradle</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy">runtime "org.grails:grails-async-rxjava:unspecified"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>With the above in place RxJava 1.x will be used to create <code>Promise</code> instances.</p>
+</div>
+<div class="paragraph">
+<p>The following table summarizes the available implementation and the dependency that should be added to activate them:</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<caption class="title">Table 1. Promise Factory Implementations</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Framework</th>
+<th class="tableblock halign-left valign-top">Dependency</th>
+<th class="tableblock halign-left valign-top">Implementation Class</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GPars 1.2.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>grails-async-gpars</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>org.grails.async.factory.gpars.GparsPromiseFactory</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RxJava 1.2.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>grails-async-rxjava</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>org.grails.async.factory.rxjava.RxPromiseFactory</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RxJava 2.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>grails-async-rxjava2</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>org.grails.async.factory.rxjava2.RxPromiseFactory</code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>You can also override the <code>grails.async.PromiseFactory</code> class used by <code>Promises</code> by setting the <code>promiseFactory</code> static field.</p>
+</div>
+<div class="paragraph">
+<p>One common use case for this is unit testing, typically you do not want promises to execute asynchronously during unit tests, as this makes tests harder to write. For this purpose Grails ships with a <code>org.grails.async.factory.SynchronousPromiseFactory</code> instance that makes it easier to test promises:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">import</span> <span class="include">org.grails.async.factory.*</span>
+<span class="keyword">import</span> <span class="include">grails.async.*</span>
+
+Promises.promiseFactory = <span class="keyword">new</span> SynchronousPromiseFactory()</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Using the <code>PromiseFactory</code> mechanism it is theoretically possible to plug in other concurrency libraries into the Grails framework. For this you need to override the two interfaces <code>grails.async.Promise</code> and <code>grails.async.PromiseFactory</code>.</p>
 </div>
 </div>
 <div class="sect2">
@@ -269,29 +339,6 @@ map.onComplete { <span class="predefined-type">Map</span> results -&gt;
 </div>
 </div>
 <div class="sect2">
-<h3 id="_promise_factories">Promise Factories</h3>
-<div class="paragraph">
-<p>The <code>Promises</code> class uses a <code>grails.async.PromiseFactory</code> instance to create <code>Promise</code> instances.</p>
-</div>
-<div class="paragraph">
-<p>The default implementation uses <a href="http://projectreactor.io">Project Reactor</a> and is called <code>org.grails.async.factory.reactor.ReactorPromiseFactory</code>, however it is possible to swap implementations by setting the <code>Promises.promiseFactory</code> variable.</p>
-</div>
-<div class="paragraph">
-<p>One common use case for this is unit testing, typically you do not want promises to execute asynchronously during unit tests, as this makes tests harder to write. For this purpose Grails ships with a <code>org.grails.async.factory.SynchronousPromiseFactory</code> instance that makes it easier to test promises:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">import</span> <span class="include">org.grails.async.factory.*</span>
-<span class="keyword">import</span> <span class="include">grails.async.*</span>
-
-Promises.promiseFactory = <span class="keyword">new</span> SynchronousPromiseFactory()</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Using the <code>PromiseFactory</code> mechanism it is theoretically possible to plug in other concurrency libraries into the Grails framework. For this you need to override the two interfaces <code>grails.async.Promise</code> and <code>grails.async.PromiseFactory</code>.</p>
-</div>
-</div>
-<div class="sect2">
 <h3 id="_delegateasync_transformation">DelegateAsync Transformation</h3>
 <div class="paragraph">
 <p>It is quite common to require both synchronous and asynchronous versions of the same API. Developing both can result in a maintenance problem as typically the asynchronous API would simply delegate to the synchronous version.</p>
@@ -359,7 +406,7 @@ Promises.promiseFactory = <span class="keyword">new</span> SynchronousPromiseFac
                 
                     <div class="toc-item prev-left"><a href="../guide/introduction.html">&lt;&lt; <strong>1</strong><span>Introduction</span></a></div>
                 
-                    <div class="toc-item next-right"><a href="../guide/rxjava.html"><strong>3</strong><span>Reactive Programming with RxJava</span> >></a></div>
+                    <div class="toc-item next-right"><a href="../guide/events.html"><strong>3</strong><span>Events</span> >></a></div>
                 
                 <div style="clear:both"></div>
             </div>

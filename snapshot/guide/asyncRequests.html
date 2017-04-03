@@ -35,13 +35,13 @@ function addJsClass() {
                         <div class="toc-item" style="margin-left:0"><a href="../guide/promises.html"><strong>2</strong><span>Promises</span></a>
                         </div>
                         
-                        <div class="toc-item" style="margin-left:0"><a href="../guide/rxjava.html"><strong>3</strong><span>Reactive Programming with RxJava</span></a>
+                        <div class="toc-item" style="margin-left:0"><a href="../guide/events.html"><strong>3</strong><span>Events</span></a>
                         </div>
                         
-                        <div class="toc-item" style="margin-left:0"><a href="../guide/events.html"><strong>4</strong><span>Events</span></a>
+                        <div class="toc-item" style="margin-left:0"><a href="../guide/asyncGorm.html"><strong>4</strong><span>Asynchronous GORM</span></a>
                         </div>
                         
-                        <div class="toc-item" style="margin-left:0"><a href="../guide/asyncGorm.html"><strong>5</strong><span>Asynchronous GORM</span></a>
+                        <div class="toc-item" style="margin-left:0"><a href="../guide/rxjava.html"><strong>5</strong><span>RxJava Support</span></a>
                         </div>
                         
                         <div class="toc-item" style="margin-left:0"><a href="../guide/asyncRequests.html"><strong>6</strong><span>Asynchronous Request Handling</span></a>
@@ -68,7 +68,7 @@ function addJsClass() {
             <div id="main" class="corner-all">
 
                 
-                    <div class="toc-item prev-left"><a href="../guide/asyncGorm.html">&lt;&lt; <strong>5</strong><span>Asynchronous GORM</span></a></div>
+                    <div class="toc-item prev-left"><a href="../guide/rxjava.html">&lt;&lt; <strong>5</strong><span>RxJava Support</span></a></div>
                 
 
                 <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
@@ -132,7 +132,7 @@ function addJsClass() {
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">import</span> <span class="include">static</span> <span class="include">grails.async.Promises.*</span>
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">import</span> <span class="include">static</span> <span class="include">grails.async.WebPromises.*</span>
 ...
 def index() {
    tasks <span class="key">books</span>: <span class="predefined-type">Book</span>.async.list(),
@@ -161,7 +161,7 @@ def index() {
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">import</span> <span class="include">static</span> <span class="include">grails.async.Promises.*</span>
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">import</span> <span class="include">static</span> <span class="include">grails.async.WebPromises.*</span>
 ...
 def index() {
    render <span class="key">view</span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">myView</span><span class="delimiter">&quot;</span></span>, <span class="key">model</span>: tasks( <span class="key">one</span>:{ <span class="integer">2</span> * <span class="integer">2</span> },
@@ -177,7 +177,7 @@ def index() {
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">import</span> <span class="include">static</span> <span class="include">grails.async.Promises.*</span>
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">import</span> <span class="include">static</span> <span class="include">grails.async.WebPromises.*</span>
 <span class="type">class</span> <span class="class">StockController</span> {
 
     <span class="keyword">def</span> <span class="function">stock</span>(<span class="predefined-type">String</span> ticker) {
@@ -202,7 +202,7 @@ def index() {
 
                 <div style="clear:both;margin-top:15px;"></div>
                 
-                    <div class="toc-item prev-left"><a href="../guide/asyncGorm.html">&lt;&lt; <strong>5</strong><span>Asynchronous GORM</span></a></div>
+                    <div class="toc-item prev-left"><a href="../guide/rxjava.html">&lt;&lt; <strong>5</strong><span>RxJava Support</span></a></div>
                 
                     <div class="toc-item next-right"><a href="../guide/asyncServletApi.html"><strong>7</strong><span>Servlet 3.0 Async</span> >></a></div>
                 

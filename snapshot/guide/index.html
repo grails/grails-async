@@ -35,11 +35,11 @@
                         
                         <div class="toc-item" style="margin-left:0"><a href="#promises"><strong>2</strong><span>Promises</span></a></div>
                         
-                        <div class="toc-item" style="margin-left:0"><a href="#rxjava"><strong>3</strong><span>Reactive Programming with RxJava</span></a></div>
+                        <div class="toc-item" style="margin-left:0"><a href="#events"><strong>3</strong><span>Events</span></a></div>
                         
-                        <div class="toc-item" style="margin-left:0"><a href="#events"><strong>4</strong><span>Events</span></a></div>
+                        <div class="toc-item" style="margin-left:0"><a href="#asyncGorm"><strong>4</strong><span>Asynchronous GORM</span></a></div>
                         
-                        <div class="toc-item" style="margin-left:0"><a href="#asyncGorm"><strong>5</strong><span>Asynchronous GORM</span></a></div>
+                        <div class="toc-item" style="margin-left:0"><a href="#rxjava"><strong>5</strong><span>RxJava Support</span></a></div>
                         
                         <div class="toc-item" style="margin-left:0"><a href="#asyncRequests"><strong>6</strong><span>Asynchronous Request Handling</span></a></div>
                         
@@ -86,10 +86,7 @@
 <p>With modern hardware featuring multiple cores, many programming languages have been adding asynchronous, parallel programming APIs, Groovy being no exception.</p>
 </div>
 <div class="paragraph">
-<p>The excellent <a href="http://www.gpars.org/guide/">GPars</a> project features a whole range of different APIs for asynchronous programming techniques including actors, promises, STM and data flow concurrency.</p>
-</div>
-<div class="paragraph">
-<p>Added Grails 2.3, the Async features of Grails aim to simplify concurrent programming within the framework and include the concept of Promises and a unified event model.</p>
+<p>Added Grails 2.3 and since 3.3 an external project, the Async features of Grails aim to simplify concurrent programming within the framework and include the concept of Promises and a unified event model.</p>
 </div>
 
 
@@ -171,6 +168,76 @@ p.onComplete { result -&gt;
 <span class="comment">// block for the specified time</span>
 <span class="keyword">def</span> result = p.get(<span class="integer">1</span>,MINUTES)</code></pre>
 </div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_the_promisefactory_interface">The PromiseFactory Interface</h3>
+<div class="paragraph">
+<p>By default the <code>Promises</code> static methods use an instance of <code>PromiseFactory</code>. This <code>PromiseFactory</code> interface has various implementations. The default implementation is <a href="../api/org/grails/async/factory/future/CachedThreadPoolPromiseFactory.html">CachedThreadPoolPromiseFactory</a> which uses a thread pool that will create threads as needed (the same as <code>java.util.concurrent.Executors.newCachedThreadPool()</code>)</p>
+</div>
+<div class="paragraph">
+<p>However, the design of the Grails promises framework is such that you can swap out the underlying implementation for your own or one of the pre-supported implementations. For example to use RxJava 1.x simply add the RxJava dependency to <code>build.gradle</code>:</p>
+</div>
+<div class="listingblock">
+<div class="title">build.gradle</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy">runtime "org.grails:grails-async-rxjava:unspecified"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>With the above in place RxJava 1.x will be used to create <code>Promise</code> instances.</p>
+</div>
+<div class="paragraph">
+<p>The following table summarizes the available implementation and the dependency that should be added to activate them:</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<caption class="title">Table 1. Promise Factory Implementations</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Framework</th>
+<th class="tableblock halign-left valign-top">Dependency</th>
+<th class="tableblock halign-left valign-top">Implementation Class</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GPars 1.2.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>grails-async-gpars</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>org.grails.async.factory.gpars.GparsPromiseFactory</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RxJava 1.2.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>grails-async-rxjava</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>org.grails.async.factory.rxjava.RxPromiseFactory</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RxJava 2.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>grails-async-rxjava2</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>org.grails.async.factory.rxjava2.RxPromiseFactory</code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>You can also override the <code>grails.async.PromiseFactory</code> class used by <code>Promises</code> by setting the <code>promiseFactory</code> static field.</p>
+</div>
+<div class="paragraph">
+<p>One common use case for this is unit testing, typically you do not want promises to execute asynchronously during unit tests, as this makes tests harder to write. For this purpose Grails ships with a <code>org.grails.async.factory.SynchronousPromiseFactory</code> instance that makes it easier to test promises:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">import</span> <span class="include">org.grails.async.factory.*</span>
+<span class="keyword">import</span> <span class="include">grails.async.*</span>
+
+Promises.promiseFactory = <span class="keyword">new</span> SynchronousPromiseFactory()</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Using the <code>PromiseFactory</code> mechanism it is theoretically possible to plug in other concurrency libraries into the Grails framework. For this you need to override the two interfaces <code>grails.async.Promise</code> and <code>grails.async.PromiseFactory</code>.</p>
 </div>
 </div>
 <div class="sect2">
@@ -274,29 +341,6 @@ map.onComplete { <span class="predefined-type">Map</span> results -&gt;
 </div>
 </div>
 <div class="sect2">
-<h3 id="_promise_factories">Promise Factories</h3>
-<div class="paragraph">
-<p>The <code>Promises</code> class uses a <code>grails.async.PromiseFactory</code> instance to create <code>Promise</code> instances.</p>
-</div>
-<div class="paragraph">
-<p>The default implementation uses <a href="http://projectreactor.io">Project Reactor</a> and is called <code>org.grails.async.factory.reactor.ReactorPromiseFactory</code>, however it is possible to swap implementations by setting the <code>Promises.promiseFactory</code> variable.</p>
-</div>
-<div class="paragraph">
-<p>One common use case for this is unit testing, typically you do not want promises to execute asynchronously during unit tests, as this makes tests harder to write. For this purpose Grails ships with a <code>org.grails.async.factory.SynchronousPromiseFactory</code> instance that makes it easier to test promises:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">import</span> <span class="include">org.grails.async.factory.*</span>
-<span class="keyword">import</span> <span class="include">grails.async.*</span>
-
-Promises.promiseFactory = <span class="keyword">new</span> SynchronousPromiseFactory()</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Using the <code>PromiseFactory</code> mechanism it is theoretically possible to plug in other concurrency libraries into the Grails framework. For this you need to override the two interfaces <code>grails.async.Promise</code> and <code>grails.async.PromiseFactory</code>.</p>
-</div>
-</div>
-<div class="sect2">
 <h3 id="_delegateasync_transformation">DelegateAsync Transformation</h3>
 <div class="paragraph">
 <p>It is quite common to require both synchronous and asynchronous versions of the same API. Developing both can result in a maintenance problem as typically the asynchronous API would simply delegate to the synchronous version.</p>
@@ -360,177 +404,7 @@ Promises.promiseFactory = <span class="keyword">new</span> SynchronousPromiseFac
 </div>
 
 
-<h1 id="rxjava">3 Reactive Programming with RxJava</h1>
-
-<div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/master/src/main/docs/guide/rxjava.adoc"'>
-        <i class='fa fa-pencil-square-o'></i> Improve this doc
-    </button>
-</div>
-
-
-<div class="paragraph">
-<p>Since Grails 3.2, you can use <a href="https://github.com/ReactiveX/RxJava">RxJava</a> to write reactive logic in your Grails controllers that leverages the underlying containers asynchronous processing capabilities.</p>
-</div>
-<div class="paragraph">
-<p>To get started simply declare a dependency on the plugin in <code>build.gradle</code>:</p>
-</div>
-<div class="listingblock">
-<div class="title">build.gradle</div>
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy">dependencies {
-    ...
-    compile <span class="string"><span class="delimiter">'</span><span class="content">org.grails.plugins:rxjava</span><span class="delimiter">'</span></span>
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>You can then return <code>rx.Observable</code> as a return value from any controller and Grails will automatically apply the following steps:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Create a new asynchronous request</p>
-</li>
-<li>
-<p>Spawn a new thread that subscribes to the observable</p>
-</li>
-<li>
-<p>When the observable omits a result process the result using the <a href="../ref/Controllers/respond.html">respond</a> method.</p>
-</li>
-</ol>
-</div>
-<div class="paragraph">
-<p>For more detailed instructions on how to use the RxJava plugin see the <a href="https://grails-plugins.github.io/grails-rxjava/latest/">user guide documentation</a> for the plugin.</p>
-</div>
-
-
-<h2 id="serverSentEvents">3.1 Server Sent Events</h2>
-
-<div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/master/src/main/docs/guide/rxjava/serverSentEvents.adoc"'>
-        <i class='fa fa-pencil-square-o'></i> Improve this doc
-    </button>
-</div>
-
-
-<div class="paragraph">
-<p>Server-sent events (SSE) is a technology where a browser receives automatic updates from a server via HTTP connection. The Server-Sent Events EventSource API is standardized as part of HTML5 by the W3C.</p>
-</div>
-<div class="paragraph">
-<p>The <a href="https://grails-plugins.github.io/grails-rxjava/latest/">RxJava plugin</a> adds support for SSE to Grails making it simple to write controllers that maintain continuous non-blocking communication with a JavaScript client.</p>
-</div>
-<div class="paragraph">
-<p>For example:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">def</span> <span class="function">index</span>() {
-
-    rx.stream { Subscriber subscriber -&gt; <i class="conum" data-value="1"></i><b>(1)</b>
-       <span class="keyword">for</span>(i <span class="keyword">in</span> (<span class="integer">0</span>..<span class="integer">5</span>)) {
-           <span class="keyword">if</span>(i % <span class="integer">2</span> == <span class="integer">0</span>) {
-               subscriber.onNext(
-                   rx.render(<span class="string"><span class="delimiter">&quot;</span><span class="content">Tick</span><span class="delimiter">&quot;</span></span>) <i class="conum" data-value="2"></i><b>(2)</b>
-               )
-           }
-           <span class="keyword">else</span> {
-               subscriber.onNext(
-                   rx.render(<span class="string"><span class="delimiter">&quot;</span><span class="content">Tock</span><span class="delimiter">&quot;</span></span>)
-               )
-
-           }
-           sleep <span class="integer">1000</span> <i class="conum" data-value="3"></i><b>(3)</b>
-       }
-       subscriber.onCompleted() <i class="conum" data-value="4"></i><b>(4)</b>
-   }
-}</code></pre>
-</div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Call the <code>stream</code> method passing a closure that accepts an <code>rx.Subscriber</code> to start sending events</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>Emit a one or many items using <code>onNext</code></td>
-</tr>
-<tr>
-<td><i class="conum" data-value="3"></i><b>3</b></td>
-<td>Call <code>sleep</code> to simulate a slow request</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="4"></i><b>4</b></td>
-<td>Call <code>onCompleted</code> to complete the request</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>For more detailed instructions on how to use SSE and the RxJava plugin see the <a href="https://grails-plugins.github.io/grails-rxjava/latest/">user guide documentation</a> for the plugin.</p>
-</div>
-
-
-<h2 id="rxGorm">3.2 RxGORM</h2>
-
-<div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/master/src/main/docs/guide/rxjava/rxGorm.adoc"'>
-        <i class='fa fa-pencil-square-o'></i> Improve this doc
-    </button>
-</div>
-
-
-<div class="paragraph">
-<p><a href="http://gorm.grails.org/6.0.x/rx/manual/">RxGORM</a> is new implementation of GORM that has the following goals:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Reactive</p>
-</li>
-<li>
-<p>Non-blocking</p>
-</li>
-<li>
-<p>Stateless</p>
-</li>
-<li>
-<p>Simple</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>RxGORM, unlike the <a href="async.html#asyncGorm">Asynchronous GORM</a> implementation, aims to be truly non-blocking, down to the driver level.</p>
-</div>
-<div class="paragraph">
-<p>The following in an example of RxGORM in action:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy"><span class="predefined-type">Book</span>.get(id)
-    .subscribe { <span class="predefined-type">Book</span> <span class="local-variable">it</span> -&gt;
-    println <span class="string"><span class="delimiter">&quot;</span><span class="content">Title = </span><span class="inline"><span class="inline-delimiter">${</span><span class="local-variable">it</span>.title<span class="inline-delimiter">}</span></span><span class="delimiter">&quot;</span></span>
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>You can combine RxGORM with the <a href="https://grails-plugins.github.io/grails-rxjava/latest">RxJava</a> plugin to implement reactive responses from Grails controllers. For example:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">def</span> <span class="function">show</span>() {
-        <span class="comment">// returns an rx.Observable</span>
-    <span class="predefined-type">Book</span>.get(params.id?.toString())
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>For more information on how to use RxGORM, see the <a href="http://gorm.grails.org/6.0.x/rx/manual/">RxGORM user guide</a>.</p>
-</div>
-
-
-<h1 id="events">4 Events</h1>
+<h1 id="events">3 Events</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/master/src/main/docs/guide/events.adoc"'>
@@ -540,89 +414,61 @@ Promises.promiseFactory = <span class="keyword">new</span> SynchronousPromiseFac
 
 
 <div class="paragraph">
-<p>Grails 3.0 introduces a new Events API based on <a href="#ref-comreactorreactor-Reactor">Reactor</a>.</p>
+<p>Grails 3.3 introduces a new Events API that replaces the previous implementation that was based on Reactor 2.x (which is no longer maintained and deprecated by Pivotal).</p>
 </div>
 <div class="paragraph">
-<p>All services and controllers in Grails 3.0 implement the <a href="http://docs.grails.org/latest/api/grails/events/Events.html">Events</a> trait.</p>
+<p>In Grails 3.3 and above a new <a href="../api/grails/events/bus/EventBus.html">EventBus</a> abstraction has been introduced. Like the <code>PromiseFactory</code> notion, there are implementations of the <code>EventBus</code> interface for common asynchronous frameworks like GPars and RxJava.</p>
 </div>
 <div class="paragraph">
-<p>The <code>Events</code> trait allows the ability to consume and publish events that are handled by Reactor.</p>
+<p>If no asynchronous framework in present on the classpath then by default Grails creates an EventBus based off of the currently active <code>PromiseFactory</code>. The default implementation is <a href="../api/org/grails/async/factory/future/CachedThreadPoolPromiseFactory.html">CachedThreadPoolPromiseFactory</a> which uses a thread pool that will create threads as needed (the same as <code>java.util.concurrent.Executors.newCachedThreadPool()</code>).</p>
 </div>
 <div class="paragraph">
-<p>The default Reactor configuration utilises a thread pool backed event bus. You can however configure Reactor within <code>application.yml</code>, for example:</p>
+<p>If you wish to use a popular async framework such as RxJava as the <code>EventBus</code> implementation then you will need to add the appropriate dependency. For example for RxJava 1.x:</p>
 </div>
 <div class="listingblock">
+<div class="title">build.gradle</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy"><span class="key">reactor</span>:
-    <span class="key">dispatchers</span>:
-        <span class="keyword">default</span>: myExecutor
-        <span class="key">myExecutor</span>:
-            <span class="key">type</span>: threadPoolExecutor
-            <span class="key">size</span>: <span class="integer">5</span>
-            <span class="key">backlog</span>: <span class="integer">2048</span></code></pre>
-</div>
-</div>
-
-
-<h2 id="consuming">4.1 Consuming Events</h2>
-
-<div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/master/src/main/docs/guide/events/consuming.adoc"'>
-        <i class='fa fa-pencil-square-o'></i> Improve this doc
-    </button>
-</div>
-
-
-<div class="paragraph">
-<p>There are several ways to consume an event. As mentioned previously services and controllers implement the <a href="http://docs.grails.org/latest/api/grails/events/Events.html">Events</a> trait.</p>
-</div>
-<div class="paragraph">
-<p>The <code>Events</code> trait provides several methods to register event consumers. For example:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy">on(<span class="string"><span class="delimiter">&quot;</span><span class="content">myEvent</span><span class="delimiter">&quot;</span></span>) {
-    println <span class="string"><span class="delimiter">&quot;</span><span class="content">Event fired!</span><span class="delimiter">&quot;</span></span>
-}</code></pre>
+<pre class="CodeRay highlight"><code data-lang="groovy">runtime "org.grails:grails-events-rxjava:unspecified"</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Note that if you wish a class (other than a controller or service) to be an event consumer you simply have to implement the <code>Events</code> trait and ensure the class is registered as a Spring bean.</p>
+<p>The following table summarizes async framework support and the necessary dependency:</p>
 </div>
-<div class="paragraph">
-<p>For example given the following class:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">import</span> <span class="include">grails.events.*</span>
-<span class="keyword">import</span> <span class="include">javax.annotation.*</span>
+<table class="tableblock frame-all grid-all spread">
+<caption class="title">Table 1. EventBus Implementations</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Framework</th>
+<th class="tableblock halign-left valign-top">Dependency</th>
+<th class="tableblock halign-left valign-top">Implementation Class</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GPars 1.2.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>grails-events-gpars</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>org.grails.events.gpars.ActorEventBus</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RxJava 1.2.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>grails-events-rxjava</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>org.grails.events.rxjava.RxEventBus</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RxJava 1.2.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>grails-events-rxjava2</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>org.grails.events.rxjava2.RxEventBus</code></p></td>
+</tr>
+</tbody>
+</table>
 
-<span class="type">class</span> <span class="class">MyClass</span> <span class="directive">implements</span> Events {
 
-        <span class="annotation">@PostConstruct</span>
-        <span class="type">void</span> init() {
-                on(<span class="string"><span class="delimiter">&quot;</span><span class="content">myEvent</span><span class="delimiter">&quot;</span></span>) {
-                    println <span class="string"><span class="delimiter">&quot;</span><span class="content">Event fired!</span><span class="delimiter">&quot;</span></span>
-                }
-        }
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>You can override <code>doWithSpring</code> in your <code>Application</code> class to register it as a Spring bean (or annotate it with <code>Component</code>):</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy">Closure doWithSpring() {
-        {-&gt;
-                    myClass(MyClass)
-        }
-    }</code></pre>
-</div>
-</div>
-
-
-<h2 id="notifying">4.2 Event Notification</h2>
+<h2 id="notifying">3.1 Event Publishing</h2>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/master/src/main/docs/guide/events/notifying.adoc"'>
@@ -632,19 +478,126 @@ Promises.promiseFactory = <span class="keyword">new</span> SynchronousPromiseFac
 
 
 <div class="paragraph">
-<p>The <code>Events</code> trait also provides methods for notifying of events. For example:</p>
+<p>The simplest way to trigger event notification is via the <a href="../api/grails/events/annotation/Publisher.html">Publisher</a> annotation.</p>
+</div>
+<div class="paragraph">
+<p>For example:</p>
 </div>
 <div class="listingblock">
+<div class="title">SumService.groovy</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy">notify <span class="string"><span class="delimiter">&quot;</span><span class="content">myEvent</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">myData</span><span class="delimiter">&quot;</span></span>
-sendAndReceive <span class="string"><span class="delimiter">&quot;</span><span class="content">myEvent</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">myData</span><span class="delimiter">&quot;</span></span>, {
-    println <span class="string"><span class="delimiter">&quot;</span><span class="content">Got response!</span><span class="delimiter">&quot;</span></span>
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">import</span> <span class="include">grails.events.annotation.*</span>
+...
+class SumService {
+    <span class="annotation">@Publisher</span>
+    <span class="type">int</span> sum(<span class="type">int</span> a, <span class="type">int</span> b) {
+        a + b
+    }
 }</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>What the above does is take the return value of the method and publish an event using an event <code>id</code> that is the same as the method name.</p>
+</div>
+<div class="paragraph">
+<p>If you wish to change the event <code>id</code> you can provide a value to <code>@Publisher</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="annotation">@Publisher</span>(<span class="string"><span class="delimiter">'</span><span class="content">myEvent</span><span class="delimiter">'</span></span>)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you want more flexiblity then you could simulate the behaviour of annotation by writing the following code:</p>
+</div>
+<div class="listingblock">
+<div class="title">SumService.groovy</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">import</span> <span class="include">grails.events.*</span>
+...
+class SumService <span class="directive">implements</span> EventPublisher {
+    <span class="type">int</span> sum(<span class="type">int</span> a, <span class="type">int</span> b) {
+        <span class="type">int</span> result = a + b
+        notify(<span class="string"><span class="delimiter">&quot;</span><span class="content">sum</span><span class="delimiter">&quot;</span></span>, result)
+        <span class="keyword">return</span> result
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Notice in the above example, the <a href="../api/grails/events/EventPublisher.html">EventPublisher</a> trait is explicitly implemented.</p>
+</div>
+<div class="paragraph">
+<p>Although generally the annotation approach is recommended because it is simpler and more concise, the <code>EventPublisher</code> trait does provide more flexibility in terms of being able to publish multiple events in a single method and so on.</p>
+</div>
 
 
-<h2 id="annotations">4.3 Reactor Spring Annotations</h2>
+<h2 id="consuming">3.2 Subscribing to Events</h2>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/master/src/main/docs/guide/events/consuming.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>There are several ways to consume an event. The recommended way is to use the <a href="../api/grails/events/annotation/Subscriber.html">Subscriber</a> annotation:</p>
+</div>
+<div class="paragraph">
+<p>For example:</p>
+</div>
+<div class="listingblock">
+<div class="title">TotalService.groovy</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">import</span> <span class="include">grails.events.annotation.*</span>
+...
+class TotalService {
+    <span class="predefined-type">AtomicInteger</span> total = <span class="keyword">new</span> <span class="predefined-type">AtomicInteger</span>(<span class="integer">0</span>)
+    <span class="annotation">@Subscriber</span>
+    <span class="type">void</span> onSum(<span class="type">int</span> num) {
+        total.addAndGet(num)
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In this example, every time a <code>sum</code> event occurs the subscriber will be invoked.</p>
+</div>
+<div class="paragraph">
+<p>Once again the method name is used by default for the event id, although it can start with the word "on". In other words either a method name of <code>sum</code> or <code>onSum</code> would work for the above example. Or alternatively you can provide the event id to subscribe to:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="annotation">@Subscriber</span>(<span class="string"><span class="delimiter">'</span><span class="content">myEvent</span><span class="delimiter">'</span></span>)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you wish to subscribe to events dynamically or need more flexibility, then another option is to interact with the <code>EventBus</code> directly. For example:</p>
+</div>
+<div class="listingblock">
+<div class="title">TotalService.groovy</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">import</span> <span class="include">grails.events.*</span>
+...
+class TotalService <span class="directive">implements</span> EventBusAware {
+    <span class="predefined-type">AtomicInteger</span> total = <span class="keyword">new</span> <span class="predefined-type">AtomicInteger</span>(<span class="integer">0</span>)
+
+    <span class="annotation">@PostConstruct</span>
+    <span class="type">void</span> init() {
+        eventBus.subscribe(<span class="string"><span class="delimiter">&quot;</span><span class="content">sum</span><span class="delimiter">&quot;</span></span>) { <span class="type">int</span> num -&gt;
+            total.addAndGet(num)
+        }
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In this example the <code>TotalService</code> calls <code>subscribe</code> and passes a closure within a method called <code>init</code>. The <code>init</code> method is annotated with the annotation <code>@PostConstruct</code> so that is called after the <code>EventBus</code> has been injected by Spring, ensuring it is only called once and the events are correctly subscribed to.</p>
+</div>
+
+
+<h2 id="annotations">3.3 Reactor Spring Annotations</h2>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/master/src/main/docs/guide/events/annotations.adoc"'>
@@ -654,23 +607,7 @@ sendAndReceive <span class="string"><span class="delimiter">&quot;</span><span c
 
 
 <div class="paragraph">
-<p>Reactor provides a few useful annotations that can be used for declaratively consuming events in a Grails service.</p>
-</div>
-<div class="paragraph">
-<p>To declare an event consumer use the <code>Consumer</code> annotation:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">import</span> <span class="include">reactor.spring.context.annotation.*</span>
-
-<span class="annotation">@Consumer</span>
-<span class="type">class</span> <span class="class">MyService</span> {
-
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Then to register to listen for an event use the <code>Selector</code> annotation:</p>
+<p>In Grails versions earlier than 3.3, Grails used Reactor 2.x which provided <code>@Consumer</code> and <code>@Selector</code> annotations to listen for events. For example:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -685,9 +622,12 @@ sendAndReceive <span class="string"><span class="delimiter">&quot;</span><span c
 }</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>Within the <code>grails-events-compat</code> dependency Grails 3.3 and above ship versions of these annotations that bridge and provide compatibility for applications upgrading to Grails 3.3, however these annotations are considered deprecated and the <a href="../api/grails/events/annotation/Subscriber.html">Subscriber</a> should be used instead which provides equivalent functionality.</p>
+</div>
 
 
-<h2 id="gormEvents">4.4 Events from GORM</h2>
+<h2 id="gormEvents">3.4 Events from GORM</h2>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/master/src/main/docs/guide/events/gormEvents.adoc"'>
@@ -700,15 +640,34 @@ sendAndReceive <span class="string"><span class="delimiter">&quot;</span><span c
 <p>GORM defines a <a href="http://grails.github.io/grails-data-mapping/latest/api/org/grails/datastore/mapping/engine/event/package-summary.html">number of useful events</a> that you can listen for.</p>
 </div>
 <div class="paragraph">
-<p>Each event is translated into a key that starts with <code>gorm:</code>. For example:</p>
+<p>The events are disabled by default as they add overhead and impact performance for read operations in GORM, however if this is not an issue for you then you can enable them with the following configuration in <code>grails-app/conf/application.yml</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">import</span> <span class="include">org.grails.datastore.mapping.engine.event.*</span>
+<pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">grails</span>:
+    <span class="key">events</span>:
+        <span class="key">spring</span>: <span class="string"><span class="content">true</span></span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This instructs Grails to translate Spring events (which are what GORM events are published as) into events published to the <code>EventBus</code>.</p>
+</div>
+<div class="paragraph">
+<p>Each event is published within the <code>gorm</code> namespace. You can listen for the events with a service as follows:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">import</span> <span class="include">grails.events.annotation.*</span>
+<span class="keyword">import</span> <span class="include">org.grails.datastore.mapping.engine.event.*</span>
 ...
 
-on(<span class="string"><span class="delimiter">&quot;</span><span class="content">gorm:preInsert</span><span class="delimiter">&quot;</span></span>) { PreInsertEvent event -&gt;
+<span class="annotation">@Events</span>(namespace=<span class="string"><span class="delimiter">&quot;</span><span class="content">gorm</span><span class="delimiter">&quot;</span></span>)
+<span class="type">class</span> <span class="class">MyService</span> {
+
+    <span class="annotation">@Subscriber</span>
+    <span class="type">void</span> preInsert(PreInsertEvent event) {
         println <span class="string"><span class="delimiter">&quot;</span><span class="content">GOT EVENT </span><span class="inline"><span class="inline-delimiter">$</span>event</span><span class="delimiter">&quot;</span></span>
+    }
 }</code></pre>
 </div>
 </div>
@@ -726,7 +685,7 @@ These events are triggered asynchronously, and so cannot cancel or manipulate th
 </div>
 
 
-<h2 id="springEvents">4.5 Events from Spring</h2>
+<h2 id="springEvents">3.5 Events from Spring</h2>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/master/src/main/docs/guide/events/springEvents.adoc"'>
@@ -736,29 +695,36 @@ These events are triggered asynchronously, and so cannot cancel or manipulate th
 
 
 <div class="paragraph">
-<p>Spring also fires a number of useful events. All events in the <code>org.springframework</code> package are prefixed with <code>spring:</code>.</p>
+<p>Spring also fires a number of useful events. All events in the <code>org.springframework</code> use the <code>spring</code> namespace.</p>
 </div>
 <div class="paragraph">
 <p>For example:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">import</span> <span class="include">org.springframework.web.context.support.*</span>
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">import</span> <span class="include">grails.events.annotation.*</span>
+<span class="keyword">import</span> <span class="include">org.springframework.web.context.support.*</span>
 <span class="keyword">import</span> <span class="include">org.springframework.boot.context.event.*</span>
 ...
 
-on(<span class="string"><span class="delimiter">&quot;</span><span class="content">spring:applicationStarted</span><span class="delimiter">&quot;</span></span>) { ApplicationStartedEvent event -&gt;
-        <span class="comment">// fired when the application starts</span>
-}
+<span class="annotation">@Events</span>(namespace=<span class="string"><span class="delimiter">&quot;</span><span class="content">spring</span><span class="delimiter">&quot;</span></span>)
+<span class="type">class</span> <span class="class">MyService</span> {
 
-on(<span class="string"><span class="delimiter">&quot;</span><span class="content">spring:servletRequestHandled</span><span class="delimiter">&quot;</span></span>) { RequestHandledEvent event -&gt;
+    <span class="annotation">@Subscriber</span>
+    <span class="type">void</span> applicationStarted(ApplicationStartedEvent event) {
+        <span class="comment">// fired when the application starts</span>
+    }
+
+    <span class="annotation">@Subscriber</span>
+    <span class="type">void</span> servletRequestHandled(RequestHandledEvent event) {
         <span class="comment">// fired each time a request is handled</span>
+    }
 }</code></pre>
 </div>
 </div>
 
 
-<h1 id="asyncGorm">5 Asynchronous GORM</h1>
+<h1 id="asyncGorm">4 Asynchronous GORM</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/master/src/main/docs/guide/asyncGorm.adoc"'>
@@ -783,9 +749,33 @@ Although GORM executes persistence operations asynchronously, these operations s
 </table>
 </div>
 <div class="sect2">
+<h3 id="_the_asyncentity_trait">The AsyncEntity Trait</h3>
+<div class="paragraph">
+<p>Since Grails 3.3, the asynchronous part of GORM is optional. To enable it you first need to add the <code>grails-datastore-gorm-async</code> dependency to <code>build.gradle</code>:</p>
+</div>
+<div class="listingblock">
+<div class="title">build.gradle</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy">compile <span class="string"><span class="delimiter">&quot;</span><span class="content">org.grails:grails-datastore-gorm-async</span><span class="delimiter">&quot;</span></span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Then in your domain classes you wish to allow asynchronous processing you should use the <code>AsyncEntity</code> trait:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">import</span> <span class="include">grails.gorm.async.*</span>
+
+<span class="type">class</span> <span class="class">MyEntity</span> <span class="directive">implements</span> AsyncEntity {
+   ...
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
 <h3 id="_async_namespace">Async Namespace</h3>
 <div class="paragraph">
-<p>The Asynchronous GORM API is available on every domain class via the <code>async</code> namespace.</p>
+<p>The <code>AsyncEntity</code> entity trait provides an <code>async</code> namespace that exposes all of the GORM methods in an asynchronous manner.</p>
 </div>
 <div class="paragraph">
 <p>For example, the following code listing reads 3 objects from the database asynchronously:</p>
@@ -913,6 +903,176 @@ Person updatedPerson = promise.get()</code></pre>
 </div>
 
 
+<h1 id="rxjava">5 RxJava Support</h1>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/master/src/main/docs/guide/rxjava.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>Since Grails 3.2, you can use <a href="https://github.com/ReactiveX/RxJava">RxJava</a> to write reactive logic in your Grails controllers that leverages the underlying containers asynchronous processing capabilities.</p>
+</div>
+<div class="paragraph">
+<p>To get started simply declare a dependency on the plugin in <code>build.gradle</code>:</p>
+</div>
+<div class="listingblock">
+<div class="title">build.gradle</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy">dependencies {
+    ...
+    compile <span class="string"><span class="delimiter">'</span><span class="content">org.grails.plugins:rxjava</span><span class="delimiter">'</span></span>
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can then return <code>rx.Observable</code> as a return value from any controller and Grails will automatically apply the following steps:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create a new asynchronous request</p>
+</li>
+<li>
+<p>Spawn a new thread that subscribes to the observable</p>
+</li>
+<li>
+<p>When the observable omits a result process the result using the <a href="../ref/Controllers/respond.html">respond</a> method.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>For more detailed instructions on how to use the RxJava plugin see the <a href="https://grails-plugins.github.io/grails-rxjava/latest/">user guide documentation</a> for the plugin.</p>
+</div>
+
+
+<h2 id="serverSentEvents">5.1 Server Sent Events</h2>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/master/src/main/docs/guide/rxjava/serverSentEvents.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>Server-sent events (SSE) is a technology where a browser receives automatic updates from a server via HTTP connection. The Server-Sent Events EventSource API is standardized as part of HTML5 by the W3C.</p>
+</div>
+<div class="paragraph">
+<p>The <a href="https://grails-plugins.github.io/grails-rxjava/latest/">RxJava plugin</a> adds support for SSE to Grails making it simple to write controllers that maintain continuous non-blocking communication with a JavaScript client.</p>
+</div>
+<div class="paragraph">
+<p>For example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">def</span> <span class="function">index</span>() {
+
+    rx.stream { <span class="predefined-type">Observer</span> observer -&gt; <i class="conum" data-value="1"></i><b>(1)</b>
+       <span class="keyword">for</span>(i <span class="keyword">in</span> (<span class="integer">0</span>..<span class="integer">5</span>)) {
+           <span class="keyword">if</span>(i % <span class="integer">2</span> == <span class="integer">0</span>) {
+               observer.onNext(
+                   rx.render(<span class="string"><span class="delimiter">&quot;</span><span class="content">Tick</span><span class="delimiter">&quot;</span></span>) <i class="conum" data-value="2"></i><b>(2)</b>
+               )
+           }
+           <span class="keyword">else</span> {
+               observer.onNext(
+                   rx.render(<span class="string"><span class="delimiter">&quot;</span><span class="content">Tock</span><span class="delimiter">&quot;</span></span>)
+               )
+
+           }
+           sleep <span class="integer">1000</span> <i class="conum" data-value="3"></i><b>(3)</b>
+       }
+       observer.onCompleted() <i class="conum" data-value="4"></i><b>(4)</b>
+   }
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Call the <code>stream</code> method passing a closure that accepts an <code>rx.Subscriber</code> to start sending events</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Emit a one or many items using <code>onNext</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Call <code>sleep</code> to simulate a slow request</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Call <code>onCompleted</code> to complete the request</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>For more detailed instructions on how to use SSE and the RxJava plugin see the <a href="https://grails-plugins.github.io/grails-rxjava/latest/">user guide documentation</a> for the plugin.</p>
+</div>
+
+
+<h2 id="rxGorm">5.2 RxGORM</h2>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/master/src/main/docs/guide/rxjava/rxGorm.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p><a href="http://gorm.grails.org/6.0.x/rx/manual/">RxGORM</a> is new implementation of GORM that has the following goals:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Reactive</p>
+</li>
+<li>
+<p>Non-blocking</p>
+</li>
+<li>
+<p>Stateless</p>
+</li>
+<li>
+<p>Simple</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>RxGORM, unlike the <a href="async.html#asyncGorm">Asynchronous GORM</a> implementation, aims to be truly non-blocking, down to the driver level.</p>
+</div>
+<div class="paragraph">
+<p>The following in an example of RxGORM in action:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="predefined-type">Book</span>.get(id)
+    .subscribe { <span class="predefined-type">Book</span> <span class="local-variable">it</span> -&gt;
+    println <span class="string"><span class="delimiter">&quot;</span><span class="content">Title = </span><span class="inline"><span class="inline-delimiter">${</span><span class="local-variable">it</span>.title<span class="inline-delimiter">}</span></span><span class="delimiter">&quot;</span></span>
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can combine RxGORM with the <a href="https://grails-plugins.github.io/grails-rxjava/latest">RxJava</a> plugin to implement reactive responses from Grails controllers. For example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">def</span> <span class="function">show</span>() {
+        <span class="comment">// returns an rx.Observable</span>
+    <span class="predefined-type">Book</span>.get(params.id?.toString())
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For more information on how to use RxGORM, see the <a href="http://gorm.grails.org/latest/rx/manual/">RxGORM user guide</a>.</p>
+</div>
+
+
 <h1 id="asyncRequests">6 Asynchronous Request Handling</h1>
 
 <div class='contribute-btn'>
@@ -957,7 +1117,7 @@ Person updatedPerson = promise.get()</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">import</span> <span class="include">static</span> <span class="include">grails.async.Promises.*</span>
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">import</span> <span class="include">static</span> <span class="include">grails.async.WebPromises.*</span>
 ...
 def index() {
    tasks <span class="key">books</span>: <span class="predefined-type">Book</span>.async.list(),
@@ -986,7 +1146,7 @@ def index() {
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">import</span> <span class="include">static</span> <span class="include">grails.async.Promises.*</span>
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">import</span> <span class="include">static</span> <span class="include">grails.async.WebPromises.*</span>
 ...
 def index() {
    render <span class="key">view</span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">myView</span><span class="delimiter">&quot;</span></span>, <span class="key">model</span>: tasks( <span class="key">one</span>:{ <span class="integer">2</span> * <span class="integer">2</span> },
@@ -1002,7 +1162,7 @@ def index() {
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">import</span> <span class="include">static</span> <span class="include">grails.async.Promises.*</span>
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">import</span> <span class="include">static</span> <span class="include">grails.async.WebPromises.*</span>
 <span class="type">class</span> <span class="class">StockController</span> {
 
     <span class="keyword">def</span> <span class="function">stock</span>(<span class="predefined-type">String</span> ticker) {
@@ -1039,6 +1199,19 @@ def index() {
 </div>
 <div class="sect3">
 <h4 id="_servlet_3_0_asynchronous_rendering">Servlet 3.0 Asynchronous Rendering</h4>
+<div class="paragraph">
+<p>To do so your should first implement the <code>grails.async.web.AsyncController</code> trait in your controller:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">import</span> <span class="include">grails.async.web.*</span>
+
+...
+class BookController <span class="directive">implements</span> AsyncController {
+    ...
+}</code></pre>
+</div>
+</div>
 <div class="paragraph">
 <p>You can render content (templates, binary data etc.) in an asynchronous manner by calling the <code>startAsync</code> method which returns an instance of the Servlet 3.0 <code>AsyncContext</code>. Once you have a reference to the <code>AsyncContext</code> you can use Grails' regular render method to render content:</p>
 </div>
@@ -1090,25 +1263,25 @@ def index() {
                     
                     <div class="toc-item" style="margin-left:0px"><a href="#promises"><strong>2</strong><span>Promises</span></a></div>
                     
-                    <div class="toc-item" style="margin-left:0px"><a href="#rxjava"><strong>3</strong><span>Reactive Programming with RxJava</span></a></div>
+                    <div class="toc-item" style="margin-left:0px"><a href="#events"><strong>3</strong><span>Events</span></a></div>
                     
-                    <div class="toc-item" style="margin-left:10px"><a href="#serverSentEvents"><strong>3.1</strong><span>Server Sent Events</span></a></div>
+                    <div class="toc-item" style="margin-left:10px"><a href="#notifying"><strong>3.1</strong><span>Event Publishing</span></a></div>
                     
-                    <div class="toc-item" style="margin-left:10px"><a href="#rxGorm"><strong>3.2</strong><span>RxGORM</span></a></div>
+                    <div class="toc-item" style="margin-left:10px"><a href="#consuming"><strong>3.2</strong><span>Subscribing to Events</span></a></div>
                     
-                    <div class="toc-item" style="margin-left:0px"><a href="#events"><strong>4</strong><span>Events</span></a></div>
+                    <div class="toc-item" style="margin-left:10px"><a href="#annotations"><strong>3.3</strong><span>Reactor Spring Annotations</span></a></div>
                     
-                    <div class="toc-item" style="margin-left:10px"><a href="#consuming"><strong>4.1</strong><span>Consuming Events</span></a></div>
+                    <div class="toc-item" style="margin-left:10px"><a href="#gormEvents"><strong>3.4</strong><span>Events from GORM</span></a></div>
                     
-                    <div class="toc-item" style="margin-left:10px"><a href="#notifying"><strong>4.2</strong><span>Event Notification</span></a></div>
+                    <div class="toc-item" style="margin-left:10px"><a href="#springEvents"><strong>3.5</strong><span>Events from Spring</span></a></div>
                     
-                    <div class="toc-item" style="margin-left:10px"><a href="#annotations"><strong>4.3</strong><span>Reactor Spring Annotations</span></a></div>
+                    <div class="toc-item" style="margin-left:0px"><a href="#asyncGorm"><strong>4</strong><span>Asynchronous GORM</span></a></div>
                     
-                    <div class="toc-item" style="margin-left:10px"><a href="#gormEvents"><strong>4.4</strong><span>Events from GORM</span></a></div>
+                    <div class="toc-item" style="margin-left:0px"><a href="#rxjava"><strong>5</strong><span>RxJava Support</span></a></div>
                     
-                    <div class="toc-item" style="margin-left:10px"><a href="#springEvents"><strong>4.5</strong><span>Events from Spring</span></a></div>
+                    <div class="toc-item" style="margin-left:10px"><a href="#serverSentEvents"><strong>5.1</strong><span>Server Sent Events</span></a></div>
                     
-                    <div class="toc-item" style="margin-left:0px"><a href="#asyncGorm"><strong>5</strong><span>Asynchronous GORM</span></a></div>
+                    <div class="toc-item" style="margin-left:10px"><a href="#rxGorm"><strong>5.2</strong><span>RxGORM</span></a></div>
                     
                     <div class="toc-item" style="margin-left:0px"><a href="#asyncRequests"><strong>6</strong><span>Asynchronous Request Handling</span></a></div>
                     
