@@ -1,4 +1,0 @@
-dependencies {
-    compile project(":grails-events")
-    compile "org.springframework:spring-context:$springVersion"
-}
