@@ -1,7 +1,9 @@
-package grails.events.transform
+package org.grails.async.events.rxjava
 
 import grails.async.events.Event
 import grails.async.events.bus.EventBusFactory
+import grails.events.transform.Publisher
+import grails.events.transform.Subscriber
 import grails.gorm.transactions.Transactional
 import org.grails.async.events.bus.SynchronousEventBus
 import org.grails.datastore.mapping.simple.SimpleMapDatastore
@@ -11,9 +13,6 @@ import spock.lang.AutoCleanup
 import spock.lang.Shared
 import spock.lang.Specification
 
-/**
- * Created by graemerocher on 29/03/2017.
- */
 class PublishSubscribeSpringSpec extends Specification {
 
     @Shared @AutoCleanup SimpleMapDatastore datastore = new SimpleMapDatastore()
@@ -30,7 +29,7 @@ class PublishSubscribeSpringSpec extends Specification {
         TwoService subscriber = applicationContext.getBean(TwoService)
 
         publisher.sum(1, 2)
-
+        sleep(500)
 
         then:
         subscriber.error == null
@@ -41,6 +40,7 @@ class PublishSubscribeSpringSpec extends Specification {
 
         when:
         publisher.wrongType()
+        sleep(500)
 
         then:
         subscriber.total == 3
@@ -49,6 +49,7 @@ class PublishSubscribeSpringSpec extends Specification {
 
         when:
         publisher.badSum(1,2)
+        sleep(500)
 
         then:
         def e = thrown(RuntimeException)
