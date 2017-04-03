@@ -2,7 +2,7 @@ package org.grails.events.transform
 
 import grails.async.events.Event
 import grails.async.events.EventPublisher
-import grails.events.transform.Publisher
+import grails.events.annotation.Publisher
 import grails.gorm.transactions.Transactional
 import groovy.transform.CompileStatic
 import org.codehaus.groovy.ast.AnnotationNode
@@ -15,7 +15,6 @@ import org.codehaus.groovy.ast.expr.EmptyExpression
 import org.codehaus.groovy.ast.expr.Expression
 import org.codehaus.groovy.ast.expr.MapExpression
 import org.codehaus.groovy.ast.expr.MethodCallExpression
-import org.codehaus.groovy.ast.expr.PropertyExpression
 import org.codehaus.groovy.ast.stmt.BlockStatement
 import org.codehaus.groovy.ast.stmt.CatchStatement
 import org.codehaus.groovy.ast.stmt.EmptyStatement
@@ -32,7 +31,6 @@ import org.grails.datastore.mapping.reflect.AstUtils
 import org.springframework.transaction.event.TransactionPhase
 
 import static org.codehaus.groovy.ast.tools.GeneralUtils.*
-import static org.codehaus.groovy.ast.tools.GeneralUtils.args
 import static org.codehaus.groovy.ast.tools.GeneralUtils.args
 
 /**

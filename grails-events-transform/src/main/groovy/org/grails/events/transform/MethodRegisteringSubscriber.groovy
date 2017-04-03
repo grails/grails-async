@@ -4,7 +4,7 @@ import grails.async.events.Event
 import grails.async.events.bus.EventBusAware
 import grails.async.events.subscriber.MethodEventSubscriber
 import grails.async.events.subscriber.MethodSubscriber
-import grails.events.transform.Subscriber
+import grails.events.annotation.Subscriber
 import groovy.transform.CompileStatic
 
 import javax.annotation.PostConstruct

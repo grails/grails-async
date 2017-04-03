@@ -1,11 +1,10 @@
 package org.grails.async.events.rxjava
 
 import grails.async.events.Event
-import grails.async.events.bus.EventBusFactory
-import grails.events.transform.Publisher
-import grails.events.transform.Subscriber
+import grails.async.events.bus.EventBusBuilder
+import grails.events.annotation.Publisher
+import grails.events.annotation.Subscriber
 import grails.gorm.transactions.Transactional
-import org.grails.async.events.bus.SynchronousEventBus
 import org.grails.datastore.mapping.simple.SimpleMapDatastore
 import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.stereotype.Component
@@ -20,7 +19,7 @@ class PublishSubscribeSpringSpec extends Specification {
     def "test event publisher within Spring"() {
         given:
         AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext()
-        applicationContext.beanFactory.registerSingleton("eventBus", new EventBusFactory().create())
+        applicationContext.beanFactory.registerSingleton("eventBus", new EventBusBuilder().build())
         applicationContext.register(OneService, TwoService)
         applicationContext.refresh()
 

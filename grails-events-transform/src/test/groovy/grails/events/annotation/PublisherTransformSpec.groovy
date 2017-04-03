@@ -1,4 +1,4 @@
-package grails.events.transform
+package grails.events.annotation
 
 import org.grails.datastore.gorm.transactions.transform.TransactionalTransform
 import org.grails.datastore.mapping.core.order.OrderedComparator

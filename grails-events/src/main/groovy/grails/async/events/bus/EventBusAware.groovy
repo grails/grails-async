@@ -29,7 +29,7 @@ trait EventBusAware {
      */
     EventBus getEventBus() {
         if(this.eventBus == null) {
-            this.eventBus = new EventBusFactory().create()
+            this.eventBus = new EventBusBuilder().build()
         }
         return this.eventBus
     }

@@ -1,10 +1,9 @@
 package org.grails.events.transform
 
-import grails.events.transform.Subscriber
+import grails.events.annotation.Subscriber
 import groovy.transform.CompileStatic
 import org.codehaus.groovy.ast.*
 import org.codehaus.groovy.ast.expr.ArgumentListExpression
-import org.codehaus.groovy.ast.expr.BooleanExpression
 import org.codehaus.groovy.ast.expr.ConstantExpression
 import org.codehaus.groovy.ast.expr.ListExpression
 import org.codehaus.groovy.ast.stmt.ExpressionStatement

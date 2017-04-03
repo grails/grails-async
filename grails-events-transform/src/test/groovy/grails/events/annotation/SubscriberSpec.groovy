@@ -1,4 +1,4 @@
-package grails.events.transform
+package grails.events.annotation
 
 import grails.async.events.bus.EventBus
 import grails.async.events.subscriber.MethodSubscriber
@@ -16,7 +16,7 @@ class SubscriberSpec extends Specification {
         def service = new GroovyClassLoader().parseClass('''
 class TestService {
     int total = 0
-    @grails.events.transform.Subscriber('total')
+    @grails.events.annotation.Subscriber('total')
     void onSum(int num) {
         total += num
     }

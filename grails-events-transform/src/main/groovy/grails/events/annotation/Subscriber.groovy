@@ -1,4 +1,4 @@
-package grails.events.transform
+package grails.events.annotation
 
 import org.codehaus.groovy.transform.GroovyASTTransformationClass
 

@@ -16,7 +16,6 @@
 
 package org.grails.plugins.events
 
-import grails.async.events.bus.EventBusFactory
 import grails.config.Config
 import grails.plugins.Plugin
 import groovy.util.logging.Slf4j

@@ -1,7 +1,7 @@
 package org.grails.async.events.bus.spring
 
 import grails.async.events.bus.EventBus
-import grails.async.events.bus.EventBusFactory
+import grails.async.events.bus.EventBusBuilder
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.grails.async.events.bus.ExecutorEventBus
@@ -21,7 +21,7 @@ import java.util.concurrent.ExecutorService
  */
 @CompileStatic
 @Slf4j
-class EventBusFactoryBean extends EventBusFactory implements FactoryBean<EventBus>, InitializingBean {
+class EventBusFactoryBean extends EventBusBuilder implements FactoryBean<EventBus>, InitializingBean {
 
     @Autowired(required = false)
     AsyncTaskExecutor springTaskExecutor
@@ -49,7 +49,7 @@ class EventBusFactoryBean extends EventBusFactory implements FactoryBean<EventBu
 
     @Override
     void afterPropertiesSet() throws Exception {
-        this.eventBus = super.create()
+        this.eventBus = super.build()
     }
 
     @Override

@@ -5,19 +5,19 @@ import groovy.util.logging.Slf4j
 import org.grails.async.events.bus.ExecutorEventBus
 
 /**
- * Tries to create the default event bus
+ * Tries to build the default event bus
  *
  * @author Graeme Rocher
  * @since 3.3
  */
 @CompileStatic
 @Slf4j
-class EventBusFactory {
+class EventBusBuilder {
 
     /**
-     * @return Tries to auto discover and create the event bus
+     * @return Tries to auto discover and build the event bus
      */
-    EventBus create() {
+    EventBus build() {
         List<EventBus> eventBuses = ServiceLoader.load(EventBus).toList()
         if(eventBuses.size() == 1) {
             EventBus eventBus = eventBuses.get(0)

@@ -1,6 +1,6 @@
 package pubsub.demo
 
-import grails.events.transform.Publisher
+import grails.events.annotation.Publisher
 import grails.gorm.transactions.Transactional
 
 class SumService {

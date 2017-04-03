@@ -19,7 +19,7 @@ class PubSubSpec extends Specification {
         sleep(500)
         sumService.sum(1, 2)
         sleep(500)
-        
+
         then:
         totalService.accumulatedTotal  == 6
     }

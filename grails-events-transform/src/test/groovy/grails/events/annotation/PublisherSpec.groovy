@@ -1,4 +1,4 @@
-package grails.events.transform
+package grails.events.annotation
 
 import grails.async.events.Event
 import grails.async.events.EventPublisher
@@ -19,7 +19,7 @@ class PublisherSpec extends Specification {
         def service = new GroovyClassLoader().parseClass('''
 class TestService {
 
-    @grails.events.transform.Publisher('total')
+    @grails.events.annotation.Publisher('total')
     void sum(int a, int b) {
         a + b
     }
@@ -46,7 +46,7 @@ class TestService {
         def service = new GroovyClassLoader().parseClass('''
 class TestService {
 
-    @grails.events.transform.Publisher('total')
+    @grails.events.annotation.Publisher('total')
     Integer sum(int a, int b) {
         a + b
     }
@@ -73,7 +73,7 @@ class TestService {
         def service = new GroovyClassLoader().parseClass('''
 class TestService {
 
-    @grails.events.transform.Publisher('total')
+    @grails.events.annotation.Publisher('total')
     @grails.gorm.transactions.Transactional
     Integer sum(int a, int b) {
         a + b
