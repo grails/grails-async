@@ -21,7 +21,7 @@ import static org.codehaus.groovy.ast.tools.GeneralUtils.*
 import static org.grails.datastore.mapping.reflect.AstUtils.ZERO_PARAMETERS
 
 /**
- * An AST transformation that adds the {@link MethodRegisteringSubscriber}
+ * An AST transformation that adds the {@link AnnotatedSubscriber}
  */
 @CompileStatic
 @GroovyASTTransformation(phase = CompilePhase.CANONICALIZATION)
@@ -32,7 +32,7 @@ class SubscriberTransform extends AbstractTraitApplyingGormASTTransformation {
 
     @Override
     protected Class getTraitClass() {
-        return MethodRegisteringSubscriber
+        return AnnotatedSubscriber
     }
 
     @Override

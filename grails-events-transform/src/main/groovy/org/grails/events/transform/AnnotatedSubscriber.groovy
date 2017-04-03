@@ -17,7 +17,7 @@ import java.lang.reflect.Method
  * @since 3.3
  */
 @CompileStatic
-trait MethodRegisteringSubscriber extends EventBusAware {
+trait AnnotatedSubscriber extends EventBusAware {
 
     List<Method> getSubscribedMethods() {
         return []

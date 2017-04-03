@@ -3,7 +3,7 @@ package grails.events.annotation
 import grails.async.events.bus.EventBus
 import grails.async.events.subscriber.MethodSubscriber
 import org.grails.datastore.mapping.reflect.ClassPropertyFetcher
-import org.grails.events.transform.MethodRegisteringSubscriber
+import org.grails.events.transform.AnnotatedSubscriber
 import spock.lang.Specification
 
 /**
@@ -31,7 +31,7 @@ class TestService {
 
         then:
         ClassPropertyFetcher.forClass(service.getClass()).getPropertyValue("lazyInit") == false
-        service instanceof MethodRegisteringSubscriber
+        service instanceof AnnotatedSubscriber
 
         when:
         service.registerMethods()
