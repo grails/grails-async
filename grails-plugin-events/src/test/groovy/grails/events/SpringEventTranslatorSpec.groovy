@@ -1,6 +1,6 @@
 package grails.events
 
-import grails.async.events.bus.EventBus
+import grails.events.bus.EventBus
 import org.grails.events.spring.SpringEventTranslator
 import org.springframework.context.event.ContextStartedEvent
 import org.springframework.context.support.GenericApplicationContext

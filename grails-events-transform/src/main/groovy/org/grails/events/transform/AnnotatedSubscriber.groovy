@@ -1,9 +1,9 @@
 package org.grails.events.transform
 
-import grails.async.events.Event
-import grails.async.events.bus.EventBusAware
-import grails.async.events.subscriber.MethodEventSubscriber
-import grails.async.events.subscriber.MethodSubscriber
+import grails.events.Event
+import grails.events.bus.EventBusAware
+import grails.events.subscriber.MethodEventSubscriber
+import grails.events.subscriber.MethodSubscriber
 import grails.events.annotation.Subscriber
 import groovy.transform.CompileStatic
 

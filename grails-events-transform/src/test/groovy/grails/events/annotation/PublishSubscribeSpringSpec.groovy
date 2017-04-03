@@ -1,7 +1,7 @@
 package grails.events.annotation
 
-import grails.async.events.Event
-import grails.async.events.bus.EventBusBuilder
+import grails.events.Event
+import grails.events.bus.EventBusBuilder
 import grails.gorm.transactions.Transactional
 import org.grails.datastore.mapping.simple.SimpleMapDatastore
 import org.springframework.context.annotation.AnnotationConfigApplicationContext

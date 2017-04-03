@@ -19,7 +19,7 @@ package org.grails.plugins.events
 import grails.config.Config
 import grails.plugins.Plugin
 import groovy.util.logging.Slf4j
-import org.grails.async.events.bus.spring.EventBusFactoryBean
+import org.grails.events.bus.spring.EventBusFactoryBean
 import org.grails.events.spring.SpringEventTranslator
 import reactor.bus.EventBus
 

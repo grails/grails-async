@@ -15,7 +15,7 @@
  */
 package org.grails.events.spring
 
-import grails.async.events.bus.EventBus
+import grails.events.bus.EventBus
 import grails.util.GrailsNameUtils
 import groovy.transform.CompileStatic
 import org.springframework.beans.BeansException

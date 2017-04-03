@@ -1,8 +1,10 @@
 package grails.events.annotation
 
-import grails.async.events.bus.EventBusAware
+import grails.events.bus.EventBusAware
 import org.grails.events.transform.AnnotatedSubscriber
 import spock.lang.Specification
+
+import java.util.concurrent.atomic.AtomicInteger
 
 class PubSubSpec extends Specification {
 
@@ -20,21 +22,25 @@ class PubSubSpec extends Specification {
         sumService.sum(1,2)
 
         then:
-        totalService.total == 6
+        totalService.total.intValue() == 6
     }
 }
 
+// tag::publisher[]
 class SumService {
     @Publisher
     int sum(int a, int b) {
         a + b
     }
 }
+// end::publisher[]
 
+// tag::subscriber[]
 class TotalService {
-    int total
+    AtomicInteger total = new AtomicInteger(0)
     @Subscriber
     void onSum(int num) {
-        total += num
+        total.addAndGet(num)
     }
 }
+// end::subscriber[]

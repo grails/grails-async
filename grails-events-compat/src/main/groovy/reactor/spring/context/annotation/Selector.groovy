@@ -10,7 +10,7 @@ import java.lang.annotation.RetentionPolicy
 import java.lang.annotation.Target
 
 /**
- * @deprecated Use {@link grails.async.events.subscriber.Subscriber} instead
+ * @deprecated Use {@link grails.events.subscriber.Subscriber} instead
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)

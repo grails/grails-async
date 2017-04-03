@@ -12,9 +12,9 @@ import reactor.fn.Consumer
 @Slf4j
 class EventBus  implements Bus {
 
-    @Delegate(interfaces = false) grails.async.events.bus.EventBus eventBus
+    @Delegate(interfaces = false) grails.events.bus.EventBus eventBus
 
-    EventBus(grails.async.events.bus.EventBus eventBus) {
+    EventBus(grails.events.bus.EventBus eventBus) {
         this.eventBus = eventBus
     }
 

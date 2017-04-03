@@ -13,7 +13,7 @@ import java.util.concurrent.TimeoutException
 class RxJavaPromiseSpec extends Specification {
     void "test promise factory"() {
         expect:
-        Promises.promiseFactory instanceof RxJavaPromiseFactory
+        Promises.promiseFactory instanceof RxPromiseFactory
     }
 
     void "Test add promise decorator"() {

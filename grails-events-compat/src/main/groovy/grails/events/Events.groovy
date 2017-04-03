@@ -122,7 +122,7 @@ trait Events {
 
     def <E extends Event<?>>    Bus sendAndReceive(Object key, Closure reply) {
         LoggerFactory.getLogger(getClass()).warn("The class [${getClass()}] used the legacy Reactor 2 event bus and needs to be re-compiled")
-        eventBus.sendAndReceive key.toString(), new grails.async.events.Event(key.toString(), new Object[0]), reply
+        eventBus.sendAndReceive key.toString(), new grails.events.Event(key.toString(), new Object[0]), reply
         return eventBus
     }
 

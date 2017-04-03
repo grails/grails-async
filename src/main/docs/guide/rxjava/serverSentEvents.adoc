@@ -10,22 +10,22 @@ For example:
 ----
 def index() {
 
-    rx.stream { Subscriber subscriber -> <1>
+    rx.stream { Observer observer -> <1>
        for(i in (0..5)) {
            if(i % 2 == 0) {
-               subscriber.onNext(
+               observer.onNext(
                    rx.render("Tick") <2>
                )
            }
            else {
-               subscriber.onNext(
+               observer.onNext(
                    rx.render("Tock")
                )
 
            }
            sleep 1000 <3>
        }
-       subscriber.onCompleted() <4>
+       observer.onCompleted() <4>
    }
 }
 ----

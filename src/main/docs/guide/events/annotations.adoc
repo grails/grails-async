@@ -1,18 +1,4 @@
-Reactor provides a few useful annotations that can be used for declaratively consuming events in a Grails service.
-
-To declare an event consumer use the `Consumer` annotation:
-
-[source,groovy]
-----
-import reactor.spring.context.annotation.*
-
-@Consumer
-class MyService {
-
-}
-----
-
-Then to register to listen for an event use the `Selector` annotation:
+In Grails versions earlier than 3.3, Grails used Reactor 2.x which provided `@Consumer` and `@Selector` annotations to listen for events. For example:
 
 [source,groovy]
 ----
@@ -26,3 +12,5 @@ class MyService {
 	}
 }
 ----
+
+Within the `grails-events-compat` dependency Grails 3.3 and above ship versions of these annotations that bridge and provide compatibility for applications upgrading to Grails 3.3, however these annotations are considered deprecated and the link:{api}/grails/events/annotation/Subscriber.html[Subscriber] should be used instead which provides equivalent functionality.

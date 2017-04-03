@@ -1,7 +1,7 @@
 package org.grails.events.transform
 
-import grails.async.events.Event
-import grails.async.events.EventPublisher
+import grails.events.Event
+import grails.events.EventPublisher
 import grails.events.annotation.Publisher
 import grails.gorm.transactions.Transactional
 import groovy.transform.CompileStatic

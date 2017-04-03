@@ -63,6 +63,54 @@ def result = p.get()
 def result = p.get(1,MINUTES)
 ----
 
+=== The PromiseFactory Interface
+
+By default the `Promises` static methods use an instance of `PromiseFactory`. This `PromiseFactory` interface has various implementations. The default implementation is link:{api}/org/grails/async/factory/future/CachedThreadPoolPromiseFactory.html[CachedThreadPoolPromiseFactory] which uses a thread pool that will create threads as needed (the same as `java.util.concurrent.Executors.newCachedThreadPool()`)
+
+However, the design of the Grails promises framework is such that you can swap out the underlying implementation for your own or one of the pre-supported implementations. For example to use RxJava 1.x simply add the RxJava dependency to `build.gradle`:
+
+[source,groovy,subs="attributes"]
+.build.gradle
+----
+runtime "org.grails:grails-async-rxjava:{version}"
+----
+
+With the above in place RxJava 1.x will be used to create `Promise` instances.
+
+The following table summarizes the available implementation and the dependency that should be added to activate them:
+
+.Promise Factory Implementations
+|===
+|Framework | Dependency | Implementation Class
+
+|GPars 1.2.x
+|`grails-async-gpars`
+|`org.grails.async.factory.gpars.GparsPromiseFactory`
+
+|RxJava 1.2.x
+|`grails-async-rxjava`
+|`org.grails.async.factory.rxjava.RxPromiseFactory`
+
+|RxJava 2.x
+|`grails-async-rxjava2`
+|`org.grails.async.factory.rxjava2.RxPromiseFactory`
+
+|===
+
+You can also override the `grails.async.PromiseFactory` class used by `Promises` by setting the `promiseFactory` static field.
+
+
+One common use case for this is unit testing, typically you do not want promises to execute asynchronously during unit tests, as this makes tests harder to write. For this purpose Grails ships with a `org.grails.async.factory.SynchronousPromiseFactory` instance that makes it easier to test promises:
+
+[source,groovy]
+----
+import org.grails.async.factory.*
+import grails.async.*
+
+Promises.promiseFactory = new SynchronousPromiseFactory()
+----
+
+Using the `PromiseFactory` mechanism it is theoretically possible to plug in other concurrency libraries into the Grails framework. For this you need to override the two interfaces `grails.async.Promise` and `grails.async.PromiseFactory`.
 
 === Promise Chaining
 
@@ -149,25 +197,6 @@ map.onComplete { Map results ->
 }
 ----
 
-
-=== Promise Factories
-
-
-The `Promises` class uses a `grails.async.PromiseFactory` instance to create `Promise` instances.
-
-The default implementation uses http://projectreactor.io[Project Reactor] and is called `org.grails.async.factory.reactor.ReactorPromiseFactory`, however it is possible to swap implementations by setting the `Promises.promiseFactory` variable.
-
-One common use case for this is unit testing, typically you do not want promises to execute asynchronously during unit tests, as this makes tests harder to write. For this purpose Grails ships with a `org.grails.async.factory.SynchronousPromiseFactory` instance that makes it easier to test promises:
-
-[source,groovy]
-----
-import org.grails.async.factory.*
-import grails.async.*
-
-Promises.promiseFactory = new SynchronousPromiseFactory()
-----
-
-Using the `PromiseFactory` mechanism it is theoretically possible to plug in other concurrency libraries into the Grails framework. For this you need to override the two interfaces `grails.async.Promise` and `grails.async.PromiseFactory`.
 
 
 === DelegateAsync Transformation

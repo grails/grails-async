@@ -4,7 +4,7 @@ package reactor.bus;
  * @deprecated Here for compatibility only. Do not use directly
  */
 @Deprecated
-public class Event<T> extends grails.async.events.Event<T> {
+public class Event<T> extends grails.events.Event<T> {
     private volatile        Object              replyTo = null;
 
     public Event(String id, T data, Object replyTo) {

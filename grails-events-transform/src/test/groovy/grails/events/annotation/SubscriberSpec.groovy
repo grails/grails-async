@@ -1,7 +1,7 @@
 package grails.events.annotation
 
-import grails.async.events.bus.EventBus
-import grails.async.events.subscriber.MethodSubscriber
+import grails.events.bus.EventBus
+import grails.events.subscriber.MethodSubscriber
 import org.grails.datastore.mapping.reflect.ClassPropertyFetcher
 import org.grails.events.transform.AnnotatedSubscriber
 import spock.lang.Specification

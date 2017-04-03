@@ -1,6 +1,6 @@
 package pubsub.demo
 
-import grails.async.events.Event
+import grails.events.Event
 import grails.events.annotation.Subscriber
 
 class TotalService {

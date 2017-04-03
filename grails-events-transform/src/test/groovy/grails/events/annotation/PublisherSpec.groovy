@@ -1,8 +1,8 @@
 package grails.events.annotation
 
-import grails.async.events.Event
-import grails.async.events.EventPublisher
-import grails.async.events.bus.EventBus
+import grails.events.Event
+import grails.events.EventPublisher
+import grails.events.bus.EventBus
 import org.grails.datastore.mapping.core.Datastore
 import org.grails.datastore.mapping.core.Session
 import org.grails.datastore.mapping.transactions.DatastoreTransactionManager
