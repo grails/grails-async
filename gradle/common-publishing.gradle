@@ -16,8 +16,8 @@ apply plugin: 'com.jfrog.bintray'
 apply plugin: 'com.bmuschko.nexus'
 
 ext.pomInfo = {
-    delegate.name projectName
-    delegate.description projectDesc
+    delegate.name project.title
+    delegate.description project.projectDesc
     delegate.url projectUrl
 
     delegate.licenses {
@@ -99,8 +99,8 @@ bintray {
     pkg {
         repo = 'grails-core'
         userOrg = 'grails'
-        name = projectName
-        desc = projectDesc
+        name = project.title
+        desc = project.projectDesc
         websiteUrl = projectUrl
         issueTrackerUrl = "https://github.com/$githubSlug/issues"
         vcsUrl = "https://github.com/$githubSlug"
