@@ -43,7 +43,6 @@ ext.pomInfo = {
         }
     }
 }
-ext.isBuildSnapshot = version.toString().endsWith("-SNAPSHOT")
 modifyPom {
     project(pomInfo)
 }
@@ -58,17 +57,30 @@ publishing {
                 username = u
                 password = p
             }
-            if(isBuildSnapshot) {
-                url  "https://repo.grails.org/grails/libs-snapshots-local"
+            if(isGrailsPlugin) {
+                if(isBuildSnapshot) {
+                    url  "https://repo.grails.org/grails/plugins3-snapshots-local"
+                }
+                else {
+                    url  "https://repo.grails.org/grails/plugins3-releases-local"
+                }
             }
             else {
-                url "https://repo.grails.org/grails/libs-releases-local"
+                if(isBuildSnapshot) {
+                    url  "https://repo.grails.org/grails/libs-snapshots-local"
+                }
+                else {
+                    url "https://repo.grails.org/grails/libs-releases-local"
+                }
             }
         }
     }
 
     publications {
         maven(MavenPublication) {
+            if(isGrailsPlugin) {
+                artifactId( project.name - 'grails-plugin-' )
+            }
             from components.java
 
             artifact sourcesJar {
@@ -77,7 +89,11 @@ publishing {
             artifact javadocJar {
                 classifier "javadoc"
             }
-
+            if(isGrailsPlugin) {
+                artifact source:"${sourceSets.main.output.classesDir}/META-INF/grails-plugin.xml",
+                            classifier:"plugin",
+                            extension:'xml'
+            }
             pom.withXml {
                 def xml = asNode()
 
@@ -97,7 +113,7 @@ bintray {
     publications = ['maven']
     publish = true
     pkg {
-        repo = 'grails-core'
+        repo = isGrailsPlugin ? 'plugins' : 'grails-core'
         userOrg = 'grails'
         name = project.title
         desc = project.projectDesc

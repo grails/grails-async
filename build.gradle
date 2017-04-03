@@ -18,11 +18,20 @@ repositories {
 }
 
 subprojects {
+
+    version "3.3.0.BUILD-SNAPSHOT"
+
     ext {
         userOrg = "grails"
+        isGrailsPlugin = name.startsWith('grails-plugin')
+        isBuildSnapshot = version.toString().endsWith("-SNAPSHOT")
     }
-    group "org.grails"
-    version "3.3.0.BUILD-SNAPSHOT"
+    if(isGrailsPlugin) {
+        group "org.grails.plugins"
+    }
+    else {
+        group "org.grails"
+    }
     repositories {
         mavenLocal()
         maven { url "https://repo.grails.org/grails/core" }
