@@ -1,7 +1,7 @@
 package grails.async
 
 import grails.async.decorator.PromiseDecorator
-import org.grails.async.factory.future.FutureTaskPromiseFactory
+import org.grails.async.factory.future.CachedThreadPoolPromiseFactory
 import spock.lang.Issue
 import spock.lang.Specification
 
@@ -10,7 +10,7 @@ import spock.lang.Specification
  */
 class FutureTaskPromiseFactorySpec extends Specification {
     void setup() {
-        Promises.promiseFactory = new FutureTaskPromiseFactory()
+        Promises.promiseFactory = new CachedThreadPoolPromiseFactory()
     }
 
     void cleanup() {

@@ -1,6 +1,6 @@
 package org.grails.async.events
 
-import org.grails.async.events.bus.spring.ExecutorEventBus
+import org.grails.async.events.bus.ExecutorEventBus
 import spock.lang.Specification
 
 /**

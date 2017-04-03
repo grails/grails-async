@@ -8,6 +8,7 @@ import org.grails.async.factory.BoundPromise
 
 import javax.annotation.PreDestroy
 import java.util.concurrent.Callable
+import java.util.concurrent.Executor
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.RunnableFuture
 import java.util.concurrent.SynchronousQueue
@@ -21,15 +22,11 @@ import java.util.concurrent.TimeUnit
  * @since 3.3
  */
 @CompileStatic
-class FutureTaskPromiseFactory extends AbstractPromiseFactory implements Closeable {
+class CachedThreadPoolPromiseFactory extends AbstractPromiseFactory implements Closeable, ExecutorPromiseFactory {
 
-    final ExecutorService executorService
+    final @Delegate ExecutorService executorService
 
-    FutureTaskPromiseFactory(ExecutorService executorService) {
-        this.executorService = executorService
-    }
-
-    FutureTaskPromiseFactory(int maxPoolSize = Integer.MAX_VALUE, long timeout = 60L, TimeUnit unit = TimeUnit.SECONDS) {
+    CachedThreadPoolPromiseFactory(int maxPoolSize = Integer.MAX_VALUE, long timeout = 60L, TimeUnit unit = TimeUnit.SECONDS) {
         this.executorService = new ThreadPoolExecutor(0, maxPoolSize, timeout, unit, new SynchronousQueue<Runnable>()) {
             @Override
             protected <T> RunnableFuture<T> newTaskFor(Callable<T> callable) {
@@ -112,4 +109,5 @@ class FutureTaskPromiseFactory extends AbstractPromiseFactory implements Closeab
             executorService.shutdown()
         }
     }
+
 }

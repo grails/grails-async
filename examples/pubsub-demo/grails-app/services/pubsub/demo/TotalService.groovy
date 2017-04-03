@@ -14,7 +14,7 @@ class TotalService {
 
     @Subscriber
     void onSum(Event<Integer> event) {
-        println "Event $event.data"
+        println "Event $event.id"
         println "Data $event.data"
         println "Parameters $event.parameters"
     }

@@ -1,6 +1,9 @@
 apply plugin:'groovy'
 apply plugin:"io.github.groovylang.groovydoc"
 
+sourceCompatibility = '1.7'
+targetCompatibility = '1.7'
+
 repositories {
     mavenLocal()
     maven { url "https://repo.grails.org/grails/core" }

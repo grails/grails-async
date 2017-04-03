@@ -1,7 +1,7 @@
 package org.grails.async.events
 
 import grails.async.events.Event
-import org.grails.async.events.bus.spring.ExecutorEventBus
+import org.grails.async.events.bus.ExecutorEventBus
 import org.springframework.transaction.event.TransactionPhase
 import org.springframework.transaction.support.TransactionSynchronizationManager
 import org.springframework.transaction.support.TransactionSynchronizationUtils

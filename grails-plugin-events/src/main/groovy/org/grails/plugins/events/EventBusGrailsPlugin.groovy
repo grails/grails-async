@@ -20,6 +20,7 @@ import grails.async.events.bus.EventBusFactory
 import grails.config.Config
 import grails.plugins.Plugin
 import groovy.util.logging.Slf4j
+import org.grails.async.events.bus.spring.EventBusFactoryBean
 import org.grails.events.spring.SpringEventTranslator
 import reactor.bus.EventBus
 
@@ -41,9 +42,7 @@ class EventBusGrailsPlugin extends Plugin {
     Closure doWithSpring() {
         {->
             Config config = grailsApplication.config
-
-            grailsEventBusFactory(EventBusFactory)
-            grailsEventBus(grailsEventBusFactory:'create')
+            grailsEventBus(EventBusFactoryBean)
 
             // the legacy reactor EventBus, here for backwards compatibility
             eventBus(EventBus, ref('grailsEventBus'))
