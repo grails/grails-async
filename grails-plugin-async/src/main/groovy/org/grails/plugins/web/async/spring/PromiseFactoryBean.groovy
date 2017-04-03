@@ -1,6 +1,7 @@
 package org.grails.plugins.web.async.spring
 
 import grails.async.PromiseFactory
+import grails.async.Promises
 import groovy.transform.CompileStatic
 import org.grails.async.factory.PromiseFactoryBuilder
 import org.springframework.beans.factory.FactoryBean
@@ -16,7 +17,9 @@ import org.springframework.beans.factory.InitializingBean
 class PromiseFactoryBean extends PromiseFactoryBuilder implements FactoryBean<PromiseFactory> {
     @Override
     PromiseFactory getObject() throws Exception {
-        return build()
+        PromiseFactory promiseFactory = build()
+        Promises.setPromiseFactory(promiseFactory)
+        return promiseFactory
     }
 
     @Override

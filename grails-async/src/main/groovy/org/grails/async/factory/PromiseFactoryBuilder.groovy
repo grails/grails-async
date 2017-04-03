@@ -31,7 +31,6 @@ class PromiseFactoryBuilder {
             promiseFactory = promiseFactories.first()
             log.debug("Found PromiseFactory implementation to use [$promiseFactory]")
         }
-        Promises.setPromiseFactory(promiseFactory)
         return promiseFactory
     }
 }
