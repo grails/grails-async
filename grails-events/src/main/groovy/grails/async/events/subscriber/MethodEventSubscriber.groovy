@@ -15,7 +15,7 @@ import java.lang.reflect.Method
 class MethodEventSubscriber extends MethodSubscriber implements EventSubscriber {
     MethodEventSubscriber(Object target, Method method) {
         super(target, method)
-        if( !(parameterTypes.length == 1 && parameterTypes[0].isAssignableFrom(grails.async.events.Event)) ) {
+        if( !(parameterTypes.length == 1 && parameterTypes[0].isAssignableFrom(Event)) ) {
             throw new IllegalArgumentException("Specified method must accept an Event as an argument")
         }
     }

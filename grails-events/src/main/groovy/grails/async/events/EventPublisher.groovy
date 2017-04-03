@@ -55,16 +55,25 @@ trait EventPublisher extends EventBusAware implements EventEmitter {
         return eventBus.publish(eventId, data)
     }
 
+    /**
+     * @see {@link EventEmitter#publish(grails.async.events.Event)}
+     */
     @Override
     EventEmitter publish(Event event) {
         return eventBus.publish(event)
     }
 
+    /**
+     * @see {@link EventEmitter#sendAndReceive(grails.async.events.Event, groovy.lang.Closure)}
+     */
     @Override
     EventEmitter sendAndReceive(Event event, Closure reply) {
         return eventBus.sendAndReceive(event, reply)
     }
 
+    /**
+     * @see {@link EventEmitter#sendAndReceive(grails.async.events.Event, groovy.lang.Closure)}
+     */
     @Override
     EventEmitter sendAndReceive(CharSequence eventId, Object data, Closure reply) {
         return eventBus.sendAndReceive(eventId, data, reply)

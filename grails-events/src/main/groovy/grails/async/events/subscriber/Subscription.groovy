@@ -4,7 +4,10 @@ import grails.async.events.Event
 import grails.async.events.trigger.EventTrigger
 
 /**
- * Represents a registered event
+ * Represents a subscription to an event
+ *
+ * @author Graeme Rocher
+ * @since 3.3
  */
 interface Subscription {
 
