@@ -1,0 +1,370 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+    <title>4 Events unspecified</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
+    <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
+    <script type="text/javascript">
+function addJsClass() {
+    var classes = document.body.className.split(" ");
+    classes.push("js");
+    document.body.className = classes.join(" ");
+}
+    </script>
+</head>
+
+<body class="body" onload="addJsClass();">
+<div id="navigation">
+    <div class="navTitle">
+        
+        Grails Async
+    </div>
+    <div class="navLinks">
+        <ul>
+            <li>
+                <div id="nav-summary" onmouseover="toggleNavSummary(false)" onmouseout="toggleNavSummary(true)">
+                    <a href="../guide/index.html" class="button">Table of contents</a>
+
+                    <div id="nav-summary-childs" style="display:none;">
+                        
+                        <div class="toc-item" style="margin-left:0"><a href="../guide/introduction.html"><strong>1</strong><span>Introduction</span></a>
+                        </div>
+                        
+                        <div class="toc-item" style="margin-left:0"><a href="../guide/promises.html"><strong>2</strong><span>Promises</span></a>
+                        </div>
+                        
+                        <div class="toc-item" style="margin-left:0"><a href="../guide/rxjava.html"><strong>3</strong><span>Reactive Programming with RxJava</span></a>
+                        </div>
+                        
+                        <div class="toc-item" style="margin-left:0"><a href="../guide/events.html"><strong>4</strong><span>Events</span></a>
+                        </div>
+                        
+                        <div class="toc-item" style="margin-left:0"><a href="../guide/asyncGorm.html"><strong>5</strong><span>Asynchronous GORM</span></a>
+                        </div>
+                        
+                        <div class="toc-item" style="margin-left:0"><a href="../guide/asyncRequests.html"><strong>6</strong><span>Asynchronous Request Handling</span></a>
+                        </div>
+                        
+                        <div class="toc-item" style="margin-left:0"><a href="../guide/asyncServletApi.html"><strong>7</strong><span>Servlet 3.0 Async</span></a>
+                        </div>
+                        
+                    </div>
+                </div>
+            </li>
+            <li class="separator selected">
+                <a id="ref-button" onclick="localToggle(); return false;" href="#">Quick Reference</a>
+            </li>
+        </ul>
+    </div>
+
+
+</div>
+
+<table id="colset" border="0" cellpadding="0" cellspacing="0">
+    <tr>
+        <td id="col1">
+            <div id="main" class="corner-all">
+
+                
+                    <div class="toc-item prev-left"><a href="../guide/rxjava.html">&lt;&lt; <strong>3</strong><span>Reactive Programming with RxJava</span></a></div>
+                
+
+                <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
+
+                
+                    <div class="toc-item next-right"><a href="../guide/asyncGorm.html"><strong>5</strong><span>Asynchronous GORM</span> >></a></div>
+                
+
+
+                <div class="project">
+                    <h1>4 Events</h1>
+
+                    <p><strong>Version:</strong> unspecified</p>
+                </div>
+
+                
+                <div id="table-of-content">
+                    <h2>Table of Contents</h2>
+                    
+                    <div class="toc-item" style="margin-left:0px"><a href="#consuming"><strong>4.1</strong><span>Consuming Events</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0px"><a href="#notifying"><strong>4.2</strong><span>Event Notification</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0px"><a href="#annotations"><strong>4.3</strong><span>Reactor Spring Annotations</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0px"><a href="#gormEvents"><strong>4.4</strong><span>Events from GORM</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0px"><a href="#springEvents"><strong>4.5</strong><span>Events from Spring</span></a>
+                    </div>
+                    
+                </div>
+                
+
+                
+
+<h1 id="events">4 Events</h1>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/master/src/main/docs/guide/events.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>Grails 3.0 introduces a new Events API based on <a href="#ref-comreactorreactor-Reactor">Reactor</a>.</p>
+</div>
+<div class="paragraph">
+<p>All services and controllers in Grails 3.0 implement the <a href="http://docs.grails.org/latest/api/grails/events/Events.html">Events</a> trait.</p>
+</div>
+<div class="paragraph">
+<p>The <code>Events</code> trait allows the ability to consume and publish events that are handled by Reactor.</p>
+</div>
+<div class="paragraph">
+<p>The default Reactor configuration utilises a thread pool backed event bus. You can however configure Reactor within <code>application.yml</code>, for example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="key">reactor</span>:
+    <span class="key">dispatchers</span>:
+        <span class="keyword">default</span>: myExecutor
+        <span class="key">myExecutor</span>:
+            <span class="key">type</span>: threadPoolExecutor
+            <span class="key">size</span>: <span class="integer">5</span>
+            <span class="key">backlog</span>: <span class="integer">2048</span></code></pre>
+</div>
+</div>
+
+
+<h2 id="consuming">4.1 Consuming Events</h2>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/master/src/main/docs/guide/events/consuming.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>There are several ways to consume an event. As mentioned previously services and controllers implement the <a href="http://docs.grails.org/latest/api/grails/events/Events.html">Events</a> trait.</p>
+</div>
+<div class="paragraph">
+<p>The <code>Events</code> trait provides several methods to register event consumers. For example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy">on(<span class="string"><span class="delimiter">&quot;</span><span class="content">myEvent</span><span class="delimiter">&quot;</span></span>) {
+    println <span class="string"><span class="delimiter">&quot;</span><span class="content">Event fired!</span><span class="delimiter">&quot;</span></span>
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Note that if you wish a class (other than a controller or service) to be an event consumer you simply have to implement the <code>Events</code> trait and ensure the class is registered as a Spring bean.</p>
+</div>
+<div class="paragraph">
+<p>For example given the following class:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">import</span> <span class="include">grails.events.*</span>
+<span class="keyword">import</span> <span class="include">javax.annotation.*</span>
+
+<span class="type">class</span> <span class="class">MyClass</span> <span class="directive">implements</span> Events {
+
+        <span class="annotation">@PostConstruct</span>
+        <span class="type">void</span> init() {
+                on(<span class="string"><span class="delimiter">&quot;</span><span class="content">myEvent</span><span class="delimiter">&quot;</span></span>) {
+                    println <span class="string"><span class="delimiter">&quot;</span><span class="content">Event fired!</span><span class="delimiter">&quot;</span></span>
+                }
+        }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can override <code>doWithSpring</code> in your <code>Application</code> class to register it as a Spring bean (or annotate it with <code>Component</code>):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy">Closure doWithSpring() {
+        {-&gt;
+                    myClass(MyClass)
+        }
+    }</code></pre>
+</div>
+</div>
+
+
+<h2 id="notifying">4.2 Event Notification</h2>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/master/src/main/docs/guide/events/notifying.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>The <code>Events</code> trait also provides methods for notifying of events. For example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy">notify <span class="string"><span class="delimiter">&quot;</span><span class="content">myEvent</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">myData</span><span class="delimiter">&quot;</span></span>
+sendAndReceive <span class="string"><span class="delimiter">&quot;</span><span class="content">myEvent</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">myData</span><span class="delimiter">&quot;</span></span>, {
+    println <span class="string"><span class="delimiter">&quot;</span><span class="content">Got response!</span><span class="delimiter">&quot;</span></span>
+}</code></pre>
+</div>
+</div>
+
+
+<h2 id="annotations">4.3 Reactor Spring Annotations</h2>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/master/src/main/docs/guide/events/annotations.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>Reactor provides a few useful annotations that can be used for declaratively consuming events in a Grails service.</p>
+</div>
+<div class="paragraph">
+<p>To declare an event consumer use the <code>Consumer</code> annotation:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">import</span> <span class="include">reactor.spring.context.annotation.*</span>
+
+<span class="annotation">@Consumer</span>
+<span class="type">class</span> <span class="class">MyService</span> {
+
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Then to register to listen for an event use the <code>Selector</code> annotation:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">import</span> <span class="include">reactor.spring.context.annotation.*</span>
+
+<span class="annotation">@Consumer</span>
+<span class="type">class</span> <span class="class">MyService</span> {
+        <span class="annotation">@Selector</span>(<span class="string"><span class="delimiter">'</span><span class="content">myEvent</span><span class="delimiter">'</span></span>)
+        <span class="type">void</span> myEventListener(<span class="predefined-type">Object</span> data) {
+                println <span class="string"><span class="delimiter">&quot;</span><span class="content">GOT EVENT </span><span class="inline"><span class="inline-delimiter">$</span>data</span><span class="delimiter">&quot;</span></span>
+        }
+}</code></pre>
+</div>
+</div>
+
+
+<h2 id="gormEvents">4.4 Events from GORM</h2>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/master/src/main/docs/guide/events/gormEvents.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>GORM defines a <a href="http://grails.github.io/grails-data-mapping/latest/api/org/grails/datastore/mapping/engine/event/package-summary.html">number of useful events</a> that you can listen for.</p>
+</div>
+<div class="paragraph">
+<p>Each event is translated into a key that starts with <code>gorm:</code>. For example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">import</span> <span class="include">org.grails.datastore.mapping.engine.event.*</span>
+...
+
+on(<span class="string"><span class="delimiter">&quot;</span><span class="content">gorm:preInsert</span><span class="delimiter">&quot;</span></span>) { PreInsertEvent event -&gt;
+        println <span class="string"><span class="delimiter">&quot;</span><span class="content">GOT EVENT </span><span class="inline"><span class="inline-delimiter">$</span>event</span><span class="delimiter">&quot;</span></span>
+}</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+These events are triggered asynchronously, and so cannot cancel or manipulate the persistence operations. If you want to do that see the section on <a href="http://gorm.grails.org/6.0.x/hibernate/manual/index.html#eventsAutoTimestamping">Events &amp; Auto Timestamping</a> in the GORM docs
+</td>
+</tr>
+</table>
+</div>
+
+
+<h2 id="springEvents">4.5 Events from Spring</h2>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/master/src/main/docs/guide/events/springEvents.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>Spring also fires a number of useful events. All events in the <code>org.springframework</code> package are prefixed with <code>spring:</code>.</p>
+</div>
+<div class="paragraph">
+<p>For example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">import</span> <span class="include">org.springframework.web.context.support.*</span>
+<span class="keyword">import</span> <span class="include">org.springframework.boot.context.event.*</span>
+...
+
+on(<span class="string"><span class="delimiter">&quot;</span><span class="content">spring:applicationStarted</span><span class="delimiter">&quot;</span></span>) { ApplicationStartedEvent event -&gt;
+        <span class="comment">// fired when the application starts</span>
+}
+
+on(<span class="string"><span class="delimiter">&quot;</span><span class="content">spring:servletRequestHandled</span><span class="delimiter">&quot;</span></span>) { RequestHandledEvent event -&gt;
+        <span class="comment">// fired each time a request is handled</span>
+}</code></pre>
+</div>
+</div>
+
+
+                <div style="clear:both;margin-top:15px;"></div>
+                
+                    <div class="toc-item prev-left"><a href="../guide/rxjava.html">&lt;&lt; <strong>3</strong><span>Reactive Programming with RxJava</span></a></div>
+                
+                    <div class="toc-item next-right"><a href="../guide/asyncGorm.html"><strong>5</strong><span>Asynchronous GORM</span> >></a></div>
+                
+                <div style="clear:both"></div>
+            </div>
+        </td>
+        <td id="col2">
+            <div class="local clearfix">
+                <div class="local-title">
+                    <a href="../guide/index.html" target="mainFrame">Quick Reference</a>
+                    <span class="toggle">(<a href="#" onclick="localToggle(); return false;">hide</a>)</span>
+                </div>
+                <div class="menu">
+                    
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>
+
+<div id="footer">
+    
+    
+</div>
+
+<script type="text/javascript" src="../js/docs.js"></script>
+
+</body>
+</html>

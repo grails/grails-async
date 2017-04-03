@@ -1,0 +1,234 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+    <title>6 Asynchronous Request Handling unspecified</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
+    <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
+    <script type="text/javascript">
+function addJsClass() {
+    var classes = document.body.className.split(" ");
+    classes.push("js");
+    document.body.className = classes.join(" ");
+}
+    </script>
+</head>
+
+<body class="body" onload="addJsClass();">
+<div id="navigation">
+    <div class="navTitle">
+        
+        Grails Async
+    </div>
+    <div class="navLinks">
+        <ul>
+            <li>
+                <div id="nav-summary" onmouseover="toggleNavSummary(false)" onmouseout="toggleNavSummary(true)">
+                    <a href="../guide/index.html" class="button">Table of contents</a>
+
+                    <div id="nav-summary-childs" style="display:none;">
+                        
+                        <div class="toc-item" style="margin-left:0"><a href="../guide/introduction.html"><strong>1</strong><span>Introduction</span></a>
+                        </div>
+                        
+                        <div class="toc-item" style="margin-left:0"><a href="../guide/promises.html"><strong>2</strong><span>Promises</span></a>
+                        </div>
+                        
+                        <div class="toc-item" style="margin-left:0"><a href="../guide/rxjava.html"><strong>3</strong><span>Reactive Programming with RxJava</span></a>
+                        </div>
+                        
+                        <div class="toc-item" style="margin-left:0"><a href="../guide/events.html"><strong>4</strong><span>Events</span></a>
+                        </div>
+                        
+                        <div class="toc-item" style="margin-left:0"><a href="../guide/asyncGorm.html"><strong>5</strong><span>Asynchronous GORM</span></a>
+                        </div>
+                        
+                        <div class="toc-item" style="margin-left:0"><a href="../guide/asyncRequests.html"><strong>6</strong><span>Asynchronous Request Handling</span></a>
+                        </div>
+                        
+                        <div class="toc-item" style="margin-left:0"><a href="../guide/asyncServletApi.html"><strong>7</strong><span>Servlet 3.0 Async</span></a>
+                        </div>
+                        
+                    </div>
+                </div>
+            </li>
+            <li class="separator selected">
+                <a id="ref-button" onclick="localToggle(); return false;" href="#">Quick Reference</a>
+            </li>
+        </ul>
+    </div>
+
+
+</div>
+
+<table id="colset" border="0" cellpadding="0" cellspacing="0">
+    <tr>
+        <td id="col1">
+            <div id="main" class="corner-all">
+
+                
+                    <div class="toc-item prev-left"><a href="../guide/asyncGorm.html">&lt;&lt; <strong>5</strong><span>Asynchronous GORM</span></a></div>
+                
+
+                <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
+
+                
+                    <div class="toc-item next-right"><a href="../guide/asyncServletApi.html"><strong>7</strong><span>Servlet 3.0 Async</span> >></a></div>
+                
+
+
+                <div class="project">
+                    <h1>6 Asynchronous Request Handling</h1>
+
+                    <p><strong>Version:</strong> unspecified</p>
+                </div>
+
+                
+
+                
+
+<h1 id="asyncRequests">6 Asynchronous Request Handling</h1>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/master/src/main/docs/guide/asyncRequests.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>If you are deploying to a Servlet 3.0 container such as Tomcat 7 and above then it is possible to deal with responses asynchronously.</p>
+</div>
+<div class="paragraph">
+<p>In general for controller actions that execute quickly there is little benefit in handling requests asynchronously. However, for long running controller actions it is extremely beneficial.</p>
+</div>
+<div class="paragraph">
+<p>The reason being that with an asynchronous / non-blocking response, the one thread == one request == one response relationship is broken. The container can keep a client response open and active, and at the same time return the thread back to the container to deal with another request, improving scalability.</p>
+</div>
+<div class="paragraph">
+<p>For example, if you have 70 available container threads and an action takes a minute to complete, if the actions are not executed in a non-blocking fashion the likelihood of all 70 threads being occupied and the container not being able to respond is quite high and you should consider asynchronous request processing.</p>
+</div>
+<div class="paragraph">
+<p>Since Grails 2.3, Grails features a simplified API for creating asynchronous responses built on the <code>Promise</code> mechanism discussed previously.</p>
+</div>
+<div class="paragraph">
+<p>The implementation is based on Servlet 3.0 async. So, to enable the async features you need to set your servlet target version to 3.0 in application.yml:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="key">grails</span>:
+    <span class="key">servlet</span>:
+        <span class="key">version</span>: <span class="float">3.0</span></code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_async_models">Async Models</h4>
+<div class="paragraph">
+<p>A typical activity in a Grails controller is to produce a model (a map of key/value pairs) that can be rendered by a view.</p>
+</div>
+<div class="paragraph">
+<p>If the model takes a while to produce then the server could arrive at a blocking state, impacting scalability. You tell Grails to build the model asynchronously by returning a <code>grails.async.PromiseMap</code> via the <code>Promises.tasks</code> method:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">import</span> <span class="include">static</span> <span class="include">grails.async.Promises.*</span>
+...
+def index() {
+   tasks <span class="key">books</span>: <span class="predefined-type">Book</span>.async.list(),
+         <span class="key">totalBooks</span>: <span class="predefined-type">Book</span>.async.count(),
+         <span class="key">otherValue</span>: {
+           <span class="comment">// do hard work</span>
+         }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Grails will handle the response asynchronously, waiting for the promises to complete before rendering the view. The equivalent synchronous action of the above is:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">def</span> <span class="function">index</span>() {
+    <span class="keyword">def</span> otherValue = ...
+        [ <span class="key">books</span>: <span class="predefined-type">Book</span>.list() ,
+          <span class="key">totalBooks</span>: <span class="predefined-type">Book</span>.count(),
+          <span class="key">otherValue</span>: otherValue  ]
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can even render different view by passing the <code>PromiseMap</code> to the <code>model</code> attribute of the <code>render</code> method:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">import</span> <span class="include">static</span> <span class="include">grails.async.Promises.*</span>
+...
+def index() {
+   render <span class="key">view</span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">myView</span><span class="delimiter">&quot;</span></span>, <span class="key">model</span>: tasks( <span class="key">one</span>:{ <span class="integer">2</span> * <span class="integer">2</span> },
+                                       <span class="key">two</span>:{ <span class="integer">3</span> * <span class="integer">3</span> } )
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_async_response_rendering">Async Response Rendering</h4>
+<div class="paragraph">
+<p>You can also write to the response asynchronously using promises in Grails 2.3 and above:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">import</span> <span class="include">static</span> <span class="include">grails.async.Promises.*</span>
+<span class="type">class</span> <span class="class">StockController</span> {
+
+    <span class="keyword">def</span> <span class="function">stock</span>(<span class="predefined-type">String</span> ticker) {
+       task {
+           ticker = ticker ?: <span class="string"><span class="delimiter">'</span><span class="content">GOOG</span><span class="delimiter">'</span></span>
+           <span class="keyword">def</span> url = <span class="keyword">new</span> <span class="predefined-type">URL</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">http://download.finance.yahoo.com/d/quotes.csv?s=</span><span class="inline"><span class="inline-delimiter">${</span>ticker<span class="inline-delimiter">}</span></span><span class="content">&amp;f=nsl1op&amp;e=.csv</span><span class="delimiter">&quot;</span></span>)
+           <span class="predefined-type">Double</span> price = url.text.split(<span class="string"><span class="delimiter">'</span><span class="content">,</span><span class="delimiter">'</span></span>)[-<span class="integer">1</span>] <span class="keyword">as</span> <span class="predefined-type">Double</span>
+           render <span class="string"><span class="delimiter">&quot;</span><span class="content">ticker: </span><span class="inline"><span class="inline-delimiter">$</span>ticker</span><span class="content">, price: </span><span class="char">\$</span><span class="content">price</span><span class="delimiter">&quot;</span></span>
+       }
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The above example using Yahoo Finance to query stock prices, executing asynchronously and only rendering the response once the result has been obtained. This is done by returning a <code>Promise</code> instance from the controller action.</p>
+</div>
+<div class="paragraph">
+<p>If the Yahoo URL is unresponsive the original request thread will not be blocked and the container will not become unresponsive.</p>
+</div>
+</div>
+
+
+                <div style="clear:both;margin-top:15px;"></div>
+                
+                    <div class="toc-item prev-left"><a href="../guide/asyncGorm.html">&lt;&lt; <strong>5</strong><span>Asynchronous GORM</span></a></div>
+                
+                    <div class="toc-item next-right"><a href="../guide/asyncServletApi.html"><strong>7</strong><span>Servlet 3.0 Async</span> >></a></div>
+                
+                <div style="clear:both"></div>
+            </div>
+        </td>
+        <td id="col2">
+            <div class="local clearfix">
+                <div class="local-title">
+                    <a href="../guide/index.html" target="mainFrame">Quick Reference</a>
+                    <span class="toggle">(<a href="#" onclick="localToggle(); return false;">hide</a>)</span>
+                </div>
+                <div class="menu">
+                    
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>
+
+<div id="footer">
+    
+    
+</div>
+
+<script type="text/javascript" src="../js/docs.js"></script>
+
+</body>
+</html>
