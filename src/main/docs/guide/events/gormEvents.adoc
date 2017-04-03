@@ -1,14 +1,31 @@
 GORM defines a http://grails.github.io/grails-data-mapping/latest/api/org/grails/datastore/mapping/engine/event/package-summary.html[number of useful events] that you can listen for.
 
-Each event is translated into a key that starts with `gorm:`. For example:
+The events are disabled by default as they add overhead and impact performance for read operations in GORM, however if this is not an issue for you then you can enable them with the following configuration in `grails-app/conf/application.yml`:
+
+[source,yaml]
+----
+grails:
+    events:
+        spring: true
+----
+
+This instructs Grails to translate Spring events (which are what GORM events are published as) into events published to the `EventBus`.
+
+Each event is published within the `gorm` namespace. You can listen for the events with a service as follows:
 
 [source,groovy]
 ----
+import grails.events.annotation.*
 import org.grails.datastore.mapping.engine.event.*
 ...
 
-on("gorm:preInsert") { PreInsertEvent event ->
-	println "GOT EVENT $event"
+@Events(namespace="gorm")
+class MyService {
+
+    @Subscriber
+    void preInsert(PreInsertEvent event) {
+        println "GOT EVENT $event"
+    }
 }
 ----
 

@@ -3,6 +3,17 @@ In addition to the higher level async features discussed earlier in the section,
 
 ==== Servlet 3.0 Asynchronous Rendering
 
+To do so your should first implement the `grails.async.web.AsyncController` trait in your controller:
+
+[source,groovy]
+----
+import grails.async.web.*
+
+...
+class BookController implements AsyncController {
+    ...
+}
+----
 
 You can render content (templates, binary data etc.) in an asynchronous manner by calling the `startAsync` method which returns an instance of the Servlet 3.0 `AsyncContext`. Once you have a reference to the `AsyncContext` you can use Grails' regular render method to render content:
 

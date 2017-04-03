@@ -2,11 +2,31 @@ Since Grails 2.3, GORM features an asynchronous programming model that works acr
 
 NOTE: Although GORM executes persistence operations asynchronously, these operations still block as the underlying database drivers are not asynchronous. Asynchornous GORM is designed to allow you to isolate these blocking operations onto a separate thread you can scale and control allowing your controller layer to remain non-blocking.
 
+=== The AsyncEntity Trait
+
+Since Grails 3.3, the asynchronous part of GORM is optional. To enable it you first need to add the `grails-datastore-gorm-async` dependency to `build.gradle`:
+
+[source,groovy]
+.build.gradle
+----
+compile "org.grails:grails-datastore-gorm-async"
+----
+
+Then in your domain classes you wish to allow asynchronous processing you should use the `AsyncEntity` trait:
+
+[source,groovy]
+----
+import grails.gorm.async.*
+
+class MyEntity implements AsyncEntity {
+   ...
+}
+----
 
 === Async Namespace
 
 
-The Asynchronous GORM API is available on every domain class via the `async` namespace.
+The `AsyncEntity` entity trait provides an `async` namespace that exposes all of the GORM methods in an asynchronous manner.
 
 For example, the following code listing reads 3 objects from the database asynchronously:
 
