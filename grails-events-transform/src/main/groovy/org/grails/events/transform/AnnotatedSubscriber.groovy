@@ -1,6 +1,7 @@
 package org.grails.events.transform
 
 import grails.events.Event
+import grails.events.annotation.Events
 import grails.events.bus.EventBusAware
 import grails.events.subscriber.MethodEventSubscriber
 import grails.events.subscriber.MethodSubscriber
@@ -25,6 +26,7 @@ trait AnnotatedSubscriber extends EventBusAware {
 
     @PostConstruct
     void registerMethods() {
+        Events events = getClass().getAnnotation(Events)
         for(Method m in subscribedMethods) {
             Subscriber sub = m.getAnnotation(Subscriber)
             if(sub != null) {
@@ -38,6 +40,12 @@ trait AnnotatedSubscriber extends EventBusAware {
                         eventId = methodName
                     }
                 }
+
+                String namespace = events?.namespace()
+                if(namespace) {
+                    eventId = namespace + ':' + eventId
+                }
+
                 if(m.parameterTypes.length == 1 && m.parameterTypes[0].isAssignableFrom(Event)) {
                     eventBus.subscribe(eventId, new MethodEventSubscriber(this, m))
                 }

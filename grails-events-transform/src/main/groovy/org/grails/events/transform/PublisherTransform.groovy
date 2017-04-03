@@ -2,6 +2,7 @@ package org.grails.events.transform
 
 import grails.events.Event
 import grails.events.EventPublisher
+import grails.events.annotation.Events
 import grails.events.annotation.Publisher
 import grails.gorm.transactions.Transactional
 import groovy.transform.CompileStatic
@@ -92,17 +93,34 @@ class PublisherTransform extends AbstractMethodDecoratingTransformation implemen
             tryCatch
         )
 
+        AnnotationNode eventsAnn = AstUtils.findAnnotation(classNode, Events)
+
         Expression eventId = annotationNode.getMember("value")
         if(!eventId?.text) {
             eventId = constX(methodNode.name)
         }
 
+        Expression namespace = eventsAnn?.getMember("namespace")
+        boolean hasNamespace = namespace instanceof ConstantExpression
+        if(hasNamespace) {
+            eventId = new ConstantExpression(namespace.text + ':' + eventId.text )
+        }
+
         Expression errorEventId = annotationNode.getMember("error")
+        if(errorEventId == null) {
+            errorEventId = eventsAnn?.getMember("error")
+        }
         if(!errorEventId?.text) {
             errorEventId = eventId
         }
+        else if(hasNamespace) {
+            errorEventId = new ConstantExpression(namespace.text + ':' + errorEventId.text )
+        }
 
         Expression phase = annotationNode.getMember("phase")
+        if(phase == null) {
+            phase = eventsAnn?.getMember("phase")
+        }
         MapExpression params = new MapExpression()
         for(param in methodNode.parameters) {
             params.addMapEntryExpression(

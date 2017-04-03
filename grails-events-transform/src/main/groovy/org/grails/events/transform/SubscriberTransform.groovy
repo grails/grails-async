@@ -42,7 +42,7 @@ class SubscriberTransform extends AbstractTraitApplyingGormASTTransformation {
 
     @Override
     void visit(SourceUnit source, AnnotationNode annotationNode, AnnotatedNode annotatedNode) {
-        if(annotatedNode instanceof MethodNode && !Modifier.isAbstract(annotatedNode.getModifiers())) {
+        if(annotatedNode instanceof MethodNode && !Modifier.isAbstract(((MethodNode)annotatedNode).getModifiers())) {
             MethodNode methodNode = (MethodNode)annotatedNode
             ClassNode declaringClass = methodNode.getDeclaringClass()
             if ( shouldWeave(annotationNode, declaringClass) ) {
