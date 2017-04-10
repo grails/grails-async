@@ -34,15 +34,16 @@ class PubSubSpec extends Specification {
         sleep(500)
         then:"no event is fired"
         bookSubscriber.newBooks == []
-
+        bookSubscriber.insertEvents == []
     }
 
     void "test event from data service"() {
         when:"A transaction is committed"
         bookService.saveBook("The Stand")
         sleep(500)
-        then:"The event is fired"
+        then:"The event is fired and received"
         bookSubscriber.newBooks == ["The Stand"]
+        bookSubscriber.insertEvents.size() == 1
 
     }
 

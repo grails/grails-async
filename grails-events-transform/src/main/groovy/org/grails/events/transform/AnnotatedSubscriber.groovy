@@ -7,8 +7,10 @@ import grails.events.subscriber.MethodEventSubscriber
 import grails.events.subscriber.MethodSubscriber
 import grails.events.annotation.Subscriber
 import groovy.transform.CompileStatic
+import org.grails.datastore.mapping.engine.event.AbstractPersistenceEvent
 
 import javax.annotation.PostConstruct
+import java.beans.Introspector
 import java.lang.reflect.Method
 
 /**
@@ -46,7 +48,13 @@ trait AnnotatedSubscriber extends EventBusAware {
                     eventId = namespace + ':' + eventId
                 }
 
-                if(m.parameterTypes.length == 1 && m.parameterTypes[0].isAssignableFrom(Event)) {
+                Class[] parameterTypes = m.parameterTypes
+                boolean hasArgument = parameterTypes.length == 1
+                if(hasArgument && AbstractPersistenceEvent.isAssignableFrom(parameterTypes[0])) {
+                    eventId = "gorm:${Introspector.decapitalize(parameterTypes[0].simpleName)}" - "Event"
+                    eventBus.subscribe(eventId, new MethodSubscriber(this, m))
+                }
+                else if(hasArgument && parameterTypes[0].isAssignableFrom(Event)) {
                     eventBus.subscribe(eventId, new MethodEventSubscriber(this, m))
                 }
                 else {

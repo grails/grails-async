@@ -1,17 +1,6 @@
 GORM defines a http://grails.github.io/grails-data-mapping/latest/api/org/grails/datastore/mapping/engine/event/package-summary.html[number of useful events] that you can listen for.
 
-The events are disabled by default as they add overhead and impact performance for read operations in GORM, however if this is not an issue for you then you can enable them with the following configuration in `grails-app/conf/application.yml`:
-
-[source,yaml]
-----
-grails:
-    events:
-        spring: true
-----
-
-This instructs Grails to translate Spring events (which are what GORM events are published as) into events published to the `EventBus`.
-
-Each event is published within the `gorm` namespace. You can listen for the events with a service as follows:
+To subscribe for an event just define a `Subscriber` that receives the event type as an argument:
 
 [source,groovy]
 ----
@@ -19,7 +8,6 @@ import grails.events.annotation.*
 import org.grails.datastore.mapping.engine.event.*
 ...
 
-@Events(namespace="gorm")
 class MyService {
 
     @Subscriber
@@ -29,4 +17,4 @@ class MyService {
 }
 ----
 
-NOTE: These events are triggered asynchronously, and so cannot cancel or manipulate the persistence operations. If you want to do that see the section on http://gorm.grails.org/6.0.x/hibernate/manual/index.html#eventsAutoTimestamping[Events & Auto Timestamping] in the GORM docs
+NOTE: These events are triggered asynchronously, and so cannot cancel or manipulate the persistence operations. If you want to do that see the section on http://gorm.grails.org/latest/hibernate/manual/index.html#eventsAutoTimestamping[Events & Auto Timestamping] in the GORM docs

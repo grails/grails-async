@@ -13,6 +13,9 @@ import org.codehaus.groovy.control.SourceUnit
 import org.codehaus.groovy.transform.GroovyASTTransformation
 import org.codehaus.groovy.transform.trait.Traits
 import org.grails.datastore.gorm.transform.AbstractTraitApplyingGormASTTransformation
+import org.grails.datastore.mapping.engine.event.AbstractPersistenceEvent
+import org.grails.datastore.mapping.reflect.AstUtils
+import org.grails.events.gorm.GormAnnotatedSubscriber
 
 import java.lang.reflect.Method
 import java.lang.reflect.Modifier
@@ -49,7 +52,42 @@ class SubscriberTransform extends AbstractTraitApplyingGormASTTransformation {
                 if(declaringClass.getField("lazyInit") == null) {
                     declaringClass.addField("lazyInit", Modifier.PUBLIC | Modifier.STATIC | Modifier.FINAL, ClassHelper.Boolean_TYPE, ConstantExpression.FALSE)
                 }
-                weaveTrait(declaringClass, source, traitClass)
+                Parameter[] parameters = methodNode.parameters
+                if(parameters.length > 0 && AstUtils.isSubclassOf(parameters[0].type, AbstractPersistenceEvent.name )) {
+                    ClassNode eventType = parameters[0].type
+                    weaveTrait(declaringClass, source, GormAnnotatedSubscriber)
+                    MethodNode getSubscribersMethod = declaringClass.getDeclaredMethod("getSubscribedEvents")
+                    ListExpression listExpression
+                    if(getSubscribersMethod.getAnnotations(ClassHelper.make(Traits.TraitBridge))) {
+                        def currentCode = getSubscribersMethod.code
+                        if(currentCode instanceof ExpressionStatement) {
+                            ExpressionStatement body = (ExpressionStatement) currentCode
+
+                            def expression = body.getExpression()
+                            if(expression instanceof ListExpression) {
+                                listExpression  = (ListExpression) expression
+                            }
+                            else {
+                                listExpression = new ListExpression()
+                                body.setExpression(listExpression)
+                            }
+                        }
+                        else {
+                            listExpression = new ListExpression()
+                            ExpressionStatement body = new ExpressionStatement(listExpression)
+                            getSubscribersMethod.setCode(body)
+                        }
+                    }
+                    else {
+                        ExpressionStatement body = (ExpressionStatement) getSubscribersMethod.getCode()
+                        listExpression  = (ListExpression) body.getExpression()
+                    }
+                    listExpression.addExpression(classX(eventType))
+
+                }
+                else {
+                    weaveTrait(declaringClass, source, traitClass)
+                }
             }
 
             MethodNode getSubscribersMethod = declaringClass.getDeclaredMethod("getSubscribedMethods")
