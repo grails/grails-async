@@ -115,8 +115,8 @@ bintray {
     pkg {
         repo = isGrailsPlugin ? 'plugins' : 'grails-core'
         userOrg = 'grails'
-        name = project.title
-        desc = project.projectDesc
+        name = project.name
+        desc = "${project.title} - ${project.projectDesc}".toString()
         websiteUrl = projectUrl
         issueTrackerUrl = "https://github.com/$githubSlug/issues"
         vcsUrl = "https://github.com/$githubSlug"
