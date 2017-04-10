@@ -19,7 +19,7 @@ repositories {
 
 subprojects {
 
-    version "3.3.0.BUILD-SNAPSHOT"
+    version "3.3.0.TEST"
 
     ext {
         userOrg = "grails"

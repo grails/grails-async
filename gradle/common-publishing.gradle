@@ -111,7 +111,7 @@ bintray {
     user = u
     key = p
     publications = ['maven']
-    publish = true
+    publish = false
     pkg {
         repo = isGrailsPlugin ? 'plugins' : 'grails-core'
         userOrg = 'grails'
