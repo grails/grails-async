@@ -20,6 +20,7 @@ org.grails.compiler.web.async
 org.grails.events
 org.grails.events.bus
 org.grails.events.bus.spring
+org.grails.events.gorm
 org.grails.events.gpars
 org.grails.events.registry
 org.grails.events.rxjava

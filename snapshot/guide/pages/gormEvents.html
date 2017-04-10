@@ -101,20 +101,7 @@ function addJsClass() {
 <p>GORM defines a <a href="http://grails.github.io/grails-data-mapping/latest/api/org/grails/datastore/mapping/engine/event/package-summary.html">number of useful events</a> that you can listen for.</p>
 </div>
 <div class="paragraph">
-<p>The events are disabled by default as they add overhead and impact performance for read operations in GORM, however if this is not an issue for you then you can enable them with the following configuration in <code>grails-app/conf/application.yml</code>:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">grails</span>:
-    <span class="key">events</span>:
-        <span class="key">spring</span>: <span class="string"><span class="content">true</span></span></code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>This instructs Grails to translate Spring events (which are what GORM events are published as) into events published to the <code>EventBus</code>.</p>
-</div>
-<div class="paragraph">
-<p>Each event is published within the <code>gorm</code> namespace. You can listen for the events with a service as follows:</p>
+<p>To subscribe for an event just define a <code>Subscriber</code> that receives the event type as an argument:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -122,8 +109,7 @@ function addJsClass() {
 <span class="keyword">import</span> <span class="include">org.grails.datastore.mapping.engine.event.*</span>
 ...
 
-<span class="annotation">@Events</span>(namespace=<span class="string"><span class="delimiter">&quot;</span><span class="content">gorm</span><span class="delimiter">&quot;</span></span>)
-<span class="type">class</span> <span class="class">MyService</span> {
+class MyService {
 
     <span class="annotation">@Subscriber</span>
     <span class="type">void</span> preInsert(PreInsertEvent event) {
@@ -139,7 +125,7 @@ function addJsClass() {
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-These events are triggered asynchronously, and so cannot cancel or manipulate the persistence operations. If you want to do that see the section on <a href="http://gorm.grails.org/6.0.x/hibernate/manual/index.html#eventsAutoTimestamping">Events &amp; Auto Timestamping</a> in the GORM docs
+These events are triggered asynchronously, and so cannot cancel or manipulate the persistence operations. If you want to do that see the section on <a href="http://gorm.grails.org/latest/hibernate/manual/index.html#eventsAutoTimestamping">Events &amp; Auto Timestamping</a> in the GORM docs
 </td>
 </tr>
 </table>
