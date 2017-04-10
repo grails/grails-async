@@ -1,5 +1,6 @@
 package pubsub.demo
 
+import grails.gorm.transactions.Rollback
 import grails.test.mixin.integration.Integration
 import org.springframework.beans.factory.annotation.Autowired
 import spock.lang.Specification
@@ -12,6 +13,8 @@ class PubSubSpec extends Specification {
 
     @Autowired SumService sumService
     @Autowired TotalService totalService
+    @Autowired BookService bookService
+    @Autowired BookSubscriber bookSubscriber
 
     void "test event bus within Grails"() {
         when:
@@ -23,4 +26,25 @@ class PubSubSpec extends Specification {
         then:
         totalService.accumulatedTotal  == 6
     }
+
+    @Rollback
+    void "test event from data service with rollback"() {
+        when:"A transaction is rolled back"
+        bookService.saveBook("The Stand")
+        sleep(500)
+        then:"no event is fired"
+        bookSubscriber.newBooks == []
+
+    }
+
+    void "test event from data service"() {
+        when:"A transaction is committed"
+        bookService.saveBook("The Stand")
+        sleep(500)
+        then:"The event is fired"
+        bookSubscriber.newBooks == ["The Stand"]
+
+    }
+
+
 }

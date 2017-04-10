@@ -70,7 +70,7 @@ class PublisherTransform extends AbstractMethodDecoratingTransformation implemen
     }
 
     @Override
-    protected MethodCallExpression buildDelegatingMethodCall(SourceUnit sourceUnit, AnnotationNode annotationNode, ClassNode classNode, MethodNode methodNode, MethodCallExpression originalMethodCallExpr, BlockStatement newMethodBody) {
+    protected Expression buildDelegatingMethodCall(SourceUnit sourceUnit, AnnotationNode annotationNode, ClassNode classNode, MethodNode methodNode, MethodCallExpression originalMethodCallExpr, BlockStatement newMethodBody) {
 
         Expression result = varX('$result')
         // if the return type is void
@@ -160,7 +160,7 @@ class PublisherTransform extends AbstractMethodDecoratingTransformation implemen
         tryBody.addStatement(
             stmt( callThisX("publish", eventArgs) )
         )
-        return callX(classX(PublisherTransform), "returnSelf", result)
+        return result
     }
 
     @Override
@@ -168,10 +168,6 @@ class PublisherTransform extends AbstractMethodDecoratingTransformation implemen
         return ClassHelper.make(Publisher)
     }
 
-    // remove this hack when GORM 6.1.1 is out
-    public static Object returnSelf(Object o) {
-        return o
-    }
 
     @Override
     protected Object getAppliedMarker() {
