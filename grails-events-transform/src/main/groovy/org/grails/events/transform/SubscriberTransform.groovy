@@ -1,6 +1,7 @@
 package org.grails.events.transform
 
 import grails.events.annotation.Subscriber
+import grails.events.annotation.gorm.Listener
 import groovy.transform.CompileStatic
 import org.codehaus.groovy.ast.*
 import org.codehaus.groovy.ast.expr.ArgumentListExpression
@@ -15,6 +16,7 @@ import org.codehaus.groovy.transform.trait.Traits
 import org.grails.datastore.gorm.transform.AbstractTraitApplyingGormASTTransformation
 import org.grails.datastore.mapping.engine.event.AbstractPersistenceEvent
 import org.grails.datastore.mapping.reflect.AstUtils
+import org.grails.events.gorm.GormAnnotatedListener
 import org.grails.events.gorm.GormAnnotatedSubscriber
 
 import java.lang.reflect.Method
@@ -44,6 +46,11 @@ class SubscriberTransform extends AbstractTraitApplyingGormASTTransformation {
     }
 
     @Override
+    protected boolean isValidAnnotation(AnnotationNode annotationNode, AnnotatedNode classNode) {
+        return super.isValidAnnotation(annotationNode, classNode) || annotationNode.classNode.name == Listener.name
+    }
+
+    @Override
     void visit(SourceUnit source, AnnotationNode annotationNode, AnnotatedNode annotatedNode) {
         if(annotatedNode instanceof MethodNode && !Modifier.isAbstract(((MethodNode)annotatedNode).getModifiers())) {
             MethodNode methodNode = (MethodNode)annotatedNode
@@ -53,9 +60,20 @@ class SubscriberTransform extends AbstractTraitApplyingGormASTTransformation {
                     declaringClass.addField("lazyInit", Modifier.PUBLIC | Modifier.STATIC | Modifier.FINAL, ClassHelper.Boolean_TYPE, ConstantExpression.FALSE)
                 }
                 Parameter[] parameters = methodNode.parameters
-                if(parameters.length > 0 && AstUtils.isSubclassOf(parameters[0].type, AbstractPersistenceEvent.name )) {
+                boolean isGormEvent = parameters.length == 1 && AstUtils.isSubclassOf(parameters[0].type, AbstractPersistenceEvent.name)
+                boolean isGormListener = annotationNode.classNode.name == Listener.name
+                if(!isGormEvent && isGormListener) {
+                    addError("A GORM @Listener must accept a GORM event as an argument", annotationNode)
+                    return
+                }
+                if(isGormEvent) {
                     ClassNode eventType = parameters[0].type
-                    weaveTrait(declaringClass, source, GormAnnotatedSubscriber)
+                    if(isGormListener) {
+                        weaveTrait(declaringClass, source, GormAnnotatedListener)
+                    }
+                    else {
+                        weaveTrait(declaringClass, source, GormAnnotatedSubscriber)
+                    }
                     MethodNode getSubscribersMethod = declaringClass.getDeclaredMethod("getSubscribedEvents")
                     ListExpression listExpression
                     if(getSubscribersMethod.getAnnotations(ClassHelper.make(Traits.TraitBridge))) {

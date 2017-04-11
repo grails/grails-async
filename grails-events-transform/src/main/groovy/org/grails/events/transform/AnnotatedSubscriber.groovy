@@ -8,6 +8,7 @@ import grails.events.subscriber.MethodSubscriber
 import grails.events.annotation.Subscriber
 import groovy.transform.CompileStatic
 import org.grails.datastore.mapping.engine.event.AbstractPersistenceEvent
+import org.springframework.util.ReflectionUtils
 
 import javax.annotation.PostConstruct
 import java.beans.Introspector
@@ -30,6 +31,7 @@ trait AnnotatedSubscriber extends EventBusAware {
     void registerMethods() {
         Events events = getClass().getAnnotation(Events)
         for(Method m in subscribedMethods) {
+            ReflectionUtils.makeAccessible(m)
             Subscriber sub = m.getAnnotation(Subscriber)
             if(sub != null) {
                 String eventId = sub.value()

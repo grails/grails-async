@@ -2,6 +2,7 @@ package pubsub.demo
 
 import grails.gorm.transactions.Rollback
 import grails.test.mixin.integration.Integration
+import groovy.transform.NotYetImplemented
 import org.springframework.beans.factory.annotation.Autowired
 import spock.lang.Specification
 
@@ -34,7 +35,7 @@ class PubSubSpec extends Specification {
         sleep(500)
         then:"no event is fired"
         bookSubscriber.newBooks == []
-        bookSubscriber.insertEvents == []
+        bookSubscriber.insertEvents.isEmpty()
     }
 
     void "test event from data service"() {
@@ -47,5 +48,25 @@ class PubSubSpec extends Specification {
 
     }
 
+    @Rollback
+    void "test modify property event listener"() {
+        when:"When an event listener modifies a property"
+        bookService.saveBook("funny book")
 
+        then:"The property was modified"
+        Book.findByTitle("Humor - funny book") != null
+
+    }
+
+
+    @NotYetImplemented // fix Hibernate NPE
+    void "test synchronous event listener"() {
+        when:"When a event listener cancels an insert"
+        bookService.saveBook("UK Politics")
+
+        then:"The insert was cancelled"
+        bookSubscriber.newBooks == []
+        bookSubscriber.insertEvents.isEmpty()
+
+    }
 }

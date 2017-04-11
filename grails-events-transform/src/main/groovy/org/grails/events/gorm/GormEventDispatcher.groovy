@@ -21,9 +21,11 @@ class GormEventDispatcher extends AbstractPersistenceEventListener {
     private static final String GORM_NAMESPACE = "gorm:"
     protected final EventBus eventBus
     protected final Map<Class<? extends AbstractPersistenceEvent>, String> subscribedEvents
+    protected final List<GormAnnotatedListener> listeners
     protected final boolean hasEventSubscribers
+    protected final boolean hasListeners
 
-    GormEventDispatcher(EventBus eventBus, Datastore datastore, Set<Class<? extends AbstractPersistenceEvent>> subscribedEvents) {
+    GormEventDispatcher(EventBus eventBus, Datastore datastore, Set<Class<? extends AbstractPersistenceEvent>> subscribedEvents, List<GormAnnotatedListener> listeners) {
         super(datastore)
         this.eventBus = eventBus
         Map<Class<? extends AbstractPersistenceEvent>, String> subscribedEventMap = [:]
@@ -31,13 +33,25 @@ class GormEventDispatcher extends AbstractPersistenceEventListener {
             subscribedEventMap.put(event, GORM_NAMESPACE + (Introspector.decapitalize(event.simpleName) - "Event"))
         }
         this.subscribedEvents = Collections.unmodifiableMap(subscribedEventMap)
-        this.hasEventSubscribers = !subscribedEvents.isEmpty()
+        this.listeners = Collections.unmodifiableList(listeners)
+        this.hasListeners = !listeners.isEmpty()
+        this.hasEventSubscribers = !subscribedEvents.isEmpty() || hasListeners
     }
 
     @Override
     protected void onPersistenceEvent(AbstractPersistenceEvent event) {
+        if(hasListeners) {
+            for(listener in listeners) {
+                if(listener.supports(event)) {
+                    listener.dispatch(event)
+                }
+            }
+        }
+
         String eventName = subscribedEvents.get(event.getClass())
-        eventBus.notify(eventName, event)
+        if(eventName != null) {
+            eventBus.notify(eventName, event)
+        }
     }
 
     @Override
