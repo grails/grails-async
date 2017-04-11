@@ -1,0 +1,12 @@
+= Grails Async Framework
+
+This project contains APIs and libraries that integrate Grails with various asynchronous libraries and frameworks such as GPars and RxJava.
+
+== Documentation
+
+* Latest - http://async.grails.org
+* Latest - http://async.grails.org/latest/api
+
+
+* Snapshot Guide - http://async.grails.org/snapshot
+* Snapshot API - http://async.grails.org/snapshot
