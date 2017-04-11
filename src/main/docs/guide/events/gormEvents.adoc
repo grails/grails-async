@@ -1,20 +1,12 @@
-GORM defines a http://grails.github.io/grails-data-mapping/latest/api/org/grails/datastore/mapping/engine/event/package-summary.html[number of useful events] that you can listen for.
+GORM defines a http://gorm.grails.org/latest/api/org/grails/datastore/mapping/engine/event/package-summary.html[number of useful events] that you can listen for.
 
 To subscribe for an event just define a `Subscriber` that receives the event type as an argument:
 
 [source,groovy]
 ----
 import grails.events.annotation.*
-import org.grails.datastore.mapping.engine.event.*
 ...
-
-class MyService {
-
-    @Subscriber
-    void preInsert(PreInsertEvent event) {
-        println "GOT EVENT $event"
-    }
-}
+include::{sourcedir}/examples/pubsub-demo/src/main/groovy/pubsub/demo/BookSubscriber.groovy[tags=gorm, indent=0]
 ----
 
 NOTE: These events are triggered asynchronously, and so cannot cancel or manipulate the persistence operations. If you want to do that see the section on http://gorm.grails.org/latest/hibernate/manual/index.html#eventsAutoTimestamping[Events & Auto Timestamping] in the GORM docs
