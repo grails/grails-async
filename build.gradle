@@ -18,6 +18,10 @@ repositories {
 }
 version project.projectVersion
 
+ext {
+    commonBuild = "https://raw.githubusercontent.com/grails/grails-common-build/master"
+}
+
 subprojects {
 
     version project.projectVersion
@@ -27,6 +31,7 @@ subprojects {
         isGrailsPlugin = name.startsWith('grails-plugin')
         isBuildSnapshot = version.toString().endsWith("-SNAPSHOT")
     }
+
     if(isGrailsPlugin) {
         group "org.grails.plugins"
     }
@@ -42,9 +47,9 @@ subprojects {
         apply plugin:"org.grails.grails-web"
     }
     else {
-        apply from:"${rootProject.projectDir}/gradle/common-project.gradle"
-        apply from:"${rootProject.projectDir}/gradle/common-publishing.gradle"
+        apply from:"${commonBuild}/common-project.gradle"
+        apply from:"${commonBuild}/common-publishing.gradle"
     }
 }
 
-apply from:"${rootProject.projectDir}/gradle/common-docs.gradle"
+apply from:"${commonBuild}/common-docs.gradle"
