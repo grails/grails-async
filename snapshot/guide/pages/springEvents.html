@@ -98,7 +98,10 @@ function addJsClass() {
 
 
 <div class="paragraph">
-<p>Spring also fires a number of useful events. All events in the <code>org.springframework</code> use the <code>spring</code> namespace.</p>
+<p>Spring also fires a number of useful events. All events in the <code>org.springframework</code> use the <code>spring</code> namespace. However, these events are disabled by default as they add a performance overhead.</p>
+</div>
+<div class="paragraph">
+<p>To enable Spring Event translation set <code>grails.events.spring</code> to <code>true</code> in <code>application.yml</code> prior to defining subscribers.</p>
 </div>
 <div class="paragraph">
 <p>For example:</p>

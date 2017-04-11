@@ -99,6 +99,9 @@ if (location.href.indexOf('is-external=true') == -1) {
 
 
 
+    <p> Dispatches GORM events to the EventBus
+ <DL><DT><B>Authors:</B></DT><DD>Graeme Rocher</DD></DL><DL><DT><B>Since:</B></DT><DD>3.3</DD></DL></p>
+
           </li>
     </ul>
 </div>
@@ -132,6 +135,24 @@ if (location.href.indexOf('is-external=true') == -1) {
                         </tr>
                         
                         <tr class="rowColor">
+                            <td class="colFirst"><code><strong>protected&nbsp;boolean</strong></code>&nbsp;</td>
+                            <td class="colLast"><code><a href="#hasEventSubscribers">hasEventSubscribers</a></code></td>
+                            <td class="colLast"></code></td>
+                        </tr>
+                        
+                        <tr class="altColor">
+                            <td class="colFirst"><code><strong>protected&nbsp;boolean</strong></code>&nbsp;</td>
+                            <td class="colLast"><code><a href="#hasListeners">hasListeners</a></code></td>
+                            <td class="colLast"></code></td>
+                        </tr>
+                        
+                        <tr class="rowColor">
+                            <td class="colFirst"><code><strong>protected&nbsp;java.util.List&lt;<a href='../../../../org/grails/events/gorm/GormAnnotatedListener.html' title='GormAnnotatedListener'>GormAnnotatedListener</a>&gt;</strong></code>&nbsp;</td>
+                            <td class="colLast"><code><a href="#listeners">listeners</a></code></td>
+                            <td class="colLast"></code></td>
+                        </tr>
+                        
+                        <tr class="altColor">
                             <td class="colFirst"><code><strong>protected&nbsp;java.util.Map&lt;java.lang.Class&lt;? extends AbstractPersistenceEvent&gt;, java.lang.String&gt;</strong></code>&nbsp;</td>
                             <td class="colLast"><code><a href="#subscribedEvents">subscribedEvents</a></code></td>
                             <td class="colLast"></code></td>
@@ -164,8 +185,8 @@ if (location.href.indexOf('is-external=true') == -1) {
                         
                         <tr class="altColor">
                             <td class="colFirst">
-                                <code><a href="#GormEventDispatcher(grails.events.bus.EventBus, Datastore, Set<Class<? extends AbstractPersistenceEvent>>)">GormEventDispatcher</a></strong>
-                                (<a href='../../../../grails/events/bus/EventBus.html'>EventBus</a> eventBus, <a href='../../../../Datastore.html'>Datastore</a> datastore, java.util.Set&lt;java.lang.Class&lt;? extends AbstractPersistenceEvent&gt;&gt; subscribedEvents)</code><br></td>
+                                <code><a href="#GormEventDispatcher(grails.events.bus.EventBus, Datastore, Set<Class<? extends AbstractPersistenceEvent>>, List<GormAnnotatedListener>)">GormEventDispatcher</a></strong>
+                                (<a href='../../../../grails/events/bus/EventBus.html'>EventBus</a> eventBus, <a href='../../../../Datastore.html'>Datastore</a> datastore, java.util.Set&lt;java.lang.Class&lt;? extends AbstractPersistenceEvent&gt;&gt; subscribedEvents, java.util.List&lt;<a href='../../../../org/grails/events/gorm/GormAnnotatedListener.html' title='GormAnnotatedListener'>GormAnnotatedListener</a>&gt; listeners)</code><br></td>
                         </tr>
                         
                     </table>
@@ -196,6 +217,11 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <tr class="rowColor">
                             <td class="colFirst"><code>boolean</strong></code></td>
                             <td class="colLast"><code><strong><a href="#supportsEventType(Class<? extends ApplicationEvent>)">supportsEventType</a></strong>(java.lang.Class&lt;? extends ApplicationEvent&gt; aClass)</code><br></td>
+                        </tr>
+                        
+                        <tr class="altColor">
+                            <td class="colFirst"><code>boolean</strong></code></td>
+                            <td class="colLast"><code><strong><a href="#supportsSourceType(Class<?>)">supportsSourceType</a></strong>(java.lang.Class&lt;?&gt; sourceType)</code><br></td>
                         </tr>
                         
                     </table>
@@ -229,6 +255,30 @@ if (location.href.indexOf('is-external=true') == -1) {
                             </li>
                         </ul>
                     
+                        <a name="hasEventSubscribers"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4>protected&nbsp;final&nbsp;boolean <strong>hasEventSubscribers</strong></h4>
+                                <p></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="hasListeners"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4>protected&nbsp;final&nbsp;boolean <strong>hasListeners</strong></h4>
+                                <p></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="listeners"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4>protected&nbsp;final&nbsp;java.util.List&lt;<a href='../../../../org/grails/events/gorm/GormAnnotatedListener.html' title='GormAnnotatedListener'>GormAnnotatedListener</a>&gt; <strong>listeners</strong></h4>
+                                <p></p>
+                            </li>
+                        </ul>
+                    
                         <a name="subscribedEvents"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
@@ -253,10 +303,10 @@ if (location.href.indexOf('is-external=true') == -1) {
                 </a>
                     <h3>Constructor Detail</h3>
                     
-                        <a name="GormEventDispatcher(grails.events.bus.EventBus, Datastore, Set<Class<? extends AbstractPersistenceEvent>>)"><!-- --></a>
+                        <a name="GormEventDispatcher(grails.events.bus.EventBus, Datastore, Set<Class<? extends AbstractPersistenceEvent>>, List<GormAnnotatedListener>)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4><strong>GormEventDispatcher</strong>(<a href='../../../../grails/events/bus/EventBus.html'>EventBus</a> eventBus, <a href='../../../../Datastore.html'>Datastore</a> datastore, java.util.Set&lt;java.lang.Class&lt;? extends AbstractPersistenceEvent&gt;&gt; subscribedEvents)</h4>
+                                <h4><strong>GormEventDispatcher</strong>(<a href='../../../../grails/events/bus/EventBus.html'>EventBus</a> eventBus, <a href='../../../../Datastore.html'>Datastore</a> datastore, java.util.Set&lt;java.lang.Class&lt;? extends AbstractPersistenceEvent&gt;&gt; subscribedEvents, java.util.List&lt;<a href='../../../../org/grails/events/gorm/GormAnnotatedListener.html' title='GormAnnotatedListener'>GormAnnotatedListener</a>&gt; listeners)</h4>
                                 <p></p>
                             </li>
                         </ul>
@@ -288,6 +338,15 @@ protected&nbsp;void <strong>onPersistenceEvent</strong>(<a href='../../../../Abs
                             <li class="blockList">
                                 <h4>@java.lang.Override
 boolean <strong>supportsEventType</strong>(java.lang.Class&lt;? extends ApplicationEvent&gt; aClass)</h4>
+                                <p></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="supportsSourceType(Class<?>)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4>@java.lang.Override
+boolean <strong>supportsSourceType</strong>(java.lang.Class&lt;?&gt; sourceType)</h4>
                                 <p></p>
                             </li>
                         </ul>

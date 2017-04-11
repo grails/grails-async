@@ -374,6 +374,8 @@ if (location.href.indexOf('is-external=true') == -1) {
 </dt><dd><div class="block">Helps looking up the decorators</div></dd>
 <dt><span class="strong"><a href="grails/async/web/AsyncGrailsWebRequest.html#dispatch()" title="Method in AsyncGrailsWebRequest">dispatch()</a></span> - Method in <a href="grails/async/web/AsyncGrailsWebRequest.html">AsyncGrailsWebRequest</a>
 </dt><dd> <div class="block"></div></dd>
+<dt><span class="strong"><a href="org/grails/events/gorm/GormAnnotatedListener.html#dispatch(AbstractPersistenceEvent)" title="Method in GormAnnotatedListener">dispatch(AbstractPersistenceEvent)</a></span> - Method in <a href="org/grails/events/gorm/GormAnnotatedListener.html">GormAnnotatedListener</a>
+</dt><dd> <div class="block">Dispatch the event to this listener</div></dd>
 <dt><span class="strong"><a href="org/grails/plugins/web/async/ControllersAsyncGrailsPlugin.html#doWithSpring()" title="Method in ControllersAsyncGrailsPlugin">doWithSpring()</a></span> - Method in <a href="org/grails/plugins/web/async/ControllersAsyncGrailsPlugin.html">ControllersAsyncGrailsPlugin</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/grails/plugins/events/EventBusGrailsPlugin.html#doWithSpring()" title="Method in EventBusGrailsPlugin">doWithSpring()</a></span> - Method in <a href="org/grails/plugins/events/EventBusGrailsPlugin.html">EventBusGrailsPlugin</a>
@@ -542,6 +544,8 @@ if (location.href.indexOf('is-external=true') == -1) {
 </dt><dd> <div class="block">@return The event listener</div></dd>
 <dt><span class="strong"><a href="org/grails/events/transform/SubscriberTransform.html#getTraitClass()" title="Method in SubscriberTransform">getTraitClass()</a></span> - Method in <a href="org/grails/events/transform/SubscriberTransform.html">SubscriberTransform</a>
 </dt><dd> <div class="block"></div></dd>
+<dt><span class="strong"><a href="org/grails/events/gorm/GormAnnotatedListener.html" title="Trait in org.grails.events.gorm">GormAnnotatedListener</a></span> - Trait in <a href="./org/grails/events/gorm/package-summary.html">org.grails.events.gorm</a>
+</dt><dd><div class="block">Marks a class as a synchronous listener of GORM events</div></dd>
 <dt><span class="strong"><a href="org/grails/events/gorm/GormAnnotatedSubscriber.html" title="Trait in org.grails.events.gorm">GormAnnotatedSubscriber</a></span> - Trait in <a href="./org/grails/events/gorm/package-summary.html">org.grails.events.gorm</a>
 </dt><dd><div class="block">The events subscribed to</div></dd>
 <dt><span class="strong"><a href="org/grails/events/gorm/GormDispatcherRegistrar.html" title="Class in org.grails.events.gorm">GormDispatcherRegistrar</a></span> - Class in <a href="./org/grails/events/gorm/package-summary.html">org.grails.events.gorm</a>
@@ -549,8 +553,8 @@ if (location.href.indexOf('is-external=true') == -1) {
 <dt><span class="strong"><a href="org/grails/events/gorm/GormDispatcherRegistrar.html#GormDispatcherRegistrar(grails.events.bus.EventBus)" title="Constructor in GormDispatcherRegistrar">GormDispatcherRegistrar(EventBus)</a></span> - Constructor in <a href="org/grails/events/gorm/GormDispatcherRegistrar.html">GormDispatcherRegistrar</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/grails/events/gorm/GormEventDispatcher.html" title="Class in org.grails.events.gorm">GormEventDispatcher</a></span> - Class in <a href="./org/grails/events/gorm/package-summary.html">org.grails.events.gorm</a>
-</dt><dd><div class="block"></div></dd>
-<dt><span class="strong"><a href="org/grails/events/gorm/GormEventDispatcher.html#GormEventDispatcher(grails.events.bus.EventBus, Datastore, Set<Class<? extends AbstractPersistenceEvent>>)" title="Constructor in GormEventDispatcher">GormEventDispatcher(EventBus, Datastore, Set&lt;Class&lt;? extends AbstractPersistenceEvent&gt;&gt;)</a></span> - Constructor in <a href="org/grails/events/gorm/GormEventDispatcher.html">GormEventDispatcher</a>
+</dt><dd><div class="block">Dispatches GORM events to the EventBus</div></dd>
+<dt><span class="strong"><a href="org/grails/events/gorm/GormEventDispatcher.html#GormEventDispatcher(grails.events.bus.EventBus, Datastore, Set<Class<? extends AbstractPersistenceEvent>>, List<GormAnnotatedListener>)" title="Constructor in GormEventDispatcher">GormEventDispatcher(EventBus, Datastore, Set&lt;Class&lt;? extends AbstractPersistenceEvent&gt;&gt;, List&lt;GormAnnotatedListener&gt;)</a></span> - Constructor in <a href="org/grails/events/gorm/GormEventDispatcher.html">GormEventDispatcher</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/grails/async/factory/gpars/GparsPromise.html" title="Class in org.grails.async.factory.gpars">GparsPromise</a></span> - Class in <a href="./org/grails/async/factory/gpars/package-summary.html">org.grails.async.factory.gpars</a>
 </dt><dd><div class="block">Implementation of Promise interface for Gpars</div></dd>
@@ -574,6 +578,10 @@ if (location.href.indexOf('is-external=true') == -1) {
 <dl>
 
 <dt><span class="strong"><a href="org/grails/plugins/web/async/mvc/AsyncActionResultTransformer.html#handleComplete(HttpServletRequest, HttpServletResponse, AsyncContext)" title="Method in AsyncActionResultTransformer">handleComplete(HttpServletRequest, HttpServletResponse, AsyncContext)</a></span> - Method in <a href="org/grails/plugins/web/async/mvc/AsyncActionResultTransformer.html">AsyncActionResultTransformer</a>
+</dt><dd> <div class="block"></div></dd>
+<dt><span class="strong"><a href="org/grails/events/gorm/GormEventDispatcher.html#hasEventSubscribers" title="Field in GormEventDispatcher">hasEventSubscribers</a></span> - Field in <a href="org/grails/events/gorm/GormEventDispatcher.html">GormEventDispatcher</a>
+</dt><dd> <div class="block"></div></dd>
+<dt><span class="strong"><a href="org/grails/events/gorm/GormEventDispatcher.html#hasListeners" title="Field in GormEventDispatcher">hasListeners</a></span> - Field in <a href="org/grails/events/gorm/GormEventDispatcher.html">GormEventDispatcher</a>
 </dt><dd> <div class="block"></div></dd>
 </dl>
 
@@ -632,6 +640,8 @@ if (location.href.indexOf('is-external=true') == -1) {
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/grails/plugins/web/async/spring/PromiseFactoryBean.html#isSingleton()" title="Method in PromiseFactoryBean">isSingleton()</a></span> - Method in <a href="org/grails/plugins/web/async/spring/PromiseFactoryBean.html">PromiseFactoryBean</a>
 </dt><dd> <div class="block"></div></dd>
+<dt><span class="strong"><a href="org/grails/events/transform/SubscriberTransform.html#isValidAnnotation(org.codehaus.groovy.ast.AnnotationNode, org.codehaus.groovy.ast.AnnotatedNode)" title="Method in SubscriberTransform">isValidAnnotation(AnnotationNode, AnnotatedNode)</a></span> - Method in <a href="org/grails/events/transform/SubscriberTransform.html">SubscriberTransform</a>
+</dt><dd> <div class="block"></div></dd>
 </dl>
 
     
@@ -662,6 +672,10 @@ if (location.href.indexOf('is-external=true') == -1) {
 <dt><span class="strong"><a href="grails/async/PromiseMap.html#leftShift(groovy.lang.Closure)" title="Method in PromiseMap">leftShift(Closure)</a></span> - Method in <a href="grails/async/PromiseMap.html">PromiseMap</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/grails/async/factory/SynchronousPromise.html#leftShift(groovy.lang.Closure)" title="Method in SynchronousPromise">leftShift(Closure)</a></span> - Method in <a href="org/grails/async/factory/SynchronousPromise.html">SynchronousPromise</a>
+</dt><dd> <div class="block"></div></dd>
+<dt><span class="strong"><a href="grails/events/annotation/gorm/Listener.html" title="Annotation Type in grails.events.annotation.gorm">Listener</a></span> - Annotation Type in <a href="./grails/events/annotation/gorm/package-summary.html">grails.events.annotation.gorm</a>
+</dt><dd><div class="block">A Listener is like a <a href='../../../../grails/events/annotation/Subscriber.html' title='Subscriber'>Subscriber</a> for GORM events, but is dispatched synchronously</div></dd>
+<dt><span class="strong"><a href="org/grails/events/gorm/GormEventDispatcher.html#listeners" title="Field in GormEventDispatcher">listeners</a></span> - Field in <a href="org/grails/events/gorm/GormEventDispatcher.html">GormEventDispatcher</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/grails/async/factory/gpars/LoggingPoolFactory.html#LOG" title="Field in LoggingPoolFactory">LOG</a></span> - Field in <a href="org/grails/async/factory/gpars/LoggingPoolFactory.html">LoggingPoolFactory</a>
 </dt><dd> <div class="block"></div></dd>
@@ -968,7 +982,11 @@ if (location.href.indexOf('is-external=true') == -1) {
 </dt><dd><div class="block"><DL><DT><B>deprecated:</B></DT><DD>Here for compatibility only.</DD></DL> </div></dd>
 <dt><span class="strong"><a href="org/grails/events/bus/AbstractEventBus.html#subscriptions" title="Field in AbstractEventBus">subscriptions</a></span> - Field in <a href="org/grails/events/bus/AbstractEventBus.html">AbstractEventBus</a>
 </dt><dd> <div class="block"></div></dd>
+<dt><span class="strong"><a href="org/grails/events/gorm/GormAnnotatedListener.html#supports(AbstractPersistenceEvent)" title="Method in GormAnnotatedListener">supports(AbstractPersistenceEvent)</a></span> - Method in <a href="org/grails/events/gorm/GormAnnotatedListener.html">GormAnnotatedListener</a>
+</dt><dd> <div class="block">Whether the listener supports the given event</div></dd>
 <dt><span class="strong"><a href="org/grails/events/gorm/GormEventDispatcher.html#supportsEventType(Class<? extends ApplicationEvent>)" title="Method in GormEventDispatcher">supportsEventType(Class&lt;? extends ApplicationEvent&gt;)</a></span> - Method in <a href="org/grails/events/gorm/GormEventDispatcher.html">GormEventDispatcher</a>
+</dt><dd> <div class="block"></div></dd>
+<dt><span class="strong"><a href="org/grails/events/gorm/GormEventDispatcher.html#supportsSourceType(Class<?>)" title="Method in GormEventDispatcher">supportsSourceType(Class&lt;?&gt;)</a></span> - Method in <a href="org/grails/events/gorm/GormEventDispatcher.html">GormEventDispatcher</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/grails/events/bus/SynchronousEventBus.html" title="Class in org.grails.events.bus">SynchronousEventBus</a></span> - Class in <a href="./org/grails/events/bus/package-summary.html">org.grails.events.bus</a>
 </dt><dd><div class="block">A default synchronous event bus for testing</div></dd>

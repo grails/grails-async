@@ -6,6 +6,7 @@ grails.async.services
 grails.async.web
 grails.events
 grails.events.annotation
+grails.events.annotation.gorm
 grails.events.bus
 grails.events.emitter
 grails.events.subscriber
