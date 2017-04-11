@@ -16,10 +16,11 @@ repositories {
     mavenLocal()
     maven { url "https://repo.grails.org/grails/core" }
 }
+version project.projectVersion
 
 subprojects {
 
-    version "3.3.0.BUILD-SNAPSHOT"
+    version project.projectVersion
 
     ext {
         userOrg = "grails"

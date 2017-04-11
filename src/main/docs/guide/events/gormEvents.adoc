@@ -26,4 +26,4 @@ void tagFunnyBooks(PreInsertEvent event) {
 }
 ----
 
-TIP: If you plan to modify properties of an entity being inserted, use the `EntityAccess` object as shown above. If you set properties directly on the the entity it will be marked as dirty which will cause another update to be issue.
+TIP: If you plan to modify properties of an entity being inserted, use the `EntityAccess` object as shown above. If you set properties directly on the the entity it will be marked as dirty which will cause another update to be issued.
