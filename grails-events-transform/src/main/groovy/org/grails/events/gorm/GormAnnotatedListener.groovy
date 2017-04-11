@@ -1,6 +1,9 @@
 package org.grails.events.gorm
 
+import groovy.transform.CompileStatic
 import org.grails.datastore.mapping.engine.event.AbstractPersistenceEvent
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.util.ReflectionUtils
 
 /**
@@ -9,8 +12,9 @@ import org.springframework.util.ReflectionUtils
  * @author Graeme Rocher
  * @since 3.3
  */
+@CompileStatic
 trait GormAnnotatedListener extends GormAnnotatedSubscriber {
-
+    private static final Logger log = LoggerFactory.getLogger(GormAnnotatedListener)
     /**
      * Whether the listener supports the given event
      * @param event The event
@@ -26,7 +30,13 @@ trait GormAnnotatedListener extends GormAnnotatedSubscriber {
     void dispatch(AbstractPersistenceEvent event) {
         for(method in getSubscribedMethods()) {
             if(method.parameterTypes[0].isInstance(event)) {
-                ReflectionUtils.invokeMethod(method, this, event)
+                try {
+                    log.debug("Invoking method [{}] for event [{}]", method, event)
+                    ReflectionUtils.invokeMethod(method, this, event)
+                } catch (Throwable e) {
+                    log.error("Error triggering event [$event] for listener [${method}]: $e.message", e)
+                    throw e
+                }
             }
         }
     }
