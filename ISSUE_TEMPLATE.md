@@ -1,4 +1,4 @@
-Thanks for reporting an issue for GSP, please review the task list below before submitting the 
+Thanks for reporting an issue for Grails Async, please review the task list below before submitting the 
 issue. Your issue report will be closed if the issue is incomplete and the below tasks not completed.
 
 NOTE: If you are unsure about something and the issue is more of a question a better place to ask questions is on Stack Overflow (http://stackoverflow.com/tags/grails) or Slack (http://slack-signup.grails.org). DO NOT use the issue tracker to ask questions.
