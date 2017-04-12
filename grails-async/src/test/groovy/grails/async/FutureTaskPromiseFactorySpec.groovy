@@ -5,6 +5,8 @@ import org.grails.async.factory.future.CachedThreadPoolPromiseFactory
 import spock.lang.Issue
 import spock.lang.Specification
 
+import java.util.concurrent.ExecutionException
+
 /**
  * Created by graemerocher on 29/03/2017.
  */
@@ -97,10 +99,10 @@ class FutureTaskPromiseFactorySpec extends Specification {
         }
         promise.onError { err ->
             error = err
-        }
-        sleep 1000
+        }.get()
 
         then:"The onComplete handler is invoked and the onError handler is ignored"
+        thrown(ExecutionException)
         result == null
         error != null
         error.message == "java.lang.RuntimeException: bad"
