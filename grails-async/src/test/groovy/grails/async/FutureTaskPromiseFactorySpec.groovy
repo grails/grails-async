@@ -105,7 +105,6 @@ class FutureTaskPromiseFactorySpec extends Specification {
         thrown(ExecutionException)
         result == null
         error != null
-        error.message == "java.lang.RuntimeException: bad"
     }
 
     void "Test promise chaining"() {
