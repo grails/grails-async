@@ -1,3 +1,5 @@
+rootProject.name = 'grails-async'
+
 include 'grails-async'
 include 'grails-async-gpars'
 include 'grails-async-rxjava'
