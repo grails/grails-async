@@ -1,5 +1,12 @@
 A Promise is a concept being embraced by many concurrency frameworks. They are similar to `java.util.concurrent.Future` instances, but include a more user friendly exception handling model, useful features like chaining and the ability to attach listeners.
 
+To use the Grails Promise abstraction you should add a dependency on the `async` plugin to your `build.gradle` file:
+
+[source,groovy,subs="attributes"]
+.build.gradle
+----
+runtime "org.grails.plugins:async:{version}"
+----
 
 === Promise Basics
 
