@@ -2,7 +2,7 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>2 Promises unspecified</title>
+    <title>2 Promises 3.3.0.M2</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
@@ -19,7 +19,7 @@ function addJsClass() {
 <div id="navigation">
     <div class="navTitle">
         
-        Grails Async
+        Grails Async Framework
     </div>
     <div class="navLinks">
         <ul>
@@ -81,7 +81,7 @@ function addJsClass() {
                 <div class="project">
                     <h1>2 Promises</h1>
 
-                    <p><strong>Version:</strong> unspecified</p>
+                    <p><strong>Version:</strong> 3.3.0.M2</p>
                 </div>
 
                 
@@ -99,6 +99,15 @@ function addJsClass() {
 
 <div class="paragraph">
 <p>A Promise is a concept being embraced by many concurrency frameworks. They are similar to <code>java.util.concurrent.Future</code> instances, but include a more user friendly exception handling model, useful features like chaining and the ability to attach listeners.</p>
+</div>
+<div class="paragraph">
+<p>To use the Grails Promise abstraction you should add a dependency on the <code>async</code> plugin to your <code>build.gradle</code> file:</p>
+</div>
+<div class="listingblock">
+<div class="title">build.gradle</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy">runtime "org.grails.plugins:async:3.3.0.M2"</code></pre>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_promise_basics">Promise Basics</h3>
@@ -179,7 +188,7 @@ p.onComplete { result -&gt;
 <div class="listingblock">
 <div class="title">build.gradle</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy">runtime "org.grails:grails-async-rxjava:unspecified"</code></pre>
+<pre class="CodeRay highlight"><code data-lang="groovy">runtime "org.grails:grails-async-rxjava:3.3.0.M2"</code></pre>
 </div>
 </div>
 <div class="paragraph">

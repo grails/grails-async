@@ -2,12 +2,11 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>Grails Async</title>
+    <title>Grails Async Framework</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8" />
-    <link rel="stylesheet" href="../css/guide.css" type="text/css" media="screen, print" title="Style" charset="utf-8" />
     <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8" />
-
+    <script src="../js/docs.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.13/clipboard.min.js"></script>
     <script type="text/javascript">
         function addJsClass(el) {
@@ -63,11 +62,10 @@
             <div id="main" class="corner-all">
 
                 <div class="project">
-                    <h1>Grails Async</h1>
+                    <h1>Grails Async Framework</h1>
                     <p></p>
-                    <p></p>
-                    <!--<p><strong>Authors:</strong> Graeme Rocher</p>-->
-                    <p><strong>Version:</strong> 3.2.8</p>
+                    <p>Grails Async Libraries</p>
+                    <p><strong>Version:</strong> 3.3.0.M2</p>
 
                 </div>
 
@@ -101,6 +99,15 @@
 
 <div class="paragraph">
 <p>A Promise is a concept being embraced by many concurrency frameworks. They are similar to <code>java.util.concurrent.Future</code> instances, but include a more user friendly exception handling model, useful features like chaining and the ability to attach listeners.</p>
+</div>
+<div class="paragraph">
+<p>To use the Grails Promise abstraction you should add a dependency on the <code>async</code> plugin to your <code>build.gradle</code> file:</p>
+</div>
+<div class="listingblock">
+<div class="title">build.gradle</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy">runtime "org.grails.plugins:async:3.3.0.M2"</code></pre>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_promise_basics">Promise Basics</h3>
@@ -181,7 +188,7 @@ p.onComplete { result -&gt;
 <div class="listingblock">
 <div class="title">build.gradle</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy">runtime "org.grails:grails-async-rxjava:unspecified"</code></pre>
+<pre class="CodeRay highlight"><code data-lang="groovy">runtime "org.grails:grails-async-rxjava:3.3.0.M2"</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -414,10 +421,19 @@ map.onComplete { <span class="predefined-type">Map</span> results -&gt;
 
 
 <div class="paragraph">
-<p>Grails 3.3 introduces a new Events API that replaces the previous implementation that was based on Reactor 2.x (which is no longer maintained and deprecated by Pivotal).</p>
+<p>Grails 3.3 introduces a new Events API that replaces the previous implementation that was based on Reactor 2.x (which is no longer maintained and deprecated).</p>
 </div>
 <div class="paragraph">
 <p>In Grails 3.3 and above a new <a href="../api/grails/events/bus/EventBus.html">EventBus</a> abstraction has been introduced. Like the <code>PromiseFactory</code> notion, there are implementations of the <code>EventBus</code> interface for common asynchronous frameworks like GPars and RxJava.</p>
+</div>
+<div class="paragraph">
+<p>To use the Grails Events abstraction you should add a dependency on the <code>events</code> plugin to your <code>build.gradle</code> file:</p>
+</div>
+<div class="listingblock">
+<div class="title">build.gradle</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy">runtime "org.grails.plugins:events:3.3.0.M2"</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>If no asynchronous framework in present on the classpath then by default Grails creates an EventBus based off of the currently active <code>PromiseFactory</code>. The default implementation is <a href="../api/org/grails/async/factory/future/CachedThreadPoolPromiseFactory.html">CachedThreadPoolPromiseFactory</a> which uses a thread pool that will create threads as needed (the same as <code>java.util.concurrent.Executors.newCachedThreadPool()</code>).</p>
@@ -428,7 +444,7 @@ map.onComplete { <span class="predefined-type">Map</span> results -&gt;
 <div class="listingblock">
 <div class="title">build.gradle</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy">runtime "org.grails:grails-events-rxjava:unspecified"</code></pre>
+<pre class="CodeRay highlight"><code data-lang="groovy">runtime "org.grails:grails-events-rxjava:3.3.0.M2"</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -460,7 +476,7 @@ map.onComplete { <span class="predefined-type">Map</span> results -&gt;
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>org.grails.events.rxjava.RxEventBus</code></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">RxJava 1.2.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RxJava 2.x</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>grails-events-rxjava2</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>org.grails.events.rxjava2.RxEventBus</code></p></td>
 </tr>
@@ -623,7 +639,7 @@ class TotalService <span class="directive">implements</span> EventBusAware {
 </div>
 </div>
 <div class="paragraph">
-<p>Within the <code>grails-events-compat</code> dependency Grails 3.3 and above ship versions of these annotations that bridge and provide compatibility for applications upgrading to Grails 3.3, however these annotations are considered deprecated and the <a href="../api/grails/events/annotation/Subscriber.html">Subscriber</a> should be used instead which provides equivalent functionality.</p>
+<p>Within the <code>grails-events-compat</code> dependency Grails 3.3 and above ship versions of these annotations that bridge and provide compatibility for applications upgrading to Grails 3.3, however these annotations are considered deprecated and the <a href="../api/grails/events/annotation/Subscriber.html">Subscriber</a> annotation should be used instead which provides equivalent functionality.</p>
 </div>
 
 
@@ -689,7 +705,7 @@ These events are triggered asynchronously, and so cannot cancel or manipulate th
 <i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-If you plan to modify properties of an entity being inserted, use the <code>EntityAccess</code> object as shown above. If you set properties directly on the the entity it will be marked as dirty which will cause another update to be issue.
+If you plan to modify properties of an entity being inserted, use the <code>EntityAccess</code> object as shown above. If you set properties directly on the the entity it will be marked as dirty which will cause another update to be issued.
 </td>
 </tr>
 </table>
