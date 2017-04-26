@@ -100,6 +100,15 @@ function addJsClass() {
 <div class="paragraph">
 <p>A Promise is a concept being embraced by many concurrency frameworks. They are similar to <code>java.util.concurrent.Future</code> instances, but include a more user friendly exception handling model, useful features like chaining and the ability to attach listeners.</p>
 </div>
+<div class="paragraph">
+<p>To use the Grails Promise abstraction you should add a dependency on the <code>async</code> plugin to your <code>build.gradle</code> file:</p>
+</div>
+<div class="listingblock">
+<div class="title">build.gradle</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy">runtime "org.grails.plugins:async:3.3.0.BUILD-SNAPSHOT"</code></pre>
+</div>
+</div>
 <div class="sect2">
 <h3 id="_promise_basics">Promise Basics</h3>
 <div class="paragraph">

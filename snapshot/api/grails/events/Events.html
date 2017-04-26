@@ -156,82 +156,98 @@ if (location.href.indexOf('is-external=true') == -1) {
                     <table class="overviewSummary" border="0" cellpadding="3" cellspacing="0" summary="Methods Summary table">
                         <caption><span>Methods</span><span class="tabEnd">&nbsp;</span></caption>
                         <tr>
-                            <th class="colFirst" scope="col">Type</th>
+                            <th class="colFirst" scope="col">Type Params</th>
+                            <th class="colLast" scope="col">Return Type</th>
                             <th class="colLast" scope="col">Name and description</th>
                         </tr>
                         
                         <tr class="altColor">
-                            <td class="colFirst"><code>boolean</strong></code></td>
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code>boolean</code></td>
                             <td class="colLast"><code><strong><a href="#clearEventConsumers(def)">clearEventConsumers</a></strong>(java.lang.Object key)</code><br>Clears event consumers for the given key</td>
                         </tr>
                         
                         <tr class="rowColor">
-                            <td class="colFirst"><code><a href='../../grails/events/Event.html' title='Event'>Event</a>&lt;T&gt;</strong></code></td>
+                            <td class="colFirst"><code>&lt;T&gt;</code></td>
+                            <td class="colLast"><code><a href='../../grails/events/Event.html' title='Event'>Event</a>&lt;T&gt;</code></td>
                             <td class="colLast"><code><strong><a href="#eventFor(T)">eventFor</a></strong>(T data)</code><br>Creates an <a href='../../grails/events/Event.html' title='Event'>Event</a> for the given data</td>
                         </tr>
                         
                         <tr class="altColor">
-                            <td class="colFirst"><code><a href='../../grails/events/Event.html' title='Event'>Event</a>&lt;T&gt;</strong></code></td>
+                            <td class="colFirst"><code>&lt;T&gt;</code></td>
+                            <td class="colLast"><code><a href='../../grails/events/Event.html' title='Event'>Event</a>&lt;T&gt;</code></td>
                             <td class="colLast"><code><strong><a href="#eventFor(Map<String, Object>, T)">eventFor</a></strong>(java.util.Map&lt;java.lang.String, java.lang.Object&gt; headers, T data)</code><br>Creates an <a href='../../grails/events/Event.html' title='Event'>Event</a> for the given headers and data</td>
                         </tr>
                         
                         <tr class="rowColor">
-                            <td class="colFirst"><code><a href='../../grails/events/Event.html' title='Event'>Event</a>&lt;T&gt;</strong></code></td>
+                            <td class="colFirst"><code>&lt;T&gt;</code></td>
+                            <td class="colLast"><code><a href='../../grails/events/Event.html' title='Event'>Event</a>&lt;T&gt;</code></td>
                             <td class="colLast"><code><strong><a href="#eventFor(Map<String, Object>, T, Closure<Throwable>)">eventFor</a></strong>(java.util.Map&lt;java.lang.String, java.lang.Object&gt; headers, T data, groovy.lang.Closure&lt;java.lang.Throwable&gt; errorConsumer)</code><br>Creates an <a href='../../grails/events/Event.html' title='Event'>Event</a> for the given headers, data and error consumer</td>
                         </tr>
                         
                         <tr class="altColor">
-                            <td class="colFirst"><code><a href='../../reactor/bus/Bus.html'>Bus</a></strong></code></td>
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='../../reactor/bus/Bus.html'>Bus</a></code></td>
                             <td class="colLast"><code><strong><a href="#notify(java.lang.Object, Event<?>)">notify</a></strong>(java.lang.Object key, <a href='../../grails/events/Event.html' title='Event'>Event</a>&lt;?&gt; ev)</code><br>@see reactor.bus.Bus#notify(java.lang.Object, java.lang.Object)</td>
                         </tr>
                         
                         <tr class="rowColor">
-                            <td class="colFirst"><code><a href='../../reactor/bus/Bus.html'>Bus</a></strong></code></td>
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='../../reactor/bus/Bus.html'>Bus</a></code></td>
                             <td class="colLast"><code><strong><a href="#notify(java.lang.Object, def)">notify</a></strong>(java.lang.Object key, java.lang.Object data)</code><br>@see reactor.bus.Bus#notify(java.lang.Object, reactor.bus.Event)</td>
                         </tr>
                         
                         <tr class="altColor">
-                            <td class="colFirst"><code><a href='../../reactor/bus/Bus.html'>Bus</a></strong></code></td>
+                            <td class="colFirst"><code>&lt;E extends Event&lt;?&gt;&gt;</code></td>
+                            <td class="colLast"><code><a href='../../reactor/bus/Bus.html'>Bus</a></code></td>
                             <td class="colLast"><code><strong><a href="#notify(java.lang.Object, Closure<E>)">notify</a></strong>(java.lang.Object key, groovy.lang.Closure&lt;E&gt; supplier)</code><br></td>
                         </tr>
                         
                         <tr class="rowColor">
-                            <td class="colFirst"><code><a href='../../grails/events/subscriber/Subscription.html' title='Subscription'>Subscription</a>&lt;java.lang.Object, Consumer&lt;E&gt;&gt;</strong></code></td>
+                            <td class="colFirst"><code>&lt;E extends Event&lt;?&gt;&gt;</code></td>
+                            <td class="colLast"><code><a href='../../grails/events/subscriber/Subscription.html' title='Subscription'>Subscription</a>&lt;java.lang.Object, Consumer&lt;E&gt;&gt;</code></td>
                             <td class="colLast"><code><strong><a href="#on(java.lang.Class, groovy.lang.Closure)">on</a></strong>(java.lang.Class key, groovy.lang.Closure consumer)</code><br>@see #on(reactor.bus.selector.Selector, reactor.fn.Consumer)</td>
                         </tr>
                         
                         <tr class="altColor">
-                            <td class="colFirst"><code><a href='../../grails/events/subscriber/Subscription.html' title='Subscription'>Subscription</a>&lt;java.lang.Object, Consumer&lt;E&gt;&gt;</strong></code></td>
+                            <td class="colFirst"><code>&lt;E extends Event&lt;?&gt;&gt;</code></td>
+                            <td class="colLast"><code><a href='../../grails/events/subscriber/Subscription.html' title='Subscription'>Subscription</a>&lt;java.lang.Object, Consumer&lt;E&gt;&gt;</code></td>
                             <td class="colLast"><code><strong><a href="#on(reactor.bus.selector.Selector, groovy.lang.Closure)">on</a></strong>(<a href='../../reactor/bus/selector/Selector.html'>Selector</a> key, groovy.lang.Closure consumer)</code><br>@see #on(reactor.bus.selector.Selector, reactor.fn.Consumer)</td>
                         </tr>
                         
                         <tr class="rowColor">
-                            <td class="colFirst"><code><a href='../../grails/events/subscriber/Subscription.html' title='Subscription'>Subscription</a>&lt;java.lang.Object, Consumer&lt;E&gt;&gt;</strong></code></td>
+                            <td class="colFirst"><code>&lt;E extends Event&lt;?&gt;&gt;</code></td>
+                            <td class="colLast"><code><a href='../../grails/events/subscriber/Subscription.html' title='Subscription'>Subscription</a>&lt;java.lang.Object, Consumer&lt;E&gt;&gt;</code></td>
                             <td class="colLast"><code><strong><a href="#on(def, groovy.lang.Closure)">on</a></strong>(java.lang.Object key, groovy.lang.Closure consumer)</code><br>@see #on(reactor.bus.selector.Selector, reactor.fn.Consumer)</td>
                         </tr>
                         
                         <tr class="altColor">
-                            <td class="colFirst"><code><a href='../../grails/events/subscriber/Subscription.html' title='Subscription'>Subscription</a>&lt;java.lang.Object, Consumer&lt;E&gt;&gt;</strong></code></td>
+                            <td class="colFirst"><code>&lt;E extends Event&lt;?&gt;&gt;</code></td>
+                            <td class="colLast"><code><a href='../../grails/events/subscriber/Subscription.html' title='Subscription'>Subscription</a>&lt;java.lang.Object, Consumer&lt;E&gt;&gt;</code></td>
                             <td class="colLast"><code><strong><a href="#on(def, Consumer<E>)">on</a></strong>(java.lang.Object key, Consumer&lt;E&gt; consumer)</code><br>@see #on(reactor.bus.selector.Selector, reactor.fn.Consumer)</td>
                         </tr>
                         
                         <tr class="rowColor">
-                            <td class="colFirst"><code><a href='../../grails/events/subscriber/Subscription.html' title='Subscription'>Subscription</a>&lt;java.lang.Object, Consumer&lt;E&gt;&gt;</strong></code></td>
+                            <td class="colFirst"><code>&lt;E extends Event&lt;?&gt;&gt;</code></td>
+                            <td class="colLast"><code><a href='../../grails/events/subscriber/Subscription.html' title='Subscription'>Subscription</a>&lt;java.lang.Object, Consumer&lt;E&gt;&gt;</code></td>
                             <td class="colLast"><code><strong><a href="#on(java.lang.Class, Consumer<E>)">on</a></strong>(java.lang.Class type, Consumer&lt;E&gt; consumer)</code><br>@see #on(reactor.bus.selector.Selector, reactor.fn.Consumer)</td>
                         </tr>
                         
                         <tr class="altColor">
-                            <td class="colFirst"><code><a href='../../grails/events/subscriber/Subscription.html' title='Subscription'>Subscription</a>&lt;java.lang.Object, Consumer&lt;E&gt;&gt;</strong></code></td>
+                            <td class="colFirst"><code>&lt;E extends Event&lt;?&gt;&gt;</code></td>
+                            <td class="colLast"><code><a href='../../grails/events/subscriber/Subscription.html' title='Subscription'>Subscription</a>&lt;java.lang.Object, Consumer&lt;E&gt;&gt;</code></td>
                             <td class="colLast"><code><strong><a href="#on(reactor.bus.selector.Selector, Consumer<E>)">on</a></strong>(<a href='../../reactor/bus/selector/Selector.html'>Selector</a> sel, Consumer&lt;E&gt; consumer)</code><br>Register a <a href='../../reactor/fn/Consumer.html' title='Consumer'>Consumer</a> to be triggered when a notification matches the given Selector.</td>
                         </tr>
                         
                         <tr class="rowColor">
-                            <td class="colFirst"><code><a href='../../reactor/bus/Bus.html'>Bus</a></strong></code></td>
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='../../reactor/bus/Bus.html'>Bus</a></code></td>
                             <td class="colLast"><code><strong><a href="#sendAndReceive(java.lang.Object, def, groovy.lang.Closure)">sendAndReceive</a></strong>(java.lang.Object key, java.lang.Object data, groovy.lang.Closure reply)</code><br></td>
                         </tr>
                         
                         <tr class="altColor">
-                            <td class="colFirst"><code><a href='../../reactor/bus/Bus.html'>Bus</a></strong></code></td>
+                            <td class="colFirst"><code>&lt;E extends Event&lt;?&gt;&gt;</code></td>
+                            <td class="colLast"><code><a href='../../reactor/bus/Bus.html'>Bus</a></code></td>
                             <td class="colLast"><code><strong><a href="#sendAndReceive(java.lang.Object, groovy.lang.Closure)">sendAndReceive</a></strong>(java.lang.Object key, groovy.lang.Closure reply)</code><br></td>
                         </tr>
                         
@@ -297,7 +313,7 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <a name="eventFor(T)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4><a href='../../grails/events/Event.html' title='Event'>Event</a>&lt;T&gt; <strong>eventFor</strong>(T data)</h4>
+                                <h4>&lt;T&gt; <a href='../../grails/events/Event.html' title='Event'>Event</a>&lt;T&gt; <strong>eventFor</strong>(T data)</h4>
                                 <p> Creates an <a href='../../grails/events/Event.html' title='Event'>Event</a> for the given data
      <DL><DT><B>Parameters:</B></DT><DD><code>data</code> -  The data</DD></DL><DL><DT><B>Returns:</B></DT><DD>The event</DD></DL></p>
                             </li>
@@ -306,7 +322,7 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <a name="eventFor(Map<String, Object>, T)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4><a href='../../grails/events/Event.html' title='Event'>Event</a>&lt;T&gt; <strong>eventFor</strong>(java.util.Map&lt;java.lang.String, java.lang.Object&gt; headers, T data)</h4>
+                                <h4>&lt;T&gt; <a href='../../grails/events/Event.html' title='Event'>Event</a>&lt;T&gt; <strong>eventFor</strong>(java.util.Map&lt;java.lang.String, java.lang.Object&gt; headers, T data)</h4>
                                 <p> Creates an <a href='../../grails/events/Event.html' title='Event'>Event</a> for the given headers and data
      <DL><DT><B>Parameters:</B></DT><DD><code>headers</code> -  The headers</DD><DD><code>data</code> -  The data</DD></DL><DL><DT><B>Returns:</B></DT><DD>The event</DD></DL></p>
                             </li>
@@ -315,7 +331,7 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <a name="eventFor(Map<String, Object>, T, Closure<Throwable>)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4><a href='../../grails/events/Event.html' title='Event'>Event</a>&lt;T&gt; <strong>eventFor</strong>(java.util.Map&lt;java.lang.String, java.lang.Object&gt; headers, T data, groovy.lang.Closure&lt;java.lang.Throwable&gt; errorConsumer)</h4>
+                                <h4>&lt;T&gt; <a href='../../grails/events/Event.html' title='Event'>Event</a>&lt;T&gt; <strong>eventFor</strong>(java.util.Map&lt;java.lang.String, java.lang.Object&gt; headers, T data, groovy.lang.Closure&lt;java.lang.Throwable&gt; errorConsumer)</h4>
                                 <p> Creates an <a href='../../grails/events/Event.html' title='Event'>Event</a> for the given headers, data and error consumer
      <DL><DT><B>Parameters:</B></DT><DD><code>headers</code> -  The headers</DD><DD><code>data</code> -  The data</DD><DD><code>errorConsumer</code> -  The errors consumer</DD></DL><DL><DT><B>Returns:</B></DT><DD>The event</DD></DL></p>
                             </li>
@@ -342,7 +358,7 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <a name="notify(java.lang.Object, Closure<E>)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4><a href='../../reactor/bus/Bus.html'>Bus</a> <strong>notify</strong>(java.lang.Object key, groovy.lang.Closure&lt;E&gt; supplier)</h4>
+                                <h4>&lt;E extends Event&lt;?&gt;&gt; <a href='../../reactor/bus/Bus.html'>Bus</a> <strong>notify</strong>(java.lang.Object key, groovy.lang.Closure&lt;E&gt; supplier)</h4>
                                 <p></p>
                             </li>
                         </ul>
@@ -350,7 +366,7 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <a name="on(java.lang.Class, groovy.lang.Closure)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4><a href='../../grails/events/subscriber/Subscription.html' title='Subscription'>Subscription</a>&lt;java.lang.Object, Consumer&lt;E&gt;&gt; <strong>on</strong>(java.lang.Class key, groovy.lang.Closure consumer)</h4>
+                                <h4>&lt;E extends Event&lt;?&gt;&gt; <a href='../../grails/events/subscriber/Subscription.html' title='Subscription'>Subscription</a>&lt;java.lang.Object, Consumer&lt;E&gt;&gt; <strong>on</strong>(java.lang.Class key, groovy.lang.Closure consumer)</h4>
                                 <p>
      <DL><DT><B>See Also:</B></DT><DD><a href='#on(reactor.bus.selector.Selector, reactor.fn.Consumer)'>on(reactor.bus.selector.Selector, reactor.fn.Consumer)</a></DD></DL></p>
                             </li>
@@ -359,7 +375,7 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <a name="on(reactor.bus.selector.Selector, groovy.lang.Closure)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4><a href='../../grails/events/subscriber/Subscription.html' title='Subscription'>Subscription</a>&lt;java.lang.Object, Consumer&lt;E&gt;&gt; <strong>on</strong>(<a href='../../reactor/bus/selector/Selector.html'>Selector</a> key, groovy.lang.Closure consumer)</h4>
+                                <h4>&lt;E extends Event&lt;?&gt;&gt; <a href='../../grails/events/subscriber/Subscription.html' title='Subscription'>Subscription</a>&lt;java.lang.Object, Consumer&lt;E&gt;&gt; <strong>on</strong>(<a href='../../reactor/bus/selector/Selector.html'>Selector</a> key, groovy.lang.Closure consumer)</h4>
                                 <p>
      <DL><DT><B>See Also:</B></DT><DD><a href='#on(reactor.bus.selector.Selector, reactor.fn.Consumer)'>on(reactor.bus.selector.Selector, reactor.fn.Consumer)</a></DD></DL></p>
                             </li>
@@ -368,7 +384,7 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <a name="on(def, groovy.lang.Closure)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4><a href='../../grails/events/subscriber/Subscription.html' title='Subscription'>Subscription</a>&lt;java.lang.Object, Consumer&lt;E&gt;&gt; <strong>on</strong>(java.lang.Object key, groovy.lang.Closure consumer)</h4>
+                                <h4>&lt;E extends Event&lt;?&gt;&gt; <a href='../../grails/events/subscriber/Subscription.html' title='Subscription'>Subscription</a>&lt;java.lang.Object, Consumer&lt;E&gt;&gt; <strong>on</strong>(java.lang.Object key, groovy.lang.Closure consumer)</h4>
                                 <p>
      <DL><DT><B>See Also:</B></DT><DD><a href='#on(reactor.bus.selector.Selector, reactor.fn.Consumer)'>on(reactor.bus.selector.Selector, reactor.fn.Consumer)</a></DD></DL></p>
                             </li>
@@ -377,7 +393,7 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <a name="on(def, Consumer<E>)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4><a href='../../grails/events/subscriber/Subscription.html' title='Subscription'>Subscription</a>&lt;java.lang.Object, Consumer&lt;E&gt;&gt; <strong>on</strong>(java.lang.Object key, Consumer&lt;E&gt; consumer)</h4>
+                                <h4>&lt;E extends Event&lt;?&gt;&gt; <a href='../../grails/events/subscriber/Subscription.html' title='Subscription'>Subscription</a>&lt;java.lang.Object, Consumer&lt;E&gt;&gt; <strong>on</strong>(java.lang.Object key, Consumer&lt;E&gt; consumer)</h4>
                                 <p>
      <DL><DT><B>See Also:</B></DT><DD><a href='#on(reactor.bus.selector.Selector, reactor.fn.Consumer)'>on(reactor.bus.selector.Selector, reactor.fn.Consumer)</a></DD></DL></p>
                             </li>
@@ -386,7 +402,7 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <a name="on(java.lang.Class, Consumer<E>)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4><a href='../../grails/events/subscriber/Subscription.html' title='Subscription'>Subscription</a>&lt;java.lang.Object, Consumer&lt;E&gt;&gt; <strong>on</strong>(java.lang.Class type, Consumer&lt;E&gt; consumer)</h4>
+                                <h4>&lt;E extends Event&lt;?&gt;&gt; <a href='../../grails/events/subscriber/Subscription.html' title='Subscription'>Subscription</a>&lt;java.lang.Object, Consumer&lt;E&gt;&gt; <strong>on</strong>(java.lang.Class type, Consumer&lt;E&gt; consumer)</h4>
                                 <p>
      <DL><DT><B>See Also:</B></DT><DD><a href='#on(reactor.bus.selector.Selector, reactor.fn.Consumer)'>on(reactor.bus.selector.Selector, reactor.fn.Consumer)</a></DD></DL></p>
                             </li>
@@ -395,7 +411,7 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <a name="on(reactor.bus.selector.Selector, Consumer<E>)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4><a href='../../grails/events/subscriber/Subscription.html' title='Subscription'>Subscription</a>&lt;java.lang.Object, Consumer&lt;E&gt;&gt; <strong>on</strong>(<a href='../../reactor/bus/selector/Selector.html'>Selector</a> sel, Consumer&lt;E&gt; consumer)</h4>
+                                <h4>&lt;E extends Event&lt;?&gt;&gt; <a href='../../grails/events/subscriber/Subscription.html' title='Subscription'>Subscription</a>&lt;java.lang.Object, Consumer&lt;E&gt;&gt; <strong>on</strong>(<a href='../../reactor/bus/selector/Selector.html'>Selector</a> sel, Consumer&lt;E&gt; consumer)</h4>
                                 <p> Register a <a href='../../reactor/fn/Consumer.html' title='Consumer'>Consumer</a> to be triggered when a notification matches the given Selector.
      <DL><DT><B>Parameters:</B></DT><DD><code>sel
 </code> -  		The Selector to be used for matching</DD><DD><code>consumer
@@ -415,7 +431,7 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <a name="sendAndReceive(java.lang.Object, groovy.lang.Closure)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4><a href='../../reactor/bus/Bus.html'>Bus</a> <strong>sendAndReceive</strong>(java.lang.Object key, groovy.lang.Closure reply)</h4>
+                                <h4>&lt;E extends Event&lt;?&gt;&gt; <a href='../../reactor/bus/Bus.html'>Bus</a> <strong>sendAndReceive</strong>(java.lang.Object key, groovy.lang.Closure reply)</h4>
                                 <p></p>
                             </li>
                         </ul>

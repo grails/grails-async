@@ -138,13 +138,13 @@ abstract&nbsp;class AbstractEventBus
                         <tr class="altColor">
                             <td class="colFirst"><code><strong>protected&nbsp;static&nbsp;class</strong></code>&nbsp;</td>
                             <td class="colLast"><code><a href='../../../../org/grails/events/bus/AbstractEventBus.EventTriggerTransactionSynchronization.html'>AbstractEventBus.EventTriggerTransactionSynchronization</a></code></td>
-                            <td class="colLast"></code></td>
+                            <td class="colLast"></td>
                         </tr>
                         
                         <tr class="rowColor">
                             <td class="colFirst"><code><strong>protected&nbsp;static&nbsp;class</strong></code>&nbsp;</td>
                             <td class="colLast"><code><a href='../../../../org/grails/events/bus/AbstractEventBus.NotificationTrigger.html'>AbstractEventBus.NotificationTrigger</a></code></td>
-                            <td class="colLast"></code></td>
+                            <td class="colLast"></td>
                         </tr>
                         
                     </table>
@@ -172,7 +172,7 @@ abstract&nbsp;class AbstractEventBus
                         <tr class="altColor">
                             <td class="colFirst"><code><strong>protected&nbsp;java.util.Map&lt;java.lang.CharSequence, java.util.Collection&lt;Subscription&gt;&gt;</strong></code>&nbsp;</td>
                             <td class="colLast"><code><a href="#subscriptions">subscriptions</a></code></td>
-                            <td class="colLast"></code></td>
+                            <td class="colLast"></td>
                         </tr>
                         
                     </table>
@@ -200,92 +200,110 @@ abstract&nbsp;class AbstractEventBus
                     <table class="overviewSummary" border="0" cellpadding="3" cellspacing="0" summary="Methods Summary table">
                         <caption><span>Methods</span><span class="tabEnd">&nbsp;</span></caption>
                         <tr>
-                            <th class="colFirst" scope="col">Type</th>
+                            <th class="colFirst" scope="col">Type Params</th>
+                            <th class="colLast" scope="col">Return Type</th>
                             <th class="colLast" scope="col">Name and description</th>
                         </tr>
                         
                         <tr class="altColor">
-                            <td class="colFirst"><code>protected&nbsp;<a href='../../../../org/grails/events/registry/ClosureSubscription.html'>ClosureSubscription</a></strong></code></td>
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code>protected&nbsp;<a href='../../../../org/grails/events/registry/ClosureSubscription.html'>ClosureSubscription</a></code></td>
                             <td class="colLast"><code><strong><a href="#buildClosureSubscription(java.lang.CharSequence, groovy.lang.Closure)">buildClosureSubscription</a></strong>(java.lang.CharSequence eventId, groovy.lang.Closure subscriber)</code><br></td>
                         </tr>
                         
                         <tr class="rowColor">
-                            <td class="colFirst"><code>protected&nbsp;java.util.concurrent.Callable</strong></code></td>
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code>protected&nbsp;java.util.concurrent.Callable</code></td>
                             <td class="colLast"><code><strong><a href="#buildNotificationCallable(grails.events.Event, Collection<Subscription>, groovy.lang.Closure)">buildNotificationCallable</a></strong>(<a href='../../../../grails/events/Event.html'>Event</a> event, java.util.Collection&lt;Subscription&gt; eventSubscriptions, groovy.lang.Closure reply = null)</code><br>Build a new trigger to set off notifications</td>
                         </tr>
                         
                         <tr class="altColor">
-                            <td class="colFirst"><code>protected&nbsp;<a href='../../../../org/grails/events/bus/AbstractEventBus.NotificationTrigger.html'>AbstractEventBus.NotificationTrigger</a></strong></code></td>
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code>protected&nbsp;<a href='../../../../org/grails/events/bus/AbstractEventBus.NotificationTrigger.html'>AbstractEventBus.NotificationTrigger</a></code></td>
                             <td class="colLast"><code><strong><a href="#buildNotificationTrigger(grails.events.Event, Collection<Subscription>, groovy.lang.Closure)">buildNotificationTrigger</a></strong>(<a href='../../../../grails/events/Event.html'>Event</a> event, java.util.Collection&lt;Subscription&gt; eventSubscriptions, groovy.lang.Closure reply = null)</code><br>Build a new trigger to set off notifications</td>
                         </tr>
                         
                         <tr class="rowColor">
-                            <td class="colFirst"><code>protected&nbsp;<a href='../../../../org/grails/events/registry/EventSubscriberSubscription.html'>EventSubscriberSubscription</a></strong></code></td>
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code>protected&nbsp;<a href='../../../../org/grails/events/registry/EventSubscriberSubscription.html'>EventSubscriberSubscription</a></code></td>
                             <td class="colLast"><code><strong><a href="#buildSubscriberSubscription(java.lang.CharSequence, grails.events.subscriber.Subscriber)">buildSubscriberSubscription</a></strong>(java.lang.CharSequence eventId, <a href='../../../../grails/events/subscriber/Subscriber.html'>Subscriber</a> subscriber)</code><br></td>
                         </tr>
                         
                         <tr class="altColor">
-                            <td class="colFirst"><code>boolean</strong></code></td>
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code>boolean</code></td>
                             <td class="colLast"><code><strong><a href="#isActive()">isActive</a></strong>()</code><br></td>
                         </tr>
                         
                         <tr class="rowColor">
-                            <td class="colFirst"><code><a href='../../../../grails/events/emitter/EventEmitter.html'>EventEmitter</a></strong></code></td>
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='../../../../grails/events/emitter/EventEmitter.html'>EventEmitter</a></code></td>
                             <td class="colLast"><code><strong><a href="#notify(java.lang.CharSequence, java.lang.Object)">notify</a></strong>(java.lang.CharSequence eventId, java.lang.Object... data)</code><br></td>
                         </tr>
                         
                         <tr class="altColor">
-                            <td class="colFirst"><code><a href='../../../../grails/events/emitter/EventEmitter.html'>EventEmitter</a></strong></code></td>
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='../../../../grails/events/emitter/EventEmitter.html'>EventEmitter</a></code></td>
                             <td class="colLast"><code><strong><a href="#notify(grails.events.Event)">notify</a></strong>(<a href='../../../../grails/events/Event.html'>Event</a> event)</code><br></td>
                         </tr>
                         
                         <tr class="rowColor">
-                            <td class="colFirst"><code><a href='../../../../grails/events/emitter/EventEmitter.html'>EventEmitter</a></strong></code></td>
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='../../../../grails/events/emitter/EventEmitter.html'>EventEmitter</a></code></td>
                             <td class="colLast"><code><strong><a href="#notify(grails.events.Event, TransactionPhase)">notify</a></strong>(<a href='../../../../grails/events/Event.html'>Event</a> event, <a href='../../../../TransactionPhase.html'>TransactionPhase</a> transactionPhase)</code><br></td>
                         </tr>
                         
                         <tr class="altColor">
-                            <td class="colFirst"><code><a href='../../../../grails/events/subscriber/Subscription.html'>Subscription</a></strong></code></td>
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='../../../../grails/events/subscriber/Subscription.html'>Subscription</a></code></td>
                             <td class="colLast"><code><strong><a href="#on(java.lang.CharSequence, groovy.lang.Closure)">on</a></strong>(java.lang.CharSequence event, groovy.lang.Closure subscriber)</code><br></td>
                         </tr>
                         
                         <tr class="rowColor">
-                            <td class="colFirst"><code><a href='../../../../grails/events/emitter/EventEmitter.html'>EventEmitter</a></strong></code></td>
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='../../../../grails/events/emitter/EventEmitter.html'>EventEmitter</a></code></td>
                             <td class="colLast"><code><strong><a href="#publish(java.lang.CharSequence, java.lang.Object)">publish</a></strong>(java.lang.CharSequence eventId, java.lang.Object... data)</code><br></td>
                         </tr>
                         
                         <tr class="altColor">
-                            <td class="colFirst"><code><a href='../../../../grails/events/emitter/EventEmitter.html'>EventEmitter</a></strong></code></td>
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='../../../../grails/events/emitter/EventEmitter.html'>EventEmitter</a></code></td>
                             <td class="colLast"><code><strong><a href="#publish(grails.events.Event)">publish</a></strong>(<a href='../../../../grails/events/Event.html'>Event</a> event)</code><br></td>
                         </tr>
                         
                         <tr class="rowColor">
-                            <td class="colFirst"><code><a href='../../../../grails/events/emitter/EventEmitter.html'>EventEmitter</a></strong></code></td>
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='../../../../grails/events/emitter/EventEmitter.html'>EventEmitter</a></code></td>
                             <td class="colLast"><code><strong><a href="#publish(grails.events.Event, TransactionPhase)">publish</a></strong>(<a href='../../../../grails/events/Event.html'>Event</a> event, <a href='../../../../TransactionPhase.html'>TransactionPhase</a> transactionPhase)</code><br></td>
                         </tr>
                         
                         <tr class="altColor">
-                            <td class="colFirst"><code><a href='../../../../grails/events/emitter/EventEmitter.html'>EventEmitter</a></strong></code></td>
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='../../../../grails/events/emitter/EventEmitter.html'>EventEmitter</a></code></td>
                             <td class="colLast"><code><strong><a href="#sendAndReceive(java.lang.CharSequence, java.lang.Object, groovy.lang.Closure)">sendAndReceive</a></strong>(java.lang.CharSequence eventId, java.lang.Object data, groovy.lang.Closure reply)</code><br></td>
                         </tr>
                         
                         <tr class="rowColor">
-                            <td class="colFirst"><code><a href='../../../../grails/events/emitter/EventEmitter.html'>EventEmitter</a></strong></code></td>
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='../../../../grails/events/emitter/EventEmitter.html'>EventEmitter</a></code></td>
                             <td class="colLast"><code><strong><a href="#sendAndReceive(grails.events.Event, groovy.lang.Closure)">sendAndReceive</a></strong>(<a href='../../../../grails/events/Event.html'>Event</a> event, groovy.lang.Closure reply)</code><br></td>
                         </tr>
                         
                         <tr class="altColor">
-                            <td class="colFirst"><code><a href='../../../../grails/events/subscriber/Subscription.html'>Subscription</a></strong></code></td>
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='../../../../grails/events/subscriber/Subscription.html'>Subscription</a></code></td>
                             <td class="colLast"><code><strong><a href="#subscribe(java.lang.CharSequence, groovy.lang.Closure)">subscribe</a></strong>(java.lang.CharSequence event, groovy.lang.Closure subscriber)</code><br></td>
                         </tr>
                         
                         <tr class="rowColor">
-                            <td class="colFirst"><code><a href='../../../../grails/events/subscriber/Subscription.html'>Subscription</a></strong></code></td>
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='../../../../grails/events/subscriber/Subscription.html'>Subscription</a></code></td>
                             <td class="colLast"><code><strong><a href="#subscribe(java.lang.CharSequence, grails.events.subscriber.Subscriber)">subscribe</a></strong>(java.lang.CharSequence event, <a href='../../../../grails/events/subscriber/Subscriber.html'>Subscriber</a> subscriber)</code><br></td>
                         </tr>
                         
                         <tr class="altColor">
-                            <td class="colFirst"><code><a href='../../../../grails/events/subscriber/Subjects.html'>Subjects</a></strong></code></td>
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='../../../../grails/events/subscriber/Subjects.html'>Subjects</a></code></td>
                             <td class="colLast"><code><strong><a href="#unsubscribeAll(java.lang.CharSequence)">unsubscribeAll</a></strong>(java.lang.CharSequence event)</code><br></td>
                         </tr>
                         
@@ -304,7 +322,7 @@ abstract&nbsp;class AbstractEventBus
                         </tr>
                         
                         <tr class="altColor">
-                            <td class="colFirst"><code>class java.lang.Object</strong></code></td>
+                            <td class="colFirst"><code>class java.lang.Object</code></td>
                             <td class="colLast"><code>java.lang.Object#wait(long, int), java.lang.Object#wait(long), java.lang.Object#wait(), java.lang.Object#equals(java.lang.Object), java.lang.Object#toString(), java.lang.Object#hashCode(), java.lang.Object#getClass(), java.lang.Object#notify(), java.lang.Object#notifyAll()</code></td>
                         </tr>
                     </table>

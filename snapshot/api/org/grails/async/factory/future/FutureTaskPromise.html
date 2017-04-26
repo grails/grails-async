@@ -150,13 +150,13 @@ extends java.util.concurrent.FutureTask
                         
                         <tr class="altColor">
                             <td class="colFirst">
-                                <code><a href="#FutureTaskPromise(Callable<T>)">FutureTaskPromise</a></strong>
+                                <code><a href="#FutureTaskPromise(Callable<T>)">FutureTaskPromise</a>
                                 (java.util.concurrent.Callable&lt;T&gt; callable)</code><br></td>
                         </tr>
                         
                         <tr class="rowColor">
                             <td class="colFirst">
-                                <code><a href="#FutureTaskPromise(java.lang.Runnable, T)">FutureTaskPromise</a></strong>
+                                <code><a href="#FutureTaskPromise(java.lang.Runnable, T)">FutureTaskPromise</a>
                                 (java.lang.Runnable runnable, T value)</code><br></td>
                         </tr>
                         
@@ -176,52 +176,62 @@ extends java.util.concurrent.FutureTask
                     <table class="overviewSummary" border="0" cellpadding="3" cellspacing="0" summary="Methods Summary table">
                         <caption><span>Methods</span><span class="tabEnd">&nbsp;</span></caption>
                         <tr>
-                            <th class="colFirst" scope="col">Type</th>
+                            <th class="colFirst" scope="col">Type Params</th>
+                            <th class="colLast" scope="col">Return Type</th>
                             <th class="colLast" scope="col">Name and description</th>
                         </tr>
                         
                         <tr class="altColor">
-                            <td class="colFirst"><code>Promise&lt;T&gt;</strong></code></td>
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code>Promise&lt;T&gt;</code></td>
                             <td class="colLast"><code><strong><a href="#accept(T)">accept</a></strong>(T value)</code><br></td>
                         </tr>
                         
                         <tr class="rowColor">
-                            <td class="colFirst"><code>T</strong></code></td>
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code>T</code></td>
                             <td class="colLast"><code><strong><a href="#get()">get</a></strong>()</code><br></td>
                         </tr>
                         
                         <tr class="altColor">
-                            <td class="colFirst"><code>T</strong></code></td>
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code>T</code></td>
                             <td class="colLast"><code><strong><a href="#get(long, java.util.concurrent.TimeUnit)">get</a></strong>(long timeout, java.util.concurrent.TimeUnit unit)</code><br></td>
                         </tr>
                         
                         <tr class="rowColor">
-                            <td class="colFirst"><code>boolean</strong></code></td>
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code>boolean</code></td>
                             <td class="colLast"><code><strong><a href="#isDone()">isDone</a></strong>()</code><br></td>
                         </tr>
                         
                         <tr class="altColor">
-                            <td class="colFirst"><code>Promise&lt;T&gt;</strong></code></td>
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code>Promise&lt;T&gt;</code></td>
                             <td class="colLast"><code><strong><a href="#onComplete(groovy.lang.Closure)">onComplete</a></strong>(groovy.lang.Closure callable)</code><br></td>
                         </tr>
                         
                         <tr class="rowColor">
-                            <td class="colFirst"><code>Promise&lt;T&gt;</strong></code></td>
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code>Promise&lt;T&gt;</code></td>
                             <td class="colLast"><code><strong><a href="#onError(groovy.lang.Closure)">onError</a></strong>(groovy.lang.Closure callable)</code><br></td>
                         </tr>
                         
                         <tr class="altColor">
-                            <td class="colFirst"><code>protected&nbsp;void</strong></code></td>
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code>protected&nbsp;void</code></td>
                             <td class="colLast"><code><strong><a href="#set(T)">set</a></strong>(T t)</code><br></td>
                         </tr>
                         
                         <tr class="rowColor">
-                            <td class="colFirst"><code>protected&nbsp;void</strong></code></td>
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code>protected&nbsp;void</code></td>
                             <td class="colLast"><code><strong><a href="#setException(java.lang.Throwable)">setException</a></strong>(java.lang.Throwable t)</code><br></td>
                         </tr>
                         
                         <tr class="altColor">
-                            <td class="colFirst"><code>Promise&lt;T&gt;</strong></code></td>
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code>Promise&lt;T&gt;</code></td>
                             <td class="colLast"><code><strong><a href="#then(groovy.lang.Closure)">then</a></strong>(groovy.lang.Closure callable)</code><br></td>
                         </tr>
                         
@@ -240,11 +250,11 @@ extends java.util.concurrent.FutureTask
                         </tr>
                         
                         <tr class="altColor">
-                            <td class="colFirst"><code>class java.util.concurrent.FutureTask</strong></code></td>
-                            <td class="colLast"><code>java.util.concurrent.FutureTask#cancel(boolean), java.util.concurrent.FutureTask#isCancelled(), java.util.concurrent.FutureTask#isDone(), java.util.concurrent.FutureTask#run(), java.util.concurrent.FutureTask#get(), java.util.concurrent.FutureTask#get(long, java.util.concurrent.TimeUnit), java.util.concurrent.FutureTask#wait(long, int), java.util.concurrent.FutureTask#wait(long), java.util.concurrent.FutureTask#wait(), java.util.concurrent.FutureTask#equals(java.lang.Object), java.util.concurrent.FutureTask#toString(), java.util.concurrent.FutureTask#hashCode(), java.util.concurrent.FutureTask#getClass(), java.util.concurrent.FutureTask#notify(), java.util.concurrent.FutureTask#notifyAll()</code></td>
+                            <td class="colFirst"><code>class java.util.concurrent.FutureTask</code></td>
+                            <td class="colLast"><code>java.util.concurrent.FutureTask#isCancelled(), java.util.concurrent.FutureTask#isDone(), java.util.concurrent.FutureTask#cancel(boolean), java.util.concurrent.FutureTask#run(), java.util.concurrent.FutureTask#get(), java.util.concurrent.FutureTask#get(long, java.util.concurrent.TimeUnit), java.util.concurrent.FutureTask#wait(long, int), java.util.concurrent.FutureTask#wait(long), java.util.concurrent.FutureTask#wait(), java.util.concurrent.FutureTask#equals(java.lang.Object), java.util.concurrent.FutureTask#toString(), java.util.concurrent.FutureTask#hashCode(), java.util.concurrent.FutureTask#getClass(), java.util.concurrent.FutureTask#notify(), java.util.concurrent.FutureTask#notifyAll()</code></td>
                         </tr>
                         <tr class="altColor">
-                            <td class="colFirst"><code>class java.lang.Object</strong></code></td>
+                            <td class="colFirst"><code>class java.lang.Object</code></td>
                             <td class="colLast"><code>java.lang.Object#wait(long, int), java.lang.Object#wait(long), java.lang.Object#wait(), java.lang.Object#equals(java.lang.Object), java.lang.Object#toString(), java.lang.Object#hashCode(), java.lang.Object#getClass(), java.lang.Object#notify(), java.lang.Object#notifyAll()</code></td>
                         </tr>
                     </table>

@@ -118,10 +118,19 @@ function addJsClass() {
 
 
 <div class="paragraph">
-<p>Grails 3.3 introduces a new Events API that replaces the previous implementation that was based on Reactor 2.x (which is no longer maintained and deprecated by Pivotal).</p>
+<p>Grails 3.3 introduces a new Events API that replaces the previous implementation that was based on Reactor 2.x (which is no longer maintained and deprecated).</p>
 </div>
 <div class="paragraph">
 <p>In Grails 3.3 and above a new <a href="../api/grails/events/bus/EventBus.html">EventBus</a> abstraction has been introduced. Like the <code>PromiseFactory</code> notion, there are implementations of the <code>EventBus</code> interface for common asynchronous frameworks like GPars and RxJava.</p>
+</div>
+<div class="paragraph">
+<p>To use the Grails Events abstraction you should add a dependency on the <code>events</code> plugin to your <code>build.gradle</code> file:</p>
+</div>
+<div class="listingblock">
+<div class="title">build.gradle</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy">runtime "org.grails.plugins:events:3.3.0.BUILD-SNAPSHOT"</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>If no asynchronous framework in present on the classpath then by default Grails creates an EventBus based off of the currently active <code>PromiseFactory</code>. The default implementation is <a href="../api/org/grails/async/factory/future/CachedThreadPoolPromiseFactory.html">CachedThreadPoolPromiseFactory</a> which uses a thread pool that will create threads as needed (the same as <code>java.util.concurrent.Executors.newCachedThreadPool()</code>).</p>
