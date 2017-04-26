@@ -33,6 +33,9 @@ import reactor.bus.EventBus
  */
 @Slf4j
 class EventBusGrailsPlugin extends Plugin {
+
+    def grailsVersion = "3.3.0 > *"
+
     /**
      * Whether to translate GORM events into reactor events
      */

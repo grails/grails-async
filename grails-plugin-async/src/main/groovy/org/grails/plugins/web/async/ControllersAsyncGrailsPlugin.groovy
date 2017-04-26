@@ -30,6 +30,7 @@ import org.springframework.beans.factory.config.MethodInvokingFactoryBean
  * @since 2.0
  */
 class ControllersAsyncGrailsPlugin extends Plugin {
+    def grailsVersion = "3.3.0 > *"
     def loadAfter = ['controllers']
     Closure doWithSpring() {{->
         asyncPromiseResponseActionResultTransformer(AsyncActionResultTransformer)
