@@ -38,6 +38,7 @@ subprojects {
     else {
         group "org.grails"
     }
+
     repositories {
         mavenLocal()
         maven { url "https://repo.grails.org/grails/core" }
@@ -45,6 +46,10 @@ subprojects {
 
     if(it.name.startsWith("examples")) {
         apply plugin:"org.grails.grails-web"
+    }
+    else if(isGrailsPlugin) {
+        apply plugin:"org.grails.grails-plugin"
+        apply from:"${commonBuild}/common-publishing.gradle"
     }
     else {
         apply from:"${commonBuild}/common-project.gradle"
