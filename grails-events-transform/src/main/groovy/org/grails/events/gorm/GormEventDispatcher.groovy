@@ -21,6 +21,7 @@ class GormEventDispatcher extends AbstractPersistenceEventListener {
     private static final String GORM_NAMESPACE = "gorm:"
     protected final EventBus eventBus
     protected final Map<Class<? extends AbstractPersistenceEvent>, String> subscribedEvents
+    protected final Set<Class<? extends AbstractPersistenceEvent>> listenedForEvents = []
     protected final List<GormAnnotatedListener> listeners
     protected final boolean hasEventSubscribers
     protected final boolean hasListeners
@@ -36,11 +37,16 @@ class GormEventDispatcher extends AbstractPersistenceEventListener {
         this.listeners = Collections.unmodifiableList(listeners)
         this.hasListeners = !listeners.isEmpty()
         this.hasEventSubscribers = !subscribedEvents.isEmpty() || hasListeners
+        if(hasListeners) {
+            for(listener in listeners) {
+                listenedForEvents.addAll(listener.subscribedEvents)
+            }
+        }
     }
 
     @Override
     protected void onPersistenceEvent(AbstractPersistenceEvent event) {
-        if(hasListeners) {
+        if(hasListeners && listenedForEvents.contains(event.getClass())) {
             for(listener in listeners) {
                 if(listener.supports(event)) {
                     listener.dispatch(event)
@@ -61,6 +67,8 @@ class GormEventDispatcher extends AbstractPersistenceEventListener {
 
     @Override
     boolean supportsEventType(Class<? extends ApplicationEvent> aClass) {
-        return hasEventSubscribers && AbstractPersistenceEvent.isAssignableFrom(aClass) && subscribedEvents.containsKey(aClass)
+        return hasEventSubscribers &&
+                AbstractPersistenceEvent.isAssignableFrom(aClass) &&
+                (subscribedEvents.containsKey(aClass) || listenedForEvents.contains(aClass) )
     }
 }
