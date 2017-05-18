@@ -21,4 +21,8 @@ import java.lang.annotation.Target
 @Documented
 @GroovyASTTransformationClass("org.grails.events.transform.SubscriberTransform")
 @interface Listener {
+    /**
+     * @return The types this listener listens for
+     */
+    Class[] value() default []
 }

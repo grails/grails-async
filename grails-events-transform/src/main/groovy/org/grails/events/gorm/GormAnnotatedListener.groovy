@@ -1,5 +1,6 @@
 package org.grails.events.gorm
 
+import grails.events.annotation.gorm.Listener
 import groovy.transform.CompileStatic
 import org.grails.datastore.mapping.engine.event.AbstractPersistenceEvent
 import org.slf4j.Logger
@@ -28,8 +29,11 @@ trait GormAnnotatedListener extends GormAnnotatedSubscriber {
      * @param event
      */
     void dispatch(AbstractPersistenceEvent event) {
+        def entity = event.getEntityObject()
         for(method in getSubscribedMethods()) {
-            if(method.parameterTypes[0].isInstance(event)) {
+            Class[] types = method.getAnnotation(Listener)?.value()
+            boolean applies = types == null || types.length == 0 || types.any() { Class cls -> cls.isInstance(entity) }
+            if(applies && method.parameterTypes[0].isInstance(event)) {
                 try {
                     log.debug("Invoking method [{}] for event [{}]", method, event)
                     ReflectionUtils.invokeMethod(method, this, event)

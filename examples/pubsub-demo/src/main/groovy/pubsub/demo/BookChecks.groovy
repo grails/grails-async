@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component
 @Component
 class BookChecks {
 
-    @Listener
     void checkBook(PreInsertEvent event) {
         String title = event.getEntityAccess().getPropertyValue("title")
         if(title?.contains("Politics")) {
@@ -16,11 +15,16 @@ class BookChecks {
         }
     }
 
-    @Listener
+    @Listener(Book)
     void tagFunnyBooks(PreInsertEvent event) {
         String title = event.getEntityAccess().getPropertyValue("title")
         if(title?.contains("funny")) {
             event.getEntityAccess().setProperty("title", "Humor - ${title}".toString())
         }
+    }
+
+    @Listener(Author)
+    void tagAuthor(PreInsertEvent event) {
+        assert event.entityObject instanceof Author
     }
 }

@@ -59,7 +59,8 @@ class PubSubSpec extends Specification {
     }
 
 
-    @NotYetImplemented // fix Hibernate NPE
+//    @Rollback
+    @NotYetImplemented // due to  https://hibernate.atlassian.net/browse/HHH-11721
     void "test synchronous event listener"() {
         when:"When a event listener cancels an insert"
         bookService.saveBook("UK Politics")
