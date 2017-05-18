@@ -1,1 +1,1 @@
-RxEventBus
+org.grails.events.rxjava.RxEventBus
