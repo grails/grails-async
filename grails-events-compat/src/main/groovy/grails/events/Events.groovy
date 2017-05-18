@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory
 import reactor.bus.Bus
 import reactor.bus.Event
 import reactor.bus.EventBus
+import reactor.bus.registry.Registration
 import reactor.bus.registry.Subscription
 import reactor.bus.selector.Selector
 import reactor.fn.Consumer
@@ -22,7 +23,7 @@ trait Events {
     /**
      * @see #on(reactor.bus.selector.Selector, reactor.fn.Consumer)
      */
-    def <E extends Event<?>> Subscription<Object, Consumer<E>> on(Class key, Closure consumer) {
+    def <E extends Event<?>> Registration<Object, Consumer<E>> on(Class key, Closure consumer) {
         LoggerFactory.getLogger(getClass()).warn("The class [${getClass()}] used the legacy Reactor 2 event bus and needs to be re-compiled")
         on key.name, consumer
     }
@@ -30,23 +31,23 @@ trait Events {
     /**
      * @see #on(reactor.bus.selector.Selector, reactor.fn.Consumer)
      */
-    def <E extends Event<?> > Subscription<Object, Consumer<E>> on(Selector key, Closure consumer) {
+    def <E extends Event<?> > Registration<Object, Consumer<E>> on(Selector key, Closure consumer) {
         throw new UnsupportedOperationException("Events of type [Selector] are no longer supported. Use string ids")
     }
 
     /**
      * @see #on(reactor.bus.selector.Selector, reactor.fn.Consumer)
      */
-    def <E extends Event<?> > Subscription<Object, Consumer<E>> on(key, Closure consumer) {
+    def <E extends Event<?> > Registration<Object, Consumer<E>> on(key, Closure consumer) {
         LoggerFactory.getLogger(getClass()).warn("The class [${getClass()}] used the legacy Reactor 2 event bus and needs to be re-compiled")
 
-        eventBus.on(key.toString(), consumer) as Subscription
+        eventBus.on(key.toString(), consumer) as Registration
     }
 
     /**
      * @see #on(reactor.bus.selector.Selector, reactor.fn.Consumer)
      */
-    def <E extends Event<?> > Subscription<Object, Consumer<E>> on(key, Consumer<E> consumer) {
+    def <E extends Event<?> > Registration<Object, Consumer<E>> on(key, Consumer<E> consumer) {
         LoggerFactory.getLogger(getClass()).warn("The class [${getClass()}] used the legacy Reactor 2 event bus and needs to be re-compiled")
         if(key instanceof CharSequence) {
             key = key.toString()
@@ -59,7 +60,7 @@ trait Events {
     /**
      * @see #on(reactor.bus.selector.Selector, reactor.fn.Consumer)
      */
-    def <E extends Event<?> > Subscription<Object, Consumer<E>> on(Class type, Consumer<E> consumer) {
+    def <E extends Event<?> > Registration<Object, Consumer<E>> on(Class type, Consumer<E> consumer) {
         LoggerFactory.getLogger(getClass()).warn("The class [${getClass()}] used the legacy Reactor 2 event bus and needs to be re-compiled")
         on(type.name, consumer)
     }
@@ -77,7 +78,7 @@ trait Events {
      *
      * @return A {@link Subscription} object that allows the caller to interact with the given mapping
      */
-    def <E extends Event<?> > Subscription<Object, Consumer<E>> on(Selector sel, Consumer<E> consumer) {
+    def <E extends Event<?> > Registration<Object, Consumer<E>> on(Selector sel, Consumer<E> consumer) {
         throw new UnsupportedOperationException("Events of type [Selector] are no longer supported. Use string ids")
     }
 
