@@ -24,7 +24,8 @@ import java.util.concurrent.ExecutorService
 class EventBusFactoryBean extends EventBusBuilder implements FactoryBean<EventBus>, InitializingBean {
 
     @Autowired(required = false)
-    AsyncTaskExecutor springTaskExecutor
+    @Qualifier("taskExecutor")
+    Object springTaskExecutor
 
     @Autowired(required = false)
     @Qualifier("grailsPromiseFactory")
@@ -54,9 +55,9 @@ class EventBusFactoryBean extends EventBusBuilder implements FactoryBean<EventBu
 
     @Override
     protected EventBus createDefaultEventBus() {
-        if(springTaskExecutor != null) {
+        if(springTaskExecutor instanceof AsyncTaskExecutor) {
             log.debug("Creating event bus from Spring task executor {}", springTaskExecutor)
-            return new ExecutorEventBus(springTaskExecutor)
+            return new ExecutorEventBus((AsyncTaskExecutor)springTaskExecutor)
         }
         else if(promiseFactory instanceof ExecutorService) {
             log.debug("Creating event bus from PromiseFactory {}", promiseFactory)
