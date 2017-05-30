@@ -1,6 +1,7 @@
 package org.grails.async.factory.future
 
 import grails.async.Promise
+import grails.async.PromiseFactory
 import groovy.transform.CompileStatic
 import org.grails.async.factory.BoundPromise
 
@@ -21,16 +22,19 @@ import java.util.concurrent.TimeoutException
 class FutureTaskPromise<T> extends FutureTask<T> implements Promise<T> {
 
     private volatile T boundValue = null
+    private final PromiseFactory promiseFactory
     private Collection<FutureTaskChildPromise> failureCallbacks = new ConcurrentLinkedQueue<>()
     private Collection<FutureTaskChildPromise> successCallbacks = new ConcurrentLinkedQueue<>()
 
-    FutureTaskPromise(Callable<T> callable) {
+    FutureTaskPromise(PromiseFactory promiseFactory, Callable<T> callable) {
         super(callable)
+        this.promiseFactory = promiseFactory
     }
 
-    FutureTaskPromise(Runnable runnable, T value) {
+    FutureTaskPromise(PromiseFactory promiseFactory, Runnable runnable, T value) {
         super(runnable, value)
         boundValue = value
+        this.promiseFactory = promiseFactory
     }
 
     @Override
@@ -81,7 +85,7 @@ class FutureTaskPromise<T> extends FutureTask<T> implements Promise<T> {
             }
         }
         else {
-            def newPromise = new FutureTaskChildPromise(this,callable)
+            def newPromise = new FutureTaskChildPromise(promiseFactory,this,callable)
             successCallbacks.add(newPromise)
             return newPromise
         }
@@ -97,7 +101,7 @@ class FutureTaskPromise<T> extends FutureTask<T> implements Promise<T> {
             }
         }
         else {
-            def newPromise = new FutureTaskChildPromise(this,callable)
+            def newPromise = new FutureTaskChildPromise(promiseFactory,this,callable)
             failureCallbacks.add(newPromise)
             return newPromise
 

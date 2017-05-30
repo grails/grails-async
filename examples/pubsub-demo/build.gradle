@@ -13,6 +13,7 @@ dependencies {
     compile "org.grails:grails-plugin-databinding"
     compile project(":grails-plugin-async")
     runtime project(":grails-events-rxjava")
+//    runtime project(":grails-async-rxjava")
     compile "org.grails:grails-web-boot"
     compile "org.grails:grails-logging"
     compile "org.grails.plugins:cache", {

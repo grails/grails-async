@@ -1,6 +1,7 @@
 package org.grails.async.factory.future
 
 import grails.async.Promise
+import grails.async.PromiseFactory
 import groovy.transform.CompileStatic
 import groovy.transform.PackageScope
 import org.grails.async.factory.BoundPromise
@@ -22,31 +23,45 @@ import java.util.concurrent.locks.ReentrantLock
 class FutureTaskChildPromise<T> implements Promise<T> {
     final Promise<T> parent
     final Closure<T> callable
+    final PromiseFactory promiseFactory
     private Collection<FutureTaskChildPromise> failureCallbacks = new ConcurrentLinkedQueue<>()
     private Collection<FutureTaskChildPromise> successCallbacks = new ConcurrentLinkedQueue<>()
 
     private Promise<T> bound = null
-    FutureTaskChildPromise(Promise<T> parent, Closure<T> callable) {
+
+    FutureTaskChildPromise(PromiseFactory promiseFactory, Promise<T> parent, Closure<T> callable) {
         this.parent = parent
-        this.callable = callable
+        this.callable = promiseFactory.applyDecorators(callable,null)
+        this.promiseFactory = promiseFactory
     }
 
     @Override
     Promise<T> accept(T value) {
-        bound = new BoundPromise<T>(callable.call(value))
+        try {
+            T transformedValue = callable.call(value)
+            bound = new BoundPromise<T>(transformedValue)
+            for(callback in successCallbacks) {
+                callback.accept(transformedValue)
+            }
+        } catch (Throwable e) {
+            for(callback in failureCallbacks) {
+                callback.accept(e)
+            }
+            throw e
+        }
         return bound
     }
 
     @Override
     Promise<T> onComplete(Closure callable) {
-        def newPromise = new FutureTaskChildPromise(this, callable)
+        def newPromise = new FutureTaskChildPromise(promiseFactory, this, callable)
         successCallbacks.add(newPromise)
         return newPromise
     }
 
     @Override
     Promise<T> onError(Closure callable) {
-        def newPromise = new FutureTaskChildPromise(this, callable)
+        def newPromise = new FutureTaskChildPromise(promiseFactory, this, callable)
         failureCallbacks.add(newPromise)
         return newPromise
 

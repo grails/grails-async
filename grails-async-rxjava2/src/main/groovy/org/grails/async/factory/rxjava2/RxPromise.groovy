@@ -31,12 +31,13 @@ import java.util.concurrent.TimeoutException
 @PackageScope
 class RxPromise<T>  implements Promise<T> {
     protected final Subject<T> subject
+    protected final RxPromiseFactory promiseFactory
     protected final Observable<T> observable
     protected Disposable subscription
     protected boolean finished = false
 
-    RxPromise(Closure callable, Scheduler scheduler) {
-        this(Single.create( { SingleEmitter<? super T> singleSubscriber ->
+    RxPromise(RxPromiseFactory promiseFactory, Closure callable, Scheduler scheduler) {
+        this(promiseFactory, Single.create( { SingleEmitter<? super T> singleSubscriber ->
             try {
                 singleSubscriber.onSuccess((T)callable.call())
             } catch (Throwable t) {
@@ -46,20 +47,21 @@ class RxPromise<T>  implements Promise<T> {
                 .subscribeOn(scheduler))
     }
 
-    RxPromise(Observable single) {
-        this(single, ReplaySubject.create(1))
+    RxPromise(RxPromiseFactory promiseFactory, Observable single) {
+        this(promiseFactory, single, ReplaySubject.create(1))
     }
 
-    RxPromise(Single single) {
-        this(single, ReplaySubject.create(1))
+    RxPromise(RxPromiseFactory promiseFactory, Single single) {
+        this(promiseFactory, single, ReplaySubject.create(1))
     }
 
-    RxPromise(Single single, Subject subject) {
-        this(single.toObservable(), subject)
+    RxPromise(RxPromiseFactory promiseFactory, Single single, Subject subject) {
+        this(promiseFactory, single.toObservable(), subject)
     }
 
-    RxPromise(Observable observable, Subject subject) {
+    RxPromise(RxPromiseFactory promiseFactory, Observable observable, Subject subject) {
         this.observable = observable
+        this.promiseFactory = promiseFactory
         observable.subscribe(new Observer<T>() {
             @Override
             void onSubscribe(Disposable d) {
@@ -95,12 +97,14 @@ class RxPromise<T>  implements Promise<T> {
 
     @Override
     Promise<T> onComplete(Closure callable) {
-        return new RxPromise<T>(subject.map(callable as Function<T, T>))
+        callable = promiseFactory.applyDecorators(callable, null)
+        return new RxPromise<T>(promiseFactory, subject.map(callable as Function<T, T>))
     }
 
     @Override
     Promise<T> onError(Closure callable) {
-        return new RxPromise<T>(subject.doOnError(callable as Consumer<Throwable>))
+        callable = promiseFactory.applyDecorators(callable, null)
+        return new RxPromise<T>(promiseFactory, subject.doOnError(callable as Consumer<Throwable>))
     }
 
     @Override

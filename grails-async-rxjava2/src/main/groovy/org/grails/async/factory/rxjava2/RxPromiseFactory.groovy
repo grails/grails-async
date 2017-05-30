@@ -21,18 +21,18 @@ import java.util.concurrent.TimeUnit
 class RxPromiseFactory extends AbstractPromiseFactory {
     @Override
     def <T> Promise<T> createPromise(Class<T> returnType) {
-        return new RxPromise<T>(Single.just(null))
+        return new RxPromise<T>(this, Single.just(null))
     }
 
     @Override
     Promise<Object> createPromise() {
-        return new RxPromise<Object>(Single.just(null))
+        return new RxPromise<Object>(this, Single.just(null))
     }
 
     @Override
     def <T> Promise<T> createPromise(Closure<T>[] closures) {
         if(closures.length == 1) {
-            return new RxPromise<T>(closures[0], Schedulers.io())
+            return new RxPromise<T>(this, closures[0], Schedulers.io())
         }
         else {
             def promiseList = new PromiseList()
@@ -55,7 +55,7 @@ class RxPromiseFactory extends AbstractPromiseFactory {
 
     @Override
     def <T> Promise<List<T>> onComplete(List<Promise<T>> promises, Closure<?> callable) {
-        new RxPromise<>(Observable.concat(
+        new RxPromise<>(this, Observable.concat(
             promises.collect() { Promise p ->
                 if(p instanceof BoundPromise) {
                     return Observable.just(((BoundPromise)p).value)
@@ -70,7 +70,7 @@ class RxPromiseFactory extends AbstractPromiseFactory {
 
     @Override
     def <T> Promise<List<T>> onError(List<Promise<T>> promises, Closure<?> callable) {
-        new RxPromise<>(Observable.concat(
+        new RxPromise<>(this, Observable.concat(
                 promises.collect() { Promise p-> ((RxPromise)p).toObservable() }
         ).toList())
                 .onError(callable)

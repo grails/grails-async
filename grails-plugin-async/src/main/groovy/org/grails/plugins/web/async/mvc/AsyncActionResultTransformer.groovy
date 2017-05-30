@@ -79,7 +79,7 @@ class AsyncActionResultTransformer implements ActionResultTransformer {
                     p.onComplete {
                         if (it instanceof Map) {
                             def modelAndView = new ModelAndView(viewName, it)
-                            asyncContext.getRequest().setAttribute(GrailsApplicationAttributes.MODEL_AND_VIEW, modelAndView);
+                            asyncContext.getRequest().setAttribute(GrailsApplicationAttributes.MODEL_AND_VIEW, modelAndView)
 
                             asyncContext.dispatch()
                         } else {
@@ -97,7 +97,7 @@ class AsyncActionResultTransformer implements ActionResultTransformer {
                         GrailsExceptionResolver exceptionResolver = createExceptionResolver(webRequest)
                         request.setAttribute(GrailsExceptionResolver.EXCEPTION_ATTRIBUTE, t)
                         def modelAndView = exceptionResolver.resolveException(request, response, this, (Exception) t)
-                        asyncContext.getRequest().setAttribute(GrailsApplicationAttributes.MODEL_AND_VIEW, modelAndView);
+                        asyncContext.getRequest().setAttribute(GrailsApplicationAttributes.MODEL_AND_VIEW, modelAndView)
                         asyncContext.dispatch()
                     }
                     else {
@@ -105,9 +105,9 @@ class AsyncActionResultTransformer implements ActionResultTransformer {
                     }
                 }
             }
-            return null;
+            return null
         }
-        return actionResult;
+        return actionResult
     }
 
     protected void handleComplete(HttpServletRequest request, HttpServletResponse response, AsyncContext asyncContext) {
