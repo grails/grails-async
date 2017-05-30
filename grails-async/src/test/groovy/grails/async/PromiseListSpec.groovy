@@ -61,16 +61,8 @@ class PromiseListSpec extends Specification{
     void "Test promise list with then chaining"() {
         when:"A promise list is used with then chaining"
             def list = new PromiseList<Integer>()
-            list << { 1 }
-            def promise = list
-                            .then {
-                                it << 2; it
-                            }
-                            .then {
-                                Thread.dumpStack()
-                                it << 3; it
-                            }
-            def result = promise.get()
+            list << { 1 } << { 2 } << {3}
+            def result = list   .get()
         then:"An appropriately populated list is produced"
             result == [1,2,3]
 
@@ -88,22 +80,11 @@ class PromiseListSpec extends Specification{
             list << {
                 3
             }
-            def res
-            list.onComplete { List results ->
-                res = results
-
-            }
-            Throwable err
-            list.onError { Throwable t ->
-               err = t
-            }.get()
-
-            list.get()
+            def result = list.get()
 
         then:'the onError handler is invoked with the exception'
-            thrown(ExecutionException)
+            def err = thrown(ExecutionException)
             err != null
             err.message == "java.lang.RuntimeException: bad"
-            res == null
     }
 }
