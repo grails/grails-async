@@ -54,6 +54,11 @@ subprojects {
     else {
         apply from:"${commonBuild}/common-project.gradle"
         apply from:"${commonBuild}/common-publishing.gradle"
+        test {
+            testLogging {
+                events "passed", "skipped", "failed", "standardOut", "standardError"
+            }
+        }
     }
 }
 
