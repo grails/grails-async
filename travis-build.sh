@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-./gradlew clean check assemble
+./gradlew clean check
 
 EXIT_STATUS=0
 echo "Publishing archives for branch $TRAVIS_BRANCH"
@@ -9,13 +9,13 @@ if [[ -n $TRAVIS_TAG ]] || [[ $TRAVIS_BRANCH =~ ^master$ && $TRAVIS_PULL_REQUEST
   echo "Publishing archives"
   ./gradlew --stop
   if [[ -n $TRAVIS_TAG ]]; then
-      ./gradlew bintrayUpload || EXIT_STATUS=$?
+      ./gradlew --no-daemon bintrayUpload || EXIT_STATUS=$?
   else
-      ./gradlew publish || EXIT_STATUS=$?
+      ./gradlew --no-daemon publish || EXIT_STATUS=$?
   fi
 
   ./gradlew --stop
-  ./gradlew docs || EXIT_STATUS=$?
+  ./gradlew --no-daemon docs || EXIT_STATUS=$?
 
   git config --global user.name "$GIT_NAME"
   git config --global user.email "$GIT_EMAIL"
