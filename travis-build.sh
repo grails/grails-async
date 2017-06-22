@@ -7,13 +7,14 @@ echo "Publishing archives for branch $TRAVIS_BRANCH"
 if [[ -n $TRAVIS_TAG ]] || [[ $TRAVIS_BRANCH =~ ^master$ && $TRAVIS_PULL_REQUEST == 'false' ]]; then
 
   echo "Publishing archives"
-
+  ./gradlew --stop
   if [[ -n $TRAVIS_TAG ]]; then
       ./gradlew bintrayUpload || EXIT_STATUS=$?
   else
       ./gradlew publish || EXIT_STATUS=$?
   fi
 
+  ./gradlew --stop
   ./gradlew docs || EXIT_STATUS=$?
 
   git config --global user.name "$GIT_NAME"
