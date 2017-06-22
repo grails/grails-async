@@ -9,9 +9,9 @@ if [[ -n $TRAVIS_TAG ]] || [[ $TRAVIS_BRANCH =~ ^master$ && $TRAVIS_PULL_REQUEST
   echo "Publishing archives"
   ./gradlew --stop
   if [[ -n $TRAVIS_TAG ]]; then
-      ./gradlew --no-daemon bintrayUpload || EXIT_STATUS=$?
+      ./gradlew bintrayUpload --no-daemon --stacktrace || EXIT_STATUS=$?
   else
-      ./gradlew --no-daemon publish || EXIT_STATUS=$?
+      ./gradlew publish --no-daemon --stacktrace || EXIT_STATUS=$?
   fi
 
   ./gradlew --stop
