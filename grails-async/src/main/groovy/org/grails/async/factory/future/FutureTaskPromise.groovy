@@ -21,10 +21,10 @@ import java.util.concurrent.TimeoutException
 @CompileStatic
 class FutureTaskPromise<T> extends FutureTask<T> implements Promise<T> {
 
-    private volatile T boundValue = null
+    private T boundValue = null
     private final PromiseFactory promiseFactory
-    private Collection<FutureTaskChildPromise> failureCallbacks = new ConcurrentLinkedQueue<>()
-    private Collection<FutureTaskChildPromise> successCallbacks = new ConcurrentLinkedQueue<>()
+    private final Collection<FutureTaskChildPromise> failureCallbacks = new ConcurrentLinkedQueue<>()
+    private final Collection<FutureTaskChildPromise> successCallbacks = new ConcurrentLinkedQueue<>()
 
     FutureTaskPromise(PromiseFactory promiseFactory, Callable<T> callable) {
         super(callable)
@@ -60,53 +60,60 @@ class FutureTaskPromise<T> extends FutureTask<T> implements Promise<T> {
 
     @Override
     protected void set(T t) {
-        for(callback in successCallbacks) {
-            callback.accept(t)
-        }
         super.set(t)
+        synchronized (successCallbacks) {
+            for(callback in successCallbacks) {
+                callback.accept(t)
+            }
+        }
     }
 
     @Override
     protected void setException(Throwable t) {
-        for(callback in failureCallbacks) {
-            callback.accept(t)
-        }
         super.setException(t)
+        synchronized (failureCallbacks) {
+            for(callback in failureCallbacks) {
+                callback.accept(t)
+            }
+        }
     }
 
     @Override
     Promise<T> onComplete(Closure callable) {
-        if(isDone()) {
-            try {
-                def v = get()
-                return new BoundPromise<T>((T)callable.call(v))
-            } catch (Throwable e) {
-                return new BoundPromise (e)
+        synchronized (successCallbacks) {
+            if(isDone()) {
+                try {
+                    def v = get()
+                    return new BoundPromise<T>((T)v).onComplete(callable)
+                } catch (Throwable e) {
+                    return this
+                }
             }
-        }
-        else {
-            def newPromise = new FutureTaskChildPromise(promiseFactory,this,callable)
-            successCallbacks.add(newPromise)
-            return newPromise
+            else {
+                def newPromise = new FutureTaskChildPromise(promiseFactory,this,callable)
+                successCallbacks.add(newPromise)
+                return newPromise
+            }
         }
     }
 
     @Override
     Promise<T> onError(Closure callable) {
-        if(isDone()) {
-            try {
-                get()
-            } catch (Throwable e) {
-                callable.call(e)
+        synchronized (failureCallbacks) {
+            if(isDone()) {
+                try {
+                    get()
+                    return this
+                } catch (Throwable e) {
+                    return new BoundPromise<T>((T)callable.call(e))
+                }
+            }
+            else {
+                def newPromise = new FutureTaskChildPromise(promiseFactory,this,callable)
+                failureCallbacks.add(newPromise)
+                return newPromise
             }
         }
-        else {
-            def newPromise = new FutureTaskChildPromise(promiseFactory,this,callable)
-            failureCallbacks.add(newPromise)
-            return newPromise
-
-        }
-        return this
     }
 
     @Override

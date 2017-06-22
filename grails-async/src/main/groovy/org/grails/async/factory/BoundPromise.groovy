@@ -68,14 +68,14 @@ class BoundPromise<T> implements Promise<T> {
 
     Promise<T> onComplete(Closure callable) {
         if (!(value instanceof Throwable)) {
-            callable.call(value)
+            return new BoundPromise<>(callable.call(value))
         }
         return this
     }
 
     Promise<T> onError(Closure callable) {
         if (value instanceof Throwable) {
-            callable.call(value)
+            return new BoundPromise<>(callable.call(value))
         }
         return this
 
