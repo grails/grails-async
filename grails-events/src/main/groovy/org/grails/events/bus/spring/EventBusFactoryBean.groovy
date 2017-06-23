@@ -9,6 +9,8 @@ import org.springframework.beans.factory.FactoryBean
 import org.springframework.beans.factory.InitializingBean
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
+import org.springframework.context.ApplicationContext
+import org.springframework.context.ApplicationContextAware
 import org.springframework.core.task.AsyncTaskExecutor
 
 import java.util.concurrent.ExecutorService
@@ -21,16 +23,9 @@ import java.util.concurrent.ExecutorService
  */
 @CompileStatic
 @Slf4j
-class EventBusFactoryBean extends EventBusBuilder implements FactoryBean<EventBus>, InitializingBean {
+class EventBusFactoryBean extends EventBusBuilder implements FactoryBean<EventBus>, InitializingBean, ApplicationContextAware {
 
-    @Autowired(required = false)
-    @Qualifier("taskExecutor")
-    Object springTaskExecutor
-
-    @Autowired(required = false)
-    @Qualifier("grailsPromiseFactory")
-    Object promiseFactory
-
+    ApplicationContext applicationContext
     EventBus eventBus
 
     @Override
@@ -55,16 +50,13 @@ class EventBusFactoryBean extends EventBusBuilder implements FactoryBean<EventBu
 
     @Override
     protected EventBus createDefaultEventBus() {
-        if(springTaskExecutor instanceof AsyncTaskExecutor) {
-            log.debug("Creating event bus from Spring task executor {}", springTaskExecutor)
-            return new ExecutorEventBus((AsyncTaskExecutor)springTaskExecutor)
+        if(applicationContext.containsBean("grailsPromiseFactory")) {
+            Object promiseFactory = applicationContext.getBean("grailsPromiseFactory")
+            if(promiseFactory instanceof ExecutorService) {
+                log.debug("Creating event bus from PromiseFactory {}", promiseFactory)
+                return new ExecutorEventBus((ExecutorService)promiseFactory)
+            }
         }
-        else if(promiseFactory instanceof ExecutorService) {
-            log.debug("Creating event bus from PromiseFactory {}", promiseFactory)
-            return new ExecutorEventBus((ExecutorService)promiseFactory)
-        }
-        else {
-            return super.createDefaultEventBus()
-        }
+        return super.createDefaultEventBus()
     }
 }

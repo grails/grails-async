@@ -7,6 +7,7 @@ events:
     annotations: Reactor Spring Annotations
     gormEvents: Events from GORM
     springEvents: Events from Spring
+    configure: Configure the Default Event Bus
 asyncGorm: Asynchronous GORM
 rxjava:
   title: RxJava Support
