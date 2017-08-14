@@ -836,7 +836,7 @@ Although GORM executes persistence operations asynchronously, these operations s
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">import</span> <span class="include">grails.gorm.async.*</span>
 
-<span class="type">class</span> <span class="class">MyEntity</span> <span class="directive">implements</span> AsyncEntity {
+<span class="type">class</span> <span class="class">MyEntity</span> <span class="directive">implements</span> AsyncEntity&lt;MyEntity&gt; {
    ...
 }</code></pre>
 </div>
