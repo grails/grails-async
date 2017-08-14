@@ -18,7 +18,7 @@ Then in your domain classes you wish to allow asynchronous processing you should
 ----
 import grails.gorm.async.*
 
-class MyEntity implements AsyncEntity {
+class MyEntity implements AsyncEntity<MyEntity> {
    ...
 }
 ----
