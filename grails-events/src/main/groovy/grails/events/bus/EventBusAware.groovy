@@ -1,7 +1,7 @@
 package grails.events.bus
 
 import groovy.transform.CompileStatic
-import javax.annotation.Resource
+import org.springframework.beans.factory.annotation.Autowired
 
 /**
  * Trait for classes aware of the event bus
@@ -19,7 +19,7 @@ trait EventBusAware {
      *
      * @param eventBus The event bus
      */
-    @Resource
+    @Autowired
     void setTargetEventBus(EventBus eventBus) {
         this.eventBus = eventBus
     }

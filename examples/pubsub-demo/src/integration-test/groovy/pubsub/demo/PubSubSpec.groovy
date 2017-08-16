@@ -59,15 +59,16 @@ class PubSubSpec extends Specification {
     }
 
 
-//    @Rollback
-    @NotYetImplemented // due to  https://hibernate.atlassian.net/browse/HHH-11721
+    @Rollback
     void "test synchronous event listener"() {
         when:"When a event listener cancels an insert"
         bookService.saveBook("UK Politics")
 
+        // due to  https://hibernate.atlassian.net/browse/HHH-11721
+        // an exception most be thrown
         then:"The insert was cancelled"
-        bookSubscriber.newBooks == []
-        bookSubscriber.insertEvents.isEmpty()
+        def e = thrown(IllegalArgumentException)
+        e.message == "Books about politics not allowed"
 
     }
 }

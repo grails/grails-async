@@ -7,11 +7,11 @@ import org.springframework.stereotype.Component
 @Component
 class BookChecks {
 
+    @Listener(Book)
     void checkBook(PreInsertEvent event) {
         String title = event.getEntityAccess().getPropertyValue("title")
         if(title?.contains("Politics")) {
-            println "Books about politics not allowed"
-            event.cancel()
+            throw new IllegalArgumentException("Books about politics not allowed")
         }
     }
 
