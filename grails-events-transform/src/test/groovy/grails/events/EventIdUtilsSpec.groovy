@@ -17,7 +17,7 @@ class EventIdUtilsSpec extends Specification {
         'onSum'      || 'sum'
         'sum'        || 'sum'
         'onSaveUser' || 'saveUser'
-        'onSaveUser' || 'saveUser'
+        'saveUser'   || 'saveUser'
         'SaveUser'   || 'SaveUser'
         'onS'        || 's'
         'on'         || 'on'
