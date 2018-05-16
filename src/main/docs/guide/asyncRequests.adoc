@@ -27,7 +27,7 @@ If the model takes a while to produce then the server could arrive at a blocking
 
 [source,groovy]
 ----
-import static grails.async.WebPromises.*
+import static grails.async.web.WebPromises.*
 ...
 def index() {
    tasks books: Book.async.list(),
