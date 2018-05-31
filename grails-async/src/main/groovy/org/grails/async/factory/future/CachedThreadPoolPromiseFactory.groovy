@@ -105,7 +105,7 @@ class CachedThreadPoolPromiseFactory extends AbstractPromiseFactory implements C
 
     @Override
     @PreDestroy
-    void close() throws IOException {
+    void close() {
         if(!executorService.isShutdown()) {
             executorService.shutdown()
         }
