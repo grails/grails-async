@@ -23,7 +23,7 @@ import java.util.concurrent.atomic.AtomicBoolean
  */
 @CompileStatic
 class AsyncGrailsWebRequest extends GrailsWebRequest implements AsyncWebRequest, AsyncListener{
-    static final String WEB_REQUEST = "org.grails.ASYNC_WEB_REQUEST";
+    static final String WEB_REQUEST = "org.grails.ASYNC_WEB_REQUEST"
 
     Long timeout
     AsyncContext asyncContext
