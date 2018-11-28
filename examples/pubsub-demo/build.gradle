@@ -20,8 +20,8 @@ dependencies {
         exclude module:'asset-pipeline-grails'
     }
     compile "org.grails.plugins:hibernate5"
-    compile "org.hibernate:hibernate-core:5.1.3.Final"
-    compile "org.hibernate:hibernate-ehcache:5.1.3.Final"
+    compile "org.hibernate:hibernate-core:$hibernateCoreVersion"
+    compile "org.hibernate:hibernate-ehcache:$hibernateCoreVersion"
     compile "org.grails.plugins:views-json"
     compile "org.grails.plugins:views-json-templates"
     console "org.grails:grails-console"
