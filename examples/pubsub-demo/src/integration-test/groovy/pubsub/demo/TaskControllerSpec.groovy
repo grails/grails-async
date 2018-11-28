@@ -1,8 +1,11 @@
 package pubsub.demo
 
-import geb.spock.GebSpec
-import grails.plugins.rest.client.RestBuilder
-import grails.test.mixin.integration.Integration
+import grails.testing.mixin.integration.Integration
+import io.micronaut.core.type.Argument
+import io.micronaut.http.HttpRequest
+import io.micronaut.http.HttpResponse
+import io.micronaut.http.HttpStatus
+import io.micronaut.http.client.exceptions.HttpClientResponseException
 import spock.lang.Ignore
 import spock.lang.Specification
 
@@ -11,16 +14,16 @@ import spock.lang.Specification
  */
 @Integration
 @Ignore
-class TaskControllerSpec extends GebSpec {
+class TaskControllerSpec extends HttpClientSpec {
 
     void "test async error handling"() {
-        given:
-        RestBuilder restBuilder = new RestBuilder()
         when:
-        def result = restBuilder.get("${baseUrl}/task/error")
+        HttpRequest request = HttpRequest.GET("/task/error")
+        client.toBlocking().exchange(request, Argument.of(String), Argument.of(String))
 
         then:
-        result.status == 500
-        result.text == "error occured"
+        HttpClientResponseException e = thrown()
+        e.response.status == HttpStatus.INTERNAL_SERVER_ERROR
+        e.response.body() == 'error occured'
     }
 }
