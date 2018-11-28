@@ -7,4 +7,7 @@ dependencies {
 
     testCompile "javax.servlet:javax.servlet-api:$servletApiVersion"
     testCompile "org.springframework:spring-test:$springVersion"
+
+    //TODO should be required ?
+    compile "opensymphony:sitemesh:$sitemeshVersion"
 }
