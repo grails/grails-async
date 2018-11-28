@@ -3,11 +3,9 @@ package pubsub.demo
 import grails.testing.mixin.integration.Integration
 import io.micronaut.core.type.Argument
 import io.micronaut.http.HttpRequest
-import io.micronaut.http.HttpResponse
 import io.micronaut.http.HttpStatus
 import io.micronaut.http.client.exceptions.HttpClientResponseException
 import spock.lang.Ignore
-import spock.lang.Specification
 
 /**
  * Created by graemerocher on 30/05/2017.
