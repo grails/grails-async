@@ -14,6 +14,7 @@ import javax.servlet.ServletContext
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 import java.util.concurrent.atomic.AtomicBoolean
+import java.util.function.Consumer
 
 /**
  * Implementation of Spring 4.0 {@link AsyncWebRequest} interface for Grails
@@ -63,6 +64,11 @@ class AsyncGrailsWebRequest extends GrailsWebRequest implements AsyncWebRequest,
     @Override
     void addTimeoutHandler(Runnable runnable) {
         timeoutHandlers << runnable
+    }
+
+    @Override
+    void addErrorHandler(Consumer<Throwable> exceptionHandler) {
+        //TODO implement this
     }
 
     @Override
