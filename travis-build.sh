@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-./gradlew clean check
+./gradlew clean check -x pubsub-demo:check
 
 EXIT_STATUS=0
 echo "Publishing archives for branch $TRAVIS_BRANCH"
