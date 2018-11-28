@@ -1,5 +1,6 @@
 package grails.events
 
+import groovy.transform.CompileDynamic
 import groovy.transform.CompileStatic
 import org.slf4j.LoggerFactory
 import reactor.bus.Bus
@@ -85,6 +86,7 @@ trait Events {
     /**
      * @see reactor.bus.Bus#notify(java.lang.Object, java.lang.Object)
      */
+    @CompileDynamic
     Bus notify(Object key, Event<?> ev) {
         LoggerFactory.getLogger(getClass()).warn("The class [${getClass()}] used the legacy Reactor 2 event bus and needs to be re-compiled")
         if(eventBus == null) throw new IllegalStateException("EventBus not present. Event notification attempted outside of application context.")
