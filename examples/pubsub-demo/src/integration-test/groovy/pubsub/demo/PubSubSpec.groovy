@@ -2,7 +2,6 @@ package pubsub.demo
 
 import grails.gorm.transactions.Rollback
 import grails.test.mixin.integration.Integration
-import groovy.transform.NotYetImplemented
 import org.springframework.beans.factory.annotation.Autowired
 import spock.lang.Specification
 
