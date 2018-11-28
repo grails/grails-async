@@ -11,11 +11,11 @@ if [[ -n $TRAVIS_TAG ]] || [[ $TRAVIS_BRANCH =~ ^master$ && $TRAVIS_PULL_REQUEST
   if [[ -n $TRAVIS_TAG ]]; then
       ./gradlew bintrayUpload --no-daemon --stacktrace || EXIT_STATUS=$?
   else
-      ./gradlew publish --no-daemon --stacktrace || EXIT_STATUS=$?
+      ./gradlew publish -x groovydoc --no-daemon --stacktrace || EXIT_STATUS=$?
   fi
 
   ./gradlew --stop
-  ./gradlew --no-daemon docs || EXIT_STATUS=$?
+  ./gradlew --no-daemon docs -x groovydoc || EXIT_STATUS=$?
 
   git config --global user.name "$GIT_NAME"
   git config --global user.email "$GIT_EMAIL"
