@@ -20,6 +20,10 @@ env:
   - secure: T7rYVo6MH2C1ZB7xait0eVnvqG/VJfknsAHO4Hib6yWdJviFdlPsNDNKIoHrI6ywelZE6w6ad1y7yLV+0JSKujwlcq79vzex2Wok0kWxt/CsgAKuDX3x9JeRkisJ5wSPFAs/C8FmShscyrXQJDsLfNjIISMxYtKXo0YBTyu0c6jIAL6cvuH/wQTbUarmkq3GV3yM1ZzWMmyiTlFa+wm8Hymp+qM44Gja4ZnHfynuXV4LRgWvWEPbhfXtqFt8+v5ste/BYauV1LKBvm/H+DBwCRunSbLjYQ3Q+gnuoLf+ZByZUmhpgWsynarWJL5JIqb/BItug6Z/QSgO6mMfIeGDvYPe5TfmDPWEXXyU8lBy7r47RM/2Mp/na8Nn8/LKdk58AZluDbUeebSOVbOdYOGwFgxdX6AG6BEgBQhbA2UeonOQ7B26nfunOcSRlT7deD5Lg9L5ut/L4MPEBZeIlhfVNRDVSqF/LGi3+1aD3UdPo/Xa2Iic8hZQNh6+oeROIneMnNn85VWza47fa8ADr0ycEMf+VVFYxMR9T4YcUm7PVmjMbEJ2bjAw8s0cSHJ6YtKJzGfheFjb8XfoIHdCUnprAuIfTZqHX/Tec5f70N5ULPDdDMnqKv+K9hpxR1sfzN6WfE+7CIDeumf9s/6kC++VTOb/eAqVljtF7gqz54tnaVk=
 install: /bin/true
 script: ./travis-build.sh
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
 cache:
   directories:
-  - $HOME/.gradle
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
