@@ -55,6 +55,10 @@ subprojects {
         apply from:"${commonBuild}/common-project.gradle"
         apply from:"${commonBuild}/common-publishing.gradle"
     }
+
+    dependencies {
+        compile 'javax.annotation:javax.annotation-api:1.3.2'
+    }
 }
 
 apply from:"${commonBuild}/common-docs.gradle"
