@@ -5,7 +5,7 @@ EXIT_STATUS=0
 
 echo "Check for branch $TRAVIS_BRANCH JDK: $TRAVIS_JDK_VERSION"
 
-./gradlew clean check -x pubsub-demo:check || EXIT_STATUS=$?
+./gradlew check -x pubsub-demo:check || EXIT_STATUS=$?
 
 if [ $EXIT_STATUS -ne 0 ]; then
   exit $EXIT_STATUS
