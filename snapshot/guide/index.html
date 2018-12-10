@@ -65,7 +65,7 @@
                     <h1>Grails Async Framework</h1>
                     <p></p>
                     <p>Grails Async Libraries</p>
-                    <p><strong>Version:</strong> 3.3.2.BUILD-SNAPSHOT</p>
+                    <p><strong>Version:</strong> 4.0.0.BUILD-SNAPSHOT</p>
 
                 </div>
 
@@ -106,7 +106,7 @@
 <div class="listingblock">
 <div class="title">build.gradle</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy">runtime "org.grails.plugins:async:3.3.2.BUILD-SNAPSHOT"</code></pre>
+<pre class="CodeRay highlight"><code data-lang="groovy">runtime "org.grails.plugins:async:4.0.0.BUILD-SNAPSHOT"</code></pre>
 </div>
 </div>
 <div class="sect2">
@@ -188,7 +188,7 @@ p.onComplete { result -&gt;
 <div class="listingblock">
 <div class="title">build.gradle</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy">runtime "org.grails:grails-async-rxjava:3.3.2.BUILD-SNAPSHOT"</code></pre>
+<pre class="CodeRay highlight"><code data-lang="groovy">runtime "org.grails:grails-async-rxjava:4.0.0.BUILD-SNAPSHOT"</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -432,7 +432,7 @@ map.onComplete { <span class="predefined-type">Map</span> results -&gt;
 <div class="listingblock">
 <div class="title">build.gradle</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy">runtime "org.grails.plugins:events:3.3.2.BUILD-SNAPSHOT"</code></pre>
+<pre class="CodeRay highlight"><code data-lang="groovy">runtime "org.grails.plugins:events:4.0.0.BUILD-SNAPSHOT"</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -444,7 +444,7 @@ map.onComplete { <span class="predefined-type">Map</span> results -&gt;
 <div class="listingblock">
 <div class="title">build.gradle</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy">runtime "org.grails:grails-events-rxjava:3.3.2.BUILD-SNAPSHOT"</code></pre>
+<pre class="CodeRay highlight"><code data-lang="groovy">runtime "org.grails:grails-events-rxjava:4.0.0.BUILD-SNAPSHOT"</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -594,7 +594,8 @@ class TotalService {
 <div class="listingblock">
 <div class="title">TotalService.groovy</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">import</span> <span class="include">grails.events.*</span>
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">import</span> <span class="include">grails.events.bus.EventBusAware</span>
+<span class="keyword">import</span> <span class="include">javax.annotation.PostConstruct</span>
 ...
 class TotalService <span class="directive">implements</span> EventBusAware {
     <span class="predefined-type">AtomicInteger</span> total = <span class="keyword">new</span> <span class="predefined-type">AtomicInteger</span>(<span class="integer">0</span>)
@@ -1009,7 +1010,7 @@ Person updatedPerson = promise.get()</code></pre>
 <p>Spawn a new thread that subscribes to the observable</p>
 </li>
 <li>
-<p>When the observable omits a result process the result using the <a href="../ref/Controllers/respond.html">respond</a> method.</p>
+<p>When the observable emits a result, process the result using the <a href="../ref/Controllers/respond.html">respond</a> method.</p>
 </li>
 </ol>
 </div>
@@ -1187,7 +1188,7 @@ Person updatedPerson = promise.get()</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">import</span> <span class="include">static</span> <span class="include">grails.async.WebPromises.*</span>
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">import</span> <span class="include">static</span> <span class="include">grails.async.web.WebPromises.*</span>
 ...
 def index() {
    tasks <span class="key">books</span>: <span class="predefined-type">Book</span>.async.list(),
