@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component
 import spock.lang.AutoCleanup
 import spock.lang.Shared
 import spock.lang.Specification
+import spock.util.concurrent.PollingConditions
 
 /**
  * Created by graemerocher on 29/03/2017.
@@ -19,6 +20,8 @@ class PublishSubscribeSpringSpec extends Specification {
 
     def "test event publisher within Spring"() {
         given:
+        def conditions = new PollingConditions(timeout: 5)
+
         AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext()
         applicationContext.beanFactory.registerSingleton("eventBus", new EventBusBuilder().build())
         applicationContext.register(OneService, TwoService)
@@ -51,10 +54,12 @@ class PublishSubscribeSpringSpec extends Specification {
 
         then:
         def e = thrown(RuntimeException)
-        e.message == "bad"
-        subscriber.error == e
-        subscriber.events.size() == 3
-        subscriber.total == 3
+        conditions.eventually {
+            assert e.message == "bad"
+            assert subscriber.error == e
+            assert subscriber.events.size() == 3
+            assert subscriber.total == 3
+        }
     }
 }
 
