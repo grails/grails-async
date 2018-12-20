@@ -7,3 +7,4 @@ classes/
 .project
 .settings
 bin
+.classpath
