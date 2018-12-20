@@ -6,3 +6,4 @@ classes/
 *.iml
 .project
 .settings
+bin
