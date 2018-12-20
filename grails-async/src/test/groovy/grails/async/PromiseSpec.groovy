@@ -17,6 +17,7 @@ package grails.async
 
 import grails.async.decorator.PromiseDecorator
 import spock.lang.Specification
+import spock.util.concurrent.PollingConditions
 
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeoutException
@@ -113,9 +114,11 @@ class PromiseSpec extends Specification {
     }
 
     void "Test promise onError handling"() {
+        given:
+        def conditions = new PollingConditions(timeout: 2)
 
         when:"A promise is executed with an onComplete handler"
-            def promise = Promises.createPromise {
+        def promise = Promises.createPromise {
                 throw new RuntimeException("bad")
             }
             def result
@@ -126,12 +129,13 @@ class PromiseSpec extends Specification {
             promise.onError { err ->
                 error = err
             }
-            sleep 1000
 
         then:"The onComplete handler is invoked and the onError handler is ignored"
-            result == null
-            error != null
-            error.message == "java.lang.RuntimeException: bad"
+        conditions.eventually {
+            assert result == null
+            assert error != null
+            assert error.message == "java.lang.RuntimeException: bad"
+        }
     }
 
     void "Test promise chaining"() {
