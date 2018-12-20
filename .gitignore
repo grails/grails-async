@@ -5,3 +5,4 @@ classes/
 *.db
 *.iml
 .project
+.settings
