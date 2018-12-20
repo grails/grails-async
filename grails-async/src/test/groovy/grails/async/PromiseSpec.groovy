@@ -115,7 +115,7 @@ class PromiseSpec extends Specification {
 
     void "Test promise onError handling"() {
         given:
-        def conditions = new PollingConditions(timeout: 2)
+        def conditions = new PollingConditions(timeout: 5)
 
         when:"A promise is executed with an onComplete handler"
         def promise = Promises.createPromise {
