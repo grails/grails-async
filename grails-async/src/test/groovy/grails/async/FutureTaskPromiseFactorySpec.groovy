@@ -4,6 +4,7 @@ import grails.async.decorator.PromiseDecorator
 import org.grails.async.factory.future.CachedThreadPoolPromiseFactory
 import spock.lang.Issue
 import spock.lang.Specification
+import spock.util.concurrent.PollingConditions
 
 import java.util.concurrent.ExecutionException
 
@@ -87,6 +88,8 @@ class FutureTaskPromiseFactorySpec extends Specification {
     }
 
     void "Test promise onError handling"() {
+        given:
+        def conditions = new PollingConditions(timeout: 2)
 
         when:"A promise is executed with an onComplete handler"
         def promise = Promises.createPromise {
@@ -103,8 +106,10 @@ class FutureTaskPromiseFactorySpec extends Specification {
 
         then:"The onComplete handler is invoked and the onError handler is ignored"
         thrown(ExecutionException)
-        result == null
-        error != null
+        conditions.eventually {
+            assert result == null
+            assert error != null
+        }
     }
 
     void "Test promise chaining"() {
