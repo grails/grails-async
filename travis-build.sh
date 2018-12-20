@@ -19,14 +19,12 @@ echo "Publishing archives for branch $TRAVIS_BRANCH JDK: $TRAVIS_JDK_VERSION"
 if [[ -n $TRAVIS_TAG ]] || [[ $TRAVIS_BRANCH =~ ^master$ && $TRAVIS_PULL_REQUEST == 'false' ]]; then
 
   echo "Publishing archives"
-  ./gradlew --stop
   if [[ -n $TRAVIS_TAG ]]; then
       ./gradlew bintrayUpload --no-daemon --stacktrace || EXIT_STATUS=$?
   else
       ./gradlew publish --no-daemon --stacktrace || EXIT_STATUS=$?
   fi
 
-  ./gradlew --stop
   ./gradlew --no-daemon docs || EXIT_STATUS=$?
 
   git config --global user.name "$GIT_NAME"
