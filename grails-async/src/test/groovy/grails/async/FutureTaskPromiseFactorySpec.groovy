@@ -2,7 +2,6 @@ package grails.async
 
 import grails.async.decorator.PromiseDecorator
 import org.grails.async.factory.future.CachedThreadPoolPromiseFactory
-import spock.lang.IgnoreIf
 import spock.lang.Issue
 import spock.lang.Specification
 
@@ -87,7 +86,6 @@ class FutureTaskPromiseFactorySpec extends Specification {
         hasError == false
     }
 
-    @IgnoreIf({ System.getenv("TRAVIS")})
     void "Test promise onError handling"() {
 
         when:"A promise is executed with an onComplete handler"
