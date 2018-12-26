@@ -33,7 +33,7 @@ class AsyncGrailsWebRequest extends GrailsWebRequest implements AsyncWebRequest,
 
     List<Runnable> timeoutHandlers = []
     List<Runnable> completionHandlers = []
-
+    List<Consumer<Throwable>> exceptionHandlers = []
 
     AsyncGrailsWebRequest(HttpServletRequest request, HttpServletResponse response, GrailsApplicationAttributes attributes) {
         super(request, response, attributes)
@@ -60,7 +60,6 @@ class AsyncGrailsWebRequest extends GrailsWebRequest implements AsyncWebRequest,
         return webRequest
     }
 
-
     @Override
     void addTimeoutHandler(Runnable runnable) {
         timeoutHandlers << runnable
@@ -68,7 +67,7 @@ class AsyncGrailsWebRequest extends GrailsWebRequest implements AsyncWebRequest,
 
     @Override
     void addErrorHandler(Consumer<Throwable> exceptionHandler) {
-        //TODO implement this
+        exceptionHandlers << exceptionHandler
     }
 
     @Override
