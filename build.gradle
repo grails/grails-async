@@ -48,7 +48,7 @@ subprojects {
         apply plugin:"org.grails.grails-web"
     }
     else if(isGrailsPlugin) {
-        apply from:"${commonBuild}/common-plugin.gradle"
+        apply from:"${commonBuild}/common-project.gradle"
         apply from:"${commonBuild}/common-publishing.gradle"
     }
     else {
