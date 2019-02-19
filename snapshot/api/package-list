@@ -32,7 +32,6 @@ org.grails.plugins.events
 org.grails.plugins.web.async
 org.grails.plugins.web.async.mvc
 org.grails.plugins.web.async.spring
-pubsub.demo
 reactor.bus
 reactor.bus.registry
 reactor.bus.selector
