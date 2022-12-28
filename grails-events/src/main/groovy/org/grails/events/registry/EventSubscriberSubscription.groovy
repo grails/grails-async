@@ -29,6 +29,6 @@ class EventSubscriberSubscription extends AbstractSubscription {
 
     @Override
     EventTrigger buildTrigger(Event event, Closure reply) {
-        return new EventSubscriberTrigger(event, subscriber)
+        return new EventSubscriberTrigger(event, subscriber, reply)
     }
 }
