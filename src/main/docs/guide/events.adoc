@@ -10,7 +10,7 @@ To use the Grails Events abstraction you should add a dependency on the `events`
 runtime "org.grails.plugins:events:{version}"
 ----
 
-If no asynchronous framework in present on the classpath then by default Grails creates an EventBus based off of the currently active `PromiseFactory`. The default implementation is link:{api}/org/grails/async/factory/future/CachedThreadPoolPromiseFactory.html[CachedThreadPoolPromiseFactory] which uses a thread pool that will create threads as needed (the same as `java.util.concurrent.Executors.newCachedThreadPool()`).
+If no asynchronous framework is present on the classpath then by default Grails creates an EventBus based off of the currently active `PromiseFactory`. The default implementation is link:{api}/org/grails/async/factory/future/CachedThreadPoolPromiseFactory.html[CachedThreadPoolPromiseFactory] which uses a thread pool that will create threads as needed (the same as `java.util.concurrent.Executors.newCachedThreadPool()`).
 
 If you wish to use a popular async framework such as RxJava as the `EventBus` implementation then you will need to add the appropriate dependency. For example for RxJava 1.x:
 
