@@ -48,7 +48,7 @@ if (!isExample) { // don't publish examples
                         username = System.getenv('ARTIFACTORY_USERNAME') ?: project.findProperty('artifactoryPublishUsername') ?: ''
                         password = System.getenv('ARTIFACTORY_PASSWORD') ?: project.findProperty('artifactoryPublishPassword') ?: ''
                     }
-                    url = (project.group == 'org.grails.plugins') ?
+                    url = isGrailsPlugin ?
                         uri('https://repo.grails.org/grails/plugins3-snapshots-local') :
                         uri('https://repo.grails.org/grails/libs-snapshots-local')
 
