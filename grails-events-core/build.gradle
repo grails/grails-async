@@ -1,0 +1,26 @@
+plugins {
+
+    id 'groovy'
+    id 'java-library'
+
+    id 'maven-publish'
+    id 'signing'
+
+}
+
+group = 'org.grails'
+
+dependencies {
+
+    implementation libs.groovy
+
+    implementation libs.slf4j.api
+    implementation libs.spring.context
+    implementation libs.spring.tx
+
+    testImplementation libs.spock.core
+
+}
+
+apply from: file("$rootProject.projectDir/gradle/java.gradle")
+apply from: file("$rootProject.projectDir/gradle/publishing.gradle")

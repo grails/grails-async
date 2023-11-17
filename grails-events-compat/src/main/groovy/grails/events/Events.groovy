@@ -54,7 +54,7 @@ trait Events {
             key = key.toString()
         }
         on(key) {
-            consumer.accept(it)
+            consumer.accept(it as E)
         }
     }
 

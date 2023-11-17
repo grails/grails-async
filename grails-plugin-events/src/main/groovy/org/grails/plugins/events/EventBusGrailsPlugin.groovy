@@ -18,12 +18,10 @@ package org.grails.plugins.events
 
 import grails.config.Config
 import grails.plugins.Plugin
-import groovy.util.logging.Slf4j
 import org.grails.events.bus.spring.EventBusFactoryBean
 import org.grails.events.gorm.GormDispatcherRegistrar
 import org.grails.events.spring.SpringEventTranslator
 import reactor.bus.EventBus
-
 
 /**
  * A plugin that integrates Reactor into Grails
@@ -31,10 +29,9 @@ import reactor.bus.EventBus
  * @author Graeme Rocher
  * @since 3.0
  */
-@Slf4j
 class EventBusGrailsPlugin extends Plugin {
 
-    def grailsVersion = "3.3.0 > *"
+    def grailsVersion = "6.0.0 > *"
 
     /**
      * Whether to translate GORM events into reactor events

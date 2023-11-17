@@ -9,7 +9,8 @@ import java.util.concurrent.ConcurrentLinkedDeque
 @Component
 class BookSubscriber {
 
-    List<String> newBooks =[]
+    List<String> newBooks = []
+
     @Subscriber("newBook")
     void withBook(Book book) {
         newBooks.add(book.title)

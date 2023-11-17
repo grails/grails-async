@@ -1,9 +1,32 @@
-dependencies {
-    compile project(":grails-events")
-    compile "io.reactivex:rxjava:$rxJavaVersion"
+plugins {
 
-    testCompile project(":grails-events-transform")
-    testCompile "org.grails:grails-datastore-gorm-test:$gormVersion", {
-        exclude group:'org.grails', module:'grails-datastore-gorm-validation'
-    }
+    id 'groovy'
+    id 'java-library'
+
+    id 'maven-publish'
+    id 'signing'
+
 }
+
+group = 'org.grails'
+
+dependencies {
+
+    implementation project(':grails-events-core')
+    testImplementation project(':grails-events-transform')
+
+    implementation libs.groovy
+
+    implementation libs.rxjava
+    implementation libs.slf4j.api
+    implementation libs.spring.tx
+
+    testImplementation libs.gorm.test, {
+        exclude group:'org.grails', module: 'grails-datastore-gorm-validation'
+    }
+    testImplementation libs.spock.core
+
+}
+
+apply from: file("$rootProject.projectDir/gradle/java.gradle")
+apply from: file("$rootProject.projectDir/gradle/publishing.gradle")

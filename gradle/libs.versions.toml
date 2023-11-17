@@ -1,0 +1,46 @@
+[versions]
+gpars = '1.2.1'
+grails = '6.1.0'
+grails-gradle-plugin = '6.1.0'
+grails-views = '3.1.0'
+groovy = '3.0.19'
+groovy-doc = '1.0.1'
+gorm = '8.0.2'
+jansi = '2.4.1'
+javaparser = '3.25.6'
+javax-annotation = '1.3.2'
+jline2 = '2.14.6'
+nexus-publish-gradle-plugin = '1.3.0'
+picocli = '4.7.5'
+rxjava = '1.3.8'
+rxjava2 = '2.2.21'
+slf4j = '1.7.36'
+spock = '2.1-groovy-3.0'
+spring = '5.3.30'
+
+[libraries]
+gpars = { module = 'org.codehaus.gpars:gpars', version.ref = 'gpars' }
+gorm = { module = 'org.grails:grails-datastore-gorm', version.ref = 'gorm' }
+gorm-test = { module = 'org.grails:grails-datastore-gorm-test', version.ref = 'gorm' }
+groovy = { module = 'org.codehaus.groovy:groovy', version.ref = 'groovy' }
+#groovy-ant = { module = 'org.codehaus.groovy:groovy-ant', version.ref = 'groovy' }
+#groovy-cli-picocli = { module = 'org.codehaus.groovy:groovy-cli-picocli', version.ref = 'groovy' }
+jansi = { module = 'org.fusesource.jansi:jansi', version.ref = 'jansi' }
+javaparser-core = { module = 'com.github.javaparser:javaparser-core', version.ref = 'javaparser' }
+javax-annotation-api = { module = 'javax.annotation:javax.annotation-api', version.ref = 'javax-annotation' }
+jline2 = { module = 'jline:jline', version.ref = 'jline2' }
+picocli = { module = 'info.picocli:picocli', version.ref = 'picocli' }
+rxjava = { module = 'io.reactivex:rxjava', version.ref = 'rxjava' }
+rxjava2 = { module = 'io.reactivex.rxjava2:rxjava', version.ref = 'rxjava2' }
+slf4j-api = { module = 'org.slf4j:slf4j-api', version.ref = 'slf4j' }
+spock-core = { module = 'org.spockframework:spock-core', version.ref = 'spock' }
+spring-aop = { module = 'org.springframework:spring-aop', version.ref = 'spring' }
+spring-context = { module = 'org.springframework:spring-context', version.ref = 'spring' }
+spring-expression = { module = 'org.springframework:spring-expression', version.ref = 'spring' }
+spring-tx = { module = 'org.springframework:spring-tx', version.ref = 'spring' }
+
+#plugins
+grails-gradle-plugin = { module = 'org.grails:grails-gradle-plugin', version.ref = 'grails-gradle-plugin' }
+grails-views-gradle-plugin = { module = 'org.grails.plugins:views-gradle', version.ref = 'grails-views' }
+nexus-publish-gradle-plugin = { module = 'io.github.gradle-nexus:publish-plugin', version.ref = 'nexus-publish-gradle-plugin' }
+groovydoc-gradle-plugin = { module = 'io.github.groovylang.groovydoc:groovydoc-gradle-plugin', version.ref = 'groovy-doc' }

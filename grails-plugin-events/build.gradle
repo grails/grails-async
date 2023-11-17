@@ -1,5 +1,38 @@
-dependencies {
-    compile "org.grails:grails-core:$grailsVersion"
-    compile project(":grails-events"), project(":grails-events-transform")
-    compile project(":grails-events-compat")
+plugins  {
+
+    id 'groovy'
+    id 'java-library'
+
+    id 'org.grails.grails-web'
+    id 'org.grails.grails-plugin'
+
+    id 'maven-publish'
+    id 'signing'
+
 }
+
+group = 'org.grails.plugins'
+
+dependencies {
+
+    api project(':grails-events-core')
+    api project(':grails-events-compat')
+    api project(':grails-events-transform')
+
+    implementation 'org.grails:grails-core'
+    implementation 'org.grails:grails-logging'
+    implementation 'org.grails:grails-plugin-controllers'
+
+    compileOnly 'io.micronaut:micronaut-inject-groovy'
+
+    testImplementation libs.spock.core
+}
+
+bootJar.enabled = false
+jar {
+    enabled = true
+    archiveClassifier = ''
+}
+
+apply from: file("$rootProject.projectDir/gradle/java.gradle")
+apply from: file("$rootProject.projectDir/gradle/publishing.gradle")

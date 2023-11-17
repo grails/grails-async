@@ -1,10 +1,41 @@
-dependencies {
-    compileOnly "javax.servlet:javax.servlet-api:$servletApiVersion"
-    compileOnly 'javax:javaee-web-api:6.0'
-    compile "org.grails:grails-plugin-controllers:$grailsVersion"
-    compile project(':grails-plugin-events')
-    compile project(':grails-async')
+plugins  {
 
-    testCompile "javax.servlet:javax.servlet-api:$servletApiVersion"
-    testCompile "org.springframework:spring-test:$springVersion"
+    id 'groovy'
+    id 'java-library'
+
+    id 'org.grails.grails-web'
+    id 'org.grails.grails-plugin'
+
+    id 'maven-publish'
+    id 'signing'
+
 }
+
+group = 'org.grails.plugins'
+
+dependencies {
+
+    api project(':grails-async-core')
+    api project(':grails-events-compat')
+    api project(':grails-events-core')
+
+    implementation 'org.grails:grails-core'
+    implementation 'org.grails:grails-logging'
+    implementation 'org.grails:grails-plugin-controllers'
+
+    compileOnly 'io.micronaut:micronaut-inject-groovy'
+
+    testImplementation 'io.micronaut:micronaut-inject-groovy'
+    testImplementation 'org.grails:grails-web-testing-support'
+    testImplementation libs.spock.core
+
+}
+
+bootJar.enabled = false
+jar {
+    enabled = true
+    archiveClassifier = ''
+}
+
+apply from: file("$rootProject.projectDir/gradle/java.gradle")
+apply from: file("$rootProject.projectDir/gradle/publishing.gradle")

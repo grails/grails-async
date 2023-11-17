@@ -2,7 +2,7 @@ package pubsub.demo
 
 import grails.gorm.transactions.Rollback
 import grails.testing.mixin.integration.Integration
-import org.springframework.beans.factory.annotation.Autowired
+import jakarta.inject.Inject
 import spock.lang.Specification
 
 /**
@@ -11,10 +11,10 @@ import spock.lang.Specification
 @Integration
 class PubSubSpec extends Specification {
 
-    @Autowired SumService sumService
-    @Autowired TotalService totalService
-    @Autowired BookService bookService
-    @Autowired BookSubscriber bookSubscriber
+    @Inject SumService sumService
+    @Inject TotalService totalService
+    @Inject BookService bookService
+    @Inject BookSubscriber bookSubscriber
 
     void "test event bus within Grails"() {
         when:

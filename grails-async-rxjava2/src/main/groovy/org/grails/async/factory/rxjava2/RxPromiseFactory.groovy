@@ -20,17 +20,17 @@ import java.util.concurrent.TimeUnit
 @CompileStatic
 class RxPromiseFactory extends AbstractPromiseFactory {
     @Override
-    def <T> Promise<T> createPromise(Class<T> returnType) {
-        return new RxPromise<T>(this, Single.just(null))
+    <T> Promise<T> createPromise(Class<T> returnType) {
+        new RxPromise<T>(this, Single.just(null))
     }
 
     @Override
     Promise<Object> createPromise() {
-        return new RxPromise<Object>(this, Single.just(null))
+        new RxPromise<Object>(this, Single.just(null))
     }
 
     @Override
-    def <T> Promise<T> createPromise(Closure<T>[] closures) {
+    <T> Promise<T> createPromise(Closure<T>[] closures) {
         if(closures.length == 1) {
             return new RxPromise<T>(this, closures[0], Schedulers.io())
         }
@@ -44,35 +44,35 @@ class RxPromiseFactory extends AbstractPromiseFactory {
     }
 
     @Override
-    def <T> List<T> waitAll(List<Promise<T>> promises) {
-        return promises.collect() { Promise<T> p -> p.get( )}
+    <T> List<T> waitAll(List<Promise<T>> promises) {
+        return promises.collect() { Promise<T> p -> p.get() }
     }
 
     @Override
-    def <T> List<T> waitAll(List<Promise<T>> promises, long timeout, TimeUnit units) {
-        return promises.collect() { Promise<T> p -> p.get( timeout, units ) }
+    <T> List<T> waitAll(List<Promise<T>> promises, long timeout, TimeUnit units) {
+        promises.collect() { Promise<T> p -> p.get(timeout, units) }
     }
 
     @Override
-    def <T> Promise<List<T>> onComplete(List<Promise<T>> promises, Closure<?> callable) {
+    <T> Promise<List<T>> onComplete(List<Promise<T>> promises, Closure<?> callable) {
         new RxPromise<>(this, Observable.concat(
             promises.collect() { Promise p ->
                 if(p instanceof BoundPromise) {
-                    return Observable.just(((BoundPromise)p).value)
+                    return Observable.just(((BoundPromise)p).value) as Observable<T>
                 }
                 else {
-                    return ((RxPromise)p).toObservable()
+                    return ((RxPromise)p).toObservable() as Observable<T>
                 }
             }
         ).toList())
-         .onComplete(callable)
+         .onComplete(callable) as Promise<List<T>>
     }
 
     @Override
-    def <T> Promise<List<T>> onError(List<Promise<T>> promises, Closure<?> callable) {
+    <T> Promise<List<T>> onError(List<Promise<T>> promises, Closure<?> callable) {
         new RxPromise<>(this, Observable.concat(
-                promises.collect() { Promise p-> ((RxPromise)p).toObservable() }
+                promises.collect() { Promise p -> ((RxPromise)p).toObservable() as Observable<T> }
         ).toList())
-                .onError(callable)
+        .onError(callable) as Promise<List<T>>
     }
 }
