@@ -3,7 +3,7 @@ ext['signing.secretKeyRingFile'] = project.findProperty("signing.secretKeyRingFi
 ext['signing.password'] = project.findProperty("signing.password") ?: System.getenv('SIGNING_PASSPHRASE')
 
 def isExample = project.projectDir.parentFile.name == 'examples'
-def isGrailsPlugin = project.group = 'org.grails.plugins'
+def isGrailsPlugin = project.group == 'org.grails.plugins'
 def isCoreModule = project.name.endsWith('-core')
 
 def pomInfo = {
