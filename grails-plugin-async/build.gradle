@@ -18,13 +18,8 @@ dependencies {
     api project(':grails-events-core')
 
     implementation 'org.grails:grails-core'
-    implementation 'org.grails:grails-logging'
     implementation 'org.grails:grails-plugin-controllers'
 
-    compileOnly 'io.micronaut:micronaut-inject-groovy'
-
-    testImplementation 'io.micronaut:micronaut-inject-groovy'
-    testImplementation 'org.grails:grails-web-testing-support'
     testImplementation libs.spock.core
 
 }

@@ -3,7 +3,6 @@ plugins  {
     id 'groovy'
     id 'java-library'
 
-    id 'org.grails.grails-web'
     id 'org.grails.grails-plugin'
 
     id 'maven-publish'
@@ -18,10 +17,6 @@ dependencies {
     api project(':grails-events-transform')
 
     implementation 'org.grails:grails-core'
-    implementation 'org.grails:grails-logging'
-    implementation 'org.grails:grails-plugin-controllers'
-
-    compileOnly 'io.micronaut:micronaut-inject-groovy'
 
     testImplementation libs.spock.core
 }
