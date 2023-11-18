@@ -31,8 +31,10 @@ dependencies {
 
 }
 
-bootJar.enabled = false
-jar {
+tasks.named('bootJar').configure {
+    enabled = false
+}
+tasks.named('jar').configure {
     enabled = true
     archiveClassifier = ''
 }
