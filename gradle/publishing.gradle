@@ -30,7 +30,7 @@ def pomInfo = {
             for (dev in developers.split(',')) {
                 delegate.developer {
                     delegate.id dev.toLowerCase().replace(' ', '')
-                    delegate.name dev
+                    delegate.name dev.strip()
                 }
             }
         }
