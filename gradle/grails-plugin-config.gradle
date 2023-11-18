@@ -1,0 +1,9 @@
+group = 'org.grails.plugins'
+
+tasks.named('bootJar').configure {
+    enabled = false // Grails plugins shouldn't produce a boot jar
+}
+tasks.named('jar').configure {
+    enabled = true
+    archiveClassifier = '' // Skip the '-plain' suffix on the jar file name
+}

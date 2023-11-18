@@ -11,8 +11,6 @@ plugins  {
 
 }
 
-group = 'org.grails.plugins'
-
 dependencies {
 
     api project(':grails-events-core')
@@ -28,13 +26,6 @@ dependencies {
     testImplementation libs.spock.core
 }
 
-tasks.named('bootJar').configure {
-    enabled = false
-}
-tasks.named('jar').configure {
-    enabled = true
-    archiveClassifier = ''
-}
-
-apply from: file("$rootProject.projectDir/gradle/java.gradle")
+apply from: file("$rootProject.projectDir/gradle/grails-plugin-config.gradle")
+apply from: file("$rootProject.projectDir/gradle/java-config.gradle")
 apply from: file("$rootProject.projectDir/gradle/publishing.gradle")

@@ -26,7 +26,7 @@ dependencies {
 
 }
 
-apply from: file("$rootProject.projectDir/gradle/java.gradle")
+apply from: file("$rootProject.projectDir/gradle/java-config.gradle")
 apply from: file("$rootProject.projectDir/gradle/publishing.gradle")
 
 
