@@ -1,10 +1,21 @@
+pluginManagement {
+    repositories {
+        maven { url 'https://repo.grails.org/grails/core' }
+        gradlePluginPortal()
+    }
+    plugins {
+        id 'org.grails.grails-web' version "$grailsVersion"
+        id 'org.grails.plugins.views-json' version "$viewsVersion"
+    }
+}
+
 rootProject.name = 'grails-async'
 
-include 'grails-async'
+include 'grails-async-core'
 include 'grails-async-gpars'
 include 'grails-async-rxjava'
 include 'grails-async-rxjava2'
-include 'grails-events'
+include 'grails-events-core'
 include 'grails-events-compat'
 include 'grails-events-transform'
 include 'grails-events-gpars'
@@ -15,5 +26,5 @@ include 'grails-plugin-async'
 include 'grails-plugin-events'
 
 // examples
-// include 'pubsub-demo'
-// project(":pubsub-demo").projectDir = new File(settingsDir, "examples/pubsub-demo")
+include 'pubsub-demo'
+project(':pubsub-demo').projectDir = new File(settingsDir, 'examples/pubsub-demo')

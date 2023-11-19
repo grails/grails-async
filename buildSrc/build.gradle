@@ -1,0 +1,20 @@
+plugins {
+
+    id 'groovy-gradle-plugin'
+    id 'maven-publish'
+
+}
+
+repositories {
+    mavenCentral()
+    maven { url 'https://repo.grails.org/grails/core' }
+}
+
+dependencies {
+
+    implementation libs.nexus.publish.gradle.plugin
+    implementation libs.grails.gradle.plugin
+    implementation libs.grails.views.gradle.plugin
+    implementation libs.groovydoc.gradle.plugin
+
+}

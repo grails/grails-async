@@ -1,5 +1,26 @@
-dependencies {
-    compile "org.grails:grails-core:$grailsVersion"
-    compile project(":grails-events"), project(":grails-events-transform")
-    compile project(":grails-events-compat")
+plugins  {
+
+    id 'groovy'
+    id 'java-library'
+
+    id 'org.grails.grails-plugin'
+
+    id 'maven-publish'
+    id 'signing'
+
 }
+
+dependencies {
+
+    api project(':grails-events-core')
+    api project(':grails-events-compat')
+    api project(':grails-events-transform')
+
+    implementation 'org.grails:grails-core'
+
+    testImplementation libs.spock.core
+}
+
+apply from: file("$rootProject.projectDir/gradle/grails-plugin-config.gradle")
+apply from: file("$rootProject.projectDir/gradle/java-config.gradle")
+apply from: file("$rootProject.projectDir/gradle/publishing.gradle")
