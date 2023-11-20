@@ -11,7 +11,7 @@
 
         gtag('config', 'UA-82213539-2');
     </script>
-    <title>2 Promises 4.0.0.BUILD-SNAPSHOT</title>
+    <title>2 Promises 5.0.0-SNAPSHOT</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
@@ -90,7 +90,7 @@ function addJsClass() {
                 <div class="project">
                     <h1>2 Promises</h1>
 
-                    <p><strong>Version:</strong> 4.0.0.BUILD-SNAPSHOT</p>
+                    <p><strong>Version:</strong> 5.0.0-SNAPSHOT</p>
                 </div>
 
                 
@@ -100,7 +100,7 @@ function addJsClass() {
 <h1 id="promises">2 Promises</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/master/src/main/docs/guide/promises.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/5.0.x/src/main/docs/guide/promises.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -115,7 +115,7 @@ function addJsClass() {
 <div class="listingblock">
 <div class="title">build.gradle</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy">runtime "org.grails.plugins:async:4.0.0.BUILD-SNAPSHOT"</code></pre>
+<pre class="CodeRay highlight"><code data-lang="groovy">runtime "org.grails.plugins:async:5.0.0-SNAPSHOT"</code></pre>
 </div>
 </div>
 <div class="sect2">
@@ -197,7 +197,7 @@ p.onComplete { result -&gt;
 <div class="listingblock">
 <div class="title">build.gradle</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy">runtime "org.grails:grails-async-rxjava:4.0.0.BUILD-SNAPSHOT"</code></pre>
+<pre class="CodeRay highlight"><code data-lang="groovy">runtime "org.grails:grails-async-rxjava:5.0.0-SNAPSHOT"</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -206,7 +206,7 @@ p.onComplete { result -&gt;
 <div class="paragraph">
 <p>The following table summarizes the available implementation and the dependency that should be added to activate them:</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 1. Promise Factory Implementations</caption>
 <colgroup>
 <col style="width: 33.3333%;">
@@ -332,11 +332,11 @@ The <code>PromiseList</code> class does not implement the java.util.List interfa
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">import</span> <span class="include">static</span> <span class="include">grails.async.Promises.*</span>
 
-<span class="keyword">def</span> promiseList = tasks <span class="key">one</span>:{ <span class="integer">2</span> * <span class="integer">2</span> },
-                        <span class="key">two</span>:{ <span class="integer">4</span> * <span class="integer">4</span>},
-                        <span class="key">three</span>:{ <span class="integer">8</span> * <span class="integer">8</span> }
+<span class="keyword">def</span> promiseMap = tasks <span class="key">one</span>:{ <span class="integer">2</span> * <span class="integer">2</span> },
+                       <span class="key">two</span>:{ <span class="integer">4</span> * <span class="integer">4</span>},
+                       <span class="key">three</span>:{ <span class="integer">8</span> * <span class="integer">8</span> }
 
-<span class="keyword">assert</span> [<span class="key">one</span>:<span class="integer">4</span>,<span class="key">two</span>:<span class="integer">16</span>,<span class="key">three</span>:<span class="integer">64</span>] == promiseList.get()</code></pre>
+<span class="keyword">assert</span> [<span class="key">one</span>:<span class="integer">4</span>,<span class="key">two</span>:<span class="integer">16</span>,<span class="key">three</span>:<span class="integer">64</span>] == promiseMap.get()</code></pre>
 </div>
 </div>
 <div class="paragraph">

@@ -11,7 +11,7 @@
 
         gtag('config', 'UA-82213539-2');
     </script>
-    <title>3 Events 4.0.0.BUILD-SNAPSHOT</title>
+    <title>3 Events 5.0.0-SNAPSHOT</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
@@ -90,7 +90,7 @@ function addJsClass() {
                 <div class="project">
                     <h1>3 Events</h1>
 
-                    <p><strong>Version:</strong> 4.0.0.BUILD-SNAPSHOT</p>
+                    <p><strong>Version:</strong> 5.0.0-SNAPSHOT</p>
                 </div>
 
                 
@@ -123,7 +123,7 @@ function addJsClass() {
 <h1 id="events">3 Events</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/master/src/main/docs/guide/events.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/5.0.x/src/main/docs/guide/events.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -141,11 +141,11 @@ function addJsClass() {
 <div class="listingblock">
 <div class="title">build.gradle</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy">runtime "org.grails.plugins:events:4.0.0.BUILD-SNAPSHOT"</code></pre>
+<pre class="CodeRay highlight"><code data-lang="groovy">runtime "org.grails.plugins:events:5.0.0-SNAPSHOT"</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>If no asynchronous framework in present on the classpath then by default Grails creates an EventBus based off of the currently active <code>PromiseFactory</code>. The default implementation is <a href="../api/org/grails/async/factory/future/CachedThreadPoolPromiseFactory.html">CachedThreadPoolPromiseFactory</a> which uses a thread pool that will create threads as needed (the same as <code>java.util.concurrent.Executors.newCachedThreadPool()</code>).</p>
+<p>If no asynchronous framework is present on the classpath then by default Grails creates an EventBus based off of the currently active <code>PromiseFactory</code>. The default implementation is <a href="../api/org/grails/async/factory/future/CachedThreadPoolPromiseFactory.html">CachedThreadPoolPromiseFactory</a> which uses a thread pool that will create threads as needed (the same as <code>java.util.concurrent.Executors.newCachedThreadPool()</code>).</p>
 </div>
 <div class="paragraph">
 <p>If you wish to use a popular async framework such as RxJava as the <code>EventBus</code> implementation then you will need to add the appropriate dependency. For example for RxJava 1.x:</p>
@@ -153,13 +153,13 @@ function addJsClass() {
 <div class="listingblock">
 <div class="title">build.gradle</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy">runtime "org.grails:grails-events-rxjava:4.0.0.BUILD-SNAPSHOT"</code></pre>
+<pre class="CodeRay highlight"><code data-lang="groovy">runtime "org.grails:grails-events-rxjava:5.0.0-SNAPSHOT"</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>The following table summarizes async framework support and the necessary dependency:</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 1. EventBus Implementations</caption>
 <colgroup>
 <col style="width: 33.3333%;">
@@ -196,7 +196,7 @@ function addJsClass() {
 <h2 id="notifying">3.1 Event Publishing</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/master/src/main/docs/guide/events/notifying.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/5.0.x/src/main/docs/guide/events/notifying.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -260,7 +260,7 @@ class SumService <span class="directive">implements</span> EventPublisher {
 <h2 id="consuming">3.2 Subscribing to Events</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/master/src/main/docs/guide/events/consuming.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/5.0.x/src/main/docs/guide/events/consuming.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -326,7 +326,7 @@ class TotalService <span class="directive">implements</span> EventBusAware {
 <h2 id="annotations">3.3 Reactor Spring Annotations</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/master/src/main/docs/guide/events/annotations.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/5.0.x/src/main/docs/guide/events/annotations.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -356,7 +356,7 @@ class TotalService <span class="directive">implements</span> EventBusAware {
 <h2 id="gormEvents">3.4 Events from GORM</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/master/src/main/docs/guide/events/gormEvents.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/5.0.x/src/main/docs/guide/events/gormEvents.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -425,7 +425,7 @@ If you plan to modify properties of an entity being inserted, use the <code>Enti
 <h2 id="springEvents">3.5 Events from Spring</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/master/src/main/docs/guide/events/springEvents.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/5.0.x/src/main/docs/guide/events/springEvents.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -467,7 +467,7 @@ If you plan to modify properties of an entity being inserted, use the <code>Enti
 <h2 id="configure">3.6 Configure the Default Event Bus</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/master/src/main/docs/guide/events/configure.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/5.0.x/src/main/docs/guide/events/configure.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -483,7 +483,7 @@ If you plan to modify properties of an entity being inserted, use the <code>Enti
 <i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-With RxJava 1.x this is done with <a href="http://reactivex.io/RxJava/javadoc/rx/plugins/RxJavaHooks.html">RxJavaHooks</a>, with RxJava 2.x with <a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/plugins/RxJavaPlugins.html">RxJavaPlugins</a> and with GPars with <a href="http://gpars.org/1.2.0/groovydoc//groovyx/gpars/GParsConfig.html">GParsConfig</a>
+With RxJava 1.x this is done with <a href="https://reactivex.io/RxJava/1.x/javadoc/rx/plugins/RxJavaHooks.html">RxJavaHooks</a>, with RxJava 2.x with <a href="https://reactivex.io/RxJava/2.x/javadoc/io/reactivex/plugins/RxJavaPlugins.html">RxJavaPlugins</a> and with GPars with <a href="http://gpars.org/1.2.1/groovydoc/groovyx/gpars/GParsConfig.html">GParsConfig</a>
 </td>
 </tr>
 </table>

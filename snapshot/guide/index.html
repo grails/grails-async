@@ -1,80 +1,125 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
-<head>
-    <title>Grails Async Framework</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8" />
-    <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8" />
-    <script src="../js/docs.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.13/clipboard.min.js"></script>
+    <head>
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script src="/cdn-cgi/apps/head/3cOPSgo5Omz84ycX7CvigfX4cpw.js"></script><script async src="https://www.googletagmanager.com/gtag/js?id=UA-82213539-2"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'UA-82213539-2');
+        </script>
+        <title>Grails Async Framework 5.0.0-SNAPSHOT</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8" />
+        <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8" />
     <script type="text/javascript">
-        function addJsClass(el) {
-            var classes = document.body.className.split(" ");
-            classes.push("js");
-            document.body.className = classes.join(" ");
-        }
+function addJsClass(el) {
+    var classes = document.body.className.split(" ");
+    classes.push("js");
+    document.body.className = classes.join(" ");
+}
     </script>
-</head>
+    </head>
 
-<body class="body" onload="addJsClass();">
-<div id="navigation">
-    <div class="navTitle">
-        
-        Grails Async Framework
-    </div>
-    <div class="navLinks">
-        <ul>
-            <li>
-                <div id="nav-summary" onmouseover="toggleNavSummary(false)" onmouseout="toggleNavSummary(true)">
-                    <a href="../guide/index.html" class="button">Table of contents</a>
-                    <div id="nav-summary-childs" style="display:none;">
-                        
-                        <div class="toc-item" style="margin-left:0"><a href="#introduction"><strong>1</strong><span>Introduction</span></a></div>
-                        
-                        <div class="toc-item" style="margin-left:0"><a href="#promises"><strong>2</strong><span>Promises</span></a></div>
-                        
-                        <div class="toc-item" style="margin-left:0"><a href="#events"><strong>3</strong><span>Events</span></a></div>
-                        
-                        <div class="toc-item" style="margin-left:0"><a href="#asyncGorm"><strong>4</strong><span>Asynchronous GORM</span></a></div>
-                        
-                        <div class="toc-item" style="margin-left:0"><a href="#rxjava"><strong>5</strong><span>RxJava Support</span></a></div>
-                        
-                        <div class="toc-item" style="margin-left:0"><a href="#asyncRequests"><strong>6</strong><span>Asynchronous Request Handling</span></a></div>
-                        
-                        <div class="toc-item" style="margin-left:0"><a href="#asyncServletApi"><strong>7</strong><span>Servlet 3.0 Async</span></a></div>
-                        
-                    </div>
-                </div>
-            </li>
-            <li>
-                <a href="../api/index.html" class="button">API Reference</a>
-            </li>
-        </ul>
-
-    </div>
-</div>
-
-
-<table id="colset" border="0" cellpadding="0" cellspacing="0">
-    <tr>
-        <td id="col1">
-            <div id="main" class="corner-all">
-
-                <div class="project">
-                    <h1>Grails Async Framework</h1>
-                    <p></p>
-                    <p>Grails Async Libraries</p>
-                    <p><strong>Version:</strong> 4.0.0.BUILD-SNAPSHOT</p>
-
-                </div>
-
+    <body class="body" onload="addJsClass();">
+        <div id="navigation">
+            <div class="navTitle">
                 
+                Grails Async Framework
+            </div>
+            <div class="navLinks">
+                <ul>
+                    <li>
+                        <div id="nav-summary" onmouseover="toggleNavSummary(false)" onmouseout="toggleNavSummary(true)">
+                            <a href="../guide/index.html" class="button">Table of contents</a>
+                            <div id="nav-summary-childs" style="display:none;">
+                                
+                                <div class="toc-item" style="margin-left:0"><a href="#introduction"><strong>1</strong><span>Introduction</span></a></div>
+                                
+                                <div class="toc-item" style="margin-left:0"><a href="#promises"><strong>2</strong><span>Promises</span></a></div>
+                                
+                                <div class="toc-item" style="margin-left:0"><a href="#events"><strong>3</strong><span>Events</span></a></div>
+                                
+                                <div class="toc-item" style="margin-left:0"><a href="#asyncGorm"><strong>4</strong><span>Asynchronous GORM</span></a></div>
+                                
+                                <div class="toc-item" style="margin-left:0"><a href="#rxjava"><strong>5</strong><span>RxJava Support</span></a></div>
+                                
+                                <div class="toc-item" style="margin-left:0"><a href="#asyncRequests"><strong>6</strong><span>Asynchronous Request Handling</span></a></div>
+                                
+                                <div class="toc-item" style="margin-left:0"><a href="#asyncServletApi"><strong>7</strong><span>Servlet 3.0 Async</span></a></div>
+                                
+                            </div>
+                        </div>
+                    </li>
+                    <li class="separator selected">
+                        <a id="ref-button" onclick="localToggle(); return false;" href="#">Quick Reference</a>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+
+
+        <table id="colset" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+                <td id="col1">
+                    <div id="main" class="corner-all">
+
+                        <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
+
+                        <div class="project">
+                            <h1>Grails Async Framework</h1>
+                            <p><strong>Authors:</strong> Graeme Rocher</p>
+                            <p><strong>Version:</strong> 5.0.0-SNAPSHOT</p>
+                            
+                        </div>
+
+                        
+                        <div id="table-of-content">
+                            <h2>Table of Contents</h2>
+                            
+                            <div class="toc-item" style="margin-left:0px"><a href="#introduction"><strong>1</strong><span>Introduction</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0px"><a href="#promises"><strong>2</strong><span>Promises</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0px"><a href="#events"><strong>3</strong><span>Events</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:10px"><a href="#notifying"><strong>3.1</strong><span>Event Publishing</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:10px"><a href="#consuming"><strong>3.2</strong><span>Subscribing to Events</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:10px"><a href="#annotations"><strong>3.3</strong><span>Reactor Spring Annotations</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:10px"><a href="#gormEvents"><strong>3.4</strong><span>Events from GORM</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:10px"><a href="#springEvents"><strong>3.5</strong><span>Events from Spring</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:10px"><a href="#configure"><strong>3.6</strong><span>Configure the Default Event Bus</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0px"><a href="#asyncGorm"><strong>4</strong><span>Asynchronous GORM</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0px"><a href="#rxjava"><strong>5</strong><span>RxJava Support</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:10px"><a href="#serverSentEvents"><strong>5.1</strong><span>Server Sent Events</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:10px"><a href="#rxGorm"><strong>5.2</strong><span>RxGORM</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0px"><a href="#asyncRequests"><strong>6</strong><span>Asynchronous Request Handling</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0px"><a href="#asyncServletApi"><strong>7</strong><span>Servlet 3.0 Async</span></a></div>
+                            
+                            <div style="clear:both" ></div>
+                        </div>
+                        
+                        
 
 <h1 id="introduction">1 Introduction</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/master/src/main/docs/guide/introduction.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/5.0.x/src/main/docs/guide/introduction.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -91,7 +136,7 @@
 <h1 id="promises">2 Promises</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/master/src/main/docs/guide/promises.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/5.0.x/src/main/docs/guide/promises.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -106,7 +151,7 @@
 <div class="listingblock">
 <div class="title">build.gradle</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy">runtime "org.grails.plugins:async:4.0.0.BUILD-SNAPSHOT"</code></pre>
+<pre class="CodeRay highlight"><code data-lang="groovy">runtime "org.grails.plugins:async:5.0.0-SNAPSHOT"</code></pre>
 </div>
 </div>
 <div class="sect2">
@@ -188,7 +233,7 @@ p.onComplete { result -&gt;
 <div class="listingblock">
 <div class="title">build.gradle</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy">runtime "org.grails:grails-async-rxjava:4.0.0.BUILD-SNAPSHOT"</code></pre>
+<pre class="CodeRay highlight"><code data-lang="groovy">runtime "org.grails:grails-async-rxjava:5.0.0-SNAPSHOT"</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -197,7 +242,7 @@ p.onComplete { result -&gt;
 <div class="paragraph">
 <p>The following table summarizes the available implementation and the dependency that should be added to activate them:</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 1. Promise Factory Implementations</caption>
 <colgroup>
 <col style="width: 33.3333%;">
@@ -323,11 +368,11 @@ The <code>PromiseList</code> class does not implement the java.util.List interfa
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">import</span> <span class="include">static</span> <span class="include">grails.async.Promises.*</span>
 
-<span class="keyword">def</span> promiseList = tasks <span class="key">one</span>:{ <span class="integer">2</span> * <span class="integer">2</span> },
-                        <span class="key">two</span>:{ <span class="integer">4</span> * <span class="integer">4</span>},
-                        <span class="key">three</span>:{ <span class="integer">8</span> * <span class="integer">8</span> }
+<span class="keyword">def</span> promiseMap = tasks <span class="key">one</span>:{ <span class="integer">2</span> * <span class="integer">2</span> },
+                       <span class="key">two</span>:{ <span class="integer">4</span> * <span class="integer">4</span>},
+                       <span class="key">three</span>:{ <span class="integer">8</span> * <span class="integer">8</span> }
 
-<span class="keyword">assert</span> [<span class="key">one</span>:<span class="integer">4</span>,<span class="key">two</span>:<span class="integer">16</span>,<span class="key">three</span>:<span class="integer">64</span>] == promiseList.get()</code></pre>
+<span class="keyword">assert</span> [<span class="key">one</span>:<span class="integer">4</span>,<span class="key">two</span>:<span class="integer">16</span>,<span class="key">three</span>:<span class="integer">64</span>] == promiseMap.get()</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -414,7 +459,7 @@ map.onComplete { <span class="predefined-type">Map</span> results -&gt;
 <h1 id="events">3 Events</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/master/src/main/docs/guide/events.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/5.0.x/src/main/docs/guide/events.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -432,11 +477,11 @@ map.onComplete { <span class="predefined-type">Map</span> results -&gt;
 <div class="listingblock">
 <div class="title">build.gradle</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy">runtime "org.grails.plugins:events:4.0.0.BUILD-SNAPSHOT"</code></pre>
+<pre class="CodeRay highlight"><code data-lang="groovy">runtime "org.grails.plugins:events:5.0.0-SNAPSHOT"</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>If no asynchronous framework in present on the classpath then by default Grails creates an EventBus based off of the currently active <code>PromiseFactory</code>. The default implementation is <a href="../api/org/grails/async/factory/future/CachedThreadPoolPromiseFactory.html">CachedThreadPoolPromiseFactory</a> which uses a thread pool that will create threads as needed (the same as <code>java.util.concurrent.Executors.newCachedThreadPool()</code>).</p>
+<p>If no asynchronous framework is present on the classpath then by default Grails creates an EventBus based off of the currently active <code>PromiseFactory</code>. The default implementation is <a href="../api/org/grails/async/factory/future/CachedThreadPoolPromiseFactory.html">CachedThreadPoolPromiseFactory</a> which uses a thread pool that will create threads as needed (the same as <code>java.util.concurrent.Executors.newCachedThreadPool()</code>).</p>
 </div>
 <div class="paragraph">
 <p>If you wish to use a popular async framework such as RxJava as the <code>EventBus</code> implementation then you will need to add the appropriate dependency. For example for RxJava 1.x:</p>
@@ -444,13 +489,13 @@ map.onComplete { <span class="predefined-type">Map</span> results -&gt;
 <div class="listingblock">
 <div class="title">build.gradle</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy">runtime "org.grails:grails-events-rxjava:4.0.0.BUILD-SNAPSHOT"</code></pre>
+<pre class="CodeRay highlight"><code data-lang="groovy">runtime "org.grails:grails-events-rxjava:5.0.0-SNAPSHOT"</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>The following table summarizes async framework support and the necessary dependency:</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 1. EventBus Implementations</caption>
 <colgroup>
 <col style="width: 33.3333%;">
@@ -487,7 +532,7 @@ map.onComplete { <span class="predefined-type">Map</span> results -&gt;
 <h2 id="notifying">3.1 Event Publishing</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/master/src/main/docs/guide/events/notifying.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/5.0.x/src/main/docs/guide/events/notifying.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -551,7 +596,7 @@ class SumService <span class="directive">implements</span> EventPublisher {
 <h2 id="consuming">3.2 Subscribing to Events</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/master/src/main/docs/guide/events/consuming.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/5.0.x/src/main/docs/guide/events/consuming.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -617,7 +662,7 @@ class TotalService <span class="directive">implements</span> EventBusAware {
 <h2 id="annotations">3.3 Reactor Spring Annotations</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/master/src/main/docs/guide/events/annotations.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/5.0.x/src/main/docs/guide/events/annotations.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -647,7 +692,7 @@ class TotalService <span class="directive">implements</span> EventBusAware {
 <h2 id="gormEvents">3.4 Events from GORM</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/master/src/main/docs/guide/events/gormEvents.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/5.0.x/src/main/docs/guide/events/gormEvents.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -716,7 +761,7 @@ If you plan to modify properties of an entity being inserted, use the <code>Enti
 <h2 id="springEvents">3.5 Events from Spring</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/master/src/main/docs/guide/events/springEvents.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/5.0.x/src/main/docs/guide/events/springEvents.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -758,7 +803,7 @@ If you plan to modify properties of an entity being inserted, use the <code>Enti
 <h2 id="configure">3.6 Configure the Default Event Bus</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/master/src/main/docs/guide/events/configure.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/5.0.x/src/main/docs/guide/events/configure.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -774,7 +819,7 @@ If you plan to modify properties of an entity being inserted, use the <code>Enti
 <i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-With RxJava 1.x this is done with <a href="http://reactivex.io/RxJava/javadoc/rx/plugins/RxJavaHooks.html">RxJavaHooks</a>, with RxJava 2.x with <a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/plugins/RxJavaPlugins.html">RxJavaPlugins</a> and with GPars with <a href="http://gpars.org/1.2.0/groovydoc//groovyx/gpars/GParsConfig.html">GParsConfig</a>
+With RxJava 1.x this is done with <a href="https://reactivex.io/RxJava/1.x/javadoc/rx/plugins/RxJavaHooks.html">RxJavaHooks</a>, with RxJava 2.x with <a href="https://reactivex.io/RxJava/2.x/javadoc/io/reactivex/plugins/RxJavaPlugins.html">RxJavaPlugins</a> and with GPars with <a href="http://gpars.org/1.2.1/groovydoc/groovyx/gpars/GParsConfig.html">GParsConfig</a>
 </td>
 </tr>
 </table>
@@ -798,7 +843,7 @@ beans = {
 <h1 id="asyncGorm">4 Asynchronous GORM</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/master/src/main/docs/guide/asyncGorm.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/5.0.x/src/main/docs/guide/asyncGorm.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -977,7 +1022,7 @@ Person updatedPerson = promise.get()</code></pre>
 <h1 id="rxjava">5 RxJava Support</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/master/src/main/docs/guide/rxjava.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/5.0.x/src/main/docs/guide/rxjava.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -1022,7 +1067,7 @@ Person updatedPerson = promise.get()</code></pre>
 <h2 id="serverSentEvents">5.1 Server Sent Events</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/master/src/main/docs/guide/rxjava/serverSentEvents.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/5.0.x/src/main/docs/guide/rxjava/serverSentEvents.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -1089,7 +1134,7 @@ Person updatedPerson = promise.get()</code></pre>
 <h2 id="rxGorm">5.2 RxGORM</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/master/src/main/docs/guide/rxjava/rxGorm.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/5.0.x/src/main/docs/guide/rxjava/rxGorm.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -1147,7 +1192,7 @@ Person updatedPerson = promise.get()</code></pre>
 <h1 id="asyncRequests">6 Asynchronous Request Handling</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/master/src/main/docs/guide/asyncRequests.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/5.0.x/src/main/docs/guide/asyncRequests.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -1259,7 +1304,7 @@ def index() {
 <h1 id="asyncServletApi">7 Servlet 3.0 Async</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/master/src/main/docs/guide/asyncServletApi.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/5.0.x/src/main/docs/guide/asyncServletApi.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -1322,57 +1367,30 @@ class BookController <span class="directive">implements</span> AsyncController {
 </div>
 </div>
 
-            </div>
-        </td>
-        <td id="col2">
+                    </div>
+                </td>
+                <td id="col2">
             <div class="local clearfix">
-                
-                <div id="table-of-content">
-                    <h2>Table of Contents</h2>
-                    
-                    <div class="toc-item" style="margin-left:0px"><a href="#introduction"><strong>1</strong><span>Introduction</span></a></div>
-                    
-                    <div class="toc-item" style="margin-left:0px"><a href="#promises"><strong>2</strong><span>Promises</span></a></div>
-                    
-                    <div class="toc-item" style="margin-left:0px"><a href="#events"><strong>3</strong><span>Events</span></a></div>
-                    
-                    <div class="toc-item" style="margin-left:10px"><a href="#notifying"><strong>3.1</strong><span>Event Publishing</span></a></div>
-                    
-                    <div class="toc-item" style="margin-left:10px"><a href="#consuming"><strong>3.2</strong><span>Subscribing to Events</span></a></div>
-                    
-                    <div class="toc-item" style="margin-left:10px"><a href="#annotations"><strong>3.3</strong><span>Reactor Spring Annotations</span></a></div>
-                    
-                    <div class="toc-item" style="margin-left:10px"><a href="#gormEvents"><strong>3.4</strong><span>Events from GORM</span></a></div>
-                    
-                    <div class="toc-item" style="margin-left:10px"><a href="#springEvents"><strong>3.5</strong><span>Events from Spring</span></a></div>
-                    
-                    <div class="toc-item" style="margin-left:10px"><a href="#configure"><strong>3.6</strong><span>Configure the Default Event Bus</span></a></div>
-                    
-                    <div class="toc-item" style="margin-left:0px"><a href="#asyncGorm"><strong>4</strong><span>Asynchronous GORM</span></a></div>
-                    
-                    <div class="toc-item" style="margin-left:0px"><a href="#rxjava"><strong>5</strong><span>RxJava Support</span></a></div>
-                    
-                    <div class="toc-item" style="margin-left:10px"><a href="#serverSentEvents"><strong>5.1</strong><span>Server Sent Events</span></a></div>
-                    
-                    <div class="toc-item" style="margin-left:10px"><a href="#rxGorm"><strong>5.2</strong><span>RxGORM</span></a></div>
-                    
-                    <div class="toc-item" style="margin-left:0px"><a href="#asyncRequests"><strong>6</strong><span>Asynchronous Request Handling</span></a></div>
-                    
-                    <div class="toc-item" style="margin-left:0px"><a href="#asyncServletApi"><strong>7</strong><span>Servlet 3.0 Async</span></a></div>
-                    
-                    <div style="clear:both" ></div>
+                <div class="local-title">
+                    <a href="../guide/index.html" target="mainFrame">Quick Reference</a>
+                    <span class="toggle">(<a href="#" onclick="localToggle(); return false;">hide</a>)</span>
                 </div>
-                
+                <div class="menu">
+                    
+                </div>
             </div>
         </td>
-    </tr>
-</table>
+            </tr>
+        </table>
 
-<div id="footer">
-    
-    
-</div>
+        <div id="footer">
+            
+            
+        </div>
 
 
-</body>
+
+<script type="text/javascript" src="../js/docs.js"></script>
+
+    </body>
 </html>
