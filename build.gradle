@@ -44,10 +44,9 @@ dependencies {
     documentation libs.groovy.ant
     documentation libs.groovy.dateutil
     documentation libs.groovy.cli.picocli
-
 }
 
-tasks.withType(Groovydoc) {
+tasks.withType(Groovydoc).configureEach {
     group = "documentation"
     docTitle = "${project.title} - ${project.version}"
     destinationDir = project.file("build/docs/api")
@@ -66,34 +65,34 @@ tasks.withType(Groovydoc) {
     classpath = configurations.documentation
 }
 
-task publishGuide(type: grails.doc.gradle.PublishGuide) {
+tasks.register("publishGuide", grails.doc.gradle.PublishGuide) {
     group = "documentation"
     description = 'Generate Guide'
-    dependsOn ["groovydoc"]
+    dependsOn = ["groovydoc"]
 
     targetDir = project.file("${buildDir}/docs")
     sourceRepo = "https://github.com/${githubSlug}/edit/${githubBranch}/src/main/docs"
     sourceDir = new File(projectDir, "src/main/docs")
-    propertiesFiles = [ new File(rootProject.projectDir, "gradle.properties") ]
+    propertiesFiles = [new File(rootProject.projectDir, "gradle.properties")]
     asciidoc = true
     resourcesDir = project.layout.projectDirectory.dir("src/main/docs/resources").asFile
     properties = [
-            'safe': 'UNSAFE',
-            'version': project.version,
-            'subtitle': project.projectDesc,
-            'api': '../api',
+            'safe'     : 'UNSAFE',
+            'version'  : project.version,
+            'subtitle' : project.projectDesc,
+            'api'      : '../api',
             'sourceDir': rootProject.projectDir.absolutePath,
             'sourcedir': rootProject.projectDir.absolutePath,
-            'javaee': 'https://docs.oracle.com/javaee/7/api/',
-            'javase': 'https://docs.oracle.com/en/java/javase/11/docs/api/',
+            'javaee'   : 'https://docs.oracle.com/javaee/7/api/',
+            'javase'   : 'https://docs.oracle.com/en/java/javase/11/docs/api/',
             'groovyapi': "https://docs.groovy-lang.org/${libs.versions.groovy.asProvider().get()}/html/gapi/",
             'grailsapi': "https://docs.grails.org/${libs.versions.grails.asProvider().get()}/api/",
-            'gormapi': "https://gorm.grails.org/${libs.versions.gorm.get()}/api/",
+            'gormapi'  : "https://gorm.grails.org/${libs.versions.gorm.get()}/api/",
             'springapi': "https://docs.spring.io/spring/docs/${libs.versions.spring.get()}/javadoc-api/"
     ]
     doLast {
-        ant.move(file:"${project.buildDir}/docs/guide/single.html",
-                tofile:"${project.buildDir}/docs/guide/index.html", overwrite:true)
+        ant.move(file: "${project.buildDir}/docs/guide/single.html",
+                tofile: "${project.buildDir}/docs/guide/index.html", overwrite: true)
         new File(project.buildDir, "docs/index.html").text = '''
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
@@ -105,6 +104,11 @@ task publishGuide(type: grails.doc.gradle.PublishGuide) {
 </html>
 '''
     }
+}
+
+tasks.register("docs") {
+    group = "documentation"
+    dependsOn = ["groovydoc", "publishGuide"]
 }
 
 subprojects {
