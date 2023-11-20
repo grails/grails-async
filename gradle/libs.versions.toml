@@ -19,12 +19,15 @@ spock = '2.1-groovy-3.0'
 spring = '5.3.30'
 
 [libraries]
+grails-docs = { module = "org.grails:grails-docs", version.ref = "grails" }
 gpars = { module = 'org.codehaus.gpars:gpars', version.ref = 'gpars' }
 gorm = { module = 'org.grails:grails-datastore-gorm', version.ref = 'gorm' }
 gorm-test = { module = 'org.grails:grails-datastore-gorm-test', version.ref = 'gorm' }
 groovy = { module = 'org.codehaus.groovy:groovy', version.ref = 'groovy' }
-#groovy-ant = { module = 'org.codehaus.groovy:groovy-ant', version.ref = 'groovy' }
-#groovy-cli-picocli = { module = 'org.codehaus.groovy:groovy-cli-picocli', version.ref = 'groovy' }
+groovy-templates = { module = 'org.codehaus.groovy:groovy-templates', version.ref = 'groovy' }
+groovy-ant = { module = 'org.codehaus.groovy:groovy-ant', version.ref = 'groovy' }
+groovy-dateutil = { module = 'org.codehaus.groovy:groovy-dateutil', version.ref = 'groovy' }
+groovy-cli-picocli = { module = 'org.codehaus.groovy:groovy-cli-picocli', version.ref = 'groovy' }
 jansi = { module = 'org.fusesource.jansi:jansi', version.ref = 'jansi' }
 javaparser-core = { module = 'com.github.javaparser:javaparser-core', version.ref = 'javaparser' }
 javax-annotation-api = { module = 'javax.annotation:javax.annotation-api', version.ref = 'javax-annotation' }

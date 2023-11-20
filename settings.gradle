@@ -26,5 +26,5 @@ include 'grails-plugin-async'
 include 'grails-plugin-events'
 
 // examples
-include 'pubsub-demo'
-project(':pubsub-demo').projectDir = new File(settingsDir, 'examples/pubsub-demo')
+include 'examples-pubsub-demo'
+project(':examples-pubsub-demo').projectDir = new File(settingsDir, 'examples/pubsub-demo')

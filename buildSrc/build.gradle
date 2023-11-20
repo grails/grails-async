@@ -1,8 +1,6 @@
 plugins {
-
     id 'groovy-gradle-plugin'
     id 'maven-publish'
-
 }
 
 repositories {
@@ -11,10 +9,9 @@ repositories {
 }
 
 dependencies {
-
     implementation libs.nexus.publish.gradle.plugin
     implementation libs.grails.gradle.plugin
     implementation libs.grails.views.gradle.plugin
     implementation libs.groovydoc.gradle.plugin
-
+    implementation libs.grails.docs
 }
