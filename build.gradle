@@ -69,6 +69,7 @@ tasks.register("publishGuide", grails.doc.gradle.PublishGuide) {
     group = "documentation"
     description = 'Generate Guide'
     dependsOn = ["groovydoc"]
+    mustRunAfter = ["jar"]
 
     targetDir = project.file("${buildDir}/docs")
     sourceRepo = "https://github.com/${githubSlug}/edit/${githubBranch}/src/main/docs"
@@ -111,10 +112,12 @@ tasks.register("docs") {
     dependsOn = ["groovydoc", "publishGuide"]
 }
 
+tasks.named("build").configure {
+    finalizedBy("docs")
+}
+
 subprojects {
-
     version = rootProject.version
-
     repositories {
         mavenCentral()
         maven { url 'https://repo.grails.org/grails/core' }

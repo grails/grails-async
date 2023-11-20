@@ -58,8 +58,26 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           arguments: assemble
-      - name: Export Gradle Properties
-        uses: micronaut-projects/github-actions/export-gradle-properties@master
+      - name: Generate Documentation
+        if: success()
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: docs
+        env:
+          GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
+          GRADLE_ENTERPRISE_BUILD_CACHE_NODE_USER: ${{ secrets.GRADLE_ENTERPRISE_BUILD_CACHE_NODE_USER }}
+          GRADLE_ENTERPRISE_BUILD_CACHE_NODE_KEY: ${{ secrets.GRADLE_ENTERPRISE_BUILD_CACHE_NODE_KEY }}
+      - name: Publish to Github Pages
+        if: success()
+        uses: micronaut-projects/github-pages-deploy-action@grails
+        env:
+          TARGET_REPOSITORY: ${{ github.repository }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: build/docs
+          DOC_FOLDER: gh-pages
+          COMMIT_EMAIL: behlp@unityfoundation.io
+          COMMIT_NAME: Puneet Behl
       - name: Run post-release
         if: steps.publish.outcome == 'success'
         uses: micronaut-projects/github-actions/post-release@master
