@@ -61,22 +61,24 @@ class RxJavaPromiseListSpec extends Specification{
 
     void 'Test promise list with an exception'() {
 
-        when: 'a promise list with a promise that throws an exception'
-        def list = new PromiseList()
-        list << { 1 }
-        list << { throw new RuntimeException('bad') }
-        list << { 3 }
-        def result
-        Throwable error
-        list.onComplete { result = it }
-        list.onError { error = it }
-        list.get()
+        given: 'a promise list with a promise that throws an exception'
+            def list = new PromiseList()
+            list << { 1 }
+            list << { throw new RuntimeException('bad') }
+            list << { 3 }
+
+        when: 'the list is completed'
+            def result
+            Throwable error
+            list.onComplete { result = it }
+            list.onError { error = it }.get()
+            list.get()
 
         then: 'the onError handler is invoked with the exception'
             thrown(RuntimeException)
-            error != null
+            error
             error.message == 'bad'
-            result == null
+            !result
     }
 }
 
