@@ -15,15 +15,21 @@
  */
 package grails.async.services
 
+import groovy.transform.AutoFinal
 import groovy.transform.CompileStatic
 import grails.async.decorator.PromiseDecorator
-import org.springframework.beans.annotation.AnnotationBeanUtils
+import org.springframework.beans.BeanWrapper
+import org.springframework.beans.PropertyAccessorFactory
 import org.springframework.transaction.PlatformTransactionManager
 import org.springframework.transaction.TransactionDefinition
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.transaction.support.DefaultTransactionDefinition
 import org.springframework.transaction.support.TransactionCallback
 import org.springframework.transaction.support.TransactionTemplate
+import org.springframework.util.ReflectionUtils
+
+import java.lang.annotation.Annotation
+import java.lang.reflect.Method
 
 /**
  * A {@link PromiseDecorator} that wraps a {@link grails.async.Promise} in a transaction
@@ -31,6 +37,7 @@ import org.springframework.transaction.support.TransactionTemplate
  * @author Graeme Rocher
  * @since 2.3
  */
+@AutoFinal
 @CompileStatic
 class TransactionalPromiseDecorator implements PromiseDecorator, TransactionDefinition {
 
@@ -49,8 +56,20 @@ class TransactionalPromiseDecorator implements PromiseDecorator, TransactionDefi
     TransactionalPromiseDecorator(PlatformTransactionManager transactionManager, Transactional transactionDefinition) {
         this.transactionManager = transactionManager
         final definition = new DefaultTransactionDefinition()
-        AnnotationBeanUtils.copyPropertiesToBean(transactionDefinition, definition)
+        copyPropertiesToBean(transactionDefinition, definition)
         this.transactionDefinition = definition
+    }
+
+    private static void copyPropertiesToBean(Annotation ann, Object bean) {
+        Method[] annotationProperties = ann.annotationType().getDeclaredMethods()
+        BeanWrapper bw = PropertyAccessorFactory.forBeanPropertyAccess(bean)
+        for (Method annotationProperty : annotationProperties) {
+            String propertyName = annotationProperty.getName()
+            if (bw.isWritableProperty(propertyName)) {
+                Object value = ReflectionUtils.invokeMethod(annotationProperty, ann)
+                bw.setPropertyValue(propertyName, value)
+            }
+        }
     }
 
     @Override
