@@ -24,7 +24,7 @@ class PromiseFactoryBuilder {
         List<PromiseFactory> promiseFactories = ServiceLoader.load(PromiseFactory).toList()
 
         PromiseFactory promiseFactory
-        if(promiseFactories.empty) {
+        if(promiseFactories.isEmpty()) {
             log.debug 'No PromiseFactory implementation found. Using default ExecutorService promise factory.'
             promiseFactory = new CachedThreadPoolPromiseFactory()
         }

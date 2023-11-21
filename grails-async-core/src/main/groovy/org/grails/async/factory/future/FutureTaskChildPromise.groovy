@@ -96,9 +96,9 @@ class FutureTaskChildPromise<T> implements Promise<T> {
             return bound.get()
         }
         else {
-            if(parent instanceof FutureTaskPromise) {
+            if (parent instanceof FutureTaskPromise) {
                 def value = parent.get()
-                if(bound == null) {
+                if (bound == null) {
                     def v = callable.call(value)
                     bound = new BoundPromise<>(v)
                 }

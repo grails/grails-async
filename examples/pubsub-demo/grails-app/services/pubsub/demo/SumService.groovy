@@ -10,6 +10,6 @@ class SumService {
     @Publisher
     @Transactional
     int sum(int a, int b) {
-        a + b
+        return a + b
     }
 }

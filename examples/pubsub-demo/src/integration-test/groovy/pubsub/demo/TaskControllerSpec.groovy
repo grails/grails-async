@@ -21,14 +21,14 @@ class TaskControllerSpec extends Specification {
     HttpClient client
 
     void setup() {
-        client = HttpClient.create "http://localhost:$serverPort".toURL()
+        client = HttpClient.create("http://localhost:$serverPort".toURL())
     }
 
     void 'test async error handling'() {
 
         when: 'we invoke an endpoint that throws an exception'
-            def request = HttpRequest.GET '/task/error'
-            client.toBlocking().exchange request, Argument.of(String), Argument.of(String)
+            def request = HttpRequest.GET('/task/error')
+            client.toBlocking().exchange(request, Argument.of(String), Argument.of(String))
 
         then: 'the response is as expected'
             def e = thrown(HttpClientResponseException)

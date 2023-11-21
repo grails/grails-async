@@ -16,7 +16,7 @@ class BookSubscriber {
     @Subscriber('newBook')
     @SuppressWarnings('unused')
     void withBook(Book book) {
-        newBooks << book.title
+        newBooks.add(book.title)
     }
 
     // tag::gorm[]
@@ -25,7 +25,7 @@ class BookSubscriber {
     @Subscriber
     @SuppressWarnings('unused')
     void beforeInsert(PreInsertEvent event) {
-        insertEvents << event
+        insertEvents.add(event)
     }
     // end::gorm[]
 }

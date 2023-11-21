@@ -74,24 +74,24 @@ class SynchronousPromise<T> implements Promise<T> {
         return this
     }
 
-    Promise<?> onComplete(Closure callable) {
+    Promise<?> onComplete(Closure<?> callable) {
         try { callable.call(get()) }
         catch (Throwable ignored) {}
         return this
     }
 
-    Promise<?> onError(Closure callable) {
+    Promise<?> onError(Closure<?> callable) {
         try { get() }
         catch (Throwable e) { callable.call(e) }
         return this
     }
 
-    Promise<?> then(Closure callable) {
+    Promise<?> then(Closure<?> callable) {
         final value = get()
         return new SynchronousPromise(callable.curry(value))
     }
 
-    Promise<?> leftShift(Closure callable) {
-        then callable
+    Promise<?> leftShift(Closure<?> callable) {
+        then(callable)
     }
 }

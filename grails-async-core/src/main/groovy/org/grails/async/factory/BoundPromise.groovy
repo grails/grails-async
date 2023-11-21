@@ -95,6 +95,6 @@ class BoundPromise<T> implements Promise<T> {
     }
 
     Promise<?> leftShift(Closure<?> callable) {
-        then callable
+        then(callable)
     }
 }

@@ -12,8 +12,8 @@ class BookChecks {
     @Listener(Book)
     @SuppressWarnings('unused')
     static void checkBook(PreInsertEvent event) {
-        String title = event.entityAccess.getPropertyValue'title'
-        if (title?.contains 'Politics') {
+        String title = event.entityAccess.getPropertyValue('title')
+        if (title?.contains('Politics')) {
             throw new IllegalArgumentException('Books about politics not allowed')
         }
     }
@@ -21,9 +21,9 @@ class BookChecks {
     @Listener(Book)
     @SuppressWarnings('unused')
     static void tagFunnyBooks(PreInsertEvent event) {
-        String title = event.entityAccess.getPropertyValue'title'
-        if(title?.contains 'funny') {
-            event.entityAccess.setProperty 'title', "Humor - ${title}".toString()
+        String title = event.entityAccess.getPropertyValue('title')
+        if(title?.contains('funny')) {
+            event.entityAccess.setProperty('title', "Humor - ${title}".toString())
         }
     }
 

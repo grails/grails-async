@@ -40,7 +40,7 @@ class SynchronousPromiseFactory extends AbstractPromiseFactory {
     }
 
     @Override
-    Promise<Object> createPromise() {
+    Promise<Void> createPromise() {
         throw new UnsupportedOperationException('synchronous factory does not support unfulfilled promises')
     }
 

@@ -29,12 +29,12 @@ class PromiseMapSpec extends Specification {
         
         when: 'a promise map is used with an onComplete handler'
             def map = new PromiseMap(one: { 1 }, four: 4, eight: { 4 * 2 })
-            def result
+            def result = null
             map.onComplete { result = it }
 
         then: 'an appropriately populated map is returned to the onComplete event'
             new PollingConditions().eventually {
-                result != null
+                result
                 result['one'] == 1
                 result['four'] == 4
                 result['eight'] == 8
@@ -51,7 +51,7 @@ class PromiseMapSpec extends Specification {
             def result = null
             map.onComplete { result = it }
 
-        then: 'An appropriately populated map is returned to the onComplete event'
+        then: 'an appropriately populated map is returned to the onComplete event'
             new PollingConditions().eventually {
                 result
                 result['one'] == 1
@@ -62,7 +62,7 @@ class PromiseMapSpec extends Specification {
 
     void 'Test that a PromiseMap populates values from promises onComplete'() {
 
-        when:"A promise map is used with an onComplete handler"
+        when: 'a promise map is used with an onComplete handler'
             def map = new PromiseMap()
             map['one'] = { 1 }
             map['four'] = { 2 + 2 }
@@ -71,7 +71,7 @@ class PromiseMapSpec extends Specification {
             map.onComplete { result = it }
             sleep 300
 
-        then:'An appropriately populated map is returned to the onComplete event'
+        then: 'an appropriately populated map is returned to the onComplete event'
             result
             result['one'] == 1
             result['four'] == 4

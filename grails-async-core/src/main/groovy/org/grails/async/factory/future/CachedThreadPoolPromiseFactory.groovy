@@ -27,11 +27,11 @@ class CachedThreadPoolPromiseFactory extends AbstractPromiseFactory implements C
         this.executorService = new ThreadPoolExecutor(0, maxPoolSize, timeout, unit, new SynchronousQueue<Runnable>()) {
             @Override
             protected <T> RunnableFuture<T> newTaskFor(Callable<T> callable) {
-                return new FutureTaskPromise<T>(pf,callable)
+                return new FutureTaskPromise<T>(pf, callable)
             }
             @Override
             protected <T> RunnableFuture<T> newTaskFor(Runnable runnable, T value) {
-                return new FutureTaskPromise<T>(pf,runnable, value)
+                return new FutureTaskPromise<T>(pf, runnable, value)
             }
         }
     }

@@ -1,7 +1,6 @@
 package org.grails.async.factory.future
 
 import grails.async.PromiseFactory
-import groovy.transform.CompileStatic
 
 import java.util.concurrent.ExecutorService
 

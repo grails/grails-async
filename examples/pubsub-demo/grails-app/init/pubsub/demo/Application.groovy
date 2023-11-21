@@ -9,6 +9,6 @@ import org.springframework.context.annotation.ComponentScan
 @CompileStatic
 class Application extends GrailsAutoConfiguration {
     static void main(String[] args) {
-        GrailsApp.run Application, args
+        GrailsApp.run(Application, args)
     }
 }

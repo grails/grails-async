@@ -84,7 +84,7 @@ class FutureTaskPromise<T> extends FutureTask<T> implements Promise<T> {
     @Override
     Promise<?> onComplete(Closure<?> callable) {
         synchronized (successCallbacks) {
-            if (done) {
+            if (isDone()) {
                 try {
                     T value = get()
                     return new BoundPromise<T>(value).onComplete(callable)
@@ -103,7 +103,7 @@ class FutureTaskPromise<T> extends FutureTask<T> implements Promise<T> {
     @Override
     Promise<?> onError(Closure<?> callable) {
         synchronized (failureCallbacks) {
-            if (done) {
+            if (isDone()) {
                 try {
                     get()
                     return this

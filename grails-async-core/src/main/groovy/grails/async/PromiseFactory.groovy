@@ -102,10 +102,10 @@ interface PromiseFactory {
     /**
      * Creates a promise from one or many closures
      *
-     * @param c One or many closures
+     * @param closure A closure
      * @return A promise
      */
-    <T> Promise<T> createPromise(Closure<T> c, List<PromiseDecorator> decorators)
+    <T> Promise<T> createPromise(Closure<T> closure, List<PromiseDecorator> decorators)
 
     /**
      * Creates a promise from one or many closures
