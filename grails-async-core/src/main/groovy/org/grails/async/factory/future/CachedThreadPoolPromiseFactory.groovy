@@ -73,25 +73,28 @@ class CachedThreadPoolPromiseFactory extends AbstractPromiseFactory implements C
     }
 
     @Override
-    <T> Promise<?> onComplete(List<Promise<T>> promises, Closure<?> callable) {
+    <T> Promise<List<T>> onComplete(List<Promise<T>> promises, Closure<T> callable) {
         return executorService.submit({
             while (promises.every { Promise promise -> !promise.isDone() }) {
                 // wait (is this hogging the cpu?)
             }
             List<T> values = promises.collect { Promise<T> promise -> promise.get() }
             callable.call(values)
-        }) as Promise<?>
+        }) as Promise<List<T>>
     }
 
     @Override
-    <T> Promise<?> onError(List<Promise<T>> promises, Closure<?> callable) {
+    <T> Promise<List<T>> onError(List<Promise<T>> promises, Closure<?> callable) {
         return executorService.submit({
             while (promises.every { Promise promise -> !promise.isDone() }) {
                 // wait (is this hogging the cpu?)
             }
             try { for (Promise<T> promise : promises) { promise.get() } }
-            catch (Throwable e) { callable.call(e) }
-        }) as Promise<?>
+            catch (Throwable e) {
+                callable.call(e)
+                return e
+            }
+        }) as Promise<List<T>>
     }
 
     @Override

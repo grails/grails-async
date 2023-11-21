@@ -38,7 +38,7 @@ interface Promise<T> extends Future<T> {
      * @param callable
      * @return The Promise
      */
-    Promise<?> onComplete(Closure<?> callable)
+    Promise<T> onComplete(Closure<T> callable)
 
     /**
      * Execute the given closure when an error occurs
@@ -46,10 +46,10 @@ interface Promise<T> extends Future<T> {
      * @param callable
      * @return The Promise
      */
-    Promise<?> onError(Closure<?> callable)
+    Promise<T> onError(Closure<T> callable)
 
     /**
      * Same as #onComplete
      */
-    Promise<?> then(Closure<?> callable)
+    Promise<T> then(Closure<T> callable)
 }

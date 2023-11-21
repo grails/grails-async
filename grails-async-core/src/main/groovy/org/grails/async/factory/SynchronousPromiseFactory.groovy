@@ -73,7 +73,8 @@ class SynchronousPromiseFactory extends AbstractPromiseFactory {
         return promises.collect { Promise<T> p -> p.get() }
     }
 
-    <T> Promise<?> onComplete(List<Promise<T>> promises, Closure<?> callable) {
+    @Override
+    <T> Promise<T> onComplete(List<Promise<T>> promises, Closure<T> callable) {
         try {
             List<T> values = promises.collect { Promise<T> p -> p.get() }
             return new BoundPromise(callable.call(values))
@@ -82,7 +83,8 @@ class SynchronousPromiseFactory extends AbstractPromiseFactory {
         }
     }
 
-    <T> Promise<?> onError(List<Promise<T>> promises, Closure<?> callable) {
+    @Override
+    <T> Promise<List<T>> onError(List<Promise<T>> promises, Closure<?> callable) {
         try {
             List<T> values = promises.collect() { Promise<T> p -> p.get() }
             return new BoundPromise<List<T>>(values)

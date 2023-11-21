@@ -61,13 +61,13 @@ class WebPromises {
     /**
      * @see grails.async.PromiseFactory#onComplete(java.util.List, groovy.lang.Closure)
      */
-    static<T> Promise<List<T>> onComplete(List<Promise<T>> promises, Closure<?> callable ) {
+    static<T> Promise<List<T>> onComplete(List<Promise<T>> promises, Closure<T> callable) {
         return getPromiseFactory().onComplete(promises, callable)
     }
     /**
      * @see grails.async.PromiseFactory#onError(java.util.List, groovy.lang.Closure)
      */
-    static<T> Promise<List<T>> onError(List<Promise<T>> promises, Closure<?> callable ) {
+    static<T> Promise<List<T>> onError(List<Promise<T>> promises, Closure<?> callable) {
         return getPromiseFactory().onError(promises, callable)
     }
     /**

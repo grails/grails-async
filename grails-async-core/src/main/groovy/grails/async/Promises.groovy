@@ -71,7 +71,7 @@ class Promises {
     /**
      * @see PromiseFactory#onComplete(java.util.List, groovy.lang.Closure)
      */
-    static<T> Promise<List<T>> onComplete(List<Promise<T>> promises, Closure<?> callable) {
+    static<T> Promise<List<T>> onComplete(List<Promise<T>> promises, Closure<T> callable) {
         return getPromiseFactory().onComplete(promises, callable)
     }
     /**

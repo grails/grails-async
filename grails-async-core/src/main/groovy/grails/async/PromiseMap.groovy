@@ -236,7 +236,8 @@ class PromiseMap<K,V> implements Promise<Map<K,V>> {
         return resultMap
     }
 
-    Promise<Map<K,V>> onComplete(Closure<?> callable) {
+    @Override
+    Promise<Map<K,V>> onComplete(Closure<Map<K,V>> callable) {
         List<Promise<V>> promises = new ArrayList<Promise<V>>(promises.values())
         Promises.onComplete(promises) { List<V> values ->
             Map<K,V> resultMap = [:]
@@ -253,16 +254,18 @@ class PromiseMap<K,V> implements Promise<Map<K,V>> {
         return this
     }
 
-    Promise<Map<K,V>> onError(Closure<?> callable) {
+    @Override
+    Promise<Map<K,V>> onError(Closure<Map<K,V>> callable) {
         Promises.onError(new ArrayList<Promise<V>>(promises.values()), callable)
         return this
     }
 
-    Promise<Map<K, V>> then(Closure<?> callable) {
+    @Override
+    Promise<Map<K, V>> then(Closure<Map<K,V>> callable) {
         return onComplete(callable)
     }
 
-    Promise<Map<K, V>> leftShift(Closure<?> callable) {
+    Promise<Map<K, V>> leftShift(Closure callable) {
         return then(callable)
     }
 }

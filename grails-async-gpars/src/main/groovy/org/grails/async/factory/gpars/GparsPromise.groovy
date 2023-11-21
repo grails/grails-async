@@ -78,12 +78,12 @@ class GparsPromise<T> implements Promise<T> {
         return this
     }
 
-    Promise<?> leftShift(Closure<?> callable) {
+    Promise<T> leftShift(Closure<T> callable) {
         then(callable)
     }
 
     @Override
-    Promise<?> onComplete(Closure<?> callable) {
+    Promise<T> onComplete(Closure<T> callable) {
         def decoratedCallable= promiseFactory.applyDecorators(callable, null)
         internalPromise.whenBound { T value ->
             if (!(value instanceof Throwable)) {
@@ -95,7 +95,7 @@ class GparsPromise<T> implements Promise<T> {
     }
 
     @Override
-    Promise<?> onError(Closure<?> callable) {
+    Promise<T> onError(Closure<T> callable) {
         def decoratedCallable = promiseFactory.applyDecorators(callable, null)
         internalPromise.whenBound { T value ->
             if (value instanceof Throwable) {
@@ -107,7 +107,7 @@ class GparsPromise<T> implements Promise<T> {
     }
 
     @Override
-    Promise<?> then(Closure<?> callable) {
+    Promise<T> then(Closure<T> callable) {
         def decoratedCallable = promiseFactory.applyDecorators(callable, null)
         return new GparsPromise(promiseFactory, internalPromise.then(decoratedCallable))
     }

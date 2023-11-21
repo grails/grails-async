@@ -100,18 +100,18 @@ class GparsPromiseFactory extends AbstractPromiseFactory {
     }
 
     @Override
-    <T> Promise<?> onComplete(List<Promise<T>> promises, Closure<?> callable) {
-        return new GparsPromise<?>(
+    <T> Promise<T> onComplete(List<Promise<T>> promises, Closure<T> callable) {
+        return new GparsPromise<T>(
             this,
             Dataflow.whenAllBound(toGparsPromises(promises), callable as Closure)
         )
     }
 
     @Override
-    <T> Promise<?> onError(List<Promise<T>> promises, Closure<?> callable) {
-        return new GparsPromise<?>(
+    <T> Promise<List<T>> onError(List<Promise<T>> promises, Closure<?> callable) {
+        return new GparsPromise<List<T>>(
             this,
-            Dataflow.whenAllBound(toGparsPromises(promises), {} as Closure<T>, callable as Closure)
+            Dataflow.whenAllBound(toGparsPromises(promises), {} as Closure<T>, callable as Closure<T>)
         )
     }
 }

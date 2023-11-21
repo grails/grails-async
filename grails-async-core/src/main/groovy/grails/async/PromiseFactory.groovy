@@ -42,7 +42,7 @@ interface PromiseFactory {
      * @param decorators The decorators
      * @return The decorated closure
      */
-    <T> Closure<T> applyDecorators(Closure<?> c, List<PromiseDecorator> decorators)
+    <T> Closure<T> applyDecorators(Closure<T> c, List<PromiseDecorator> decorators)
 
     /**
      * Creates a promise with a value pre-bound to it
@@ -152,7 +152,7 @@ interface PromiseFactory {
      * @param promises The promises
      * @param callable The callback to execute
      */
-    <T> Promise<List<T>> onComplete(List<Promise<T>> promises, Closure<?> callable)
+    <T> Promise<List<T>> onComplete(List<Promise<T>> promises, Closure<T> callable)
 
     /**
      * Executes the given callback if an error occurs for the list of promises

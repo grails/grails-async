@@ -67,21 +67,21 @@ class BoundPromise<T> implements Promise<T> {
         return this
     }
 
-    Promise<?> onComplete(Closure<?> callable) {
+    Promise<T> onComplete(Closure<T> callable) {
         if (!(value instanceof Throwable)) {
             return new BoundPromise(callable.call(value))
         }
         return this
     }
 
-    Promise<?> onError(Closure<?> callable) {
+    Promise<T> onError(Closure<T> callable) {
         if (value instanceof Throwable) {
             return new BoundPromise(callable.call(value))
         }
         return this
     }
 
-    Promise<?> then(Closure<?> callable) {
+    Promise<T> then(Closure<T> callable) {
         if (!(value instanceof Throwable)) {
             try {
                 return new BoundPromise(callable.call(value))
@@ -94,7 +94,7 @@ class BoundPromise<T> implements Promise<T> {
         }
     }
 
-    Promise<?> leftShift(Closure<?> callable) {
+    Promise<T> leftShift(Closure<T> callable) {
         then(callable)
     }
 }

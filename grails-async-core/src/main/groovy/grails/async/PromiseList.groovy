@@ -105,17 +105,17 @@ class PromiseList<T> implements Promise<List<T>> {
      * @param callable The closure
      */
     @Override
-    Promise<?> onComplete(Closure<?> callable) {
+    Promise<List<T>> onComplete(Closure callable) {
         return Promises.onComplete(promises, callable)
     }
 
     @Override
-    Promise<?> onError(Closure<?> callable) {
+    Promise<List<T>> onError(Closure callable) {
         return Promises.onError(promises, callable)
     }
 
     @Override
-    Promise<?> then(Closure<?> callable) {
+    Promise<List<T>> then(Closure callable) {
         return Promises.onComplete(promises, { List<T> values -> return values }).then(callable)
     }
 

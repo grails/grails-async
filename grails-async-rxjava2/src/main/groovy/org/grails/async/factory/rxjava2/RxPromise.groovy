@@ -100,19 +100,19 @@ class RxPromise<T>  implements Promise<T> {
     }
 
     @Override
-    Promise<?> onComplete(Closure callable) {
+    Promise<T> onComplete(Closure<T> callable) {
         def decoratedCallable = promiseFactory.applyDecorators(callable, null)
         return new RxPromise<T>(promiseFactory, subject.map(decoratedCallable as Function<T, T>))
     }
 
     @Override
-    Promise<?> onError(Closure callable) {
+    Promise<T> onError(Closure<T> callable) {
         def decoratedCallable = promiseFactory.applyDecorators(callable, null)
         return new RxPromise<T>(promiseFactory, subject.doOnError(decoratedCallable as Consumer<Throwable>))
     }
 
     @Override
-    Promise<?> then(Closure callable) {
+    Promise<T> then(Closure<T> callable) {
         return onComplete(callable)
     }
 
