@@ -6,70 +6,78 @@ import spock.lang.Specification
 /**
  * Created by graemerocher on 27/03/2017.
  */
-class SpringEventBusSpec extends Specification{
+class SpringEventBusSpec extends Specification {
 
-    void 'test spring event bus single arg'() {
+    void 'Test spring event bus with single arg'() {
 
-        given:
-        def context = new GenericApplicationContext()
-        context.refresh()
-        SpringEventBus eventBus = new SpringEventBus(context)
-        def result
-        eventBus.on("test") {
-            result = "foo $it"
-        }
-        eventBus.notify("test", "bar")
+        given: 'a spring event bus'
+            def context = new GenericApplicationContext()
+            context.refresh()
+            def eventBus = new SpringEventBus(context)
 
-        expect:
-        result == 'foo bar'
+        when: 'we subscribe to an event'
+            def result = null
+            eventBus.on('test') { result = "foo $it" }
+
+        and: 'we notify the event'
+            eventBus.notify('test', 'bar')
+
+        then: 'the result is correct'
+            result == 'foo bar'
     }
 
-    void 'test spring event bus multiple args'() {
-        given:
-        def context = new GenericApplicationContext()
-        context.refresh()
-        SpringEventBus eventBus = new SpringEventBus(context)
-        def result
-        eventBus.on("test") {
-            result = "foo $it"
-        }
-        eventBus.notify("test", "bar", "baz")
+    void 'Test spring event bus multiple args'() {
 
-        expect:
-        result == 'foo [bar, baz]'
+        given: 'a spring event bus'
+            def context = new GenericApplicationContext()
+            context.refresh()
+            def eventBus = new SpringEventBus(context)
+
+        when: 'we subscribe to an event'
+            def result = null
+            eventBus.on('test') { result = "foo $it" }
+
+        and: 'we notify the event'
+            eventBus.notify('test', 'bar', 'baz')
+
+        then: 'the result is correct'
+            result == 'foo [bar, baz]'
     }
 
-    void 'test spring event bus multiple args listener'() {
-        given:
-        def context = new GenericApplicationContext()
-        context.refresh()
+    void 'Test spring event bus multiple args listener'() {
 
-        SpringEventBus eventBus = new SpringEventBus(context)
-        def result
-        eventBus.on("test") { String one, String two ->
-            result = "foo $one $two"
-        }
-        eventBus.notify("test", "bar", "baz")
+        given: 'a spring event bus'
+            def context = new GenericApplicationContext()
+            context.refresh()
+            def eventBus = new SpringEventBus(context)
 
-        expect:
-        result == 'foo bar baz'
+        when: 'we subscribe to an event'
+            def result = null
+            eventBus.on('test') { String one, String two -> result = "foo $one $two" }
+
+        and: 'we notify the event'
+            eventBus.notify('test', 'bar', 'baz')
+
+        then: 'the result is correct'
+            result == 'foo bar baz'
     }
 
-    void 'test spring event bus error handling'() {
-        given:
-        def context = new GenericApplicationContext()
-        context.refresh()
+    void 'Test spring event bus error handling'() {
 
-        SpringEventBus eventBus = new SpringEventBus(context)
-        def result
-        eventBus.on("test") { String data ->
-            throw new RuntimeException("bad")
-        }
-        eventBus.sendAndReceive("test", "bar") {
-            result = it
-        }
+        given: 'a spring event bus'
+            def context = new GenericApplicationContext()
+            context.refresh()
+            def eventBus = new SpringEventBus(context)
 
-        expect:
-        result instanceof Throwable
+        when: 'we subscribe to an event with a closure that throws an exception'
+            eventBus.on('test') { String data -> throw new RuntimeException('bad') }
+
+        and: 'we send and receive the event'
+            def result = null
+            eventBus.sendAndReceive('test', 'bar') { result = it }
+
+        then:
+            result instanceof Throwable
+            result.message == 'bad'
     }
 }

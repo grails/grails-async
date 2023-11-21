@@ -21,7 +21,7 @@ import grails.async.PromiseList
 import grails.async.PromiseMap
 import grails.async.decorator.PromiseDecorator
 import grails.async.decorator.PromiseDecoratorLookupStrategy
-import groovy.transform.CompileDynamic
+import groovy.transform.AutoFinal
 import groovy.transform.CompileStatic
 import org.grails.async.factory.BoundPromise
 
@@ -34,6 +34,7 @@ import java.util.concurrent.ConcurrentLinkedQueue
  * @author Graeme Rocher
  * @since 2.3
  */
+@AutoFinal
 @CompileStatic
 abstract class AbstractPromiseFactory implements PromiseFactory {
 
@@ -43,52 +44,48 @@ abstract class AbstractPromiseFactory implements PromiseFactory {
         lookupStrategies.add(lookupStrategy)
     }
 
-    def <T> Promise<T> createBoundPromise(T value) {
+    <T> Promise<T> createBoundPromise(T value) {
         return new BoundPromise<T>(value)
     }
 
     /**
      * @see PromiseFactory#createPromise(groovy.lang.Closure, java.util.List)
      */
-    def <T> Promise<T> createPromise(Closure<T> c, List<PromiseDecorator> decorators) {
-        c = applyDecorators(c, decorators)
-
-        return createPromiseInternal(c)
+    <T> Promise<T> createPromise(Closure<T> closure, List<PromiseDecorator> decorators) {
+        return createPromiseInternal(applyDecorators(closure, decorators))
     }
 
-    def <T> Closure<T> applyDecorators(Closure<T> c, List<PromiseDecorator> decorators) {
+    <T> Closure<T> applyDecorators(Closure<T> closure, List<PromiseDecorator> decorators) {
         List<PromiseDecorator> allDecorators = decorators != null ? new ArrayList<PromiseDecorator>(decorators): new ArrayList<PromiseDecorator>()
         for (PromiseDecoratorLookupStrategy lookupStrategy : lookupStrategies) {
             allDecorators.addAll(lookupStrategy.findDecorators())
         }
-        if (!allDecorators.isEmpty()) {
-            for(PromiseDecorator d : allDecorators) {
-                c = d.decorate(c)
+        def decoratedClosure = closure
+        if (!allDecorators.empty) {
+            for(PromiseDecorator decorator : allDecorators) {
+                decoratedClosure = decorator.decorate(decoratedClosure)
             }
         }
-        return c
+        return decoratedClosure
     }
 
     /**
      * @see PromiseFactory#createPromise(java.util.List)
      */
-    def <T> Promise<List<T>> createPromise(List<Closure<T>> closures) {
+    <T> Promise<List<T>> createPromise(List<Closure<T>> closures) {
         return createPromise(closures,null)
     }
 
     /**
      * @see PromiseFactory#createPromise(java.util.List, java.util.List)
      */
-    def <T> Promise<List<T>> createPromise(List<Closure<T>> closures, List<PromiseDecorator> decorators) {
-
-        List<Closure<T>> newClosures = new ArrayList<Closure<T>>(closures.size())
+    <T> Promise<List<T>> createPromise(List<Closure<T>> closures, List<PromiseDecorator> decorators) {
+        List<Closure<T>> decoratedClosures = new ArrayList<Closure<T>>(closures.size())
         for (Closure<T> closure : closures) {
-            newClosures.add(applyDecorators(closure, decorators))
+            decoratedClosures.add(applyDecorators(closure, decorators))
         }
-        closures = newClosures
-        PromiseList<T> promiseList = new PromiseList<T>()
-
-        for (Closure<T> closure : closures) {
+        PromiseList<T> promiseList = new PromiseList<>()
+        for (Closure<T> closure : decoratedClosures) {
             promiseList.add(closure)
         }
         return promiseList
@@ -97,51 +94,48 @@ abstract class AbstractPromiseFactory implements PromiseFactory {
     /**
      * @see PromiseFactory#createPromise(grails.async.Promise[])
      */
-    def <T> Promise<List<T>> createPromise(Promise<T>... promises) {
-        PromiseList<T> promiseList = new PromiseList<T>()
-        for(Promise<T> p : promises) {
-            promiseList.add(p)
+    <T> Promise<List<T>> createPromise(Promise<T>... promises) {
+        PromiseList<T> promiseList = new PromiseList<>()
+        for(Promise<T> promise : promises) {
+            promiseList.add(promise)
         }
         return promiseList
     }
 
     @Override
-    def <K, V> Promise<Map<K, V>> createPromise(Map<K, V> map, List<PromiseDecorator> decorators) {
-        PromiseMap<K,V> promiseMap = new PromiseMap<K,V>()
-        for (Map.Entry<K, V> entry : map.entrySet()) {
-            K key = entry.getKey()
-            Object value = entry.getValue()
+    <K, V> Promise<Map<K, V>> createPromise(Map<K, V> map, List<PromiseDecorator> decorators) {
+        PromiseMap<K,V> promiseMap = new PromiseMap<>()
+        map.forEach((K key, V value) -> {
             if (value instanceof Promise) {
-                promiseMap.put(key, (Promise<?>)value)
+                promiseMap.put(key, value as Promise<V>)
             }
             else if (value instanceof Closure) {
-                Closure<?> c = (Closure<?>) value
-                applyDecorators(c, decorators)
-                promiseMap.put(key, createPromiseInternal(c))
+                Closure<V> closure = value as Closure<V>
+                applyDecorators(closure, decorators)
+                promiseMap.put(key, createPromiseInternal(closure))
             }
             else {
-                promiseMap.put(key, new BoundPromise<V>((V)value))
+                promiseMap.put(key, new BoundPromise<V>(value))
             }
-        }
 
+        })
         return promiseMap
     }
+
     /**
      * @see PromiseFactory#createPromise(java.util.Map)
      */
-    def <K, V> Promise<Map<K, V>> createPromise(Map<K, V> map) {
-        createPromise(map, Collections.<PromiseDecorator>emptyList())
+    <K, V> Promise<Map<K, V>> createPromise(Map<K, V> map) {
+        return createPromise(map, Collections.<PromiseDecorator>emptyList())
     }
 
-    @CompileDynamic
-    protected Promise createPromiseInternal(Closure c) {
-        return createPromise(c)
+    protected <T> Promise<T> createPromiseInternal(Closure<T> closure) {
+       return createPromise(closure)
     }
 
     /**
      * @see PromiseFactory#waitAll(grails.async.Promise[])
      */
-    @CompileDynamic
     <T> List<T> waitAll(Promise<T>... promises) {
         return waitAll(Arrays.asList(promises))
     }

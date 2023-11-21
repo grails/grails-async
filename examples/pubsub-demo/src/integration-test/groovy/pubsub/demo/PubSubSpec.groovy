@@ -16,58 +16,63 @@ class PubSubSpec extends Specification {
     @Inject BookService bookService
     @Inject BookSubscriber bookSubscriber
 
-    void "test event bus within Grails"() {
-        when:
-        sumService.sum(1, 2)
-        sleep(500)
-        sumService.sum(1, 2)
-        sleep(500)
+    void 'Test event bus within Grails'() {
 
-        then:
-        totalService.accumulatedTotal  == 6
+        when: 'we invoke methods on the publisher'
+            sumService.sum 1, 2
+            sleep 500
+            sumService.sum 1, 2
+            sleep 500
+
+        then: 'the subscriber should receive the events'
+            totalService.accumulatedTotal == 6
     }
 
     @Rollback
-    void "test event from data service with rollback"() {
-        when:"A transaction is rolled back"
-        bookService.saveBook("The Stand")
-        sleep(500)
-        then:"no event is fired"
-        bookSubscriber.newBooks == []
-        bookSubscriber.insertEvents.isEmpty()
+    void 'Test event from data service with rollback'() {
+
+        when: 'a transaction is rolled back'
+            bookService.saveBook 'The Stand'
+            sleep 500
+
+        then: 'no event is fired'
+            bookSubscriber.newBooks == []
+            bookSubscriber.insertEvents.empty
     }
 
-    void "test event from data service"() {
-        when:"A transaction is committed"
-        bookService.saveBook("The Stand")
-        sleep(500)
-        then:"The event is fired and received"
-        bookSubscriber.newBooks == ["The Stand"]
-        bookSubscriber.insertEvents.size() == 1
+    void 'Test event from data service'() {
 
+        when: 'a transaction is committed'
+            bookService.saveBook'The Stand'
+            sleep 500
+
+        then: 'the event is fired and received'
+            bookSubscriber.newBooks == ['The Stand']
+            bookSubscriber.insertEvents.size() == 1
     }
 
     @Rollback
-    void "test modify property event listener"() {
-        when:"When an event listener modifies a property"
-        bookService.saveBook("funny book")
+    void 'Test modify property event listener'() {
 
-        then:"The property was modified"
-        Book.findByTitle("Humor - funny book") != null
+        when: 'when an event listener modifies a property'
+            bookService.saveBook'funny book'
+
+        then: 'the property was modified'
+            Book.findByTitle('Humor - funny book') != null
 
     }
 
 
     @Rollback
-    void "test synchronous event listener"() {
-        when:"When a event listener cancels an insert"
-        bookService.saveBook("UK Politics")
+    void 'Test synchronous event listener'() {
+
+        when: 'when a event listener cancels an insert'
+            bookService.saveBook 'UK Politics'
 
         // due to  https://hibernate.atlassian.net/browse/HHH-11721
-        // an exception most be thrown
-        then:"The insert was cancelled"
-        def e = thrown(IllegalArgumentException)
-        e.message == "Books about politics not allowed"
-
+        // an exception must be thrown
+        then: 'the insert was cancelled'
+            def e = thrown IllegalArgumentException
+            e.message == 'Books about politics not allowed'
     }
 }

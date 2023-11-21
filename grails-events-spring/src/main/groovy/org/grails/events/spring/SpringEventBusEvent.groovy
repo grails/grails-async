@@ -1,6 +1,7 @@
 package org.grails.events.spring
 
 import grails.events.Event
+import groovy.transform.AutoFinal
 import groovy.transform.CompileStatic
 import org.springframework.context.ApplicationEvent
 
@@ -10,6 +11,7 @@ import org.springframework.context.ApplicationEvent
  * @author Graeme Rocher
  * @since 6.1
  */
+@AutoFinal
 @CompileStatic
 class SpringEventBusEvent extends ApplicationEvent {
 
@@ -19,7 +21,7 @@ class SpringEventBusEvent extends ApplicationEvent {
      * Create a new ApplicationEvent.
      * @param source the object on which the event initially occurred (never {@code null})
      */
-    SpringEventBusEvent( Event source, Closure replyTo = null) {
+    SpringEventBusEvent(Event source, Closure replyTo = null) {
         super(source)
         this.replyTo = replyTo
     }

@@ -27,22 +27,18 @@ import spock.lang.Specification
  */
 class SpringEventTranslatorSpec extends Specification {
 
-    void "Test event translator translates Spring events"() {
-        setup:
+    void 'Test event translator translates Spring events'() {
 
+        given: 'an event bus and translator'
+            def eventBus = Mock(EventBus)
+            eventBus.isActive() >> true
+            def translator = new SpringEventTranslator(eventBus)
 
-        def eventBus = Mock(EventBus)
-        eventBus.isActive() >> true
-        def translator = new SpringEventTranslator(eventBus)
+        when: 'a Spring event occurs'
+            def ctx = new GenericApplicationContext()
+            translator.onApplicationEvent(new ContextStartedEvent(ctx))
 
-        when:"A Spring event occurs"
-
-        def ctx = new GenericApplicationContext()
-        translator.onApplicationEvent(new ContextStartedEvent(ctx))
-
-        then:"The event bus is notified"
-        1 * eventBus.notify("spring:contextStarted", _)
-
+        then: 'the event bus is notified'
+            1 * eventBus.notify('spring:contextStarted', _)
     }
-
 }

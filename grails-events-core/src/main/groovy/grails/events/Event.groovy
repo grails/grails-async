@@ -1,5 +1,6 @@
 package grails.events
 
+import groovy.transform.AutoFinal
 import groovy.transform.CompileStatic
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
@@ -11,6 +12,7 @@ import groovy.transform.ToString
  * @author Graeme Rocher
  */
 @CompileStatic
+@AutoFinal
 @EqualsAndHashCode
 @ToString
 class Event<T> extends EventObject {
@@ -46,7 +48,7 @@ class Event<T> extends EventObject {
      *
      * @return The new {@link Event}.
      */
-    static <T> Event<T> from(final String id, T obj) {
+    static <T> Event<T> from(String id, T obj) {
         return new Event<T>(id, obj)
     }
 
@@ -58,7 +60,7 @@ class Event<T> extends EventObject {
      *
      * @return The new {@link Event}.
      */
-    static <T> Event<T> from(final String id, Map<String, Object> parameters, T obj) {
+    static <T> Event<T> from(String id, Map<String, Object> parameters, T obj) {
         return new Event<T>(id, parameters, obj)
     }
 }

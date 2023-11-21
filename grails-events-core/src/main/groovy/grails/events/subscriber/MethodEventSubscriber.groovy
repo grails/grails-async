@@ -1,6 +1,7 @@
 package grails.events.subscriber
 
 import grails.events.Event
+import groovy.transform.AutoFinal
 import groovy.transform.CompileStatic
 
 import java.lang.reflect.Method
@@ -11,12 +12,14 @@ import java.lang.reflect.Method
  * @author Graeme Rocher
  * @since 3.3
  */
+@AutoFinal
 @CompileStatic
 class MethodEventSubscriber extends MethodSubscriber implements EventSubscriber {
+
     MethodEventSubscriber(Object target, Method method) {
         super(target, method)
         if( !(parameterTypes.length == 1 && parameterTypes[0].isAssignableFrom(Event)) ) {
-            throw new IllegalArgumentException("Specified method must accept an Event as an argument")
+            throw new IllegalArgumentException('Specified method must accept an Event as an argument')
         }
     }
 }

@@ -10,28 +10,30 @@ import spock.lang.Specification
  */
 class EventPublisherSpec extends Specification {
 
-    def "test event publisher within Spring"() {
-        given:
-        AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext()
-        def bus = new SpringEventBus(applicationContext)
-        applicationContext.beanFactory.registerSingleton("eventBus", bus)
-        applicationContext.register(MyPublisher)
-        applicationContext.refresh()
+    def 'Test event publisher within Spring'() {
 
-        when:
-        MyPublisher publisher = applicationContext.getBean(MyPublisher)
-        def result
-        bus.on("test") {
-            result = "good $it"
-        }
-        publisher.publish("test", "data")
+        given: 'a Spring application context with an event bus'
+            AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext()
+            def bus = new SpringEventBus(applicationContext)
+            applicationContext.beanFactory.registerSingleton("eventBus", bus)
 
+        and: 'we register a publisher in the application context'
+            applicationContext.register(MyPublisher)
+            applicationContext.refresh()
+            MyPublisher publisher = applicationContext.getBean(MyPublisher)
 
-        then:
-        result == "good data"
+        and: 'we subscribe to an event'
+            def result = null
+            bus.on('test') { result = "good $it" }
 
+        when: 'we publish an event'
+            publisher.publish('test', 'data')
+
+        then: 'the result is correct'
+            result == "good data"
     }
 }
+
 @Component
 class MyPublisher implements EventPublisher {
 }

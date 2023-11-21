@@ -12,6 +12,7 @@ import java.util.concurrent.ExecutionException
  * Created by graemerocher on 29/03/2017.
  */
 class FutureTaskPromiseFactorySpec extends Specification {
+    
     void setup() {
         Promises.promiseFactory = new CachedThreadPoolPromiseFactory()
     }
@@ -20,131 +21,116 @@ class FutureTaskPromiseFactorySpec extends Specification {
         Promises.promiseFactory = null
     }
 
-    void "Test add promise decorator"() {
-        when:"A decorator is added"
-        def decorator = { Closure c ->
-            return { "*${c.call(*it)}*" }
-        } as PromiseDecorator
+    void 'Test add promise decorator'() {
+        
+        when: 'a decorator is added'
+            def decorator = { Closure c -> return { "*${c.call(*it)}*" } } as PromiseDecorator
+            def p = Promises.createPromise({ 10 }, [decorator])
+            def result = p.get()
 
-        def p = Promises.createPromise( { 10 }, [decorator] )
-        def result = p.get()
-
-        then:"The result is decorate"
-        result == "*10*"
+        then: 'the result is decorated'
+            result == '*10*'
     }
 
-    void "Test promise map handling"() {
-        when:"A promise map is created"
-        def map = Promises.createPromise(one: { 1 }, two: { 1 + 1 }, four:{2 * 2})
-        def result = map.get()
+    void 'Test promise map handling'() {
 
-        then:"The map is valid"
-        result == [one: 1, two: 2, four: 4]
+        when: 'a promise map is created'
+            def map = Promises.createPromise(one: { 1 }, two: { 1 + 1 }, four: { 2 * 2 })
+            def result= map.get()
+
+        then: 'the map is valid'
+            result == [one: 1, two: 2, four: 4]
     }
 
-    void "Test promise list handling"() {
-        when:"A promise list is created from two promises"
-        def p1 = Promises.createPromise { 1 + 1 }
-        def p2 = Promises.createPromise { 2 + 2 }
-        def list = Promises.createPromise(p1, p2)
+    void 'Test promise list handling'() {
 
-        def result
-        list.onComplete { List v ->
-            result = v
-        }
+        when: 'a promise list is created from two promises'
+            def p1 = Promises.createPromise({ 1 + 1 })
+            def p2 = Promises.createPromise({ 2 + 2 })
+            def list = Promises.createPromise(p1, p2)
+            List<Integer> result = null
+            list.onComplete { List l -> result = l }
 
-        sleep 200
-        then:"The result is correct"
-        result == [2,4]
+        then: 'the result is correct'
+            new PollingConditions().eventually {
+                result
+                result == [2, 4]
+            }
 
-        when:"A promise list is created from two closures"
-        list = Promises.createPromise({ 1 + 1 }, { 2 + 2 })
+        when: 'a promise list is created from two closures'
+            list = Promises.createPromise({ 2 + 2 }, { 4 + 4 })
+            list.onComplete { result = it }
 
-        list.onComplete { List v ->
-            result = v
-        }
-
-        sleep 200
-        then:"The result is correct"
-        result == [2,4]
+        then: 'the result is correct'
+            new PollingConditions().eventually {
+                result == [4, 8]
+            }
     }
 
-    void "Test promise onComplete handling"() {
+    void 'Test promise onComplete handling'() {
 
-        when:"A promise is executed with an onComplete handler"
-        def promise = Promises.createPromise { 1 + 1 }
-        def result
-        def hasError = false
-        promise.onComplete { val ->
-            result = val
-        }.get()
-        promise.onError {
-            hasError = true
-        }.get()
+        when: 'a promise is executed with an onComplete handler'
+            def promise = Promises.createPromise { 1 + 1 }
+            def result = null
+            def hasError = false
+            promise.onComplete { result = it }.get()
+            promise.onError { hasError = true }.get()
 
-        then:"The onComplete handler is invoked and the onError handler is ignored"
-        result == 2
-        hasError == false
+        then: 'the onComplete handler is invoked and the onError handler is ignored'
+            result == 2
+            hasError == false
     }
 
-    void "Test promise onError handling"() {
-        given:
-        def conditions = new PollingConditions(timeout: 2)
+    void 'Test promise onError handling'() {
+        
+        when: 'a promise is executed with an onComplete handler'
+            def promise = Promises.createPromise { throw new RuntimeException('bad') }
+            def result = null
+            Throwable error = null
+            promise.onComplete { result = it }
+            promise.onError { error = it }.get()
 
-        when:"A promise is executed with an onComplete handler"
-        def promise = Promises.createPromise {
-            throw new RuntimeException("bad")
-        }
-        def result
-        Throwable error
-        promise.onComplete { val ->
-            result = val
-        }
-        promise.onError { err ->
-            error = err
-        }.get()
-
-        then:"The onComplete handler is invoked and the onError handler is ignored"
-        thrown(ExecutionException)
-        conditions.eventually {
-            assert result == null
-            assert error != null
-        }
+        then: 'the onComplete handler is invoked and the onError handler is ignored'
+            thrown(ExecutionException)
+            new PollingConditions().eventually {
+                assert result == null
+                assert error != null
+            }
     }
 
-    void "Test promise chaining"() {
-        when:"A promise is chained"
-        def promise = Promises.createPromise { 1 + 1 }
-        promise = promise.then { it * 2 } then { it + 6 }
-        def val = promise.get()
+    void 'Test promise chaining'() {
+        
+        when: 'a promise is chained'
+            def promise = Promises.createPromise { 1 + 1 }
+            promise = promise.then { it * 2 } then { it + 6 }
+            def val = promise.get()
 
-        then:'the chain is executed'
-        val == 10
+        then: 'the chain is executed'
+           val == 10
     }
 
-    void "Test promise chaining with exception"() {
-        when:"A promise is chained"
-        def promise = Promises.createPromise { 1 + 1 }
-        promise = promise.then { it * 2 } then { throw new RuntimeException("bad")} then { it + 6 }
-        def val = promise.get()
+    void 'Test promise chaining with exception'() {
 
-        then:'the chain is executed'
-        thrown RuntimeException
-        val == null
+        when: 'a promise is chained'
+            def promise = Promises.createPromise { 1 + 1 }
+            promise = promise.then { it * 2 } then { throw new RuntimeException('bad') } then { it + 6 }
+            def val = promise.get()
+
+        then: 'the chain is executed'
+            thrown RuntimeException
+            val == null
     }
 
+    @Issue('GRAILS-10152')
+    void 'Test promise closure is not executed multiple times if it returns null'() {
 
-    @Issue("GRAILS-10152")
-    void "Test promise closure is not executed multiple times if it returns null"() {
-        given:
-        Closure callable =  Mock(Closure) {
-            call() >> null
-        }
+        given: 'a closure that returns null'
+            Closure callable =  Mock(Closure) { call() >> null }
 
-        when:"A promise is created"
-        Promises.waitAll([Promises.createPromise(callable), Promises.createPromise(callable)])
+        when: 'a promise is created'
+            Promises.waitAll([Promises.createPromise(callable), Promises.createPromise(callable)])
 
-        then:'the closure is executed twice'
-        2 * callable.call()
+        then: 'the closure is executed twice'
+            2 * callable.call()
     }
 }

@@ -12,28 +12,29 @@ import spock.lang.Specification
  */
 class TransactionAwareEventSpec extends Specification {
 
-    void 'test task executor event bus with transactional event'() {
-        given:
-        ExecutorEventBus eventBus = new ExecutorEventBus()
-        def result
-        eventBus.on("test") {
-            result = "foo $it"
-        }
+    void 'Test task executor event bus with transactional event'() {
+        
+        given: 'a task executor event bus'
+            def eventBus = new ExecutorEventBus()
+        
+        and: 'we subscribe to an event'
+            def result = null
+            eventBus.on('test') { result = "foo $it" }
 
-        when:"an event is fired with an active transaction"
-        TransactionSynchronizationManager.initSynchronization()
-        eventBus.notify(Event.from("test", "bar"), TransactionPhase.AFTER_COMMIT)
+        when: 'an event is fired with an active transaction'
+            TransactionSynchronizationManager.initSynchronization()
+            eventBus.notify(Event.from('test', 'bar'), TransactionPhase.AFTER_COMMIT)
 
-        then:"the event was not triggered"
-        result == null
+        then: 'the event was not triggered'
+            !result
 
-        when:"The transaction is committed"
-        TransactionSynchronizationUtils.invokeAfterCommit(TransactionSynchronizationManager.getSynchronizations())
+        when: 'the transaction is committed'
+            TransactionSynchronizationUtils.invokeAfterCommit(TransactionSynchronizationManager.getSynchronizations())
 
-        then:"The event was triggered"
-        result == "foo bar"
+        then: 'the event was triggered'
+            result == "foo bar"
 
         cleanup:
-        TransactionSynchronizationManager.clearSynchronization()
+            TransactionSynchronizationManager.clearSynchronization()
     }
 }

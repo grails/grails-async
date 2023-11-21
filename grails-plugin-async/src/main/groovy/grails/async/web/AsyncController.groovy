@@ -1,5 +1,6 @@
 package grails.async.web
 
+import groovy.transform.CompileStatic
 import org.grails.plugins.web.async.GrailsAsyncContext
 import org.grails.web.servlet.mvc.GrailsWebRequest
 import org.grails.web.util.GrailsApplicationAttributes
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServletRequest
  * @author Graeme Rocher
  * @since 3.3
  */
+@CompileStatic
 trait AsyncController {
     /**
      * Raw access to the Servlet 3.0 startAsync method

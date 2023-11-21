@@ -11,29 +11,33 @@ import java.util.concurrent.atomic.AtomicInteger
  */
 class ManualPubSubSpec extends Specification {
 
-    void "test pub/sub with default event bus"() {
-        given:
-        SumService sumService = new SumService()
-        TotalService totalService = new TotalService()
-        EventBusAware annotatedSubscriber = (EventBusAware)totalService
-        EventBusAware publisher = (EventBusAware)sumService
-        annotatedSubscriber.setTargetEventBus(publisher.getEventBus())
-        totalService.init()
+    void 'Test pub/sub with default event bus'() {
 
-        when:
-        sumService.sum(1,2)
-        sumService.sum(1,2)
+        given: 'A publisher and subscriber'
+            def sumService = new SumService()
+            def totalService = new TotalService()
+            def annotatedSubscriber = totalService as EventBusAware
+            def publisher = sumService as EventBusAware
 
-        then:
-        totalService.total.intValue() == 6
+        and: 'we set the target event bus'
+            annotatedSubscriber.setTargetEventBus(publisher.getEventBus())
+            totalService.init()
+
+        when: 'we invoke methods on the publisher'
+            sumService.sum(1,2)
+            sumService.sum(1,2)
+
+        then: 'the subscriber should receive the events'
+            totalService.total.intValue() == 6
     }
 }
 
 // tag::publisher[]
 class SumService implements EventPublisher {
+
     int sum(int a, int b) {
         int result = a + b
-        notify("sum", result)
+        notify('sum', result)
         return result
     }
 }
@@ -41,11 +45,12 @@ class SumService implements EventPublisher {
 
 // tag::subscriber[]
 class TotalService implements EventBusAware {
+
     AtomicInteger total = new AtomicInteger(0)
 
     @PostConstruct
     void init() {
-        eventBus.subscribe("sum") { int num ->
+        eventBus.subscribe('sum') { int num ->
             total.addAndGet(num)
         }
     }

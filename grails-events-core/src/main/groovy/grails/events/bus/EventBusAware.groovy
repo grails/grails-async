@@ -1,5 +1,6 @@
 package grails.events.bus
 
+import groovy.transform.AutoFinal
 import groovy.transform.CompileStatic
 import org.springframework.beans.factory.annotation.Autowired
 
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired
  * @author Graeme Rocher
  * @since 3.3
  */
+@AutoFinal
 @CompileStatic
 trait EventBusAware {
 

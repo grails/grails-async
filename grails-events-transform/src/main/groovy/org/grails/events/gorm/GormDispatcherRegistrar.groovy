@@ -1,6 +1,8 @@
 package org.grails.events.gorm
 
+import grails.events.annotation.Subscriber
 import grails.events.bus.EventBus
+import groovy.transform.AutoFinal
 import groovy.transform.CompileStatic
 import org.grails.datastore.gorm.events.ConfigurableApplicationEventPublisher
 import org.grails.datastore.mapping.core.Datastore
@@ -16,6 +18,7 @@ import org.springframework.context.ApplicationEventPublisher
  * @author Graeme Rocher
  * @since 3.3
  */
+@AutoFinal
 @CompileStatic
 class GormDispatcherRegistrar implements FactoryBean<GormDispatcherRegistrar>, InitializingBean {
 

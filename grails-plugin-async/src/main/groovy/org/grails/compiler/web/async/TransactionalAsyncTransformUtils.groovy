@@ -41,9 +41,9 @@ class TransactionalAsyncTransformUtils {
      */
     static TransactionalPromiseDecorator createTransactionalPromiseDecorator(PlatformTransactionManager transactionManager, Method method) {
         if (method) {
-            final txAnn = method.getAnnotation(Transactional)
+            final Transactional txAnn = method.getAnnotation(Transactional)
             if (txAnn) {
-                return new TransactionalPromiseDecorator(transactionManager,txAnn)
+                return new TransactionalPromiseDecorator(transactionManager, txAnn)
             }
         }
         return new TransactionalPromiseDecorator(transactionManager)

@@ -5,6 +5,7 @@ import grails.events.EventPublisher
 import grails.events.annotation.Events
 import grails.events.annotation.Publisher
 import grails.gorm.transactions.Transactional
+import groovy.transform.AutoFinal
 import groovy.transform.CompileStatic
 import org.codehaus.groovy.ast.AnnotationNode
 import org.codehaus.groovy.ast.ClassHelper
@@ -40,6 +41,7 @@ import static org.codehaus.groovy.ast.tools.GeneralUtils.args
  * @author Graeme Rocher
  * @since 3.3
  */
+@AutoFinal
 @CompileStatic
 @GroovyASTTransformation(phase = CompilePhase.CANONICALIZATION)
 class PublisherTransform extends AbstractMethodDecoratingTransformation implements Ordered {

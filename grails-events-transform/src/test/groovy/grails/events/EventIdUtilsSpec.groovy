@@ -7,7 +7,7 @@ import spock.lang.Unroll
 class EventIdUtilsSpec extends Specification {
 
     @Unroll
-    def "For Method Name ( #methodName ) event Id should be ( #expected ) "(String methodName, String expected) {
+    def 'For Method Name ( #methodName ) event Id should be ( #expected )'(String methodName, String expected) {
 
         expect:
         EventIdUtils.eventIdForMethodName(methodName) == expected

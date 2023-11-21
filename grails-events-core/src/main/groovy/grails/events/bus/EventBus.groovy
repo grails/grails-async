@@ -9,6 +9,7 @@ import grails.events.subscriber.Subjects
  * @author Graeme Rocher
  * @since 3.3
  */
+@FunctionalInterface
 interface EventBus extends EventEmitter, Subjects {
 
     /**

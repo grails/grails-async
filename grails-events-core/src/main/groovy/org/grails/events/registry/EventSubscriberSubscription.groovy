@@ -4,6 +4,7 @@ import grails.events.Event
 import grails.events.subscriber.Subscriber
 import grails.events.trigger.EventTrigger
 import grails.events.subscriber.Subscription
+import groovy.transform.AutoFinal
 import groovy.transform.CompileStatic
 import org.grails.events.EventSubscriberTrigger
 
@@ -13,6 +14,7 @@ import org.grails.events.EventSubscriberTrigger
  * @author Graeme Rocher
  * @since 3.3
  */
+@AutoFinal
 @CompileStatic
 class EventSubscriberSubscription extends AbstractSubscription {
 

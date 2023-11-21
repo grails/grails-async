@@ -11,30 +11,28 @@ import spock.lang.Specification
  */
 class WebPromisesSpec extends Specification {
 
-    void 'test web promises handling'() {
+    void 'Test web promises handling'() {
+
         setup:
-        GrailsWebMockUtil.bindMockWebRequest()
+            GrailsWebMockUtil.bindMockWebRequest()
 
-        when:"A promise is created"
-        def webPromise = WebPromises.task {
-            RequestContextHolder.currentRequestAttributes()
-        }
+        when: 'A promise is created'
+            def webPromise = WebPromises.task {
+                RequestContextHolder.currentRequestAttributes()
+            }
+            webPromise.get() != null
 
-        webPromise.get() != null
+        then: 'Async was requested'
+            def e = thrown(IllegalStateException)
+            e.message == 'The current request does not support Async processing'
 
-        then:"Async was requested"
-        def e = thrown(IllegalStateException)
-        e.message == 'The current request does not support Async processing'
+        when: 'A normal promise is used'
+            def promise = Promises.task { 'good' }
 
-        when:"A normal promise is used"
-        def promise = Promises.task {
-            "good"
-        }
-
-        then:"No request is bound"
-        promise.get() == "good"
+        then: 'No request is bound'
+            promise.get() == 'good'
 
         cleanup:
-        RequestContextHolder.setRequestAttributes(null)
+            RequestContextHolder.setRequestAttributes(null)
     }
 }

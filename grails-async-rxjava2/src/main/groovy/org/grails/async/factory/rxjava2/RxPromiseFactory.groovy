@@ -3,6 +3,7 @@ package org.grails.async.factory.rxjava2
 import grails.async.Promise
 import grails.async.PromiseList
 import grails.async.factory.AbstractPromiseFactory
+import groovy.transform.AutoFinal
 import groovy.transform.CompileStatic
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -17,8 +18,10 @@ import java.util.concurrent.TimeUnit
  * @author Graeme Rocher
  * @since 3.3
  */
+@AutoFinal
 @CompileStatic
 class RxPromiseFactory extends AbstractPromiseFactory {
+
     @Override
     <T> Promise<T> createPromise(Class<T> returnType) {
         new RxPromise<T>(this, Single.just(null))
@@ -36,8 +39,8 @@ class RxPromiseFactory extends AbstractPromiseFactory {
         }
         else {
             def promiseList = new PromiseList()
-            for (p in closures) {
-                promiseList << p
+            for (Closure closure : closures) {
+                promiseList.add(closure)
             }
             return promiseList
         }
@@ -45,18 +48,18 @@ class RxPromiseFactory extends AbstractPromiseFactory {
 
     @Override
     <T> List<T> waitAll(List<Promise<T>> promises) {
-        return promises.collect() { Promise<T> p -> p.get() }
+        return promises.collect { Promise<T> p -> p.get() }
     }
 
     @Override
     <T> List<T> waitAll(List<Promise<T>> promises, long timeout, TimeUnit units) {
-        promises.collect() { Promise<T> p -> p.get(timeout, units) }
+        promises.collect { Promise<T> p -> p.get(timeout, units) }
     }
 
     @Override
-    <T> Promise<List<T>> onComplete(List<Promise<T>> promises, Closure<?> callable) {
+    <T> Promise<?> onComplete(List<Promise<T>> promises, Closure<?> callable) {
         new RxPromise<>(this, Observable.concat(
-            promises.collect() { Promise p ->
+            promises.collect { Promise p ->
                 if(p instanceof BoundPromise) {
                     return Observable.just(((BoundPromise)p).value) as Observable<T>
                 }
@@ -65,14 +68,14 @@ class RxPromiseFactory extends AbstractPromiseFactory {
                 }
             }
         ).toList())
-         .onComplete(callable) as Promise<List<T>>
+         .onComplete(callable)
     }
 
     @Override
-    <T> Promise<List<T>> onError(List<Promise<T>> promises, Closure<?> callable) {
+    <T> Promise<?> onError(List<Promise<T>> promises, Closure<?> callable) {
         new RxPromise<>(this, Observable.concat(
-                promises.collect() { Promise p -> ((RxPromise)p).toObservable() as Observable<T> }
+                promises.collect { Promise p -> ((RxPromise)p).toObservable() as Observable<T> }
         ).toList())
-        .onError(callable) as Promise<List<T>>
+        .onError(callable)
     }
 }

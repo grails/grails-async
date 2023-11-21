@@ -17,6 +17,7 @@ package org.grails.async.factory.gpars
 
 import grails.async.Promise
 import grails.async.PromiseList
+import groovy.transform.AutoFinal
 import groovy.transform.CompileStatic
 import groovyx.gpars.GParsConfig
 import groovyx.gpars.dataflow.Dataflow
@@ -32,93 +33,85 @@ import java.util.concurrent.TimeUnit
  * @author Graeme Rocher
  * @since 2.3
  */
+@AutoFinal
 @CompileStatic
-class GparsPromiseFactory extends AbstractPromiseFactory{
+class GparsPromiseFactory extends AbstractPromiseFactory {
+
     static final boolean GPARS_PRESENT
     static {
-        try {
-            GPARS_PRESENT = Thread.currentThread().contextClassLoader.loadClass("groovyx.gpars.GParsConfig") != null
-        } catch (Throwable e) {
-            GPARS_PRESENT = false
-        }
+        try { GPARS_PRESENT = Thread.currentThread().contextClassLoader.loadClass('groovyx.gpars.GParsConfig') }
+        catch (Throwable ignore) { GPARS_PRESENT = false }
     }
-    static boolean isGparsAvailable() {
-        GPARS_PRESENT
-    }
+    static boolean isGparsAvailable() { GPARS_PRESENT }
+
+    private static final Closure<List<?>> originalValuesClosure = { List<?> values -> values } as Closure<List<?>>
 
     GparsPromiseFactory() {
-        try {
-            GParsConfig.setPoolFactory(new LoggingPoolFactory())
-        } catch (IllegalArgumentException iae) {
-            // ignore
-        }
+        try { GParsConfig.setPoolFactory(new LoggingPoolFactory()) }
+        catch (IllegalArgumentException ignore) {}
     }
 
     @Override
-    def <T> Promise<T> createBoundPromise(T value) {
-        final variable = new DataflowVariable()
+    <T> Promise<T> createBoundPromise(T value) {
+        def variable = new DataflowVariable()
         variable << value
-        return new GparsPromise<T>(this,variable)
+        return new GparsPromise<T>(this, variable)
     }
 
     @Override
-    def <T> Promise<T> createPromise(Class<T> returnType) {
-        final variable = new DataflowVariable()
-        return new GparsPromise<T>(this,variable)
+    <T> Promise<T> createPromise(Class<T> returnType) {
+        return new GparsPromise<T>(this, new DataflowVariable())
     }
 
     @Override
     Promise<Object> createPromise() {
-        final variable = new DataflowVariable()
-        return new GparsPromise<Object>(this,variable)
+        return new GparsPromise<Object>(this, new DataflowVariable())
     }
 
     @Override
-    def <T> Promise<T> createPromise(Closure<T>... closures) {
+    <T> Promise<T> createPromise(Closure<T>... closures) {
         if (closures.length == 1) {
-            final callable = closures[0]
-            return new GparsPromise(this,applyDecorators(callable, null))
+            def callable = closures[0]
+            return new GparsPromise(this, applyDecorators(callable,null))
         }
-
-        def promiseList = new PromiseList()
-        for (p in closures) {
-            applyDecorators(p, null)
-            promiseList << p
+        PromiseList<T> promiseList = new PromiseList<>()
+        for (c in closures) {
+            promiseList.add(new GparsPromise(this, applyDecorators(c, null)))
         }
-        return promiseList
+        return promiseList as Promise<T>
     }
 
-    private static Closure<List<?>> originalValuesClosure = { List<?> values -> values }
-
     @Override
-    def <T> List<T> waitAll(List<Promise<T>> promises) {
-        final groovyx.gpars.dataflow.Promise<List<T>> promise = (groovyx.gpars.dataflow.Promise<List<T>>)Dataflow.whenAllBound(toGparsPromises(promises), originalValuesClosure)
+    <T> List<T> waitAll(List<Promise<T>> promises) {
+        def promise = Dataflow.whenAllBound(toGparsPromises(promises), originalValuesClosure) as groovyx.gpars.dataflow.Promise<List<T>>
         return promise.get()
     }
 
     @Override
-    def <T> List<T> waitAll(List<Promise<T>> promises, long timeout, TimeUnit units) {
-        final groovyx.gpars.dataflow.Promise<List<T>> promise = (groovyx.gpars.dataflow.Promise<List<T>>)Dataflow.whenAllBound(toGparsPromises(promises), originalValuesClosure)
+    <T> List<T> waitAll(List<Promise<T>> promises, long timeout, TimeUnit units) {
+        def promise = Dataflow.whenAllBound(toGparsPromises(promises), originalValuesClosure) as groovyx.gpars.dataflow.Promise<List<T>>
         return promise.get(timeout, units)
-
     }
 
-    def <T> List<groovyx.gpars.dataflow.Promise<T>> toGparsPromises(List<Promise<T>> promises) {
-        final List<groovyx.gpars.dataflow.Promise<T>> dataflowPromises = promises.collect() { it -> (groovyx.gpars.dataflow.Promise<T>)((GparsPromise<T>)it).internalPromise }
-        dataflowPromises
+    static <T> List<groovyx.gpars.dataflow.Promise<T>> toGparsPromises(List<Promise<T>> promises) {
+        return promises.collect {
+            (it as GparsPromise<T>).internalPromise as groovyx.gpars.dataflow.Promise<T>
+        }
     }
 
-    def <T> Promise<List<T>> onComplete(List<Promise<T>> promises, Closure<?> callable) {
-        new GparsPromise<List<T>>(
+    @Override
+    <T> Promise<?> onComplete(List<Promise<T>> promises, Closure<?> callable) {
+        return new GparsPromise<?>(
             this,
-            Dataflow.whenAllBound(toGparsPromises(promises), callable)
+            Dataflow.whenAllBound(toGparsPromises(promises), callable as Closure)
         )
     }
 
-    def <T> Promise<List<T>> onError(List<Promise<T>> promises, Closure<?> callable) {
-        new GparsPromise<List<T>>(
+    @Override
+    <T> Promise<?> onError(List<Promise<T>> promises, Closure<?> callable) {
+        return new GparsPromise<?>(
             this,
-            Dataflow.whenAllBound(toGparsPromises(promises), {List l ->}, callable)
+            Dataflow.whenAllBound(toGparsPromises(promises), {} as Closure<T>, callable as Closure)
         )
     }
 }

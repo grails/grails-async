@@ -1,6 +1,7 @@
 package org.grails.events.registry
 
 import grails.events.subscriber.Subscription
+import groovy.transform.AutoFinal
 import groovy.transform.CompileStatic
 
 /**
@@ -9,6 +10,7 @@ import groovy.transform.CompileStatic
  * @author Graeme Rocher
  * @since 3.3
  */
+@AutoFinal
 @CompileStatic
 abstract class AbstractSubscription implements Subscription {
 

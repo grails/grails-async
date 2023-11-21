@@ -28,7 +28,8 @@ import java.util.concurrent.TimeUnit
  */
 @CompileStatic
 class BoundPromise<T> implements Promise<T> {
-    def T value
+
+    T value
 
     BoundPromise(T value) {
         this.value = value
@@ -66,26 +67,24 @@ class BoundPromise<T> implements Promise<T> {
         return this
     }
 
-    Promise<T> onComplete(Closure callable) {
+    Promise<?> onComplete(Closure<?> callable) {
         if (!(value instanceof Throwable)) {
-            return new BoundPromise<>(callable.call(value))
+            return new BoundPromise(callable.call(value))
         }
         return this
     }
 
-    Promise<T> onError(Closure callable) {
+    Promise<?> onError(Closure<?> callable) {
         if (value instanceof Throwable) {
-            return new BoundPromise<>(callable.call(value))
+            return new BoundPromise(callable.call(value))
         }
         return this
-
     }
 
-    Promise<T> then(Closure callable) {
+    Promise<?> then(Closure<?> callable) {
         if (!(value instanceof Throwable)) {
             try {
-                final value = callable.call(value)
-                return new BoundPromise(value)
+                return new BoundPromise(callable.call(value))
             } catch (Throwable e) {
                 return new BoundPromise(e)
             }
@@ -95,7 +94,7 @@ class BoundPromise<T> implements Promise<T> {
         }
     }
 
-    Promise<T> leftShift(Closure callable) {
+    Promise<?> leftShift(Closure<?> callable) {
         then callable
     }
 }

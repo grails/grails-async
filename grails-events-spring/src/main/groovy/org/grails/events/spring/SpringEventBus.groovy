@@ -2,9 +2,8 @@ package org.grails.events.spring
 
 import grails.events.Event
 import grails.events.subscriber.Subscription
-import groovy.transform.CompileDynamic
+import groovy.transform.AutoFinal
 import groovy.transform.CompileStatic
-import groovy.util.logging.Slf4j
 import org.grails.events.bus.AbstractEventBus
 import org.springframework.context.ApplicationListener
 import org.springframework.context.ConfigurableApplicationContext
@@ -18,6 +17,7 @@ import java.util.concurrent.Callable
  * @since 3.3
  * @author Graeme Rocher
  */
+@AutoFinal
 @CompileStatic
 class SpringEventBus extends AbstractEventBus {
 
@@ -27,7 +27,7 @@ class SpringEventBus extends AbstractEventBus {
         this.applicationContext = applicationContext
         applicationContext.addApplicationListener(new GenericApplicationListenerAdapter(
                 new EventBusListener(subscriptions)
-        ) )
+        ))
     }
 
     @Override
@@ -37,8 +37,8 @@ class SpringEventBus extends AbstractEventBus {
         }
     }
 
-    @Slf4j
     private static class EventBusListener implements ApplicationListener<SpringEventBusEvent> {
+
         final Map<CharSequence, Collection<Subscription>> registrations
 
         EventBusListener(Map<CharSequence, Collection<Subscription>> registrations) {
@@ -46,7 +46,6 @@ class SpringEventBus extends AbstractEventBus {
         }
 
         @Override
-        @CompileDynamic
         void onApplicationEvent(SpringEventBusEvent event) {
             Event e = event.source
             Closure reply = event.replyTo
@@ -56,5 +55,4 @@ class SpringEventBus extends AbstractEventBus {
             }
         }
     }
-
 }

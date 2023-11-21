@@ -7,11 +7,8 @@ import groovy.util.logging.Slf4j
 import org.grails.events.bus.ExecutorEventBus
 import org.springframework.beans.factory.FactoryBean
 import org.springframework.beans.factory.InitializingBean
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.context.ApplicationContext
 import org.springframework.context.ApplicationContextAware
-import org.springframework.core.task.AsyncTaskExecutor
 
 import java.util.concurrent.ExecutorService
 
@@ -21,8 +18,8 @@ import java.util.concurrent.ExecutorService
  * @author Graeme Rocher
  * @since 3.3
  */
-@CompileStatic
 @Slf4j
+@CompileStatic
 class EventBusFactoryBean extends EventBusBuilder implements FactoryBean<EventBus>, InitializingBean, ApplicationContextAware {
 
     ApplicationContext applicationContext
@@ -50,10 +47,10 @@ class EventBusFactoryBean extends EventBusBuilder implements FactoryBean<EventBu
 
     @Override
     protected EventBus createDefaultEventBus() {
-        if(applicationContext.containsBean("grailsPromiseFactory")) {
-            Object promiseFactory = applicationContext.getBean("grailsPromiseFactory")
+        if(applicationContext.containsBean('grailsPromiseFactory')) {
+            Object promiseFactory = applicationContext.getBean('grailsPromiseFactory')
             if(promiseFactory instanceof ExecutorService) {
-                log.debug("Creating event bus from PromiseFactory {}", promiseFactory)
+                log.debug('Creating event bus from PromiseFactory {}', promiseFactory)
                 return new ExecutorEventBus((ExecutorService)promiseFactory)
             }
         }

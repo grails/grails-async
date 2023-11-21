@@ -23,77 +23,80 @@ import spock.lang.Specification
  * @author Graeme Rocher
  * @since 2.3
  */
-class DelegateAsyncSpec extends Specification{
+class DelegateAsyncSpec extends Specification {
 
-    void "Test delegate async applied to class with a method taking arguments"() {
+    void 'Test delegate async applied to class with a method taking arguments'() {
 
-        when:"The DelegateAsync annotation is applied to a class."
+        when: 'the DelegateAsync annotation is applied to a class'
             def mathService = new AsyncMathService()
-            def p = mathService.sum(1,2)
-        then:"Methods from the delegate return a promise"
+            def p = mathService.sum(1, 2)
+        
+        then: 'methods from the delegate return a promise'
             p instanceof Promise
 
-        when:"The the value of the promise is obtained"
+        when: 'the the value of the promise is obtained'
             def val = p.get()
 
-        then:"It is correct"
+        then: 'it is correct'
             val == 3
     }
 
-    void "Test delegate async applied to field with a method taking arguments"() {
+    void 'Test delegate async applied to field with a method taking arguments'() {
 
-        when:"The DelegateAsync annotation is applied to a class."
+        when: 'the DelegateAsync annotation is applied to a class'
             def mathService = new AsyncMathService2()
-            def p = mathService.sum(1,2)
-        then:"Methods from the delegate return a promise"
+            def p = mathService.sum(1, 2)
+        
+        then: 'methods from the delegate return a promise'
             p instanceof Promise
 
-        when:"The the value of the promise is obtained"
+        when: 'the the value of the promise is obtained'
             def val = p.get()
 
-        then:"It is correct"
+        then: 'it is correct'
             val == 3
     }
 
-    void "Test delegate async passes decorators to created promises if target is a DecoratorProvider"() {
+    void 'Test delegate async passes decorators to created promises if target is a DecoratorProvider'() {
 
-        when:"The DelegateAsync annotation is applied to a class."
+        when: 'the DelegateAsync annotation is applied to a class'
             def mathService = new AsyncMathService3()
-            def p = mathService.sum(1,2)
-        then:"Methods from the delegate return a promise"
+            def p = mathService.sum(1, 2)
+
+        then: 'methods from the delegate return a promise'
             p instanceof Promise
 
-        when:"The the value of the promise is obtained"
+        when: 'the the value of the promise is obtained'
             def val = p.get()
 
-        then:"The decorator is applied to the value "
+        then: 'the decorator is applied to the value'
             val == 6
     }
 }
+
 class MathService {
-    Integer sum(int n1, int n2) {
-        n1 + n2
-    }
-    void calculate() {
-        // no-op
-    }
+
+    Integer sum(int n1, int n2) { n1 + n2 }
+    void calculate() { /* no-op */ }
     
     // having this method here makes sure that the
     // transformation can deal with copying parameters
     // that are generics placeholders
-    public <T> void someMethod(T arg) {}
+    <T> void someMethod(T arg) {}
 }
+
 @DelegateAsync(MathService)
 class AsyncMathService {}
-class AsyncMathService2 {
 
+class AsyncMathService2 {
     @DelegateAsync
     MathService ms = new MathService()
 }
+
 @DelegateAsync(MathService)
 class AsyncMathService3 implements PromiseDecoratorProvider {
-    List<PromiseDecorator> decorators = [ { Closure c ->
-        return { c.call(*it) * 2  }
-    } as PromiseDecorator ]
+    List<PromiseDecorator> decorators = [
+        { Closure c -> return { c.call(*it) * 2 } } as PromiseDecorator
+    ]
 }
 

@@ -28,8 +28,9 @@ import java.util.concurrent.TimeUnit
  */
 @CompileStatic
 class SynchronousPromise<T> implements Promise<T> {
+
     Closure<T> callable
-    def value
+    Object value
     boolean executed = false
 
     SynchronousPromise(Closure<T> callable) {
@@ -54,16 +55,13 @@ class SynchronousPromise<T> implements Promise<T> {
     T get() throws Throwable {
         if (!executed) {
             executed = true
-            try {
-                value = callable.call()
-            } catch (e) {
-                value = e
-            }
+            try { value = callable.call() }
+            catch (e) { value = e }
         }
         if (value instanceof Throwable) {
             throw value
         }
-        return value
+        return value as T
     }
 
     T get(long timeout, TimeUnit units) throws Throwable {
@@ -76,31 +74,24 @@ class SynchronousPromise<T> implements Promise<T> {
         return this
     }
 
-    Promise<T> onComplete(Closure callable) {
-        try {
-            final value = get()
-            callable.call(value)
-        } catch (e) {
-            // ignore
-        }
+    Promise<?> onComplete(Closure callable) {
+        try { callable.call(get()) }
+        catch (Throwable ignored) {}
         return this
     }
 
-    Promise<T> onError(Closure callable) {
-        try {
-            get()
-        } catch (e) {
-            callable.call(e)
-        }
+    Promise<?> onError(Closure callable) {
+        try { get() }
+        catch (Throwable e) { callable.call(e) }
         return this
     }
 
-    Promise<T> then(Closure callable) {
+    Promise<?> then(Closure callable) {
         final value = get()
-        return new SynchronousPromise<T>(callable.curry(value))
+        return new SynchronousPromise(callable.curry(value))
     }
 
-    Promise<T> leftShift(Closure callable) {
+    Promise<?> leftShift(Closure callable) {
         then callable
     }
 }

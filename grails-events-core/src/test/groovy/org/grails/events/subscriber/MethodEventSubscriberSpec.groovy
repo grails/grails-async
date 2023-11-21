@@ -8,15 +8,18 @@ import spock.lang.Specification
  */
 class MethodEventSubscriberSpec extends Specification {
 
-    void "test convert method argument"() {
-        given:
-        TestService testService = new TestService()
-        def subscriber = new MethodSubscriber(testService, TestService.getMethod("foo", Integer))
+    void 'Test convert method argument'() {
 
-        expect:
-        subscriber.call(1) == 2
-        subscriber.call("1") == 2
-        subscriber.call("") == null
+        given: 'a class with a method foo(Integer)'
+            def testService = new TestService()
+
+        when: 'we create a method subscriber on that method'
+            def subscriber = new MethodSubscriber(testService, TestService.getMethod('foo', Integer))
+
+        then: 'the results of invoking the subscriber to be correct'
+            subscriber.call(1) == 2
+            subscriber.call('1') == 2
+            subscriber.call('') == null
     }
 }
 

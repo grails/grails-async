@@ -3,6 +3,7 @@ package org.grails.events.bus
 import grails.events.Event
 import grails.events.subscriber.Subscription
 import grails.events.trigger.EventTrigger
+import groovy.transform.AutoFinal
 import groovy.transform.CompileStatic
 import org.springframework.core.task.SyncTaskExecutor
 
@@ -16,8 +17,10 @@ import java.util.concurrent.ExecutorService
  * @author Graeme Rocher
  * @since 3.3
  */
+@AutoFinal
 @CompileStatic
 class ExecutorEventBus extends AbstractEventBus {
+
     final Executor executor
 
     ExecutorEventBus(Executor executor = new SyncTaskExecutor()) {

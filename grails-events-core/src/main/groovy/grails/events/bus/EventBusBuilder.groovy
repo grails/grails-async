@@ -21,7 +21,7 @@ class EventBusBuilder {
         List<EventBus> eventBuses = ServiceLoader.load(EventBus).toList()
         if(eventBuses.size() == 1) {
             EventBus eventBus = eventBuses.get(0)
-            log.debug("Found event bus class to use [${eventBus.getClass().name}]")
+            log.debug('Found event bus class to use [{}]', eventBus.getClass().name)
             return eventBus
         }
         else if(eventBuses.size() > 1) {
@@ -33,7 +33,7 @@ class EventBusBuilder {
     }
 
     protected EventBus createDefaultEventBus() {
-        log.warn("No event bus implementations found on classpath, using synchronous implementation.")
+        log.warn('No event bus implementations found on classpath, using synchronous implementation.')
         return new ExecutorEventBus()
     }
 }

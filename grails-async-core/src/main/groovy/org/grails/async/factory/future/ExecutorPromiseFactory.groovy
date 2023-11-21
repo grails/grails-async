@@ -1,6 +1,7 @@
 package org.grails.async.factory.future
 
 import grails.async.PromiseFactory
+import groovy.transform.CompileStatic
 
 import java.util.concurrent.ExecutorService
 
@@ -10,6 +11,4 @@ import java.util.concurrent.ExecutorService
  * @author Graeme Rocher
  * @since 3.3
  */
-interface ExecutorPromiseFactory extends PromiseFactory, ExecutorService {
-
-}
+interface ExecutorPromiseFactory extends PromiseFactory, ExecutorService {}

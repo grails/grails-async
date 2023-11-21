@@ -4,6 +4,7 @@ import grails.events.Event
 import grails.events.subscriber.EventSubscriber
 import grails.events.subscriber.Subscriber
 import grails.events.trigger.EventTrigger
+import groovy.transform.AutoFinal
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 
@@ -13,9 +14,11 @@ import groovy.util.logging.Slf4j
  * @author Graeme Rocher
  * @since 3.3
  */
-@CompileStatic
 @Slf4j
+@AutoFinal
+@CompileStatic
 class EventSubscriberTrigger implements EventTrigger {
+
     final Event event
     final Subscriber subscriber
 

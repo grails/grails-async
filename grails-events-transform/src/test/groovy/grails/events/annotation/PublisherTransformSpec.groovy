@@ -10,12 +10,15 @@ import spock.lang.Specification
  */
 class PublisherTransformSpec extends Specification {
 
-    void "test order"() {
-        given:
-        def list = [new PublisherTransform(), new TransactionalTransform()]
-        Collections.sort(list, new OrderedComparator<>())
+    void 'Test order'() {
 
-        expect:
-        list.first() instanceof TransactionalTransform
+        given: 'a list of transforms'
+            def list = [new PublisherTransform(), new TransactionalTransform()]
+
+        when: 'we sort the list'
+            Collections.sort(list, new OrderedComparator<>())
+
+        then: 'the transactional transform is first'
+            list.first() instanceof TransactionalTransform
     }
 }
