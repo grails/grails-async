@@ -3,6 +3,7 @@ package org.grails.events.registry
 import grails.events.Event
 import grails.events.trigger.EventTrigger
 import grails.events.subscriber.Subscription
+import groovy.transform.AutoFinal
 import groovy.transform.CompileStatic
 import org.grails.events.ClosureEventTrigger
 
@@ -12,6 +13,7 @@ import org.grails.events.ClosureEventTrigger
  * @since 3.3
  * @author Graeme Rocher
  */
+@AutoFinal
 @CompileStatic
 class ClosureSubscription extends AbstractSubscription {
 

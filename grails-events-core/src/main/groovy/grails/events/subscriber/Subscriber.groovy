@@ -6,6 +6,7 @@ package grails.events.subscriber
  * @author Graeme Rocher
  * @since 3.3
  */
+@FunctionalInterface
 interface Subscriber<T, R> {
 
     /**

@@ -1,6 +1,7 @@
 package org.grails.async.factory.rxjava2
 
 import grails.async.Promise
+import groovy.transform.AutoFinal
 import groovy.transform.CompileStatic
 import groovy.transform.PackageScope
 import io.reactivex.Observable
@@ -27,12 +28,15 @@ import java.util.concurrent.TimeoutException
  * @author Graeme Rocher
  * @since 3.3
  */
+@AutoFinal
 @CompileStatic
 @PackageScope
 class RxPromise<T>  implements Promise<T> {
+
     protected final Subject<T> subject
     protected final RxPromiseFactory promiseFactory
     protected final Observable<T> observable
+
     protected Disposable subscription
     protected boolean finished = false
 
@@ -96,19 +100,19 @@ class RxPromise<T>  implements Promise<T> {
     }
 
     @Override
-    Promise<T> onComplete(Closure callable) {
-        callable = promiseFactory.applyDecorators(callable, null)
-        return new RxPromise<T>(promiseFactory, subject.map(callable as Function<T, T>))
+    Promise<T> onComplete(Closure<T> callable) {
+        def decoratedCallable = promiseFactory.applyDecorators(callable, null)
+        return new RxPromise<T>(promiseFactory, subject.map(decoratedCallable as Function<T, T>))
     }
 
     @Override
-    Promise<T> onError(Closure callable) {
-        callable = promiseFactory.applyDecorators(callable, null)
-        return new RxPromise<T>(promiseFactory, subject.doOnError(callable as Consumer<Throwable>))
+    Promise<T> onError(Closure<T> callable) {
+        def decoratedCallable = promiseFactory.applyDecorators(callable, null)
+        return new RxPromise<T>(promiseFactory, subject.doOnError(decoratedCallable as Consumer<Throwable>))
     }
 
     @Override
-    Promise<T> then(Closure callable) {
+    Promise<T> then(Closure<T> callable) {
         return onComplete(callable)
     }
 

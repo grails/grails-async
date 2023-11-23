@@ -15,35 +15,35 @@
  */
 package org.grails.async.factory.gpars
 
+import groovy.transform.AutoFinal
 import groovy.transform.CompileStatic
 import groovyx.gpars.scheduler.DefaultPool
 import groovyx.gpars.scheduler.Pool
-import groovyx.gpars.scheduler.ResizeablePool
 import groovyx.gpars.util.PoolFactory
 import groovyx.gpars.util.PoolUtils
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 import java.lang.reflect.Method
-import java.util.concurrent.RejectedExecutionHandler
-import java.util.concurrent.SynchronousQueue
-import java.util.concurrent.ThreadFactory
-import java.util.concurrent.ThreadPoolExecutor
-import java.util.concurrent.TimeUnit
-import org.slf4j.*
+import java.util.concurrent.*
+
 /**
  * A pool factory that logs error instead of printing them to standard err as is the default in GPars
  *
  * @author Graeme Rocher
  * @since 2.3
  */
+@AutoFinal
 @CompileStatic
 class LoggingPoolFactory implements PoolFactory {
+
     private static final long KEEP_ALIVE_TIME = 10L;
     public static final Logger LOG = LoggerFactory.getLogger(LoggingPoolFactory)
 
     public static Method createThreadNameMethod
 
     static {
-        createThreadNameMethod = DefaultPool.getDeclaredMethod("createThreadName")
+        createThreadNameMethod = DefaultPool.getDeclaredMethod('createThreadName')
         createThreadNameMethod.setAccessible(true)
     }
 
@@ -75,30 +75,28 @@ class LoggingPoolFactory implements PoolFactory {
      * @param poolSize The required pool size  @return The created thread pool
      * @return The newly created thread pool
      */
-    private static ThreadPoolExecutor createResizeablePool(final boolean daemon, final int poolSize) {
+    private static ThreadPoolExecutor createResizeablePool(boolean daemon, int poolSize) {
         assert poolSize > 0;
         return new ThreadPoolExecutor(poolSize, 1000, KEEP_ALIVE_TIME, TimeUnit.SECONDS, new SynchronousQueue<Runnable>(), new ThreadFactory() {
             @Override
-            public Thread newThread(final Runnable r) {
-                final Thread thread = new Thread(r, LoggingPoolFactory.createThreadNameMethod.invoke(DefaultPool).toString())
+            Thread newThread(Runnable r) {
+                Thread thread = new Thread(r, createThreadNameMethod.invoke(DefaultPool).toString())
                 thread.daemon = daemon
                 thread.setUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
                     @Override
-                    public void uncaughtException(final Thread t, final Throwable e) {
-                        LoggingPoolFactory.LOG.error("Async execution error: ${e.message}", e)
+                    void uncaughtException(Thread t, Throwable e) {
+                        LOG.error("Async execution error: ${e.message}", e)
                     }
-                });
-                return thread;
+                })
+                return thread
             }
         }, new RejectedExecutionHandler() {
             @Override
-            public void rejectedExecution(final Runnable r, final ThreadPoolExecutor executor) {
-                final int currentPoolSize = executor.poolSize
-                final int maximumPoolSize = executor.maximumPoolSize
+            void rejectedExecution(Runnable r, ThreadPoolExecutor executor) {
                 throw new IllegalStateException("The thread pool executor cannot run the task. " +
                     "The upper limit of the thread pool size has probably been reached. " +
-                    "Current pool size: $currentPoolSize Maximum pool size: $maximumPoolSize");
+                    "Current pool size: $executor.poolSize Maximum pool size: $executor.maximumPoolSize")
             }
-        });
+        })
     }
 }

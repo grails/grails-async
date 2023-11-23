@@ -2,6 +2,7 @@ package grails.events
 
 import grails.events.bus.EventBusAware
 import grails.events.emitter.EventEmitter
+import groovy.transform.AutoFinal
 import groovy.transform.CompileStatic
 import org.springframework.transaction.event.TransactionPhase
 
@@ -11,6 +12,7 @@ import org.springframework.transaction.event.TransactionPhase
  * @since 3.3
  * @author Graeme Rocher
  */
+@AutoFinal
 @CompileStatic
 trait EventPublisher extends EventBusAware implements EventEmitter {
 
@@ -29,7 +31,6 @@ trait EventPublisher extends EventBusAware implements EventEmitter {
     EventEmitter notify(Event event) {
         return eventBus.notify(event)
     }
-
 
     /**
      * @see {@link EventEmitter#notify(Event, org.springframework.transaction.event.TransactionPhase)}
@@ -78,5 +79,4 @@ trait EventPublisher extends EventBusAware implements EventEmitter {
     EventEmitter sendAndReceive(CharSequence eventId, Object data, Closure reply) {
         return eventBus.sendAndReceive(eventId, data, reply)
     }
-
 }

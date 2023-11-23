@@ -8,86 +8,100 @@ import spock.lang.Specification
  */
 class TaskExecuterEventBusSpec  extends Specification {
 
-    void 'test task executor event bus single arg'() {
-        given:
-        ExecutorEventBus eventBus = new ExecutorEventBus()
-        def result
-        eventBus.on("test") {
-            result = "foo $it"
-        }
-        eventBus.notify("test", "bar")
+    void 'Test task executor event bus single arg'() {
 
-        expect:
-        result == 'foo bar'
+        given: 'a task executor event bus'
+            def eventBus = new ExecutorEventBus()
+
+        when: 'we subscribe to an event'
+            def result = null
+            eventBus.on('test') { result = "foo $it" }
+
+        and: 'we notify the event'
+            eventBus.notify('test', 'bar')
+
+        then: 'the result is correct'
+            result == 'foo bar'
     }
 
-    void 'test task executor event bus multiple args'() {
-        given:
-        ExecutorEventBus eventBus = new ExecutorEventBus()
-        def result
-        eventBus.on("test") {
-            result = "foo $it"
-        }
-        eventBus.notify("test", "bar", "baz")
+    void 'Test task executor event bus multiple args'() {
 
-        expect:
-        result == 'foo [bar, baz]'
+        given: 'a task executor event bus'
+            def eventBus = new ExecutorEventBus()
+
+        when: 'we subscribe to an event'
+            def result = null
+            eventBus.on('test') { result = "foo $it" }
+
+        and: 'we notify the event'
+            eventBus.notify('test', 'bar', 'baz')
+
+        then: 'the result is correct'
+            result == 'foo [bar, baz]'
     }
 
-    void 'test task executor event bus multiple args listener'() {
-        given:
-        ExecutorEventBus eventBus = new ExecutorEventBus()
-        def result
-        eventBus.on("test") { String one, String two ->
-            result = "foo $one $two"
-        }
-        eventBus.notify("test", "bar", "baz")
+    void 'Test task executor event bus multiple args listener'() {
 
-        expect:
-        result == 'foo bar baz'
+        given: 'a task executor event bus'
+            def eventBus = new ExecutorEventBus()
+
+        when: 'we subscribe to an event'
+            def result = null
+            eventBus.on('test') { String one, String two -> result = "foo $one $two" }
+
+        and: 'we notify the event'
+            eventBus.notify('test', 'bar', 'baz')
+
+        then: 'the result is correct'
+            result == 'foo bar baz'
     }
 
-    void 'test task executor event bus send and receive'() {
-        given:
-        ExecutorEventBus eventBus = new ExecutorEventBus()
-        def result
-        eventBus.on("test") { String data ->
-            "foo $data"
-        }
-        eventBus.sendAndReceive("test", "bar") {
-            result = it
-        }
-        expect:
-        result == 'foo bar'
+    void 'Test task executor event bus send and receive'() {
+
+        given: 'a task executor event bus'
+            def eventBus = new ExecutorEventBus()
+
+        when: 'we subscribe to an event'
+            def result = null
+            eventBus.on('test') { String data -> "foo $data" }
+
+        and: 'we send and receive the event'
+            eventBus.sendAndReceive('test', 'bar') { result = it }
+
+        then: 'the result is correct'
+            result == 'foo bar'
     }
 
-    void 'test task executor bus error handling'() {
-        given:
-        ExecutorEventBus eventBus = new ExecutorEventBus()
-        def result
-        eventBus.on("test") { String data ->
-            throw new RuntimeException("bad")
-        }
-        eventBus.sendAndReceive("test", "bar") {
-            result = it
-        }
+    void 'Test task executor bus error handling'() {
 
-        expect:
-        result instanceof Throwable
+        given: 'a task executor event bus'
+            def eventBus = new ExecutorEventBus()
+
+        when: 'we subscribe to an event'
+            def result = null
+            eventBus.on('test') { String data -> throw new RuntimeException('bad') }
+
+        and: 'we send and receive the event'
+            eventBus.sendAndReceive('test', 'bar') { result = it }
+
+        then: 'the result is a throwable'
+            result instanceof Throwable
     }
 
-    void 'test task executor bus error handling with publish'() {
-        given:
-        ExecutorEventBus eventBus = new ExecutorEventBus()
-        when:
-        def result
-        eventBus.on("test") { String data ->
-            throw new RuntimeException("bad")
-        }
-        eventBus.publish("test", "bar")
+    void 'Test task executor bus error handling with publish'() {
 
-        then:
-        thrown(RuntimeException)
+        given: 'a task executor event bus'
+        def eventBus = new ExecutorEventBus()
+
+        when: 'we subscribe to an event'
+        eventBus.on('test') { String data -> throw new RuntimeException('bad') }
+
+        and: 'we publish the event'
+        eventBus.publish('test', 'bar')
+
+        then: 'an exception is thrown'
+        def ex = thrown(RuntimeException)
+        ex.message == 'bad'
     }
 }
 

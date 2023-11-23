@@ -15,22 +15,23 @@ import java.util.concurrent.atomic.AtomicInteger
  */
 class NamespaceSpec extends Specification {
 
-    void "test pub/sub with default event bus"() {
-        given:
-        SumService sumService = new SumService()
-        TotalService totalService = new TotalService()
-        AnnotatedSubscriber annotatedSubscriber = (AnnotatedSubscriber)totalService
-        EventBusAware publisher = (EventBusAware)sumService
-        annotatedSubscriber.setTargetEventBus(publisher.getEventBus())
-        annotatedSubscriber.registerMethods()
+    void 'Test pub/sub with default event bus'() {
 
-        when:
-        sumService.sum(1,2)
-        sumService.sum(1,2)
+        given: 'A publisher and subscriber'
+            def sumService = new SumService()
+            def totalService = new TotalService()
+            def annotatedSubscriber = totalService as AnnotatedSubscriber
+            def publisher = sumService as EventBusAware
+            annotatedSubscriber.setTargetEventBus(publisher.getEventBus())
+            annotatedSubscriber.registerMethods()
 
-        then:
-        totalService.total.intValue() == 6
-        totalService.eventId == "math:sum"
+        when: 'we invoke methods on the publisher'
+            sumService.sum(1,2)
+            sumService.sum(1,2)
+
+        then: 'the subscriber should receive the events'
+            totalService.total.intValue() == 6
+            totalService.eventId == 'math:sum'
     }
 }
 

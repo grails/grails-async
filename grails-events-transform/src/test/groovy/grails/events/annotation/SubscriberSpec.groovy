@@ -13,65 +13,60 @@ import spock.lang.Specification
  */
 class SubscriberSpec extends Specification {
 
-    void "test subscriber transform"() {
-        given:
-        def service = new GroovyClassLoader().parseClass('''
-class TestService {
-    int total = 0
-    @grails.events.annotation.Subscriber('total')
-    void onSum(int num) {
-        total += num
-    }
-}
+    void 'test subscriber transform'() {
 
-''').newInstance()
-        def methodObject = service.getClass().getDeclaredMethod("onSum", int)
+        given: 'a class with a method annotated with the @Subscriber annotation'
+            def service = new GroovyClassLoader().parseClass('''
+            class TestService {
+                int total = 0
+                @grails.events.annotation.Subscriber('total')
+                void onSum(int num) { total += num }
+            }''').getDeclaredConstructor().newInstance()
+            def methodObject = service.getClass().getDeclaredMethod('onSum', int)
 
-        when:
-        def eventBus = Mock(EventBus)
-        service.targetEventBus = eventBus
+        when: 'we set the target event bus'
+            def eventBus = Mock(EventBus)
+            service.targetEventBus = eventBus
 
-        then:
-        ClassPropertyFetcher.forClass(service.getClass()).getPropertyValue("lazyInit") == false
-        service instanceof AnnotatedSubscriber
+        then: 'the class is an instance of AnnotatedSubscriber'
+            ClassPropertyFetcher.forClass(service.class).getPropertyValue('lazyInit') == false
+            service instanceof AnnotatedSubscriber
 
-        when:
-        service.registerMethods()
+        when: 'we register the methods'
+            service.registerMethods()
 
-
-        then:
-        1 * eventBus.subscribe("total", new MethodSubscriber(service, methodObject))
+        then: 'the event bus is subscribed to the event'
+            1 * eventBus.subscribe('total', new MethodSubscriber(service, methodObject))
     }
 
-    void "test gorm event subscriber transform"() {
-        given:
-        def service = new GroovyShell().evaluate('''
-import org.grails.datastore.mapping.engine.event.PreInsertEvent
-import grails.events.annotation.*
+    void 'Test gorm event subscriber transform'() {
 
-class TestService {
-    @Subscriber
-    void onInsert(PreInsertEvent event) {
-        // whatever
-    }
-}
-return TestService
-''').newInstance()
-        def methodObject = service.getClass().getDeclaredMethod("onInsert", PreInsertEvent)
+        given: 'a class with a method annotated with the @Subscriber that takes a PreInsertEvent arg'
+            def service = new GroovyShell().evaluate('''
+                import org.grails.datastore.mapping.engine.event.PreInsertEvent
+                import grails.events.annotation.*
+                
+                class TestService {
+    
+                    @Subscriber
+                    void onInsert(PreInsertEvent event) { /* whatever */ }
+                }
+                return TestService
+                ''').getDeclaredConstructor().newInstance()
+                def methodObject = service.getClass().getDeclaredMethod('onInsert', PreInsertEvent)
 
-        when:
-        def eventBus = Mock(EventBus)
-        service.targetEventBus = eventBus
+        when: 'we set the target event bus'
+            def eventBus = Mock(EventBus)
+            service.targetEventBus = eventBus
 
-        then:
-        ClassPropertyFetcher.forClass(service.getClass()).getPropertyValue("lazyInit") == false
-        service instanceof GormAnnotatedSubscriber
+        then: 'the class is an instance of GormAnnotatedSubscriber'
+            ClassPropertyFetcher.forClass(service.getClass()).getPropertyValue('lazyInit') == false
+            service instanceof GormAnnotatedSubscriber
 
-        when:
-        service.registerMethods()
+        when: 'we register the methods'
+            service.registerMethods()
 
-
-        then:
-        1 * eventBus.subscribe("gorm:preInsert", new MethodSubscriber(service, methodObject))
+        then: 'the event bus is subscribed to the event'
+            1 * eventBus.subscribe("gorm:preInsert", new MethodSubscriber(service, methodObject))
     }
 }

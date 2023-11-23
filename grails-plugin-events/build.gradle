@@ -13,7 +13,6 @@ plugins  {
 dependencies {
 
     api project(':grails-events-core')
-    api project(':grails-events-compat')
     api project(':grails-events-transform')
 
     implementation 'org.grails:grails-core'

@@ -21,6 +21,8 @@ package grails.async.decorator
  * @author Graeme Rocher
  * @since 2.3
  */
+@FunctionalInterface
 interface PromiseDecoratorLookupStrategy {
+
     List<PromiseDecorator> findDecorators()
 }

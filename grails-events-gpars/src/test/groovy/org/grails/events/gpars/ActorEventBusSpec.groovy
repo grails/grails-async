@@ -1,78 +1,100 @@
 package org.grails.events.gpars
 
 import spock.lang.Specification
+import spock.util.concurrent.PollingConditions
 
 class ActorEventBusSpec extends Specification {
-    void 'test actor event bus single arg'() {
-        given:
-        ActorEventBus eventBus = new ActorEventBus()
-        def result
-        eventBus.on("test") {
-            result = "foo $it"
-        }
-        eventBus.notify("test", "bar")
-        sleep(500)
-        expect:
-        result == 'foo bar'
+
+    void 'Test actor event bus with single arg'() {
+
+        given: 'an actor event bus'
+            def eventBus = new ActorEventBus()
+
+        when: 'we subscribe to an event'
+            def result = null
+            eventBus.on('test') { result = "foo $it" }
+
+        and: 'we notify the event'
+            eventBus.notify('test', 'bar')
+
+        then: 'the result is correct'
+            new PollingConditions().eventually {
+                result == 'foo bar'
+            }
     }
 
-    void 'test actor event bus multiple args'() {
-        given:
-        ActorEventBus eventBus = new ActorEventBus()
-        def result
-        eventBus.on("test") {
-            result = "foo $it"
-        }
-        eventBus.notify("test", "bar", "baz")
-        sleep(500)
-        expect:
-        result == 'foo [bar, baz]'
+    void 'Test actor event bus with multiple args'() {
+
+        given: 'an actor event bus'
+            def eventBus = new ActorEventBus()
+
+        when: 'we subscribe to an event'
+            def result = null
+            eventBus.on('test') { result = "foo $it" }
+
+        and: 'we notify the event'
+        eventBus.notify('test', 'bar', 'baz')
+
+        then: 'the result is correct'
+            new PollingConditions().eventually {
+                result == 'foo [bar, baz]'
+            }
     }
 
-    void 'test actor event bus multiple args listener'() {
-        given:
-        ActorEventBus eventBus = new ActorEventBus()
-        def result
-        eventBus.on("test") { String one, String two ->
-            result = "foo $one $two"
-        }
-        eventBus.notify("test", "bar", "baz")
-        sleep(500)
+    void 'Test actor event bus with multiple args listener'() {
 
-        expect:
-        result == 'foo bar baz'
+        given: 'an actor event bus'
+            def eventBus = new ActorEventBus()
+
+        when: 'we subscribe to an event with a multiple args listener'
+            def result = null
+            eventBus.on('test') { String one, String two -> result = "foo $one $two" }
+
+        and: 'we notify the event'
+            eventBus.notify('test', 'bar', 'baz')
+
+        then: 'the result is correct'
+            new PollingConditions().eventually {
+                result == 'foo bar baz'
+            }
     }
 
-    void 'test actor event bus send and receive'() {
-        given:
-        ActorEventBus eventBus = new ActorEventBus()
-        def result
-        eventBus.on("test") { String data ->
-            "foo $data"
-        }
-        eventBus.sendAndReceive("test", "bar") {
-            result = it
-        }
-        sleep(500)
+    void 'Test actor event bus send and receive'() {
 
-        expect:
-        result == 'foo bar'
+        given: 'an actor event bus'
+            def eventBus = new ActorEventBus()
+
+        when: 'we subscribe to an event'
+            eventBus.on('test') { String data -> "foo $data" }
+
+        and: 'we send and receive the event'
+        def result = null
+        eventBus.sendAndReceive('test', 'bar') { result = it }
+
+        then: 'the result is correct'
+            new PollingConditions().eventually {
+                result == 'foo bar'
+            }
     }
 
-    void 'test actor event bus error handling'() {
-        given:
-        ActorEventBus eventBus = new ActorEventBus()
-        def result
-        eventBus.on("test") { String data ->
-            throw new RuntimeException("bad")
-        }
-        eventBus.sendAndReceive("test", "bar") {
-            result = it
-        }
-        sleep(500)
+    void 'Test actor event bus error handling'() {
 
-        expect:
-        result instanceof Throwable
+        given: 'an actor event bus'
+            def eventBus = new ActorEventBus()
+
+        when: 'we subscribe to an event'
+            eventBus.on('test') { String data ->
+                throw new RuntimeException('bad')
+            }
+
+        and: 'we send and receive the event'
+            def result = null
+            eventBus.sendAndReceive('test', 'bar') { result = it }
+
+        then: 'the result is a throwable'
+            new PollingConditions().eventually {
+                result instanceof Throwable
+            }
     }
 
 }

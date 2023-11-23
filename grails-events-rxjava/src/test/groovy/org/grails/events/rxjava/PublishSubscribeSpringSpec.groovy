@@ -11,98 +11,96 @@ import org.springframework.stereotype.Component
 import spock.lang.AutoCleanup
 import spock.lang.Shared
 import spock.lang.Specification
+import spock.util.concurrent.PollingConditions
 
 class PublishSubscribeSpringSpec extends Specification {
 
+    // Used to get transactions working
+    @SuppressWarnings('unused')
     @Shared @AutoCleanup SimpleMapDatastore datastore = new SimpleMapDatastore()
 
-    def "test event publisher within Spring"() {
-        given:
-        AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext()
-        applicationContext.beanFactory.registerSingleton("eventBus", new EventBusBuilder().build())
-        applicationContext.register(OneService, TwoService)
-        applicationContext.refresh()
+    def 'Test event publisher within Spring'() {
 
-        when:
-        OneService publisher = applicationContext.getBean(OneService)
-        TwoService subscriber = applicationContext.getBean(TwoService)
+        given: 'a Spring application context with an event bus'
+            AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext()
+            applicationContext.beanFactory.registerSingleton('eventBus', new EventBusBuilder().build())
 
-        publisher.sum(1, 2)
-        sleep(500)
+        when: 'we register a publisher and subscriber'
+            applicationContext.register(OneService, TwoService)
+            applicationContext.refresh()
+            OneService publisher = applicationContext.getBean(OneService)
+            TwoService subscriber = applicationContext.getBean(TwoService)
 
-        then:
-        subscriber.error == null
-        subscriber.total == 3
-        subscriber.events.size() == 1
-        subscriber.events[0].parameters == [a:1,b:2]
-        subscriber.transactionalInvoked
+        and: 'we invoke a method on the publisher'
+            publisher.sum(1, 2)
 
-        when:
-        publisher.wrongType()
-        sleep(500)
+        then: 'the subscriber is notified'
+            new PollingConditions().eventually {
+                !subscriber.error
+                subscriber.total == 3
+                subscriber.events.size() == 1
+                subscriber.events[0].parameters == [a:1,b:2]
+                subscriber.transactionalInvoked
+            }
 
-        then:
-        subscriber.total == 3
-        subscriber.events.size() == 2
-        subscriber.error == null
+        when: 'we invoke a method on the publisher with the wrong type for the subscriber'
+            publisher.wrongType()
 
-        when:
-        publisher.badSum(1,2)
-        sleep(500)
+        then: 'the subscriber is not notified'
+            new PollingConditions().eventually {
+                !subscriber.error
+                subscriber.total == 3
+                subscriber.events.size() == 2
+            }
 
-        then:
-        def e = thrown(RuntimeException)
-        e.message == "bad"
-        subscriber.error == e
-        subscriber.events.size() == 3
-        subscriber.total == 3
+        when: 'we invoke a method on the publisher that throws an exception'
+            publisher.badSum(1,2)
+
+        then: 'an exception is thrown'
+            def e = thrown(RuntimeException)
+            e.message == 'bad'
+            new PollingConditions().eventually {
+                subscriber.error == e
+                subscriber.events.size() == 3
+                subscriber.total == 3
+            }
     }
 }
 
 @Component
 class OneService {
+
     @Publisher
-    int sum(int a, int b) {
-        a + b
-    }
+    int sum(int a, int b) { a + b }
 
     @Publisher('sum')
-    int badSum(int a, int b) {
-        throw new RuntimeException("bad")
-    }
+    int badSum(int a, int b) { throw new RuntimeException('bad') }
 
     @Publisher('sum')
-    Date wrongType() {
-        new Date()
-    }
+    Date wrongType() { new Date() }
 }
 
 @Component
 class TwoService {
+
     int total = 0
     List<Event> events = []
     boolean transactionalInvoked = false
     Throwable error
 
     @Subscriber
-    void onSum(int num) {
-        total += num
-    }
+    void onSum(int num) { total += num }
 
     @Subscriber
-    void onSum(Throwable t) {
-        error = t
-    }
+    void onSum(Throwable t) { error = t }
 
     @Subscriber('sum')
-    void onSum2(Event event) {
-        events.add(event)
-    }
+    void onSum2(Event event) { events.add(event) }
 
     @Subscriber('sum')
     @Transactional
     void doSomething(Event event) {
-        transactionStatus != null
+        assert transactionStatus
         transactionalInvoked = true
     }
 }

@@ -6,6 +6,7 @@ import grails.events.emitter.EventEmitter
 import grails.events.subscriber.Subjects
 import grails.events.subscriber.Subscriber
 import grails.events.subscriber.Subscription
+import groovy.transform.AutoFinal
 import groovy.transform.CompileStatic
 import org.grails.events.registry.ClosureSubscription
 import org.grails.events.registry.EventSubscriberSubscription
@@ -21,8 +22,9 @@ import java.util.concurrent.ConcurrentLinkedQueue
  * Abstract event bus impl
  *
  * @author Graeme Rocher
- * @since 6.1
+ * @since 3.3
  */
+@AutoFinal
 @CompileStatic
 abstract class AbstractEventBus implements EventBus {
 

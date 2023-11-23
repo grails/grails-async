@@ -15,6 +15,7 @@
  */
 package grails.async
 
+import groovy.transform.AutoFinal
 import groovy.transform.CompileStatic
 
 import java.util.concurrent.TimeUnit
@@ -25,10 +26,11 @@ import java.util.concurrent.TimeUnit
  * @author Graeme Rocher
  * @since 2.3
  */
+@AutoFinal
 @CompileStatic
 class PromiseList<T> implements Promise<List<T>> {
 
-    protected List<Promise> promises = []
+    protected List<Promise<T>> promises = []
     protected List<T> initialized
 
     @Override
@@ -36,85 +38,85 @@ class PromiseList<T> implements Promise<List<T>> {
         initialized = value
         return this
     }
+
     /**
-     * Add a promise to the promise list
+     * Add a callable to the promise list
      *
-     * @param callable The callable
+     * @param callable The callable closure
      * @return The promise list
      */
-    PromiseList leftShift(Closure callable) {
-        promises << Promises.createPromise(callable)
+    PromiseList<T> leftShift(Closure<T> callable) {
+        promises.add(Promises.createPromise(callable))
         return this
     }
 
     /**
      * Add a value as a bound promise to the list of values
      *
-     * @param callable The callable
+     * @param value value
      * @return The promise list
      */
-    PromiseList leftShift(value) {
-        promises << Promises.createBoundPromise(value)
+    PromiseList<T> leftShift(T value) {
+        promises.add(Promises.createBoundPromise(value))
         return this
     }
 
     /**
      * Add a promise to the promise list
      *
-     * @param callable The callable
+     * @param promise The promise
      * @return The promise list
      */
-    PromiseList leftShift(Promise p) {
-        promises << p
+    PromiseList<T> leftShift(Promise<T> promise) {
+        promises.add(promise)
         return this
     }
 
     /**
      * Implementation of add that adds any value as a bound promise
-     * @param callable The callable
+     * @param value The value
      * @return True if it was added
      */
-    boolean add(value) {
+    boolean add(T value) {
         return promises.add(Promises.createBoundPromise(value))
     }
 
     /**
      * Implementation of add that takes a closure and creates a promise, adding it to the list
-     * @param callable The callable
+     * @param closure The closure
      * @return True if it was added
      */
-    boolean add(Closure callable) {
-        return promises.add(Promises.createPromise(callable))
+    boolean add(Closure<T> closure) {
+        return promises.add(Promises.createPromise(closure))
     }
 
     /**
      * Implementation of add that takes a promise, adding it to the list
-     * @param callable The callable
+     * @param promise The promise
      * @return True if it was added
      */
-    boolean add(Promise<T> p) {
-        return promises.add(p)
+    boolean add(Promise<T> promise) {
+        return promises.add(promise)
     }
 
     /**
      * Execute the given closure when all promises are complete
      *
-     * @param callable The callable
+     * @param callable The closure
      */
-    @SuppressWarnings("unchecked")
-    Promise onComplete(Closure callable ) {
+    @Override
+    Promise<List<T>> onComplete(Closure callable) {
         return Promises.onComplete(promises, callable)
     }
 
-    @SuppressWarnings("unchecked")
-    Promise onError(Closure callable) {
+    @Override
+    Promise<List<T>> onError(Closure callable) {
         return Promises.onError(promises, callable)
     }
 
-    @SuppressWarnings("unchecked")
-    Promise then(Closure callable) {
-        Promises.onComplete(promises, { List values -> values})
-                .then(callable)
+    @Override
+    Promise<List<T>> then(Closure callable) {
+        return Promises.onComplete(promises, { List<T> values -> return values }).then(callable)
     }
 
     /**
@@ -133,25 +135,16 @@ class PromiseList<T> implements Promise<List<T>> {
 
     @Override
     boolean isDone() {
-        return promises.every() { Promise p -> p.isDone() }
-    }
-
-    List get() {
-        if(initialized != null) {
-            return initialized
-        }
-        else {
-            Promises.waitAll(promises)
-        }
+        return promises.every {promise -> promise.isDone() }
     }
 
     @Override
-    List get(long timeout, TimeUnit units) throws Throwable {
-        if(initialized != null) {
-            return initialized
-        }
-        else {
-            Promises.waitAll(promises, timeout, units)
-        }
+    List<T> get() {
+        return initialized ?: Promises.waitAll(promises)
+    }
+
+    @Override
+    List<T> get(long timeout, TimeUnit units) throws Throwable {
+        return initialized ?: Promises.waitAll(promises, timeout, units)
     }
 }

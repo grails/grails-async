@@ -5,7 +5,6 @@ import grails.async.Promises
 import groovy.transform.CompileStatic
 import org.grails.async.factory.PromiseFactoryBuilder
 import org.springframework.beans.factory.FactoryBean
-import org.springframework.beans.factory.InitializingBean
 
 /**
  * Factory bean for Spring integration

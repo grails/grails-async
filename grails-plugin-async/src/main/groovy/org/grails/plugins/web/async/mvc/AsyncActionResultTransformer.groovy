@@ -24,7 +24,6 @@ import org.grails.web.errors.GrailsExceptionResolver
 import org.grails.web.util.GrailsApplicationAttributes
 import org.grails.web.servlet.mvc.ActionResultTransformer
 import org.grails.web.servlet.mvc.GrailsWebRequest
-import org.springframework.web.context.request.async.AsyncWebRequest
 import org.springframework.web.context.request.async.WebAsyncManager
 import org.springframework.web.context.request.async.WebAsyncUtils
 import org.springframework.web.servlet.ModelAndView
@@ -42,10 +41,10 @@ import javax.servlet.http.HttpServletResponse
 @CompileStatic
 class AsyncActionResultTransformer implements ActionResultTransformer {
 
-
     private GrailsExceptionResolver exceptionResolver
 
     Object transformActionResult(GrailsWebRequest webRequest, String viewName, Object actionResult) {
+
         if (actionResult instanceof Promise) {
 
             final request = webRequest.getCurrentRequest()

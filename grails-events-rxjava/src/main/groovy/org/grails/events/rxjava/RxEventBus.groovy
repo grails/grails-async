@@ -4,6 +4,7 @@ import grails.events.Event
 import grails.events.subscriber.Subscriber
 import grails.events.trigger.EventTrigger
 import grails.events.subscriber.Subscription
+import groovy.transform.AutoFinal
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.grails.events.bus.AbstractEventBus
@@ -25,8 +26,9 @@ import java.util.concurrent.ConcurrentHashMap
  * @since 3.3
  *
  */
-@CompileStatic
 @Slf4j
+@AutoFinal
+@CompileStatic
 class RxEventBus extends AbstractEventBus {
 
     protected final Map<CharSequence, PublishSubject> subjects = new ConcurrentHashMap<CharSequence, PublishSubject>().withDefault {
@@ -45,7 +47,7 @@ class RxEventBus extends AbstractEventBus {
         String eventKey = eventId.toString()
         Subject subject = subjects.get(eventKey)
 
-        new RxEventSubscriberSubscription(eventId, subscriptions, subscriber, subject, scheduler)
+        return new RxEventSubscriberSubscription(eventId, subscriptions, subscriber, subject, scheduler)
     }
 
     @Override
@@ -54,7 +56,7 @@ class RxEventBus extends AbstractEventBus {
         String eventKey = eventId.toString()
         Subject subject = subjects.get(eventKey)
 
-        new RxClosureSubscription(eventId, subscriptions, subscriber, subject, scheduler)
+        return new RxClosureSubscription(eventId, subscriptions, subscriber, subject, scheduler)
     }
 
     @Override

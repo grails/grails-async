@@ -2,6 +2,7 @@ package org.grails.events.transform
 
 import grails.events.annotation.Subscriber
 import grails.events.annotation.gorm.Listener
+import groovy.transform.AutoFinal
 import groovy.transform.CompileStatic
 import org.codehaus.groovy.ast.*
 import org.codehaus.groovy.ast.expr.ArgumentListExpression
@@ -28,6 +29,7 @@ import static org.grails.datastore.mapping.reflect.AstUtils.ZERO_PARAMETERS
 /**
  * An AST transformation that adds the {@link AnnotatedSubscriber}
  */
+@AutoFinal
 @CompileStatic
 @GroovyASTTransformation(phase = CompilePhase.CANONICALIZATION)
 class SubscriberTransform extends AbstractTraitApplyingGormASTTransformation {

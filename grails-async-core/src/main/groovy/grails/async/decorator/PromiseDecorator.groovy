@@ -21,12 +21,14 @@ package grails.async.decorator
  * @author Graeme Rocher
  * @since 2.3
  */
+@FunctionalInterface
 interface PromiseDecorator {
+
     /**
      * Decorates the given closures, returning the decorated closure
      *
      * @param c The closure to decorate
      * @return The decorated closure
      */
-    def <D> Closure<D> decorate(Closure<D> c)
+    <D> Closure<D> decorate(Closure<D> c)
 }

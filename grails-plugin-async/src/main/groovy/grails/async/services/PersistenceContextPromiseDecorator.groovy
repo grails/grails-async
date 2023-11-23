@@ -34,7 +34,7 @@ class PersistenceContextPromiseDecorator implements PromiseDecorator{
     }
 
     @Override
-    def <D> Closure<D> decorate(Closure<D> original) {
+    <D> Closure<D> decorate(Closure<D> original) {
         if (persistenceContextInterceptorExecutor != null) {
             return { args ->
                 try {

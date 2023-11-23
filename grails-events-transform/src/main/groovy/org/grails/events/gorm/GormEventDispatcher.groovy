@@ -1,6 +1,7 @@
 package org.grails.events.gorm
 
 import grails.events.bus.EventBus
+import groovy.transform.AutoFinal
 import groovy.transform.CompileStatic
 import org.grails.datastore.mapping.core.Datastore
 import org.grails.datastore.mapping.engine.event.AbstractPersistenceEvent
@@ -15,6 +16,7 @@ import java.beans.Introspector
  * @author Graeme Rocher
  * @since 3.3
  */
+@AutoFinal
 @CompileStatic
 class GormEventDispatcher extends AbstractPersistenceEventListener {
 

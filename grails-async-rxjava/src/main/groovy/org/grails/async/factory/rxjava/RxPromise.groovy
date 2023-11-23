@@ -1,6 +1,7 @@
 package org.grails.async.factory.rxjava
 
 import grails.async.Promise
+import groovy.transform.AutoFinal
 import groovy.transform.CompileStatic
 import groovy.transform.PackageScope
 import org.grails.async.factory.BoundPromise
@@ -24,9 +25,11 @@ import java.util.concurrent.TimeoutException
  * @author Graeme Rocher
  * @since 3.3
  */
+@AutoFinal
 @CompileStatic
 @PackageScope
 class RxPromise<T>  implements Promise<T> {
+
     final Subject<T,T> subject
     final RxPromiseFactory promiseFactory
     protected Subscription subscription
@@ -42,11 +45,11 @@ class RxPromise<T>  implements Promise<T> {
         .subscribeOn(scheduler))
     }
 
-    RxPromise(RxPromiseFactory promiseFactory,Observable single) {
+    RxPromise(RxPromiseFactory promiseFactory, Observable single) {
         this(promiseFactory, single, ReplaySubject.create(1))
     }
 
-    RxPromise(RxPromiseFactory promiseFactory,Single single) {
+    RxPromise(RxPromiseFactory promiseFactory, Single single) {
         this(promiseFactory, single, ReplaySubject.create(1))
     }
 
@@ -60,7 +63,6 @@ class RxPromise<T>  implements Promise<T> {
         this.promiseFactory = promiseFactory
         this.subscription = observable.subscribe(subject)
         this.subject = subject
-
     }
 
     @Override
@@ -70,14 +72,14 @@ class RxPromise<T>  implements Promise<T> {
 
     @Override
     Promise<T> onComplete(Closure callable) {
-        callable = promiseFactory.applyDecorators(callable, null)
-        return new RxPromise<T>(promiseFactory,subject.map(callable as Func1<T, T>))
+        def decoratedCallable = promiseFactory.applyDecorators(callable, null)
+        return new RxPromise<T>(promiseFactory,subject.map(decoratedCallable as Func1<T, T>))
     }
 
     @Override
     Promise<T> onError(Closure callable) {
-        callable = promiseFactory.applyDecorators(callable, null)
-        return new RxPromise<T>(promiseFactory,subject.doOnError(callable as Action1<Throwable>))
+        def decoratedCallable = promiseFactory.applyDecorators(callable, null)
+        return new RxPromise<T>(promiseFactory,subject.doOnError(decoratedCallable as Action1<Throwable>))
     }
 
     @Override
@@ -106,7 +108,7 @@ class RxPromise<T>  implements Promise<T> {
 
     @Override
     boolean isDone() {
-        throw new UnsupportedOperationException("Method isDone() not supported by RxJava implementation")
+        throw new UnsupportedOperationException('Method isDone() not supported by RxJava implementation')
     }
 
     @Override

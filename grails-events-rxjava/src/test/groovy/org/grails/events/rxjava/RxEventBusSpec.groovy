@@ -7,71 +7,85 @@ import spock.lang.Specification
  * Created by graemerocher on 27/03/2017.
  */
 class RxEventBusSpec extends Specification {
-    void 'test rx event bus single arg'() {
-        given:
-        RxEventBus eventBus = new RxEventBus(Schedulers.immediate())
-        def result
-        eventBus.on("test") {
-            result = "foo $it"
-        }
-        eventBus.notify("test", "bar")
 
-        expect:
-        result == 'foo bar'
+    void 'Test rx event bus single with arg'() {
+
+        given: 'an rx event bus'
+            def eventBus = new RxEventBus(Schedulers.immediate())
+
+        when: 'we subscribe to an event'
+            def result = null
+            eventBus.on('test') { result = "foo $it" }
+
+        and: 'we notify the event'
+            eventBus.notify('test', 'bar')
+
+        then: 'the result is correct'
+            result == 'foo bar'
     }
 
-    void 'test rx event bus multiple args'() {
-        given:
-        RxEventBus eventBus = new RxEventBus(Schedulers.immediate())
-        def result
-        eventBus.on("test") {
-            result = "foo $it"
-        }
-        eventBus.notify("test", "bar", "baz")
+    void 'Test rx event bus with multiple args'() {
 
-        expect:
-        result == 'foo [bar, baz]'
+        given: 'an rx event bus'
+            def eventBus = new RxEventBus(Schedulers.immediate())
+
+        when: 'we subscribe to an event'
+            def result = null
+            eventBus.on('test') { result = "foo $it" }
+
+        and: 'we notify the event'
+            eventBus.notify('test', 'bar', 'baz')
+
+        then: 'the result is correct'
+            result == 'foo [bar, baz]'
     }
 
-    void 'test rx event bus multiple args listener'() {
-        given:
-        RxEventBus eventBus = new RxEventBus(Schedulers.immediate())
-        def result
-        eventBus.on("test") { String one, String two ->
-            result = "foo $one $two"
-        }
-        eventBus.notify("test", "bar", "baz")
+    void 'Test rx event bus with a multiple args listener'() {
 
-        expect:
-        result == 'foo bar baz'
+        given: 'an rx event bus'
+            def eventBus = new RxEventBus(Schedulers.immediate())
+
+        when: 'we subscribe to an event'
+            def result = null
+            eventBus.on('test') { String one, String two -> result = "foo $one $two" }
+
+        and: 'we notify the event'
+            eventBus.notify('test', 'bar', 'baz')
+
+        then: 'the result is correct'
+            result == 'foo bar baz'
     }
 
-    void 'test rx event bus send and receive'() {
-        given:
-        RxEventBus eventBus = new RxEventBus(Schedulers.immediate())
-        def result
-        eventBus.on("test") { String data ->
-            "foo $data"
-        }
-        eventBus.sendAndReceive("test", "bar") {
-            result = it
-        }
-        expect:
-        result == 'foo bar'
+    void 'Test rx event bus send and receive'() {
+
+        given: 'an rx event bus'
+            def eventBus = new RxEventBus(Schedulers.immediate())
+
+        when: 'we subscribe to an event'
+            eventBus.on('test') { String data -> "foo $data" }
+
+        and: 'we send and receive'
+            def result = null
+            eventBus.sendAndReceive('test', 'bar') { result = it }
+
+        then: 'the result is correct'
+            result == 'foo bar'
     }
 
-    void 'test rx event bus error handling'() {
-        given:
-        RxEventBus eventBus = new RxEventBus(Schedulers.immediate())
-        def result
-        eventBus.on("test") { String data ->
-            throw new RuntimeException("bad")
-        }
-        eventBus.sendAndReceive("test", "bar") {
-            result = it
-        }
+    void 'Test rx event bus error handling'() {
 
-        expect:
-        result instanceof Throwable
+        given: 'an rx event bus'
+            def eventBus = new RxEventBus(Schedulers.immediate())
+
+        when: 'we subscribe to an event with closure that throws an exception'
+            eventBus.on('test') { String data -> throw new RuntimeException('bad') }
+
+        and: 'we send and receive'
+            def result = null
+            eventBus.sendAndReceive('test', 'bar') { result = it }
+
+        then: 'the result is an instance of Throwable'
+            result instanceof Throwable
+            result.message == 'bad'
     }
 }

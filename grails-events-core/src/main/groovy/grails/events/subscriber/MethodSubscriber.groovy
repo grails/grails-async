@@ -1,5 +1,6 @@
 package grails.events.subscriber
 
+import groovy.transform.AutoFinal
 import groovy.transform.CompileStatic
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
@@ -16,8 +17,9 @@ import java.lang.reflect.Method
  * @author Graeme Rocher
  * @since 3.3
  */
-@CompileStatic
 @Slf4j
+@AutoFinal
+@CompileStatic
 @EqualsAndHashCode(includes = ['target', 'method'])
 @ToString(includes = ['method'])
 class MethodSubscriber implements Subscriber {
@@ -30,12 +32,13 @@ class MethodSubscriber implements Subscriber {
     ConversionService conversionService = new DefaultConversionService()
 
     MethodSubscriber(Object target, Method method) {
+
         this.target = target
         this.method = method
         this.parameterTypes = method.parameterTypes
         this.parameterLength = parameterTypes.length
 
-        if(target.getClass() != method.getDeclaringClass()) {
+        if (target.getClass() != method.getDeclaringClass()) {
             throw new IllegalArgumentException("The target must be an instance of the declaring class for method $method")
         }
     }
@@ -56,7 +59,7 @@ class MethodSubscriber implements Subscriber {
                         return ReflectionUtils.invokeMethod(method, target, converted)
                     }
                     else {
-                        log.debug("Could not convert Event argument [$arg] to required type to invoke listener [$method]. Ignoring.")
+                        log.debug('Could not convert Event argument [{}] to required type to invoke listener [{}]. Ignoring.', arg, method)
                         break
                     }
                 }
@@ -80,15 +83,15 @@ class MethodSubscriber implements Subscriber {
                         return ReflectionUtils.invokeMethod(method, target, converted)
                     }
                     else {
-                        log.debug("Could not convert Event argument [$arg] to required type to invoke listener [$method]. Ignoring.")
+                        log.debug("Could not convert Event argument [{}] to required type to invoke listener [{}]. Ignoring.", arg, method)
                         break
                     }
                 }
                 else {
-                    log.debug("Could not convert Event argument [$arg] to required type to invoke listener [$method]. Ignoring.")
+                    log.debug("Could not convert Event argument [{}] to required type to invoke listener [{}]. Ignoring.", arg, method)
                     break
                 }
         }
-
+        return null
     }
 }

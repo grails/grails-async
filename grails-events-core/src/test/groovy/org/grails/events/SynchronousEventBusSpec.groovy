@@ -8,42 +8,51 @@ import spock.lang.Specification
  */
 class SynchronousEventBusSpec extends Specification {
 
-    void 'test synchronous event bus single arg'() {
-        given:
-        SynchronousEventBus eventBus = new SynchronousEventBus()
-        def result
-        eventBus.on("test") {
-            result = "foo $it"
-        }
-        eventBus.notify("test", "bar")
+    void 'Test synchronous event bus single arg'() {
+        
+        given: 'a synchronous event bus'
+            def eventBus = new SynchronousEventBus()
 
-        expect:
-        result == 'foo bar'
+        when: 'we subscribe to an event'
+            def result = null
+            eventBus.on('test') { result = "foo $it" }
+
+        and: 'we notify the event'
+            eventBus.notify('test', 'bar')
+
+        then: 'the result is correct'
+            result == 'foo bar'
     }
 
-    void 'test synchronous event bus multiple args'() {
-        given:
-        SynchronousEventBus eventBus = new SynchronousEventBus()
-        def result
-        eventBus.on("test") {
-            result = "foo $it"
-        }
-        eventBus.notify("test", "bar", "baz")
+    void 'Test synchronous event bus multiple args'() {
 
-        expect:
-        result == 'foo [bar, baz]'
+        given: 'a synchronous event bus'
+            def eventBus = new SynchronousEventBus()
+
+        when: 'we subscribe to an event'
+            def result = null
+            eventBus.on('test') { result = "foo $it" }
+
+        and: 'we notify the event'
+            eventBus.notify('test', 'bar', 'baz')
+
+        then: 'the result is correct'
+            result == 'foo [bar, baz]'
     }
 
-    void 'test synchronous event bus multiple args listener'() {
-        given:
-        SynchronousEventBus eventBus = new SynchronousEventBus()
-        def result
-        eventBus.on("test") { String one, String two ->
-            result = "foo $one $two"
-        }
-        eventBus.notify("test", "bar", "baz")
+    void 'Test synchronous event bus multiple args listener'() {
 
-        expect:
-        result == 'foo bar baz'
+        given: 'a synchronous event bus'
+            def eventBus = new SynchronousEventBus()
+
+        when: 'we subscribe to an event'
+            def result = null
+            eventBus.on('test') { String one, String two -> result = "foo $one $two" }
+
+        and: 'we notify the event'
+            eventBus.notify('test', 'bar', 'baz')
+
+        then: 'the result is correct'
+            result == 'foo bar baz'
     }
 }

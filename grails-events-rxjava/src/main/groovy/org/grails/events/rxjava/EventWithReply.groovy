@@ -1,6 +1,7 @@
 package org.grails.events.rxjava
 
 import grails.events.Event
+import groovy.transform.AutoFinal
 import groovy.transform.CompileStatic
 
 /**
@@ -9,8 +10,10 @@ import groovy.transform.CompileStatic
  * @since 3.3
  * @author Graeme Rocher
  */
+@AutoFinal
 @CompileStatic
 class EventWithReply {
+
     final Event event
     final Closure reply
 

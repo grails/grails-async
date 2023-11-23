@@ -15,10 +15,7 @@
  */
 package grails.async
 
-import groovy.transform.CompileStatic
-
 import java.util.concurrent.Future
-import java.util.concurrent.TimeUnit
 
 /**
  * Encapsulates the notion of a Promise, a Future-like interface designed to easy integration of asynchronous functions
@@ -26,7 +23,6 @@ import java.util.concurrent.TimeUnit
  * @author Graeme Rocher
  * @since 2.3
  */
-@CompileStatic
 interface Promise<T> extends Future<T> {
 
     /**
@@ -42,7 +38,7 @@ interface Promise<T> extends Future<T> {
      * @param callable
      * @return The Promise
      */
-    Promise<T> onComplete(Closure callable)
+    Promise<T> onComplete(Closure<T> callable)
 
     /**
      * Execute the given closure when an error occurs
@@ -50,10 +46,10 @@ interface Promise<T> extends Future<T> {
      * @param callable
      * @return The Promise
      */
-    Promise<T> onError(Closure callable)
+    Promise<T> onError(Closure<T> callable)
 
     /**
      * Same as #onComplete
      */
-    Promise<T> then(Closure callable)
+    Promise<T> then(Closure<T> callable)
 }

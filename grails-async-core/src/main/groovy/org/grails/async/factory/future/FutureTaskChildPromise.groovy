@@ -2,6 +2,7 @@ package org.grails.async.factory.future
 
 import grails.async.Promise
 import grails.async.PromiseFactory
+import groovy.transform.AutoFinal
 import groovy.transform.CompileStatic
 import groovy.transform.PackageScope
 import org.grails.async.factory.BoundPromise
@@ -18,12 +19,15 @@ import java.util.concurrent.locks.ReentrantLock
  * @author Graeme Rocher
  * @since 3.3
  */
+@AutoFinal
 @CompileStatic
 @PackageScope
 class FutureTaskChildPromise<T> implements Promise<T> {
+
     final Promise<T> parent
     final Closure<T> callable
     final PromiseFactory promiseFactory
+
     private Collection<FutureTaskChildPromise> failureCallbacks = new ConcurrentLinkedQueue<>()
     private Collection<FutureTaskChildPromise> successCallbacks = new ConcurrentLinkedQueue<>()
 
@@ -40,11 +44,11 @@ class FutureTaskChildPromise<T> implements Promise<T> {
         try {
             T transformedValue = callable.call(value)
             bound = new BoundPromise<T>(transformedValue)
-            for(callback in successCallbacks) {
+            for (callback in successCallbacks) {
                 callback.accept(transformedValue)
             }
         } catch (Throwable e) {
-            for(callback in failureCallbacks) {
+            for (callback in failureCallbacks) {
                 callback.accept(e)
             }
             throw e
@@ -53,22 +57,21 @@ class FutureTaskChildPromise<T> implements Promise<T> {
     }
 
     @Override
-    Promise<T> onComplete(Closure callable) {
+    Promise<T> onComplete(Closure<T> callable) {
         def newPromise = new FutureTaskChildPromise(promiseFactory, this, callable)
         successCallbacks.add(newPromise)
         return newPromise
     }
 
     @Override
-    Promise<T> onError(Closure callable) {
+    Promise<T> onError(Closure<T> callable) {
         def newPromise = new FutureTaskChildPromise(promiseFactory, this, callable)
         failureCallbacks.add(newPromise)
         return newPromise
-
     }
 
     @Override
-    Promise<T> then(Closure callable) {
+    Promise<T> then(Closure<T> callable) {
         return onComplete(callable)
     }
 
@@ -89,14 +92,13 @@ class FutureTaskChildPromise<T> implements Promise<T> {
 
     @Override
     T get() throws InterruptedException, ExecutionException {
-        if(bound != null) {
+        if (bound != null) {
             return bound.get()
         }
         else {
-            if(parent instanceof FutureTaskPromise) {
-
+            if (parent instanceof FutureTaskPromise) {
                 def value = parent.get()
-                if(bound == null) {
+                if (bound == null) {
                     def v = callable.call(value)
                     bound = new BoundPromise<>(v)
                 }
@@ -112,13 +114,13 @@ class FutureTaskChildPromise<T> implements Promise<T> {
 
     @Override
     T get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
-        if(bound != null) {
+        if (bound != null) {
             return bound.get()
         }
         else {
-            if(parent instanceof FutureTaskPromise) {
+            if (parent instanceof FutureTaskPromise) {
                 def value = parent.get(timeout, unit)
-                if(bound == null) {
+                if (bound == null) {
                     def v = callable.call(value)
                     bound = new BoundPromise<>(v)
                 }

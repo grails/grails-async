@@ -35,8 +35,8 @@ class WebPromises {
         WebPromises.@promiseFactory = promiseFactory
     }
 
-    private WebPromises() {
-    }
+    private WebPromises() {}
+
     /**
      * @see grails.async.PromiseFactory#waitAll(grails.async.Promise[])
      */
@@ -61,13 +61,13 @@ class WebPromises {
     /**
      * @see grails.async.PromiseFactory#onComplete(java.util.List, groovy.lang.Closure)
      */
-    static<T> Promise<List<T>> onComplete(List<Promise<T>> promises, Closure<?> callable ) {
+    static<T> Promise<List<T>> onComplete(List<Promise<T>> promises, Closure<T> callable) {
         return getPromiseFactory().onComplete(promises, callable)
     }
     /**
      * @see grails.async.PromiseFactory#onError(java.util.List, groovy.lang.Closure)
      */
-    static<T> Promise<List<T>> onError(List<Promise<T>> promises, Closure<?> callable ) {
+    static<T> Promise<List<T>> onError(List<Promise<T>> promises, Closure<?> callable) {
         return getPromiseFactory().onError(promises, callable)
     }
     /**
@@ -111,8 +111,8 @@ class WebPromises {
     /**
      * @see grails.async.PromiseFactory#createPromise()
      */
-    static Promise<Object> createPromise() {
-        return getPromiseFactory().createPromise()
+    static Promise<Void> createPromise() {
+        promiseFactory.createPromise()
     }
 
     /**

@@ -18,6 +18,7 @@ package org.grails.async.factory
 import grails.async.Promise
 import grails.async.PromiseList
 import grails.async.factory.AbstractPromiseFactory
+import groovy.transform.AutoFinal
 import groovy.transform.CompileStatic
 
 import java.util.concurrent.TimeUnit
@@ -29,20 +30,22 @@ import java.util.concurrent.TimeUnit
  * @author Graeme Rocher
  * @since 2.3
  */
+@AutoFinal
 @CompileStatic
 class SynchronousPromiseFactory extends AbstractPromiseFactory {
+
     @Override
-    def <T> Promise<T> createPromise(Class<T> returnType) {
-        throw new UnsupportedOperationException("synchronous factory does not support unfulfilled promises")
+    <T> Promise<T> createPromise(Class<T> returnType) {
+        throw new UnsupportedOperationException('synchronous factory does not support unfulfilled promises')
     }
 
     @Override
-    Promise<Object> createPromise() {
-        throw new UnsupportedOperationException("synchronous factory does not support unfulfilled promises")
+    Promise<Void> createPromise() {
+        throw new UnsupportedOperationException('synchronous factory does not support unfulfilled promises')
     }
 
     @Override
-    def <T> Promise<T> createPromise(Closure<T>... closures) {
+    <T> Promise<T> createPromise(Closure<T>... closures) {
         Promise<T> promise
         if (closures.length == 1) {
             promise = new SynchronousPromise<T>(closures[0])
@@ -54,38 +57,36 @@ class SynchronousPromiseFactory extends AbstractPromiseFactory {
             promise = promiseList
         }
 
-        try {
-            promise.get()
-        } catch (e) {
-            // ignore
-        }
+        try { promise.get() }
+        catch (Throwable ignored) {}
 
         return promise
     }
 
     @Override
-    def <T> List<T> waitAll(List<Promise<T>> promises) {
-        return promises.collect() { Promise<T> p -> p.get() }
+    <T> List<T> waitAll(List<Promise<T>> promises) {
+        return promises.collect { Promise<T> p -> p.get() }
     }
 
     @Override
-    def <T> List<T> waitAll(List<Promise<T>> promises, long timeout, TimeUnit units) {
-        return promises.collect() { Promise<T> p -> p.get() }
+    <T> List<T> waitAll(List<Promise<T>> promises, long timeout, TimeUnit units) {
+        return promises.collect { Promise<T> p -> p.get() }
     }
 
-    def <T> Promise<List<T>> onComplete(List<Promise<T>> promises, Closure<?> callable) {
+    @Override
+    <T> Promise<T> onComplete(List<Promise<T>> promises, Closure<T> callable) {
         try {
             List<T> values = promises.collect { Promise<T> p -> p.get() }
-            final result = callable.call(values)
-            return new BoundPromise(result)
+            return new BoundPromise(callable.call(values))
         } catch (Throwable e) {
             return new BoundPromise(e)
         }
     }
 
-    def <T> Promise<List<T>> onError(List<Promise<T>> promises, Closure<?> callable) {
+    @Override
+    <T> Promise<List<T>> onError(List<Promise<T>> promises, Closure<?> callable) {
         try {
-            final values = promises.collect() { Promise<T> p -> p.get() }
+            List<T> values = promises.collect() { Promise<T> p -> p.get() }
             return new BoundPromise<List<T>>(values)
         } catch (Throwable e) {
             callable.call(e)

@@ -3,6 +3,7 @@ package org.grails.events
 import grails.events.Event
 import grails.events.subscriber.Subscriber
 import grails.events.trigger.EventTrigger
+import groovy.transform.AutoFinal
 import groovy.transform.CompileDynamic
 import groovy.transform.CompileStatic
 
@@ -12,6 +13,7 @@ import groovy.transform.CompileStatic
  * @author Graeme Rocher
  * @since 3.3
  */
+@AutoFinal
 @CompileStatic
 class ClosureEventTrigger<T> implements EventTrigger<T> {
 
@@ -69,7 +71,6 @@ class ClosureEventTrigger<T> implements EventTrigger<T> {
             }
         }
     }
-
 
     @CompileDynamic
     protected Object callSpread(Closure listener, Object data) {

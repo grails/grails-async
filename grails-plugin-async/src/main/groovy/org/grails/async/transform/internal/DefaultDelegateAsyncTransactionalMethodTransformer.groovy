@@ -50,7 +50,8 @@ import java.lang.reflect.Modifier
  * @since 2.3
  */
 @CompileStatic
-class DefaultDelegateAsyncTransactionalMethodTransformer implements DelegateAsyncTransactionalMethodTransformer{
+class DefaultDelegateAsyncTransactionalMethodTransformer implements DelegateAsyncTransactionalMethodTransformer {
+
     private static final String TRANSACTIONAL_FIELD = "transactional"
     private static final ClassNode TRANSACTIONAL_CLASS_NODE = new ClassNode(Transactional)
     private static final ClassNode INTERFACE_TRANSACTION_MANAGER = new ClassNode(PlatformTransactionManager).getPlainNodeReference()
@@ -62,7 +63,6 @@ class DefaultDelegateAsyncTransactionalMethodTransformer implements DelegateAsyn
     private static final String METHOD_NAME_SET_TRANSACTION_MANAGER = "setTransactionManager"
     private static final VariableExpression EXPRESSION_THIS = new VariableExpression("this")
     private static final Token OPERATOR_ASSIGNMENT = new Token(Types.EQUAL,"=", -1,-1)
-    private static final ArgumentListExpression NO_ARGS = new ArgumentListExpression()
     private static final String VARIABLE_TRANSACTION_MANAGER = "txMgr"
     private FieldNode transactionalField
     private boolean isTransactional = false
@@ -121,7 +121,7 @@ class DefaultDelegateAsyncTransactionalMethodTransformer implements DelegateAsyn
 
     }
 
-    BlockStatement getSetTransactionManagerMethodBody(ClassNode classNode) {
+    static BlockStatement getSetTransactionManagerMethodBody(ClassNode classNode) {
         def method = classNode.getMethod(METHOD_NAME_SET_TRANSACTION_MANAGER, SET_TRANSACTION_MANAGER_METHOD_PARAMETERS)
 
         if (method == null) {
