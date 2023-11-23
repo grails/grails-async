@@ -107,7 +107,8 @@ if (location.href.indexOf('is-external=true') == -1) {
             <hr>
             <br>
 
-<pre>@groovy.transform.CompileStatic
+<pre>@groovy.transform.AutoFinal
+@groovy.transform.CompileStatic
 abstract&nbsp;class AbstractPromiseFactory
 extends java.lang.Object
 implements <a href='../../../grails/async/PromiseFactory.html'>PromiseFactory</a></pre>
@@ -208,7 +209,7 @@ implements <a href='../../../grails/async/PromiseFactory.html'>PromiseFactory</a
                         <tr class="rowColor">
                             <td class="colFirst"><code>&lt;T&gt;</code></td>
                             <td class="colLast"><code>groovy.lang.Closure&lt;T&gt;</code></td>
-                            <td class="colLast"><code><strong><a href="#applyDecorators(Closure, List)">applyDecorators</a></strong>(groovy.lang.Closure&lt;T&gt; c, java.util.List&lt;PromiseDecorator&gt; decorators)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#applyDecorators(Closure, List)">applyDecorators</a></strong>(groovy.lang.Closure&lt;T&gt; closure, java.util.List&lt;PromiseDecorator&gt; decorators)</code><br></td>
                         </tr>
                         
                         <tr class="altColor">
@@ -220,7 +221,7 @@ implements <a href='../../../grails/async/PromiseFactory.html'>PromiseFactory</a
                         <tr class="rowColor">
                             <td class="colFirst"><code>&lt;T&gt;</code></td>
                             <td class="colLast"><code>Promise&lt;T&gt;</code></td>
-                            <td class="colLast"><code><strong><a href="#createPromise(Closure, List)">createPromise</a></strong>(groovy.lang.Closure&lt;T&gt; c, java.util.List&lt;PromiseDecorator&gt; decorators)</code><br> <DL><DT><B>See Also:</B></DT><DD>PromiseFactory#createPromise(groovy.lang.Closure, java.util.List)</DD></DL></td>
+                            <td class="colLast"><code><strong><a href="#createPromise(Closure, List)">createPromise</a></strong>(groovy.lang.Closure&lt;T&gt; closure, java.util.List&lt;PromiseDecorator&gt; decorators)</code><br> <DL><DT><B>See Also:</B></DT><DD>PromiseFactory#createPromise(groovy.lang.Closure, java.util.List)</DD></DL></td>
                         </tr>
                         
                         <tr class="altColor">
@@ -254,9 +255,9 @@ implements <a href='../../../grails/async/PromiseFactory.html'>PromiseFactory</a
                         </tr>
                         
                         <tr class="rowColor">
-                            <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code>protected&nbsp;<a href='../../../grails/async/Promise.html'>Promise</a></code></td>
-                            <td class="colLast"><code><strong><a href="#createPromiseInternal(groovy.lang.Closure)">createPromiseInternal</a></strong>(groovy.lang.Closure c)</code><br></td>
+                            <td class="colFirst"><code>&lt;T&gt;</code></td>
+                            <td class="colLast"><code>protected&nbsp;Promise&lt;T&gt;</code></td>
+                            <td class="colLast"><code><strong><a href="#createPromiseInternal(Closure)">createPromiseInternal</a></strong>(groovy.lang.Closure&lt;T&gt; closure)</code><br></td>
                         </tr>
                         
                         <tr class="altColor">
@@ -281,7 +282,7 @@ implements <a href='../../../grails/async/PromiseFactory.html'>PromiseFactory</a
                         
                         <tr class="altColor">
                             <td class="colFirst"><code>class java.lang.Object</code></td>
-                            <td class="colLast"><code>java.lang.Object#wait(long), java.lang.Object#wait(long, int), java.lang.Object#wait(), java.lang.Object#equals(java.lang.Object), java.lang.Object#toString(), java.lang.Object#hashCode(), java.lang.Object#getClass(), java.lang.Object#notify(), java.lang.Object#notifyAll()</code></td>
+                            <td class="colLast"><code>java.lang.Object#wait(long, int), java.lang.Object#wait(), java.lang.Object#wait(long), java.lang.Object#equals(java.lang.Object), java.lang.Object#toString(), java.lang.Object#hashCode(), java.lang.Object#getClass(), java.lang.Object#notify(), java.lang.Object#notifyAll()</code></td>
                         </tr>
                     </table>
                    </ul>
@@ -362,7 +363,7 @@ implements <a href='../../../grails/async/PromiseFactory.html'>PromiseFactory</a
                         <a name="applyDecorators(Closure, List)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4>&lt;T&gt; groovy.lang.Closure&lt;T&gt; <strong>applyDecorators</strong>(groovy.lang.Closure&lt;T&gt; c, java.util.List&lt;PromiseDecorator&gt; decorators)</h4>
+                                <h4>&lt;T&gt; groovy.lang.Closure&lt;T&gt; <strong>applyDecorators</strong>(groovy.lang.Closure&lt;T&gt; closure, java.util.List&lt;PromiseDecorator&gt; decorators)</h4>
                                 <p></p>
                             </li>
                         </ul>
@@ -378,7 +379,7 @@ implements <a href='../../../grails/async/PromiseFactory.html'>PromiseFactory</a
                         <a name="createPromise(Closure, List)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4>&lt;T&gt; Promise&lt;T&gt; <strong>createPromise</strong>(groovy.lang.Closure&lt;T&gt; c, java.util.List&lt;PromiseDecorator&gt; decorators)</h4>
+                                <h4>&lt;T&gt; Promise&lt;T&gt; <strong>createPromise</strong>(groovy.lang.Closure&lt;T&gt; closure, java.util.List&lt;PromiseDecorator&gt; decorators)</h4>
                                 <p> <DL><DT><B>See Also:</B></DT><DD>PromiseFactory#createPromise(groovy.lang.Closure, java.util.List)</DD></DL></p>
                             </li>
                         </ul>
@@ -424,11 +425,10 @@ Promise&lt;java.util.Map&lt;K, V&gt;&gt; <strong>createPromise</strong>(java.uti
                             </li>
                         </ul>
                     
-                        <a name="createPromiseInternal(groovy.lang.Closure)"><!-- --></a>
+                        <a name="createPromiseInternal(Closure)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4>@groovy.transform.CompileDynamic
-protected&nbsp;<a href='../../../grails/async/Promise.html'>Promise</a> <strong>createPromiseInternal</strong>(groovy.lang.Closure c)</h4>
+                                <h4>&lt;T&gt; protected&nbsp;Promise&lt;T&gt; <strong>createPromiseInternal</strong>(groovy.lang.Closure&lt;T&gt; closure)</h4>
                                 <p></p>
                             </li>
                         </ul>
@@ -436,8 +436,7 @@ protected&nbsp;<a href='../../../grails/async/Promise.html'>Promise</a> <strong>
                         <a name="waitAll(Promise)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4>&lt;T&gt; @groovy.transform.CompileDynamic
-java.util.List&lt;T&gt; <strong>waitAll</strong>(Promise&lt;T&gt;[] promises)</h4>
+                                <h4>&lt;T&gt; java.util.List&lt;T&gt; <strong>waitAll</strong>(Promise&lt;T&gt;[] promises)</h4>
                                 <p> <DL><DT><B>See Also:</B></DT><DD>PromiseFactory#waitAll(grails.async.Promise[])</DD></DL></p>
                             </li>
                         </ul>

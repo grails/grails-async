@@ -105,8 +105,7 @@ if (location.href.indexOf('is-external=true') == -1) {
             <hr>
             <br>
 
-<pre>@groovy.transform.CompileStatic
-interface Promise&lt;T&gt;
+<pre>interface Promise&lt;T&gt;
 extends java.util.concurrent.Future&lt;T&gt;</pre>
 
     <p> Encapsulates the notion of a Promise, a Future-like interface designed to easy integration of asynchronous functions <DL><DT><B>Authors:</B></DT><DD>Graeme Rocher</DD></DL><DL><DT><B>Since:</B></DT><DD>2.3</DD></DL></p>
@@ -158,19 +157,19 @@ extends java.util.concurrent.Future&lt;T&gt;</pre>
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>abstract&nbsp;<a href='../../grails/async/Promise.html' title='Promise'>Promise</a>&lt;T&gt;</code></td>
-                            <td class="colLast"><code><strong><a href="#onComplete(groovy.lang.Closure)">onComplete</a></strong>(groovy.lang.Closure callable)</code><br>Execute the given closure when the promise completes</td>
+                            <td class="colLast"><code><strong><a href="#onComplete(Closure)">onComplete</a></strong>(groovy.lang.Closure&lt;T&gt; callable)</code><br>Execute the given closure when the promise completes</td>
                         </tr>
                         
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>abstract&nbsp;<a href='../../grails/async/Promise.html' title='Promise'>Promise</a>&lt;T&gt;</code></td>
-                            <td class="colLast"><code><strong><a href="#onError(groovy.lang.Closure)">onError</a></strong>(groovy.lang.Closure callable)</code><br>Execute the given closure when an error occurs</td>
+                            <td class="colLast"><code><strong><a href="#onError(Closure)">onError</a></strong>(groovy.lang.Closure&lt;T&gt; callable)</code><br>Execute the given closure when an error occurs</td>
                         </tr>
                         
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>abstract&nbsp;<a href='../../grails/async/Promise.html' title='Promise'>Promise</a>&lt;T&gt;</code></td>
-                            <td class="colLast"><code><strong><a href="#then(groovy.lang.Closure)">then</a></strong>(groovy.lang.Closure callable)</code><br>Same as #onComplete</td>
+                            <td class="colLast"><code><strong><a href="#then(Closure)">then</a></strong>(groovy.lang.Closure&lt;T&gt; callable)</code><br>Same as #onComplete</td>
                         </tr>
                         
                     </table>
@@ -213,26 +212,26 @@ extends java.util.concurrent.Future&lt;T&gt;</pre>
                             </li>
                         </ul>
                     
-                        <a name="onComplete(groovy.lang.Closure)"><!-- --></a>
+                        <a name="onComplete(Closure)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4>abstract&nbsp;<a href='../../grails/async/Promise.html' title='Promise'>Promise</a>&lt;T&gt; <strong>onComplete</strong>(groovy.lang.Closure callable)</h4>
+                                <h4>abstract&nbsp;<a href='../../grails/async/Promise.html' title='Promise'>Promise</a>&lt;T&gt; <strong>onComplete</strong>(groovy.lang.Closure&lt;T&gt; callable)</h4>
                                 <p> Execute the given closure when the promise completes <DL><DT><B>Parameters:</B></DT><DD>callable</DD></DL><DL><DT><B>Returns:</B></DT><DD>The Promise</DD></DL></p>
                             </li>
                         </ul>
                     
-                        <a name="onError(groovy.lang.Closure)"><!-- --></a>
+                        <a name="onError(Closure)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4>abstract&nbsp;<a href='../../grails/async/Promise.html' title='Promise'>Promise</a>&lt;T&gt; <strong>onError</strong>(groovy.lang.Closure callable)</h4>
+                                <h4>abstract&nbsp;<a href='../../grails/async/Promise.html' title='Promise'>Promise</a>&lt;T&gt; <strong>onError</strong>(groovy.lang.Closure&lt;T&gt; callable)</h4>
                                 <p> Execute the given closure when an error occurs <DL><DT><B>Parameters:</B></DT><DD>callable</DD></DL><DL><DT><B>Returns:</B></DT><DD>The Promise</DD></DL></p>
                             </li>
                         </ul>
                     
-                        <a name="then(groovy.lang.Closure)"><!-- --></a>
+                        <a name="then(Closure)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4>abstract&nbsp;<a href='../../grails/async/Promise.html' title='Promise'>Promise</a>&lt;T&gt; <strong>then</strong>(groovy.lang.Closure callable)</h4>
+                                <h4>abstract&nbsp;<a href='../../grails/async/Promise.html' title='Promise'>Promise</a>&lt;T&gt; <strong>then</strong>(groovy.lang.Closure&lt;T&gt; callable)</h4>
                                 <p> Same as #onComplete</p>
                             </li>
                         </ul>

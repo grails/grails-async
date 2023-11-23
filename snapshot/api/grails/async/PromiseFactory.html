@@ -104,7 +104,7 @@ if (location.href.indexOf('is-external=true') == -1) {
 <pre>interface PromiseFactory</pre>
 
     <p> An interface capable of creating <a href='../../grails/async/Promise.html' title='Promise'>Promise</a> instances. The <a href='../../grails/async/Promises.html' title='Promises'>Promises</a> static methods use this
- interface to create promises. The default Promise creation mechanism can be overriden by setting <a href='../../grails/async/Promises.html#setPromiseFactory(PromiseFactory)' title='Promises.setPromiseFactory'>Promises.setPromiseFactory</a> <DL><DT><B>Authors:</B></DT><DD>Graeme Rocher</DD></DL><DL><DT><B>Since:</B></DT><DD>2.3</DD></DL></p>
+ interface to create promises. The default Promise creation mechanism can be overridden by setting <a href='../../grails/async/Promises.html#setPromiseFactory(PromiseFactory)' title='Promises.setPromiseFactory'>Promises.setPromiseFactory</a> <DL><DT><B>Authors:</B></DT><DD>Graeme Rocher</DD></DL><DL><DT><B>Since:</B></DT><DD>2.3</DD></DL></p>
 
           </li>
     </ul>
@@ -170,7 +170,7 @@ if (location.href.indexOf('is-external=true') == -1) {
                         
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code>abstract&nbsp;<a href='../../grails/async/Promise.html' title='Promise'>Promise</a>&lt;java.lang.Object&gt;</code></td>
+                            <td class="colLast"><code>abstract&nbsp;<a href='../../grails/async/Promise.html' title='Promise'>Promise</a>&lt;java.lang.Void&gt;</code></td>
                             <td class="colLast"><code><strong><a href="#createPromise()">createPromise</a></strong>()</code><br>Creates an unfulfilled promise that returns void</td>
                         </tr>
                         
@@ -195,13 +195,13 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <tr class="altColor">
                             <td class="colFirst"><code>&lt;T&gt;</code></td>
                             <td class="colLast"><code>abstract&nbsp;<a href='../../grails/async/Promise.html' title='Promise'>Promise</a>&lt;T&gt;</code></td>
-                            <td class="colLast"><code><strong><a href="#createPromise(Closure)">createPromise</a></strong>(groovy.lang.Closure&lt;T&gt;[] c)</code><br>Creates a promise from one or many closures</td>
+                            <td class="colLast"><code><strong><a href="#createPromise(Closure)">createPromise</a></strong>(groovy.lang.Closure&lt;T&gt;[] closures)</code><br>Creates a promise from one or many closures</td>
                         </tr>
                         
                         <tr class="rowColor">
                             <td class="colFirst"><code>&lt;T&gt;</code></td>
                             <td class="colLast"><code>abstract&nbsp;<a href='../../grails/async/Promise.html' title='Promise'>Promise</a>&lt;T&gt;</code></td>
-                            <td class="colLast"><code><strong><a href="#createPromise(Closure, List)">createPromise</a></strong>(groovy.lang.Closure&lt;T&gt; c, java.util.List&lt;<a href='../../grails/async/decorator/PromiseDecorator.html' title='PromiseDecorator'>PromiseDecorator</a>&gt; decorators)</code><br>Creates a promise from one or many closures</td>
+                            <td class="colLast"><code><strong><a href="#createPromise(Closure, List)">createPromise</a></strong>(groovy.lang.Closure&lt;T&gt; closure, java.util.List&lt;<a href='../../grails/async/decorator/PromiseDecorator.html' title='PromiseDecorator'>PromiseDecorator</a>&gt; decorators)</code><br>Creates a promise from one or many closures</td>
                         </tr>
                         
                         <tr class="altColor">
@@ -219,7 +219,7 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <tr class="altColor">
                             <td class="colFirst"><code>&lt;T&gt;</code></td>
                             <td class="colLast"><code>abstract&nbsp;<a href='../../grails/async/Promise.html' title='Promise'>Promise</a>&lt;java.util.List&lt;T&gt;&gt;</code></td>
-                            <td class="colLast"><code><strong><a href="#onComplete(List, Closure)">onComplete</a></strong>(java.util.List&lt;<a href='../../grails/async/Promise.html' title='Promise'>Promise</a>&lt;T&gt;&gt; promises, groovy.lang.Closure&lt;?&gt; callable)</code><br>Executes the given callback when the list of promises completes</td>
+                            <td class="colLast"><code><strong><a href="#onComplete(List, Closure)">onComplete</a></strong>(java.util.List&lt;<a href='../../grails/async/Promise.html' title='Promise'>Promise</a>&lt;T&gt;&gt; promises, groovy.lang.Closure&lt;T&gt; callable)</code><br>Executes the given callback when the list of promises completes</td>
                         </tr>
                         
                         <tr class="rowColor">
@@ -313,7 +313,7 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <a name="createPromise()"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4>abstract&nbsp;<a href='../../grails/async/Promise.html' title='Promise'>Promise</a>&lt;java.lang.Object&gt; <strong>createPromise</strong>()</h4>
+                                <h4>abstract&nbsp;<a href='../../grails/async/Promise.html' title='Promise'>Promise</a>&lt;java.lang.Void&gt; <strong>createPromise</strong>()</h4>
                                 <p> Creates an unfulfilled promise that returns void <DL><DT><B>Returns:</B></DT><DD>The unfulfilled promise</DD></DL></p>
                             </li>
                         </ul>
@@ -345,16 +345,16 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <a name="createPromise(Closure)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4>&lt;T&gt; abstract&nbsp;<a href='../../grails/async/Promise.html' title='Promise'>Promise</a>&lt;T&gt; <strong>createPromise</strong>(groovy.lang.Closure&lt;T&gt;[] c)</h4>
-                                <p> Creates a promise from one or many closures <DL><DT><B>Parameters:</B></DT><DD><code>c</code> -  One or many closures</DD></DL><DL><DT><B>Returns:</B></DT><DD>A promise</DD></DL></p>
+                                <h4>&lt;T&gt; abstract&nbsp;<a href='../../grails/async/Promise.html' title='Promise'>Promise</a>&lt;T&gt; <strong>createPromise</strong>(groovy.lang.Closure&lt;T&gt;[] closures)</h4>
+                                <p> Creates a promise from one or many closures <DL><DT><B>Parameters:</B></DT><DD><code>closures</code> -  One or many closures</DD></DL><DL><DT><B>Returns:</B></DT><DD>A promise</DD></DL></p>
                             </li>
                         </ul>
                     
                         <a name="createPromise(Closure, List)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4>&lt;T&gt; abstract&nbsp;<a href='../../grails/async/Promise.html' title='Promise'>Promise</a>&lt;T&gt; <strong>createPromise</strong>(groovy.lang.Closure&lt;T&gt; c, java.util.List&lt;<a href='../../grails/async/decorator/PromiseDecorator.html' title='PromiseDecorator'>PromiseDecorator</a>&gt; decorators)</h4>
-                                <p> Creates a promise from one or many closures <DL><DT><B>Parameters:</B></DT><DD><code>c</code> -  One or many closures</DD></DL><DL><DT><B>Returns:</B></DT><DD>A promise</DD></DL></p>
+                                <h4>&lt;T&gt; abstract&nbsp;<a href='../../grails/async/Promise.html' title='Promise'>Promise</a>&lt;T&gt; <strong>createPromise</strong>(groovy.lang.Closure&lt;T&gt; closure, java.util.List&lt;<a href='../../grails/async/decorator/PromiseDecorator.html' title='PromiseDecorator'>PromiseDecorator</a>&gt; decorators)</h4>
+                                <p> Creates a promise from one or many closures <DL><DT><B>Parameters:</B></DT><DD><code>closure</code> -  A closure</DD></DL><DL><DT><B>Returns:</B></DT><DD>A promise</DD></DL></p>
                             </li>
                         </ul>
                     
@@ -377,7 +377,7 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <a name="onComplete(List, Closure)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4>&lt;T&gt; abstract&nbsp;<a href='../../grails/async/Promise.html' title='Promise'>Promise</a>&lt;java.util.List&lt;T&gt;&gt; <strong>onComplete</strong>(java.util.List&lt;<a href='../../grails/async/Promise.html' title='Promise'>Promise</a>&lt;T&gt;&gt; promises, groovy.lang.Closure&lt;?&gt; callable)</h4>
+                                <h4>&lt;T&gt; abstract&nbsp;<a href='../../grails/async/Promise.html' title='Promise'>Promise</a>&lt;java.util.List&lt;T&gt;&gt; <strong>onComplete</strong>(java.util.List&lt;<a href='../../grails/async/Promise.html' title='Promise'>Promise</a>&lt;T&gt;&gt; promises, groovy.lang.Closure&lt;T&gt; callable)</h4>
                                 <p> Executes the given callback when the list of promises completes <DL><DT><B>Parameters:</B></DT><DD><code>promises</code> -  The promises</DD><DD><code>callable</code> -  The callback to execute</DD></DL></p>
                             </li>
                         </ul>

@@ -1,4 +1,3 @@
-grails.artefact
 grails.async
 grails.async.decorator
 grails.async.factory
@@ -32,8 +31,3 @@ org.grails.plugins.events
 org.grails.plugins.web.async
 org.grails.plugins.web.async.mvc
 org.grails.plugins.web.async.spring
-reactor.bus
-reactor.bus.registry
-reactor.bus.selector
-reactor.fn
-reactor.spring.context.annotation

@@ -102,7 +102,8 @@ if (location.href.indexOf('is-external=true') == -1) {
             <hr>
             <br>
 
-<pre>@groovy.transform.CompileStatic
+<pre>@groovy.transform.AutoFinal
+@groovy.transform.CompileStatic
 class SynchronousPromiseFactory
 extends <a href='../../../../grails/async/factory/AbstractPromiseFactory.html'>AbstractPromiseFactory</a></pre>
 
@@ -197,7 +198,7 @@ extends <a href='../../../../grails/async/factory/AbstractPromiseFactory.html'>A
                         
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code>Promise&lt;java.lang.Object&gt;</code></td>
+                            <td class="colLast"><code>Promise&lt;java.lang.Void&gt;</code></td>
                             <td class="colLast"><code><strong><a href="#createPromise()">createPromise</a></strong>()</code><br></td>
                         </tr>
                         
@@ -209,8 +210,8 @@ extends <a href='../../../../grails/async/factory/AbstractPromiseFactory.html'>A
                         
                         <tr class="rowColor">
                             <td class="colFirst"><code>&lt;T&gt;</code></td>
-                            <td class="colLast"><code>Promise&lt;java.util.List&lt;T&gt;&gt;</code></td>
-                            <td class="colLast"><code><strong><a href="#onComplete(List, Closure)">onComplete</a></strong>(java.util.List&lt;Promise&lt;T&gt;&gt; promises, groovy.lang.Closure&lt;?&gt; callable)</code><br></td>
+                            <td class="colLast"><code>Promise&lt;T&gt;</code></td>
+                            <td class="colLast"><code><strong><a href="#onComplete(List, Closure)">onComplete</a></strong>(java.util.List&lt;Promise&lt;T&gt;&gt; promises, groovy.lang.Closure&lt;T&gt; callable)</code><br></td>
                         </tr>
                         
                         <tr class="altColor">
@@ -247,7 +248,7 @@ extends <a href='../../../../grails/async/factory/AbstractPromiseFactory.html'>A
                         
                         <tr class="altColor">
                             <td class="colFirst"><code>class <a href='../../../../grails/async/factory/AbstractPromiseFactory.html'>AbstractPromiseFactory</a></code></td>
-                            <td class="colLast"><code><a href='../../../../grails/async/factory/AbstractPromiseFactory.html#addPromiseDecoratorLookupStrategy(grails.async.decorator.PromiseDecoratorLookupStrategy)'>addPromiseDecoratorLookupStrategy</a>, <a href='../../../../grails/async/factory/AbstractPromiseFactory.html#applyDecorators(Closure, List)'>applyDecorators</a>, <a href='../../../../grails/async/factory/AbstractPromiseFactory.html#createBoundPromise(T)'>createBoundPromise</a>, <a href='../../../../grails/async/factory/AbstractPromiseFactory.html#createPromise(Closure, List)'>createPromise</a>, <a href='../../../../grails/async/factory/AbstractPromiseFactory.html#createPromise(List)'>createPromise</a>, <a href='../../../../grails/async/factory/AbstractPromiseFactory.html#createPromise(List, List)'>createPromise</a>, <a href='../../../../grails/async/factory/AbstractPromiseFactory.html#createPromise(Promise)'>createPromise</a>, <a href='../../../../grails/async/factory/AbstractPromiseFactory.html#createPromise(Map, List)'>createPromise</a>, <a href='../../../../grails/async/factory/AbstractPromiseFactory.html#createPromise(Map)'>createPromise</a>, <a href='../../../../grails/async/factory/AbstractPromiseFactory.html#createPromiseInternal(groovy.lang.Closure)'>createPromiseInternal</a>, <a href='../../../../grails/async/factory/AbstractPromiseFactory.html#waitAll(Promise)'>waitAll</a></code></td>
+                            <td class="colLast"><code><a href='../../../../grails/async/factory/AbstractPromiseFactory.html#addPromiseDecoratorLookupStrategy(grails.async.decorator.PromiseDecoratorLookupStrategy)'>addPromiseDecoratorLookupStrategy</a>, <a href='../../../../grails/async/factory/AbstractPromiseFactory.html#applyDecorators(Closure, List)'>applyDecorators</a>, <a href='../../../../grails/async/factory/AbstractPromiseFactory.html#createBoundPromise(T)'>createBoundPromise</a>, <a href='../../../../grails/async/factory/AbstractPromiseFactory.html#createPromise(Closure, List)'>createPromise</a>, <a href='../../../../grails/async/factory/AbstractPromiseFactory.html#createPromise(List)'>createPromise</a>, <a href='../../../../grails/async/factory/AbstractPromiseFactory.html#createPromise(List, List)'>createPromise</a>, <a href='../../../../grails/async/factory/AbstractPromiseFactory.html#createPromise(Promise)'>createPromise</a>, <a href='../../../../grails/async/factory/AbstractPromiseFactory.html#createPromise(Map, List)'>createPromise</a>, <a href='../../../../grails/async/factory/AbstractPromiseFactory.html#createPromise(Map)'>createPromise</a>, <a href='../../../../grails/async/factory/AbstractPromiseFactory.html#createPromiseInternal(Closure)'>createPromiseInternal</a>, <a href='../../../../grails/async/factory/AbstractPromiseFactory.html#waitAll(Promise)'>waitAll</a></code></td>
                         </tr>
                     </table>
                    </ul>
@@ -312,7 +313,7 @@ Promise&lt;T&gt; <strong>createPromise</strong>(java.lang.Class&lt;T&gt; returnT
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4>@java.lang.Override
-Promise&lt;java.lang.Object&gt; <strong>createPromise</strong>()</h4>
+Promise&lt;java.lang.Void&gt; <strong>createPromise</strong>()</h4>
                                 <p></p>
                             </li>
                         </ul>
@@ -329,7 +330,8 @@ Promise&lt;T&gt; <strong>createPromise</strong>(groovy.lang.Closure&lt;T&gt;[] c
                         <a name="onComplete(List, Closure)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4>&lt;T&gt; Promise&lt;java.util.List&lt;T&gt;&gt; <strong>onComplete</strong>(java.util.List&lt;Promise&lt;T&gt;&gt; promises, groovy.lang.Closure&lt;?&gt; callable)</h4>
+                                <h4>&lt;T&gt; @java.lang.Override
+Promise&lt;T&gt; <strong>onComplete</strong>(java.util.List&lt;Promise&lt;T&gt;&gt; promises, groovy.lang.Closure&lt;T&gt; callable)</h4>
                                 <p></p>
                             </li>
                         </ul>
@@ -337,7 +339,8 @@ Promise&lt;T&gt; <strong>createPromise</strong>(groovy.lang.Closure&lt;T&gt;[] c
                         <a name="onError(List, Closure)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4>&lt;T&gt; Promise&lt;java.util.List&lt;T&gt;&gt; <strong>onError</strong>(java.util.List&lt;Promise&lt;T&gt;&gt; promises, groovy.lang.Closure&lt;?&gt; callable)</h4>
+                                <h4>&lt;T&gt; @java.lang.Override
+Promise&lt;java.util.List&lt;T&gt;&gt; <strong>onError</strong>(java.util.List&lt;Promise&lt;T&gt;&gt; promises, groovy.lang.Closure&lt;?&gt; callable)</h4>
                                 <p></p>
                             </li>
                         </ul>

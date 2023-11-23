@@ -107,7 +107,8 @@ if (location.href.indexOf('is-external=true') == -1) {
             <hr>
             <br>
 
-<pre>@groovy.transform.CompileStatic
+<pre>@groovy.transform.AutoFinal
+@groovy.transform.CompileStatic
 class FutureTaskPromise&lt;T&gt;
 extends java.util.concurrent.FutureTask&lt;T&gt;
 implements Promise&lt;T&gt;</pre>
@@ -207,13 +208,13 @@ implements Promise&lt;T&gt;</pre>
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>Promise&lt;T&gt;</code></td>
-                            <td class="colLast"><code><strong><a href="#onComplete(groovy.lang.Closure)">onComplete</a></strong>(groovy.lang.Closure callable)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#onComplete(Closure)">onComplete</a></strong>(groovy.lang.Closure&lt;T&gt; callable)</code><br></td>
                         </tr>
                         
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>Promise&lt;T&gt;</code></td>
-                            <td class="colLast"><code><strong><a href="#onError(groovy.lang.Closure)">onError</a></strong>(groovy.lang.Closure callable)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#onError(Closure)">onError</a></strong>(groovy.lang.Closure&lt;T&gt; callable)</code><br></td>
                         </tr>
                         
                         <tr class="altColor">
@@ -231,7 +232,7 @@ implements Promise&lt;T&gt;</pre>
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>Promise&lt;T&gt;</code></td>
-                            <td class="colLast"><code><strong><a href="#then(groovy.lang.Closure)">then</a></strong>(groovy.lang.Closure callable)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#then(Closure)">then</a></strong>(groovy.lang.Closure&lt;T&gt; callable)</code><br></td>
                         </tr>
                         
                     </table>
@@ -328,20 +329,20 @@ boolean <strong>isDone</strong>()</h4>
                             </li>
                         </ul>
                     
-                        <a name="onComplete(groovy.lang.Closure)"><!-- --></a>
+                        <a name="onComplete(Closure)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4>@java.lang.Override
-Promise&lt;T&gt; <strong>onComplete</strong>(groovy.lang.Closure callable)</h4>
+Promise&lt;T&gt; <strong>onComplete</strong>(groovy.lang.Closure&lt;T&gt; callable)</h4>
                                 <p></p>
                             </li>
                         </ul>
                     
-                        <a name="onError(groovy.lang.Closure)"><!-- --></a>
+                        <a name="onError(Closure)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4>@java.lang.Override
-Promise&lt;T&gt; <strong>onError</strong>(groovy.lang.Closure callable)</h4>
+Promise&lt;T&gt; <strong>onError</strong>(groovy.lang.Closure&lt;T&gt; callable)</h4>
                                 <p></p>
                             </li>
                         </ul>
@@ -364,11 +365,11 @@ protected&nbsp;void <strong>setException</strong>(java.lang.Throwable t)</h4>
                             </li>
                         </ul>
                     
-                        <a name="then(groovy.lang.Closure)"><!-- --></a>
+                        <a name="then(Closure)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4>@java.lang.Override
-Promise&lt;T&gt; <strong>then</strong>(groovy.lang.Closure callable)</h4>
+Promise&lt;T&gt; <strong>then</strong>(groovy.lang.Closure&lt;T&gt; callable)</h4>
                                 <p></p>
                             </li>
                         </ul>

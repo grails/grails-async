@@ -107,7 +107,8 @@ if (location.href.indexOf('is-external=true') == -1) {
             <hr>
             <br>
 
-<pre>@groovy.transform.CompileStatic
+<pre>@groovy.transform.AutoFinal
+@groovy.transform.CompileStatic
 class PromiseList&lt;T&gt;
 extends java.lang.Object
 implements <a href='../../grails/async/Promise.html' title='Promise'>Promise</a>&lt;java.util.List&lt;T&gt;&gt;</pre>
@@ -147,7 +148,7 @@ implements <a href='../../grails/async/Promise.html' title='Promise'>Promise</a>
                         </tr>
                         
                         <tr class="rowColor">
-                            <td class="colFirst"><code><strong>protected&nbsp;java.util.List&lt;<a href='../../grails/async/Promise.html' title='Promise'>Promise</a>&gt;</strong></code>&nbsp;</td>
+                            <td class="colFirst"><code><strong>protected&nbsp;java.util.List&lt;<a href='../../grails/async/Promise.html' title='Promise'>Promise</a>&lt;T&gt;&gt;</strong></code>&nbsp;</td>
                             <td class="colLast"><code><a href="#promises">promises</a></code></td>
                             <td class="colLast"></td>
                         </tr>
@@ -213,19 +214,19 @@ implements <a href='../../grails/async/Promise.html' title='Promise'>Promise</a>
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>boolean</code></td>
-                            <td class="colLast"><code><strong><a href="#add(java.lang.Object)">add</a></strong>(java.lang.Object value)</code><br>Implementation of add that adds any value as a bound promise</td>
+                            <td class="colLast"><code><strong><a href="#add(T)">add</a></strong>(T value)</code><br>Implementation of add that adds any value as a bound promise</td>
                         </tr>
                         
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>boolean</code></td>
-                            <td class="colLast"><code><strong><a href="#add(groovy.lang.Closure)">add</a></strong>(groovy.lang.Closure callable)</code><br>Implementation of add that takes a closure and creates a promise, adding it to the list</td>
+                            <td class="colLast"><code><strong><a href="#add(Closure)">add</a></strong>(groovy.lang.Closure&lt;T&gt; closure)</code><br>Implementation of add that takes a closure and creates a promise, adding it to the list</td>
                         </tr>
                         
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>boolean</code></td>
-                            <td class="colLast"><code><strong><a href="#add(Promise)">add</a></strong>(<a href='../../grails/async/Promise.html' title='Promise'>Promise</a>&lt;T&gt; p)</code><br>Implementation of add that takes a promise, adding it to the list</td>
+                            <td class="colLast"><code><strong><a href="#add(Promise)">add</a></strong>(<a href='../../grails/async/Promise.html' title='Promise'>Promise</a>&lt;T&gt; promise)</code><br>Implementation of add that takes a promise, adding it to the list</td>
                         </tr>
                         
                         <tr class="altColor">
@@ -236,13 +237,13 @@ implements <a href='../../grails/async/Promise.html' title='Promise'>Promise</a>
                         
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code>java.util.List</code></td>
+                            <td class="colLast"><code>java.util.List&lt;T&gt;</code></td>
                             <td class="colLast"><code><strong><a href="#get()">get</a></strong>()</code><br></td>
                         </tr>
                         
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code>java.util.List</code></td>
+                            <td class="colLast"><code>java.util.List&lt;T&gt;</code></td>
                             <td class="colLast"><code><strong><a href="#get(long, java.util.concurrent.TimeUnit)">get</a></strong>(long timeout, java.util.concurrent.TimeUnit units)</code><br></td>
                         </tr>
                         
@@ -260,37 +261,37 @@ implements <a href='../../grails/async/Promise.html' title='Promise'>Promise</a>
                         
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code><a href='../../grails/async/PromiseList.html'>PromiseList</a></code></td>
-                            <td class="colLast"><code><strong><a href="#leftShift(groovy.lang.Closure)">leftShift</a></strong>(groovy.lang.Closure callable)</code><br>Add a promise to the promise list</td>
+                            <td class="colLast"><code><a href='../../grails/async/PromiseList.html' title='PromiseList'>PromiseList</a>&lt;T&gt;</code></td>
+                            <td class="colLast"><code><strong><a href="#leftShift(Closure)">leftShift</a></strong>(groovy.lang.Closure&lt;T&gt; callable)</code><br>Add a callable to the promise list</td>
                         </tr>
                         
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code><a href='../../grails/async/PromiseList.html'>PromiseList</a></code></td>
-                            <td class="colLast"><code><strong><a href="#leftShift(java.lang.Object)">leftShift</a></strong>(java.lang.Object value)</code><br>Add a value as a bound promise to the list of values</td>
+                            <td class="colLast"><code><a href='../../grails/async/PromiseList.html' title='PromiseList'>PromiseList</a>&lt;T&gt;</code></td>
+                            <td class="colLast"><code><strong><a href="#leftShift(T)">leftShift</a></strong>(T value)</code><br>Add a value as a bound promise to the list of values</td>
                         </tr>
                         
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code><a href='../../grails/async/PromiseList.html'>PromiseList</a></code></td>
-                            <td class="colLast"><code><strong><a href="#leftShift(grails.async.Promise)">leftShift</a></strong>(<a href='../../grails/async/Promise.html'>Promise</a> p)</code><br>Add a promise to the promise list</td>
+                            <td class="colLast"><code><a href='../../grails/async/PromiseList.html' title='PromiseList'>PromiseList</a>&lt;T&gt;</code></td>
+                            <td class="colLast"><code><strong><a href="#leftShift(Promise)">leftShift</a></strong>(<a href='../../grails/async/Promise.html' title='Promise'>Promise</a>&lt;T&gt; promise)</code><br>Add a promise to the promise list</td>
                         </tr>
                         
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code><a href='../../grails/async/Promise.html'>Promise</a></code></td>
+                            <td class="colLast"><code><a href='../../grails/async/Promise.html' title='Promise'>Promise</a>&lt;java.util.List&lt;T&gt;&gt;</code></td>
                             <td class="colLast"><code><strong><a href="#onComplete(groovy.lang.Closure)">onComplete</a></strong>(groovy.lang.Closure callable)</code><br>Execute the given closure when all promises are complete</td>
                         </tr>
                         
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code><a href='../../grails/async/Promise.html'>Promise</a></code></td>
+                            <td class="colLast"><code><a href='../../grails/async/Promise.html' title='Promise'>Promise</a>&lt;java.util.List&lt;T&gt;&gt;</code></td>
                             <td class="colLast"><code><strong><a href="#onError(groovy.lang.Closure)">onError</a></strong>(groovy.lang.Closure callable)</code><br></td>
                         </tr>
                         
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code><a href='../../grails/async/Promise.html'>Promise</a></code></td>
+                            <td class="colLast"><code><a href='../../grails/async/Promise.html' title='Promise'>Promise</a>&lt;java.util.List&lt;T&gt;&gt;</code></td>
                             <td class="colLast"><code><strong><a href="#then(groovy.lang.Closure)">then</a></strong>(groovy.lang.Closure callable)</code><br></td>
                         </tr>
                         
@@ -310,7 +311,7 @@ implements <a href='../../grails/async/Promise.html' title='Promise'>Promise</a>
                         
                         <tr class="altColor">
                             <td class="colFirst"><code>class java.lang.Object</code></td>
-                            <td class="colLast"><code>java.lang.Object#wait(long), java.lang.Object#wait(long, int), java.lang.Object#wait(), java.lang.Object#equals(java.lang.Object), java.lang.Object#toString(), java.lang.Object#hashCode(), java.lang.Object#getClass(), java.lang.Object#notify(), java.lang.Object#notifyAll()</code></td>
+                            <td class="colLast"><code>java.lang.Object#wait(long, int), java.lang.Object#wait(), java.lang.Object#wait(long), java.lang.Object#equals(java.lang.Object), java.lang.Object#toString(), java.lang.Object#hashCode(), java.lang.Object#getClass(), java.lang.Object#notify(), java.lang.Object#notifyAll()</code></td>
                         </tr>
                     </table>
                    </ul>
@@ -346,7 +347,7 @@ implements <a href='../../grails/async/Promise.html' title='Promise'>Promise</a>
                         <a name="promises"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4>protected&nbsp;java.util.List&lt;<a href='../../grails/async/Promise.html' title='Promise'>Promise</a>&gt; <strong>promises</strong></h4>
+                                <h4>protected&nbsp;java.util.List&lt;<a href='../../grails/async/Promise.html' title='Promise'>Promise</a>&lt;T&gt;&gt; <strong>promises</strong></h4>
                                 <p></p>
                             </li>
                         </ul>
@@ -397,27 +398,27 @@ implements <a href='../../grails/async/Promise.html' title='Promise'>Promise</a>
                             </li>
                         </ul>
                     
-                        <a name="add(java.lang.Object)"><!-- --></a>
+                        <a name="add(T)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4>boolean <strong>add</strong>(java.lang.Object value)</h4>
-                                <p> Implementation of add that adds any value as a bound promise <DL><DT><B>Parameters:</B></DT><DD><code>callable</code> -  The callable</DD></DL><DL><DT><B>Returns:</B></DT><DD>True if it was added</DD></DL></p>
+                                <h4>boolean <strong>add</strong>(T value)</h4>
+                                <p> Implementation of add that adds any value as a bound promise <DL><DT><B>Parameters:</B></DT><DD><code>value</code> -  The value</DD></DL><DL><DT><B>Returns:</B></DT><DD>True if it was added</DD></DL></p>
                             </li>
                         </ul>
                     
-                        <a name="add(groovy.lang.Closure)"><!-- --></a>
+                        <a name="add(Closure)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4>boolean <strong>add</strong>(groovy.lang.Closure callable)</h4>
-                                <p> Implementation of add that takes a closure and creates a promise, adding it to the list <DL><DT><B>Parameters:</B></DT><DD><code>callable</code> -  The callable</DD></DL><DL><DT><B>Returns:</B></DT><DD>True if it was added</DD></DL></p>
+                                <h4>boolean <strong>add</strong>(groovy.lang.Closure&lt;T&gt; closure)</h4>
+                                <p> Implementation of add that takes a closure and creates a promise, adding it to the list <DL><DT><B>Parameters:</B></DT><DD><code>closure</code> -  The closure</DD></DL><DL><DT><B>Returns:</B></DT><DD>True if it was added</DD></DL></p>
                             </li>
                         </ul>
                     
                         <a name="add(Promise)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4>boolean <strong>add</strong>(<a href='../../grails/async/Promise.html' title='Promise'>Promise</a>&lt;T&gt; p)</h4>
-                                <p> Implementation of add that takes a promise, adding it to the list <DL><DT><B>Parameters:</B></DT><DD><code>callable</code> -  The callable</DD></DL><DL><DT><B>Returns:</B></DT><DD>True if it was added</DD></DL></p>
+                                <h4>boolean <strong>add</strong>(<a href='../../grails/async/Promise.html' title='Promise'>Promise</a>&lt;T&gt; promise)</h4>
+                                <p> Implementation of add that takes a promise, adding it to the list <DL><DT><B>Parameters:</B></DT><DD><code>promise</code> -  The promise</DD></DL><DL><DT><B>Returns:</B></DT><DD>True if it was added</DD></DL></p>
                             </li>
                         </ul>
                     
@@ -433,7 +434,8 @@ boolean <strong>cancel</strong>(boolean mayInterruptIfRunning)</h4>
                         <a name="get()"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4>java.util.List <strong>get</strong>()</h4>
+                                <h4>@java.lang.Override
+java.util.List&lt;T&gt; <strong>get</strong>()</h4>
                                 <p></p>
                             </li>
                         </ul>
@@ -442,7 +444,7 @@ boolean <strong>cancel</strong>(boolean mayInterruptIfRunning)</h4>
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4>@java.lang.Override
-java.util.List <strong>get</strong>(long timeout, java.util.concurrent.TimeUnit units)</h4>
+java.util.List&lt;T&gt; <strong>get</strong>(long timeout, java.util.concurrent.TimeUnit units)</h4>
                                 <p></p>
                             </li>
                         </ul>
@@ -465,44 +467,44 @@ boolean <strong>isDone</strong>()</h4>
                             </li>
                         </ul>
                     
-                        <a name="leftShift(groovy.lang.Closure)"><!-- --></a>
+                        <a name="leftShift(Closure)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4><a href='../../grails/async/PromiseList.html'>PromiseList</a> <strong>leftShift</strong>(groovy.lang.Closure callable)</h4>
-                                <p> Add a promise to the promise list <DL><DT><B>Parameters:</B></DT><DD><code>callable</code> -  The callable</DD></DL><DL><DT><B>Returns:</B></DT><DD>The promise list</DD></DL></p>
+                                <h4><a href='../../grails/async/PromiseList.html' title='PromiseList'>PromiseList</a>&lt;T&gt; <strong>leftShift</strong>(groovy.lang.Closure&lt;T&gt; callable)</h4>
+                                <p> Add a callable to the promise list <DL><DT><B>Parameters:</B></DT><DD><code>callable</code> -  The callable closure</DD></DL><DL><DT><B>Returns:</B></DT><DD>The promise list</DD></DL></p>
                             </li>
                         </ul>
                     
-                        <a name="leftShift(java.lang.Object)"><!-- --></a>
+                        <a name="leftShift(T)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4><a href='../../grails/async/PromiseList.html'>PromiseList</a> <strong>leftShift</strong>(java.lang.Object value)</h4>
-                                <p> Add a value as a bound promise to the list of values <DL><DT><B>Parameters:</B></DT><DD><code>callable</code> -  The callable</DD></DL><DL><DT><B>Returns:</B></DT><DD>The promise list</DD></DL></p>
+                                <h4><a href='../../grails/async/PromiseList.html' title='PromiseList'>PromiseList</a>&lt;T&gt; <strong>leftShift</strong>(T value)</h4>
+                                <p> Add a value as a bound promise to the list of values <DL><DT><B>Parameters:</B></DT><DD><code>value</code> -  value</DD></DL><DL><DT><B>Returns:</B></DT><DD>The promise list</DD></DL></p>
                             </li>
                         </ul>
                     
-                        <a name="leftShift(grails.async.Promise)"><!-- --></a>
+                        <a name="leftShift(Promise)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4><a href='../../grails/async/PromiseList.html'>PromiseList</a> <strong>leftShift</strong>(<a href='../../grails/async/Promise.html'>Promise</a> p)</h4>
-                                <p> Add a promise to the promise list <DL><DT><B>Parameters:</B></DT><DD><code>callable</code> -  The callable</DD></DL><DL><DT><B>Returns:</B></DT><DD>The promise list</DD></DL></p>
+                                <h4><a href='../../grails/async/PromiseList.html' title='PromiseList'>PromiseList</a>&lt;T&gt; <strong>leftShift</strong>(<a href='../../grails/async/Promise.html' title='Promise'>Promise</a>&lt;T&gt; promise)</h4>
+                                <p> Add a promise to the promise list <DL><DT><B>Parameters:</B></DT><DD><code>promise</code> -  The promise</DD></DL><DL><DT><B>Returns:</B></DT><DD>The promise list</DD></DL></p>
                             </li>
                         </ul>
                     
                         <a name="onComplete(groovy.lang.Closure)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4>@java.lang.SuppressWarnings(value: unchecked)
-<a href='../../grails/async/Promise.html'>Promise</a> <strong>onComplete</strong>(groovy.lang.Closure callable)</h4>
-                                <p> Execute the given closure when all promises are complete <DL><DT><B>Parameters:</B></DT><DD><code>callable</code> -  The callable</DD></DL></p>
+                                <h4>@java.lang.Override
+<a href='../../grails/async/Promise.html' title='Promise'>Promise</a>&lt;java.util.List&lt;T&gt;&gt; <strong>onComplete</strong>(groovy.lang.Closure callable)</h4>
+                                <p> Execute the given closure when all promises are complete <DL><DT><B>Parameters:</B></DT><DD><code>callable</code> -  The closure</DD></DL></p>
                             </li>
                         </ul>
                     
                         <a name="onError(groovy.lang.Closure)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4>@java.lang.SuppressWarnings(value: unchecked)
-<a href='../../grails/async/Promise.html'>Promise</a> <strong>onError</strong>(groovy.lang.Closure callable)</h4>
+                                <h4>@java.lang.Override
+<a href='../../grails/async/Promise.html' title='Promise'>Promise</a>&lt;java.util.List&lt;T&gt;&gt; <strong>onError</strong>(groovy.lang.Closure callable)</h4>
                                 <p></p>
                             </li>
                         </ul>
@@ -510,8 +512,8 @@ boolean <strong>isDone</strong>()</h4>
                         <a name="then(groovy.lang.Closure)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4>@java.lang.SuppressWarnings(value: unchecked)
-<a href='../../grails/async/Promise.html'>Promise</a> <strong>then</strong>(groovy.lang.Closure callable)</h4>
+                                <h4>@java.lang.Override
+<a href='../../grails/async/Promise.html' title='Promise'>Promise</a>&lt;java.util.List&lt;T&gt;&gt; <strong>then</strong>(groovy.lang.Closure callable)</h4>
                                 <p></p>
                             </li>
                         </ul>

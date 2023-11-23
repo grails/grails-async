@@ -102,7 +102,8 @@ if (location.href.indexOf('is-external=true') == -1) {
             <hr>
             <br>
 
-<pre>@groovy.transform.CompileStatic
+<pre>@groovy.transform.AutoFinal
+@groovy.transform.CompileStatic
 class Promises
 extends java.lang.Object</pre>
 
@@ -193,12 +194,12 @@ extends java.lang.Object</pre>
                         <tr class="rowColor">
                             <td class="colFirst"><code>&lt;T&gt;</code></td>
                             <td class="colLast"><code>static&nbsp;<a href='../../grails/async/Promise.html' title='Promise'>Promise</a>&lt;T&gt;</code></td>
-                            <td class="colLast"><code><strong><a href="#createPromise(Closure)">createPromise</a></strong>(groovy.lang.Closure&lt;T&gt;[] c)</code><br> <DL><DT><B>See Also:</B></DT><DD><a href='../../grails/async/PromiseFactory.html#createPromise(groovy.lang.Closure[])' title='PromiseFactory.createPromise'>PromiseFactory.createPromise</a></DD></DL></td>
+                            <td class="colLast"><code><strong><a href="#createPromise(Closure)">createPromise</a></strong>(groovy.lang.Closure&lt;T&gt;[] closures)</code><br> <DL><DT><B>See Also:</B></DT><DD><a href='../../grails/async/PromiseFactory.html#createPromise(groovy.lang.Closure[])' title='PromiseFactory.createPromise'>PromiseFactory.createPromise</a></DD></DL></td>
                         </tr>
                         
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code>static&nbsp;<a href='../../grails/async/Promise.html' title='Promise'>Promise</a>&lt;java.lang.Object&gt;</code></td>
+                            <td class="colLast"><code>static&nbsp;<a href='../../grails/async/Promise.html' title='Promise'>Promise</a>&lt;java.lang.Void&gt;</code></td>
                             <td class="colLast"><code><strong><a href="#createPromise()">createPromise</a></strong>()</code><br> <DL><DT><B>See Also:</B></DT><DD><a href='../../grails/async/PromiseFactory.html#createPromise()' title='PromiseFactory.createPromise'>PromiseFactory.createPromise</a></DD></DL></td>
                         </tr>
                         
@@ -211,7 +212,7 @@ extends java.lang.Object</pre>
                         <tr class="altColor">
                             <td class="colFirst"><code>&lt;T&gt;</code></td>
                             <td class="colLast"><code>static&nbsp;<a href='../../grails/async/Promise.html' title='Promise'>Promise</a>&lt;T&gt;</code></td>
-                            <td class="colLast"><code><strong><a href="#createPromise(Closure, List)">createPromise</a></strong>(groovy.lang.Closure&lt;T&gt; c, java.util.List&lt;<a href='../../grails/async/decorator/PromiseDecorator.html' title='PromiseDecorator'>PromiseDecorator</a>&gt; decorators)</code><br> <DL><DT><B>See Also:</B></DT><DD><a href='../../grails/async/PromiseFactory.html#createPromise(groovy.lang.Closure, java.util.List)' title='PromiseFactory.createPromise'>PromiseFactory.createPromise</a></DD></DL></td>
+                            <td class="colLast"><code><strong><a href="#createPromise(Closure, List)">createPromise</a></strong>(groovy.lang.Closure&lt;T&gt; closure, java.util.List&lt;<a href='../../grails/async/decorator/PromiseDecorator.html' title='PromiseDecorator'>PromiseDecorator</a>&gt; decorators)</code><br> <DL><DT><B>See Also:</B></DT><DD><a href='../../grails/async/PromiseFactory.html#createPromise(groovy.lang.Closure, java.util.List)' title='PromiseFactory.createPromise'>PromiseFactory.createPromise</a></DD></DL></td>
                         </tr>
                         
                         <tr class="rowColor">
@@ -235,7 +236,7 @@ extends java.lang.Object</pre>
                         <tr class="altColor">
                             <td class="colFirst"><code>&lt;T&gt;</code></td>
                             <td class="colLast"><code>static&nbsp;<a href='../../grails/async/Promise.html' title='Promise'>Promise</a>&lt;java.util.List&lt;T&gt;&gt;</code></td>
-                            <td class="colLast"><code><strong><a href="#onComplete(List, Closure)">onComplete</a></strong>(java.util.List&lt;<a href='../../grails/async/Promise.html' title='Promise'>Promise</a>&lt;T&gt;&gt; promises, groovy.lang.Closure&lt;?&gt; callable)</code><br> <DL><DT><B>See Also:</B></DT><DD><a href='../../grails/async/PromiseFactory.html#onComplete(java.util.List, groovy.lang.Closure)' title='PromiseFactory.onComplete'>PromiseFactory.onComplete</a></DD></DL></td>
+                            <td class="colLast"><code><strong><a href="#onComplete(List, Closure)">onComplete</a></strong>(java.util.List&lt;<a href='../../grails/async/Promise.html' title='Promise'>Promise</a>&lt;T&gt;&gt; promises, groovy.lang.Closure&lt;T&gt; callable)</code><br> <DL><DT><B>See Also:</B></DT><DD><a href='../../grails/async/PromiseFactory.html#onComplete(java.util.List, groovy.lang.Closure)' title='PromiseFactory.onComplete'>PromiseFactory.onComplete</a></DD></DL></td>
                         </tr>
                         
                         <tr class="rowColor">
@@ -253,7 +254,7 @@ extends java.lang.Object</pre>
                         <tr class="rowColor">
                             <td class="colFirst"><code>&lt;T&gt;</code></td>
                             <td class="colLast"><code>static&nbsp;<a href='../../grails/async/Promise.html' title='Promise'>Promise</a>&lt;T&gt;</code></td>
-                            <td class="colLast"><code><strong><a href="#task(Closure)">task</a></strong>(groovy.lang.Closure&lt;T&gt; c)</code><br> <DL><DT><B>See Also:</B></DT><DD><a href='../../grails/async/PromiseFactory.html#createPromise(groovy.lang.Closure[])' title='PromiseFactory.createPromise'>PromiseFactory.createPromise</a></DD></DL></td>
+                            <td class="colLast"><code><strong><a href="#task(Closure)">task</a></strong>(groovy.lang.Closure&lt;T&gt; closure)</code><br> <DL><DT><B>See Also:</B></DT><DD><a href='../../grails/async/PromiseFactory.html#createPromise(groovy.lang.Closure[])' title='PromiseFactory.createPromise'>PromiseFactory.createPromise</a></DD></DL></td>
                         </tr>
                         
                         <tr class="altColor">
@@ -265,7 +266,7 @@ extends java.lang.Object</pre>
                         <tr class="rowColor">
                             <td class="colFirst"><code>&lt;T&gt;</code></td>
                             <td class="colLast"><code>static&nbsp;<a href='../../grails/async/Promise.html' title='Promise'>Promise</a>&lt;T&gt;</code></td>
-                            <td class="colLast"><code><strong><a href="#tasks(Closure)">tasks</a></strong>(groovy.lang.Closure&lt;T&gt;[] c)</code><br> <DL><DT><B>See Also:</B></DT><DD><a href='../../grails/async/PromiseFactory.html#createPromise(groovy.lang.Closure[])' title='PromiseFactory.createPromise'>PromiseFactory.createPromise</a></DD></DL></td>
+                            <td class="colLast"><code><strong><a href="#tasks(Closure)">tasks</a></strong>(groovy.lang.Closure&lt;T&gt;[] closures)</code><br> <DL><DT><B>See Also:</B></DT><DD><a href='../../grails/async/PromiseFactory.html#createPromise(groovy.lang.Closure[])' title='PromiseFactory.createPromise'>PromiseFactory.createPromise</a></DD></DL></td>
                         </tr>
                         
                         <tr class="altColor">
@@ -308,7 +309,7 @@ extends java.lang.Object</pre>
                         
                         <tr class="altColor">
                             <td class="colFirst"><code>class java.lang.Object</code></td>
-                            <td class="colLast"><code>java.lang.Object#wait(long), java.lang.Object#wait(long, int), java.lang.Object#wait(), java.lang.Object#equals(java.lang.Object), java.lang.Object#toString(), java.lang.Object#hashCode(), java.lang.Object#getClass(), java.lang.Object#notify(), java.lang.Object#notifyAll()</code></td>
+                            <td class="colLast"><code>java.lang.Object#wait(long, int), java.lang.Object#wait(), java.lang.Object#wait(long), java.lang.Object#equals(java.lang.Object), java.lang.Object#toString(), java.lang.Object#hashCode(), java.lang.Object#getClass(), java.lang.Object#notify(), java.lang.Object#notifyAll()</code></td>
                         </tr>
                     </table>
                    </ul>
@@ -395,7 +396,7 @@ extends java.lang.Object</pre>
                         <a name="createPromise(Closure)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4>&lt;T&gt; static&nbsp;<a href='../../grails/async/Promise.html' title='Promise'>Promise</a>&lt;T&gt; <strong>createPromise</strong>(groovy.lang.Closure&lt;T&gt;[] c)</h4>
+                                <h4>&lt;T&gt; static&nbsp;<a href='../../grails/async/Promise.html' title='Promise'>Promise</a>&lt;T&gt; <strong>createPromise</strong>(groovy.lang.Closure&lt;T&gt;[] closures)</h4>
                                 <p> <DL><DT><B>See Also:</B></DT><DD><a href='../../grails/async/PromiseFactory.html#createPromise(groovy.lang.Closure[])' title='PromiseFactory.createPromise'>PromiseFactory.createPromise</a></DD></DL></p>
                             </li>
                         </ul>
@@ -403,7 +404,7 @@ extends java.lang.Object</pre>
                         <a name="createPromise()"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4>static&nbsp;<a href='../../grails/async/Promise.html' title='Promise'>Promise</a>&lt;java.lang.Object&gt; <strong>createPromise</strong>()</h4>
+                                <h4>static&nbsp;<a href='../../grails/async/Promise.html' title='Promise'>Promise</a>&lt;java.lang.Void&gt; <strong>createPromise</strong>()</h4>
                                 <p> <DL><DT><B>See Also:</B></DT><DD><a href='../../grails/async/PromiseFactory.html#createPromise()' title='PromiseFactory.createPromise'>PromiseFactory.createPromise</a></DD></DL></p>
                             </li>
                         </ul>
@@ -419,7 +420,7 @@ extends java.lang.Object</pre>
                         <a name="createPromise(Closure, List)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4>&lt;T&gt; static&nbsp;<a href='../../grails/async/Promise.html' title='Promise'>Promise</a>&lt;T&gt; <strong>createPromise</strong>(groovy.lang.Closure&lt;T&gt; c, java.util.List&lt;<a href='../../grails/async/decorator/PromiseDecorator.html' title='PromiseDecorator'>PromiseDecorator</a>&gt; decorators)</h4>
+                                <h4>&lt;T&gt; static&nbsp;<a href='../../grails/async/Promise.html' title='Promise'>Promise</a>&lt;T&gt; <strong>createPromise</strong>(groovy.lang.Closure&lt;T&gt; closure, java.util.List&lt;<a href='../../grails/async/decorator/PromiseDecorator.html' title='PromiseDecorator'>PromiseDecorator</a>&gt; decorators)</h4>
                                 <p> <DL><DT><B>See Also:</B></DT><DD><a href='../../grails/async/PromiseFactory.html#createPromise(groovy.lang.Closure, java.util.List)' title='PromiseFactory.createPromise'>PromiseFactory.createPromise</a></DD></DL></p>
                             </li>
                         </ul>
@@ -451,7 +452,7 @@ extends java.lang.Object</pre>
                         <a name="onComplete(List, Closure)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4>&lt;T&gt; static&nbsp;<a href='../../grails/async/Promise.html' title='Promise'>Promise</a>&lt;java.util.List&lt;T&gt;&gt; <strong>onComplete</strong>(java.util.List&lt;<a href='../../grails/async/Promise.html' title='Promise'>Promise</a>&lt;T&gt;&gt; promises, groovy.lang.Closure&lt;?&gt; callable)</h4>
+                                <h4>&lt;T&gt; static&nbsp;<a href='../../grails/async/Promise.html' title='Promise'>Promise</a>&lt;java.util.List&lt;T&gt;&gt; <strong>onComplete</strong>(java.util.List&lt;<a href='../../grails/async/Promise.html' title='Promise'>Promise</a>&lt;T&gt;&gt; promises, groovy.lang.Closure&lt;T&gt; callable)</h4>
                                 <p> <DL><DT><B>See Also:</B></DT><DD><a href='../../grails/async/PromiseFactory.html#onComplete(java.util.List, groovy.lang.Closure)' title='PromiseFactory.onComplete'>PromiseFactory.onComplete</a></DD></DL></p>
                             </li>
                         </ul>
@@ -475,7 +476,7 @@ extends java.lang.Object</pre>
                         <a name="task(Closure)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4>&lt;T&gt; static&nbsp;<a href='../../grails/async/Promise.html' title='Promise'>Promise</a>&lt;T&gt; <strong>task</strong>(groovy.lang.Closure&lt;T&gt; c)</h4>
+                                <h4>&lt;T&gt; static&nbsp;<a href='../../grails/async/Promise.html' title='Promise'>Promise</a>&lt;T&gt; <strong>task</strong>(groovy.lang.Closure&lt;T&gt; closure)</h4>
                                 <p> <DL><DT><B>See Also:</B></DT><DD><a href='../../grails/async/PromiseFactory.html#createPromise(groovy.lang.Closure[])' title='PromiseFactory.createPromise'>PromiseFactory.createPromise</a></DD></DL></p>
                             </li>
                         </ul>
@@ -491,7 +492,7 @@ extends java.lang.Object</pre>
                         <a name="tasks(Closure)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4>&lt;T&gt; static&nbsp;<a href='../../grails/async/Promise.html' title='Promise'>Promise</a>&lt;T&gt; <strong>tasks</strong>(groovy.lang.Closure&lt;T&gt;[] c)</h4>
+                                <h4>&lt;T&gt; static&nbsp;<a href='../../grails/async/Promise.html' title='Promise'>Promise</a>&lt;T&gt; <strong>tasks</strong>(groovy.lang.Closure&lt;T&gt;[] closures)</h4>
                                 <p> <DL><DT><B>See Also:</B></DT><DD><a href='../../grails/async/PromiseFactory.html#createPromise(groovy.lang.Closure[])' title='PromiseFactory.createPromise'>PromiseFactory.createPromise</a></DD></DL></p>
                             </li>
                         </ul>

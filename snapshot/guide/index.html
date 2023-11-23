@@ -550,10 +550,9 @@ map.onComplete { <span class="predefined-type">Map</span> results -&gt;
 <pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">import</span> <span class="include">grails.events.annotation.*</span>
 ...
 class SumService {
+
     <span class="annotation">@Publisher</span>
-    <span class="type">int</span> sum(<span class="type">int</span> a, <span class="type">int</span> b) {
-        a + b
-    }
+    <span class="type">int</span> sum(<span class="type">int</span> a, <span class="type">int</span> b) { a + b }
 }</code></pre>
 </div>
 </div>
@@ -577,9 +576,10 @@ class SumService {
 <pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">import</span> <span class="include">grails.events.*</span>
 ...
 class SumService <span class="directive">implements</span> EventPublisher {
+
     <span class="type">int</span> sum(<span class="type">int</span> a, <span class="type">int</span> b) {
         <span class="type">int</span> result = a + b
-        notify(<span class="string"><span class="delimiter">&quot;</span><span class="content">sum</span><span class="delimiter">&quot;</span></span>, result)
+        notify(<span class="string"><span class="delimiter">'</span><span class="content">sum</span><span class="delimiter">'</span></span>, result)
         <span class="keyword">return</span> result
     }
 }</code></pre>
@@ -614,11 +614,11 @@ class SumService <span class="directive">implements</span> EventPublisher {
 <pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">import</span> <span class="include">grails.events.annotation.*</span>
 ...
 class TotalService {
+
     <span class="predefined-type">AtomicInteger</span> total = <span class="keyword">new</span> <span class="predefined-type">AtomicInteger</span>(<span class="integer">0</span>)
+
     <span class="annotation">@Subscriber</span>
-    <span class="type">void</span> onSum(<span class="type">int</span> num) {
-        total.addAndGet(num)
-    }
+    <span class="type">void</span> onSum(<span class="type">int</span> num) { total.addAndGet(num) }
 }</code></pre>
 </div>
 </div>
@@ -643,11 +643,12 @@ class TotalService {
 <span class="keyword">import</span> <span class="include">javax.annotation.PostConstruct</span>
 ...
 class TotalService <span class="directive">implements</span> EventBusAware {
+
     <span class="predefined-type">AtomicInteger</span> total = <span class="keyword">new</span> <span class="predefined-type">AtomicInteger</span>(<span class="integer">0</span>)
 
     <span class="annotation">@PostConstruct</span>
     <span class="type">void</span> init() {
-        eventBus.subscribe(<span class="string"><span class="delimiter">&quot;</span><span class="content">sum</span><span class="delimiter">&quot;</span></span>) { <span class="type">int</span> num -&gt;
+        eventBus.subscribe(<span class="string"><span class="delimiter">'</span><span class="content">sum</span><span class="delimiter">'</span></span>) { <span class="type">int</span> num -&gt;
             total.addAndGet(num)
         }
     }
@@ -711,6 +712,7 @@ class TotalService <span class="directive">implements</span> EventBusAware {
 Collection&lt;PreInsertEvent&gt; insertEvents = <span class="keyword">new</span> ConcurrentLinkedDeque&lt;&gt;()
 
 <span class="annotation">@Subscriber</span>
+<span class="annotation">@SuppressWarnings</span>(<span class="string"><span class="delimiter">'</span><span class="content">unused</span><span class="delimiter">'</span></span>)
 <span class="type">void</span> beforeInsert(PreInsertEvent event) {
     insertEvents.add(event)
 }</code></pre>

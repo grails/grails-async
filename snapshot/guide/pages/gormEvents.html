@@ -119,6 +119,7 @@ function addJsClass() {
 Collection&lt;PreInsertEvent&gt; insertEvents = <span class="keyword">new</span> ConcurrentLinkedDeque&lt;&gt;()
 
 <span class="annotation">@Subscriber</span>
+<span class="annotation">@SuppressWarnings</span>(<span class="string"><span class="delimiter">'</span><span class="content">unused</span><span class="delimiter">'</span></span>)
 <span class="type">void</span> beforeInsert(PreInsertEvent event) {
     insertEvents.add(event)
 }</code></pre>

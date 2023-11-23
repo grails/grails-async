@@ -148,8 +148,6 @@ if (location.href.indexOf('is-external=true') == -1) {
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/grails/async/factory/BoundPromise.html#accept(T)" title="Method in BoundPromise">accept(T)</a></span> - Method in <a href="org/grails/async/factory/BoundPromise.html">BoundPromise</a>
 </dt><dd> <div class="block"></div></dd>
-<dt><span class="strong"><a href="reactor/fn/Consumer.html#accept(T)" title="Method in Consumer">accept(T)</a></span> - Method in <a href="reactor/fn/Consumer.html">Consumer</a>
-</dt><dd> <div class="block">Execute the logic of the action, accepting the given parameter.</div></dd>
 <dt><span class="strong"><a href="org/grails/async/factory/future/FutureTaskPromise.html#accept(T)" title="Method in FutureTaskPromise">accept(T)</a></span> - Method in <a href="org/grails/async/factory/future/FutureTaskPromise.html">FutureTaskPromise</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/grails/async/factory/gpars/GparsPromise.html#accept(T)" title="Method in GparsPromise">accept(T)</a></span> - Method in <a href="org/grails/async/factory/gpars/GparsPromise.html">GparsPromise</a>
@@ -275,8 +273,6 @@ if (location.href.indexOf('is-external=true') == -1) {
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="grails/events/subscriber/Subscription.html#buildTrigger(grails.events.Event, groovy.lang.Closure)" title="Method in Subscription">buildTrigger(grails.events.Event, groovy.lang.Closure)</a></span> - Method in <a href="grails/events/subscriber/Subscription.html">Subscription</a>
 </dt><dd> <div class="block"> <DL><DT><B>Returns:</B></DT><DD>Builds a trigger</DD></DL></div></dd>
-<dt><span class="strong"><a href="reactor/bus/Bus.html" title="Interface in reactor.bus">Bus</a></span> - Interface in <a href="./reactor/bus/package-summary.html">reactor.bus</a>
-</dt><dd><div class="block">Basic unit of event handling in Reactor.</div></dd>
 </dl>
 
     
@@ -314,8 +310,6 @@ if (location.href.indexOf('is-external=true') == -1) {
 </dt><dd> <div class="block"> <DL><DT><B>Returns:</B></DT><DD>Cancel the registration</DD></DL></div></dd>
 <dt><span class="strong"><a href="org/grails/async/factory/SynchronousPromise.html#cancel(boolean)" title="Method in SynchronousPromise">cancel(boolean)</a></span> - Method in <a href="org/grails/async/factory/SynchronousPromise.html">SynchronousPromise</a>
 </dt><dd> <div class="block"></div></dd>
-<dt><span class="strong"><a href="grails/events/Events.html#clearEventConsumers(java.lang.Object)" title="Method in Events">clearEventConsumers(java.lang.Object)</a></span> - Method in <a href="grails/events/Events.html">Events</a>
-</dt><dd> <div class="block">Clears event consumers for the given key</div></dd>
 <dt><span class="strong"><a href="org/grails/events/gpars/ActorEventBus.html#close()" title="Method in ActorEventBus">close()</a></span> - Method in <a href="org/grails/events/gpars/ActorEventBus.html">ActorEventBus</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/grails/async/factory/future/CachedThreadPoolPromiseFactory.html#close()" title="Method in CachedThreadPoolPromiseFactory">close()</a></span> - Method in <a href="org/grails/async/factory/future/CachedThreadPoolPromiseFactory.html">CachedThreadPoolPromiseFactory</a>
@@ -332,10 +326,8 @@ if (location.href.indexOf('is-external=true') == -1) {
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="grails/async/web/AsyncGrailsWebRequest.html#completionHandlers" title="Property in AsyncGrailsWebRequest">completionHandlers</a></span> - Property in <a href="grails/async/web/AsyncGrailsWebRequest.html">AsyncGrailsWebRequest</a>
 </dt><dd> <div class="block"></div></dd>
-<dt><span class="strong"><a href="reactor/spring/context/annotation/Consumer.html" title="Annotation Type in reactor.spring.context.annotation">Consumer</a></span> - Annotation Type in <a href="./reactor/spring/context/annotation/package-summary.html">reactor.spring.context.annotation</a>
-</dt><dd><div class="block"><DL><DT><B>deprecated:</B></DT><DD>No longer necessary, remove from your class</DD></DL> </div></dd>
 <dt><span class="strong"><a href="grails/async/PromiseMap.html#containsKey(K)" title="Method in PromiseMap">containsKey(K)</a></span> - Method in <a href="grails/async/PromiseMap.html">PromiseMap</a>
-</dt><dd> <div class="block"> <DL><DT><B>Parameters:</B></DT><DD><code>o</code> -  The key</DD></DL></div></dd>
+</dt><dd> <div class="block"> <DL><DT><B>Parameters:</B></DT><DD><code>key</code> -  The key</DD></DL></div></dd>
 <dt><span class="strong"><a href="org/grails/plugins/web/async/ControllersAsyncGrailsPlugin.html" title="Class in org.grails.plugins.web.async">ControllersAsyncGrailsPlugin</a></span> - Class in <a href="./org/grails/plugins/web/async/package-summary.html">org.grails.plugins.web.async</a>
 </dt><dd><div class="block">Async support for the Grails 2.0. </div></dd>
 <dt><span class="strong"><a href="org/grails/plugins/web/async/ControllersAsyncGrailsPlugin.html#ControllersAsyncGrailsPlugin()" title="Constructor in ControllersAsyncGrailsPlugin">ControllersAsyncGrailsPlugin()</a></span> - Constructor in <a href="org/grails/plugins/web/async/ControllersAsyncGrailsPlugin.html">ControllersAsyncGrailsPlugin</a>
@@ -376,7 +368,7 @@ if (location.href.indexOf('is-external=true') == -1) {
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="grails/async/web/WebPromises.html#createPromise(Promise<T>)" title="Method in WebPromises">createPromise(Promise&lt;T&gt;)</a></span> - Method in <a href="grails/async/web/WebPromises.html">WebPromises</a>
 </dt><dd> <div class="block"> <DL><DT><B>See Also:</B></DT><DD><a href='../../../grails/async/PromiseFactory.html#createPromise(grails.async.Promise[])' title='PromiseFactory.createPromise'>PromiseFactory.createPromise</a></DD></DL></div></dd>
-<dt><span class="strong"><a href="grails/async/factory/AbstractPromiseFactory.html#createPromiseInternal(groovy.lang.Closure)" title="Method in AbstractPromiseFactory">createPromiseInternal(groovy.lang.Closure)</a></span> - Method in <a href="grails/async/factory/AbstractPromiseFactory.html">AbstractPromiseFactory</a>
+<dt><span class="strong"><a href="grails/async/factory/AbstractPromiseFactory.html#createPromiseInternal(Closure<T>)" title="Method in AbstractPromiseFactory">createPromiseInternal(Closure&lt;T&gt;)</a></span> - Method in <a href="grails/async/factory/AbstractPromiseFactory.html">AbstractPromiseFactory</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/grails/async/factory/gpars/LoggingPoolFactory.html#createThreadNameMethod" title="Field in LoggingPoolFactory">createThreadNameMethod</a></span> - Field in <a href="org/grails/async/factory/gpars/LoggingPoolFactory.html">LoggingPoolFactory</a>
 </dt><dd> <div class="block"></div></dd>
@@ -439,13 +431,13 @@ if (location.href.indexOf('is-external=true') == -1) {
 </dt><dd> <div class="block"> <DL><DT><B>Returns:</B></DT><DD>The id of the event to notify in the case of an error</DD></DL></div></dd>
 <dt><span class="strong"><a href="grails/events/annotation/Publisher.html#error()" title="Method in Publisher">error()</a></span> - Method in <a href="grails/events/annotation/Publisher.html">Publisher</a>
 </dt><dd> <div class="block"> <DL><DT><B>Returns:</B></DT><DD>The id of the event to notify in the case of an error</DD></DL></div></dd>
-<dt><span class="strong"><a href="reactor/bus/Event.html" title="Class in reactor.bus">Event</a></span> - Class in <a href="./reactor/bus/package-summary.html">reactor.bus</a>
-</dt><dd><div class="block"><DL><DT><B>deprecated:</B></DT><DD>Here for compatibility only.</DD></DL>  </div></dd>
+<dt><span class="strong"><a href="grails/events/Event.html" title="Class in grails.events">Event</a></span> - Class in <a href="./grails/events/package-summary.html">grails.events</a>
+</dt><dd><div class="block">Wraps an event</div></dd>
 <dt><span class="strong"><a href="org/grails/events/bus/AbstractEventBus.NotificationTrigger.html#event" title="Property in AbstractEventBus.NotificationTrigger">event</a></span> - Property in <a href="org/grails/events/bus/AbstractEventBus.NotificationTrigger.html">AbstractEventBus.NotificationTrigger</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/grails/events/ClosureEventTrigger.html#event" title="Property in ClosureEventTrigger">event</a></span> - Property in <a href="org/grails/events/ClosureEventTrigger.html">ClosureEventTrigger</a>
 </dt><dd> <div class="block"></div></dd>
-<dt><span class="strong"><a href="reactor/bus/Event.html#Event(java.lang.String, T)" title="Constructor in Event">Event(java.lang.String, T)</a></span> - Constructor in <a href="reactor/bus/Event.html">Event</a>
+<dt><span class="strong"><a href="grails/events/Event.html#Event(java.lang.String, Map<String, Object>, T)" title="Constructor in Event">Event(java.lang.String, Map&lt;String, Object&gt;, T)</a></span> - Constructor in <a href="grails/events/Event.html">Event</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/grails/events/EventSubscriberTrigger.html#event" title="Property in EventSubscriberTrigger">event</a></span> - Property in <a href="org/grails/events/EventSubscriberTrigger.html">EventSubscriberTrigger</a>
 </dt><dd> <div class="block"></div></dd>
@@ -453,13 +445,9 @@ if (location.href.indexOf('is-external=true') == -1) {
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/grails/events/spring/SpringEventTranslator.html#EVENT_SUFFIX" title="Field in SpringEventTranslator">EVENT_SUFFIX</a></span> - Field in <a href="org/grails/events/spring/SpringEventTranslator.html">SpringEventTranslator</a>
 </dt><dd> <div class="block"></div></dd>
-<dt><span class="strong"><a href="reactor/bus/EventBus.html" title="Class in reactor.bus">EventBus</a></span> - Class in <a href="./reactor/bus/package-summary.html">reactor.bus</a>
-</dt><dd><div class="block"><DL><DT><B>deprecated:</B></DT><DD>Here for compatibility only.</DD></DL>  </div></dd>
-<dt><span class="strong"><a href="reactor/bus/EventBus.html#eventBus" title="Property in EventBus">eventBus</a></span> - Property in <a href="reactor/bus/EventBus.html">EventBus</a>
-</dt><dd> <div class="block"></div></dd>
+<dt><span class="strong"><a href="grails/events/bus/EventBus.html" title="Interface in grails.events.bus">EventBus</a></span> - Interface in <a href="./grails/events/bus/package-summary.html">grails.events.bus</a>
+</dt><dd><div class="block">An EventBus is both an EventEmitter and a Subjects</div></dd>
 <dt><span class="strong"><a href="org/grails/events/bus/spring/EventBusFactoryBean.html#eventBus" title="Property in EventBusFactoryBean">eventBus</a></span> - Property in <a href="org/grails/events/bus/spring/EventBusFactoryBean.html">EventBusFactoryBean</a>
-</dt><dd> <div class="block"></div></dd>
-<dt><span class="strong"><a href="grails/events/Events.html#eventBus" title="Property in Events">eventBus</a></span> - Property in <a href="grails/events/Events.html">Events</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/grails/events/gorm/GormDispatcherRegistrar.html#eventBus" title="Field in GormDispatcherRegistrar">eventBus</a></span> - Field in <a href="org/grails/events/gorm/GormDispatcherRegistrar.html">GormDispatcherRegistrar</a>
 </dt><dd> <div class="block"></div></dd>
@@ -481,8 +469,6 @@ if (location.href.indexOf('is-external=true') == -1) {
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="grails/events/emitter/EventEmitter.html" title="Interface in grails.events.emitter">EventEmitter</a></span> - Interface in <a href="./grails/events/emitter/package-summary.html">grails.events.emitter</a>
 </dt><dd><div class="block">An emitter sends events</div></dd>
-<dt><span class="strong"><a href="grails/events/Events.html#eventFor(Map<String, Object>, T, Closure<Throwable>)" title="Method in Events">eventFor(Map&lt;String, Object&gt;, T, Closure&lt;Throwable&gt;)</a></span> - Method in <a href="grails/events/Events.html">Events</a>
-</dt><dd> <div class="block">Creates an <a href='../../grails/events/Event.html' title='Event'>Event</a> for the given headers, data and error consumer</div></dd>
 <dt><span class="strong"><a href="org/grails/events/EventIdUtils.html#eventIdForMethodName(java.lang.String)" title="Method in EventIdUtils">eventIdForMethodName(java.lang.String)</a></span> - Method in <a href="org/grails/events/EventIdUtils.html">EventIdUtils</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/grails/events/EventIdUtils.html" title="Class in org.grails.events">EventIdUtils</a></span> - Class in <a href="./org/grails/events/package-summary.html">org.grails.events</a>
@@ -588,8 +574,6 @@ if (location.href.indexOf('is-external=true') == -1) {
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/grails/plugins/web/async/spring/PromiseFactoryBean.html#getObject()" title="Method in PromiseFactoryBean">getObject()</a></span> - Method in <a href="org/grails/plugins/web/async/spring/PromiseFactoryBean.html">PromiseFactoryBean</a>
 </dt><dd> <div class="block"></div></dd>
-<dt><span class="strong"><a href="reactor/bus/selector/Selector.html#getObject()" title="Method in Selector">getObject()</a></span> - Method in <a href="reactor/bus/selector/Selector.html">Selector</a>
-</dt><dd> <div class="block">Get the object being used for comparisons and equals checks.</div></dd>
 <dt><span class="strong"><a href="org/grails/events/bus/spring/EventBusFactoryBean.html#getObjectType()" title="Method in EventBusFactoryBean">getObjectType()</a></span> - Method in <a href="org/grails/events/bus/spring/EventBusFactoryBean.html">EventBusFactoryBean</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/grails/events/gorm/GormDispatcherRegistrar.html#getObjectType()" title="Method in GormDispatcherRegistrar">getObjectType()</a></span> - Method in <a href="org/grails/events/gorm/GormDispatcherRegistrar.html">GormDispatcherRegistrar</a>
@@ -608,8 +592,6 @@ if (location.href.indexOf('is-external=true') == -1) {
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/grails/events/transform/PublisherTransform.html#getRenamedMethodPrefix()" title="Method in PublisherTransform">getRenamedMethodPrefix()</a></span> - Method in <a href="org/grails/events/transform/PublisherTransform.html">PublisherTransform</a>
 </dt><dd> <div class="block"></div></dd>
-<dt><span class="strong"><a href="reactor/bus/Event.html#getReplyTo()" title="Method in Event">getReplyTo()</a></span> - Method in <a href="reactor/bus/Event.html">Event</a>
-</dt><dd> <div class="block">Get the key to send replies to.</div></dd>
 <dt><span class="strong"><a href="org/grails/async/transform/internal/DefaultDelegateAsyncTransactionalMethodTransformer.html#getSetTransactionManagerMethodBody(org.codehaus.groovy.ast.ClassNode)" title="Method in DefaultDelegateAsyncTransactionalMethodTransformer">getSetTransactionManagerMethodBody(org.codehaus.groovy.ast.ClassNode)</a></span> - Method in <a href="org/grails/async/transform/internal/DefaultDelegateAsyncTransactionalMethodTransformer.html">DefaultDelegateAsyncTransactionalMethodTransformer</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/grails/events/spring/SpringEventBusEvent.html#getSource()" title="Method in SpringEventBusEvent">getSource()</a></span> - Method in <a href="org/grails/events/spring/SpringEventBusEvent.html">SpringEventBusEvent</a>
@@ -755,15 +737,15 @@ if (location.href.indexOf('is-external=true') == -1) {
 <h2 class="title">L</h2>
 <dl>
 
-<dt><span class="strong"><a href="org/grails/async/factory/BoundPromise.html#leftShift(groovy.lang.Closure)" title="Method in BoundPromise">leftShift(groovy.lang.Closure)</a></span> - Method in <a href="org/grails/async/factory/BoundPromise.html">BoundPromise</a>
+<dt><span class="strong"><a href="org/grails/async/factory/BoundPromise.html#leftShift(Closure<T>)" title="Method in BoundPromise">leftShift(Closure&lt;T&gt;)</a></span> - Method in <a href="org/grails/async/factory/BoundPromise.html">BoundPromise</a>
 </dt><dd> <div class="block"></div></dd>
-<dt><span class="strong"><a href="org/grails/async/factory/gpars/GparsPromise.html#leftShift(groovy.lang.Closure)" title="Method in GparsPromise">leftShift(groovy.lang.Closure)</a></span> - Method in <a href="org/grails/async/factory/gpars/GparsPromise.html">GparsPromise</a>
+<dt><span class="strong"><a href="org/grails/async/factory/gpars/GparsPromise.html#leftShift(Closure<T>)" title="Method in GparsPromise">leftShift(Closure&lt;T&gt;)</a></span> - Method in <a href="org/grails/async/factory/gpars/GparsPromise.html">GparsPromise</a>
 </dt><dd> <div class="block"></div></dd>
-<dt><span class="strong"><a href="grails/async/PromiseList.html#leftShift(grails.async.Promise)" title="Method in PromiseList">leftShift(grails.async.Promise)</a></span> - Method in <a href="grails/async/PromiseList.html">PromiseList</a>
+<dt><span class="strong"><a href="grails/async/PromiseList.html#leftShift(Promise<T>)" title="Method in PromiseList">leftShift(Promise&lt;T&gt;)</a></span> - Method in <a href="grails/async/PromiseList.html">PromiseList</a>
 </dt><dd> <div class="block">Add a promise to the promise list</div></dd>
 <dt><span class="strong"><a href="grails/async/PromiseMap.html#leftShift(groovy.lang.Closure)" title="Method in PromiseMap">leftShift(groovy.lang.Closure)</a></span> - Method in <a href="grails/async/PromiseMap.html">PromiseMap</a>
 </dt><dd> <div class="block"></div></dd>
-<dt><span class="strong"><a href="org/grails/async/factory/SynchronousPromise.html#leftShift(groovy.lang.Closure)" title="Method in SynchronousPromise">leftShift(groovy.lang.Closure)</a></span> - Method in <a href="org/grails/async/factory/SynchronousPromise.html">SynchronousPromise</a>
+<dt><span class="strong"><a href="org/grails/async/factory/SynchronousPromise.html#leftShift(Closure<T>)" title="Method in SynchronousPromise">leftShift(Closure&lt;T&gt;)</a></span> - Method in <a href="org/grails/async/factory/SynchronousPromise.html">SynchronousPromise</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/grails/events/gorm/GormEventDispatcher.html#listenedForEvents" title="Field in GormEventDispatcher">listenedForEvents</a></span> - Field in <a href="org/grails/events/gorm/GormEventDispatcher.html">GormEventDispatcher</a>
 </dt><dd> <div class="block"></div></dd>
@@ -806,8 +788,6 @@ if (location.href.indexOf('is-external=true') == -1) {
 <h2 class="title">M</h2>
 <dl>
 
-<dt><span class="strong"><a href="reactor/bus/selector/Selector.html#matches(T)" title="Method in Selector">matches(T)</a></span> - Method in <a href="reactor/bus/selector/Selector.html">Selector</a>
-</dt><dd> <div class="block">Indicates whether this Selector matches the <CODE>key</CODE>.</div></dd>
 <dt><span class="strong"><a href="grails/events/subscriber/MethodSubscriber.html#method" title="Property in MethodSubscriber">method</a></span> - Property in <a href="grails/events/subscriber/MethodSubscriber.html">MethodSubscriber</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="grails/events/subscriber/MethodEventSubscriber.html" title="Class in grails.events.subscriber">MethodEventSubscriber</a></span> - Class in <a href="./grails/events/subscriber/package-summary.html">grails.events.subscriber</a>
@@ -837,16 +817,10 @@ if (location.href.indexOf('is-external=true') == -1) {
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/grails/events/bus/AbstractEventBus.html#notify(grails.events.Event, org.springframework.transaction.event.TransactionPhase)" title="Method in AbstractEventBus">notify(grails.events.Event, org.springframework.transaction.event.TransactionPhase)</a></span> - Method in <a href="org/grails/events/bus/AbstractEventBus.html">AbstractEventBus</a>
 </dt><dd> <div class="block"></div></dd>
-<dt><span class="strong"><a href="reactor/bus/Bus.html#notify(java.lang.Object, T)" title="Method in Bus">notify(java.lang.Object, T)</a></span> - Method in <a href="reactor/bus/Bus.html">Bus</a>
-</dt><dd> <div class="block">Notify this component that an <a href='../../reactor/bus/Event.html' title='Event'>Event</a> is ready to be processed.</div></dd>
-<dt><span class="strong"><a href="reactor/bus/EventBus.html#notify(java.lang.Object, java.lang.Object)" title="Method in EventBus">notify(java.lang.Object, java.lang.Object)</a></span> - Method in <a href="reactor/bus/EventBus.html">EventBus</a>
-</dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="grails/events/emitter/EventEmitter.html#notify(grails.events.Event, org.springframework.transaction.event.TransactionPhase)" title="Method in EventEmitter">notify(grails.events.Event, org.springframework.transaction.event.TransactionPhase)</a></span> - Method in <a href="grails/events/emitter/EventEmitter.html">EventEmitter</a>
 </dt><dd> <div class="block">Notify of an event</div></dd>
 <dt><span class="strong"><a href="grails/events/EventPublisher.html#notify(grails.events.Event, org.springframework.transaction.event.TransactionPhase)" title="Method in EventPublisher">notify(grails.events.Event, org.springframework.transaction.event.TransactionPhase)</a></span> - Method in <a href="grails/events/EventPublisher.html">EventPublisher</a>
 </dt><dd> <div class="block"> <DL><DT><B>See Also:</B></DT><DD><a href='../../grails/events/emitter/EventEmitter.html#notify(Event, org.springframework.transaction.event.TransactionPhase)' title='EventEmitter.notify'>EventEmitter.notify</a></DD></DL></div></dd>
-<dt><span class="strong"><a href="grails/events/Events.html#notify(java.lang.Object, Closure<E>)" title="Method in Events">notify(java.lang.Object, Closure&lt;E&gt;)</a></span> - Method in <a href="grails/events/Events.html">Events</a>
-</dt><dd> <div class="block"></div></dd>
 </dl>
 
     
@@ -858,67 +832,61 @@ if (location.href.indexOf('is-external=true') == -1) {
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/grails/events/bus/AbstractEventBus.html#on(java.lang.CharSequence, groovy.lang.Closure)" title="Method in AbstractEventBus">on(java.lang.CharSequence, groovy.lang.Closure)</a></span> - Method in <a href="org/grails/events/bus/AbstractEventBus.html">AbstractEventBus</a>
 </dt><dd> <div class="block"></div></dd>
-<dt><span class="strong"><a href="reactor/bus/Bus.html#on(reactor.bus.selector.Selector, Consumer<V>)" title="Method in Bus">on(reactor.bus.selector.Selector, Consumer&lt;V&gt;)</a></span> - Method in <a href="reactor/bus/Bus.html">Bus</a>
-</dt><dd> <div class="block">Register a <a href='../../reactor/fn/Consumer.html' title='Consumer'>Consumer</a> to be triggered when a notification matches the given <a href='../../reactor/bus/selector/Selector.html' title='Selector'>Selector</a>.</div></dd>
-<dt><span class="strong"><a href="reactor/bus/EventBus.html#on(reactor.bus.selector.Selector, reactor.fn.Consumer)" title="Method in EventBus">on(reactor.bus.selector.Selector, reactor.fn.Consumer)</a></span> - Method in <a href="reactor/bus/EventBus.html">EventBus</a>
-</dt><dd> <div class="block"></div></dd>
-<dt><span class="strong"><a href="grails/events/Events.html#on(reactor.bus.selector.Selector, Consumer<E>)" title="Method in Events">on(reactor.bus.selector.Selector, Consumer&lt;E&gt;)</a></span> - Method in <a href="grails/events/Events.html">Events</a>
-</dt><dd> <div class="block">Register a <a href='../../reactor/fn/Consumer.html' title='Consumer'>Consumer</a> to be triggered when a notification matches the given Selector.</div></dd>
 <dt><span class="strong"><a href="grails/events/subscriber/Subjects.html#on(java.lang.CharSequence, groovy.lang.Closure)" title="Method in Subjects">on(java.lang.CharSequence, groovy.lang.Closure)</a></span> - Method in <a href="grails/events/subscriber/Subjects.html">Subjects</a>
 </dt><dd> <div class="block">Listen for an event</div></dd>
 <dt><span class="strong"><a href="org/grails/events/spring/SpringEventTranslator.html#onApplicationEvent(org.springframework.context.ApplicationEvent)" title="Method in SpringEventTranslator">onApplicationEvent(org.springframework.context.ApplicationEvent)</a></span> - Method in <a href="org/grails/events/spring/SpringEventTranslator.html">SpringEventTranslator</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="grails/async/web/AsyncGrailsWebRequest.html#onComplete(javax.servlet.AsyncEvent)" title="Method in AsyncGrailsWebRequest">onComplete(javax.servlet.AsyncEvent)</a></span> - Method in <a href="grails/async/web/AsyncGrailsWebRequest.html">AsyncGrailsWebRequest</a>
 </dt><dd> <div class="block"></div></dd>
-<dt><span class="strong"><a href="org/grails/async/factory/BoundPromise.html#onComplete(groovy.lang.Closure)" title="Method in BoundPromise">onComplete(groovy.lang.Closure)</a></span> - Method in <a href="org/grails/async/factory/BoundPromise.html">BoundPromise</a>
+<dt><span class="strong"><a href="org/grails/async/factory/BoundPromise.html#onComplete(Closure<T>)" title="Method in BoundPromise">onComplete(Closure&lt;T&gt;)</a></span> - Method in <a href="org/grails/async/factory/BoundPromise.html">BoundPromise</a>
 </dt><dd> <div class="block"></div></dd>
-<dt><span class="strong"><a href="org/grails/async/factory/future/CachedThreadPoolPromiseFactory.html#onComplete(List<Promise<T>>, Closure<?>)" title="Method in CachedThreadPoolPromiseFactory">onComplete(List&lt;Promise&lt;T&gt;&gt;, Closure&lt;?&gt;)</a></span> - Method in <a href="org/grails/async/factory/future/CachedThreadPoolPromiseFactory.html">CachedThreadPoolPromiseFactory</a>
+<dt><span class="strong"><a href="org/grails/async/factory/future/CachedThreadPoolPromiseFactory.html#onComplete(List<Promise<T>>, Closure<T>)" title="Method in CachedThreadPoolPromiseFactory">onComplete(List&lt;Promise&lt;T&gt;&gt;, Closure&lt;T&gt;)</a></span> - Method in <a href="org/grails/async/factory/future/CachedThreadPoolPromiseFactory.html">CachedThreadPoolPromiseFactory</a>
 </dt><dd> <div class="block"></div></dd>
-<dt><span class="strong"><a href="org/grails/async/factory/future/FutureTaskPromise.html#onComplete(groovy.lang.Closure)" title="Method in FutureTaskPromise">onComplete(groovy.lang.Closure)</a></span> - Method in <a href="org/grails/async/factory/future/FutureTaskPromise.html">FutureTaskPromise</a>
+<dt><span class="strong"><a href="org/grails/async/factory/future/FutureTaskPromise.html#onComplete(Closure<T>)" title="Method in FutureTaskPromise">onComplete(Closure&lt;T&gt;)</a></span> - Method in <a href="org/grails/async/factory/future/FutureTaskPromise.html">FutureTaskPromise</a>
 </dt><dd> <div class="block"></div></dd>
-<dt><span class="strong"><a href="org/grails/async/factory/gpars/GparsPromise.html#onComplete(groovy.lang.Closure)" title="Method in GparsPromise">onComplete(groovy.lang.Closure)</a></span> - Method in <a href="org/grails/async/factory/gpars/GparsPromise.html">GparsPromise</a>
+<dt><span class="strong"><a href="org/grails/async/factory/gpars/GparsPromise.html#onComplete(Closure<T>)" title="Method in GparsPromise">onComplete(Closure&lt;T&gt;)</a></span> - Method in <a href="org/grails/async/factory/gpars/GparsPromise.html">GparsPromise</a>
 </dt><dd> <div class="block"></div></dd>
-<dt><span class="strong"><a href="org/grails/async/factory/gpars/GparsPromiseFactory.html#onComplete(List<Promise<T>>, Closure<?>)" title="Method in GparsPromiseFactory">onComplete(List&lt;Promise&lt;T&gt;&gt;, Closure&lt;?&gt;)</a></span> - Method in <a href="org/grails/async/factory/gpars/GparsPromiseFactory.html">GparsPromiseFactory</a>
+<dt><span class="strong"><a href="org/grails/async/factory/gpars/GparsPromiseFactory.html#onComplete(List<Promise<T>>, Closure<T>)" title="Method in GparsPromiseFactory">onComplete(List&lt;Promise&lt;T&gt;&gt;, Closure&lt;T&gt;)</a></span> - Method in <a href="org/grails/async/factory/gpars/GparsPromiseFactory.html">GparsPromiseFactory</a>
 </dt><dd> <div class="block"></div></dd>
-<dt><span class="strong"><a href="grails/async/Promise.html#onComplete(groovy.lang.Closure)" title="Method in Promise">onComplete(groovy.lang.Closure)</a></span> - Method in <a href="grails/async/Promise.html">Promise</a>
+<dt><span class="strong"><a href="grails/async/Promise.html#onComplete(Closure<T>)" title="Method in Promise">onComplete(Closure&lt;T&gt;)</a></span> - Method in <a href="grails/async/Promise.html">Promise</a>
 </dt><dd> <div class="block">Execute the given closure when the promise completes</div></dd>
-<dt><span class="strong"><a href="grails/async/PromiseFactory.html#onComplete(List<Promise<T>>, Closure<?>)" title="Method in PromiseFactory">onComplete(List&lt;Promise&lt;T&gt;&gt;, Closure&lt;?&gt;)</a></span> - Method in <a href="grails/async/PromiseFactory.html">PromiseFactory</a>
+<dt><span class="strong"><a href="grails/async/PromiseFactory.html#onComplete(List<Promise<T>>, Closure<T>)" title="Method in PromiseFactory">onComplete(List&lt;Promise&lt;T&gt;&gt;, Closure&lt;T&gt;)</a></span> - Method in <a href="grails/async/PromiseFactory.html">PromiseFactory</a>
 </dt><dd> <div class="block">Executes the given callback when the list of promises completes</div></dd>
 <dt><span class="strong"><a href="grails/async/PromiseList.html#onComplete(groovy.lang.Closure)" title="Method in PromiseList">onComplete(groovy.lang.Closure)</a></span> - Method in <a href="grails/async/PromiseList.html">PromiseList</a>
 </dt><dd> <div class="block">Execute the given closure when all promises are complete</div></dd>
-<dt><span class="strong"><a href="grails/async/PromiseMap.html#onComplete(groovy.lang.Closure)" title="Method in PromiseMap">onComplete(groovy.lang.Closure)</a></span> - Method in <a href="grails/async/PromiseMap.html">PromiseMap</a>
+<dt><span class="strong"><a href="grails/async/PromiseMap.html#onComplete(Closure<Map<K, V>>)" title="Method in PromiseMap">onComplete(Closure&lt;Map&lt;K, V&gt;&gt;)</a></span> - Method in <a href="grails/async/PromiseMap.html">PromiseMap</a>
 </dt><dd> <div class="block"></div></dd>
-<dt><span class="strong"><a href="grails/async/Promises.html#onComplete(List<Promise<T>>, Closure<?>)" title="Method in Promises">onComplete(List&lt;Promise&lt;T&gt;&gt;, Closure&lt;?&gt;)</a></span> - Method in <a href="grails/async/Promises.html">Promises</a>
+<dt><span class="strong"><a href="grails/async/Promises.html#onComplete(List<Promise<T>>, Closure<T>)" title="Method in Promises">onComplete(List&lt;Promise&lt;T&gt;&gt;, Closure&lt;T&gt;)</a></span> - Method in <a href="grails/async/Promises.html">Promises</a>
 </dt><dd> <div class="block"> <DL><DT><B>See Also:</B></DT><DD><a href='../../grails/async/PromiseFactory.html#onComplete(java.util.List, groovy.lang.Closure)' title='PromiseFactory.onComplete'>PromiseFactory.onComplete</a></DD></DL></div></dd>
 <dt><span class="strong"><a href="org/grails/async/factory/rxjava2/RxPromise.1.html#onComplete()" title="Method in RxPromise.1">onComplete()</a></span> - Method in <a href="org/grails/async/factory/rxjava2/RxPromise.1.html">RxPromise.1</a>
 </dt><dd> <div class="block"></div></dd>
-<dt><span class="strong"><a href="org/grails/async/factory/rxjava2/RxPromiseFactory.html#onComplete(List<Promise<T>>, Closure<?>)" title="Method in RxPromiseFactory">onComplete(List&lt;Promise&lt;T&gt;&gt;, Closure&lt;?&gt;)</a></span> - Method in <a href="org/grails/async/factory/rxjava2/RxPromiseFactory.html">RxPromiseFactory</a>
+<dt><span class="strong"><a href="org/grails/async/factory/rxjava2/RxPromiseFactory.html#onComplete(List<Promise<T>>, Closure<T>)" title="Method in RxPromiseFactory">onComplete(List&lt;Promise&lt;T&gt;&gt;, Closure&lt;T&gt;)</a></span> - Method in <a href="org/grails/async/factory/rxjava2/RxPromiseFactory.html">RxPromiseFactory</a>
 </dt><dd> <div class="block"></div></dd>
-<dt><span class="strong"><a href="org/grails/async/factory/SynchronousPromise.html#onComplete(groovy.lang.Closure)" title="Method in SynchronousPromise">onComplete(groovy.lang.Closure)</a></span> - Method in <a href="org/grails/async/factory/SynchronousPromise.html">SynchronousPromise</a>
+<dt><span class="strong"><a href="org/grails/async/factory/SynchronousPromise.html#onComplete(Closure<T>)" title="Method in SynchronousPromise">onComplete(Closure&lt;T&gt;)</a></span> - Method in <a href="org/grails/async/factory/SynchronousPromise.html">SynchronousPromise</a>
 </dt><dd> <div class="block"></div></dd>
-<dt><span class="strong"><a href="org/grails/async/factory/SynchronousPromiseFactory.html#onComplete(List<Promise<T>>, Closure<?>)" title="Method in SynchronousPromiseFactory">onComplete(List&lt;Promise&lt;T&gt;&gt;, Closure&lt;?&gt;)</a></span> - Method in <a href="org/grails/async/factory/SynchronousPromiseFactory.html">SynchronousPromiseFactory</a>
+<dt><span class="strong"><a href="org/grails/async/factory/SynchronousPromiseFactory.html#onComplete(List<Promise<T>>, Closure<T>)" title="Method in SynchronousPromiseFactory">onComplete(List&lt;Promise&lt;T&gt;&gt;, Closure&lt;T&gt;)</a></span> - Method in <a href="org/grails/async/factory/SynchronousPromiseFactory.html">SynchronousPromiseFactory</a>
 </dt><dd> <div class="block"></div></dd>
-<dt><span class="strong"><a href="grails/async/web/WebPromises.html#onComplete(List<Promise<T>>, Closure<?>)" title="Method in WebPromises">onComplete(List&lt;Promise&lt;T&gt;&gt;, Closure&lt;?&gt;)</a></span> - Method in <a href="grails/async/web/WebPromises.html">WebPromises</a>
+<dt><span class="strong"><a href="grails/async/web/WebPromises.html#onComplete(List<Promise<T>>, Closure<T>)" title="Method in WebPromises">onComplete(List&lt;Promise&lt;T&gt;&gt;, Closure&lt;T&gt;)</a></span> - Method in <a href="grails/async/web/WebPromises.html">WebPromises</a>
 </dt><dd> <div class="block"> <DL><DT><B>See Also:</B></DT><DD><a href='../../../grails/async/PromiseFactory.html#onComplete(java.util.List, groovy.lang.Closure)' title='PromiseFactory.onComplete'>PromiseFactory.onComplete</a></DD></DL></div></dd>
 <dt><span class="strong"><a href="grails/async/web/AsyncGrailsWebRequest.html#onError(javax.servlet.AsyncEvent)" title="Method in AsyncGrailsWebRequest">onError(javax.servlet.AsyncEvent)</a></span> - Method in <a href="grails/async/web/AsyncGrailsWebRequest.html">AsyncGrailsWebRequest</a>
 </dt><dd> <div class="block"></div></dd>
-<dt><span class="strong"><a href="org/grails/async/factory/BoundPromise.html#onError(groovy.lang.Closure)" title="Method in BoundPromise">onError(groovy.lang.Closure)</a></span> - Method in <a href="org/grails/async/factory/BoundPromise.html">BoundPromise</a>
+<dt><span class="strong"><a href="org/grails/async/factory/BoundPromise.html#onError(Closure<T>)" title="Method in BoundPromise">onError(Closure&lt;T&gt;)</a></span> - Method in <a href="org/grails/async/factory/BoundPromise.html">BoundPromise</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/grails/async/factory/future/CachedThreadPoolPromiseFactory.html#onError(List<Promise<T>>, Closure<?>)" title="Method in CachedThreadPoolPromiseFactory">onError(List&lt;Promise&lt;T&gt;&gt;, Closure&lt;?&gt;)</a></span> - Method in <a href="org/grails/async/factory/future/CachedThreadPoolPromiseFactory.html">CachedThreadPoolPromiseFactory</a>
 </dt><dd> <div class="block"></div></dd>
-<dt><span class="strong"><a href="org/grails/async/factory/future/FutureTaskPromise.html#onError(groovy.lang.Closure)" title="Method in FutureTaskPromise">onError(groovy.lang.Closure)</a></span> - Method in <a href="org/grails/async/factory/future/FutureTaskPromise.html">FutureTaskPromise</a>
+<dt><span class="strong"><a href="org/grails/async/factory/future/FutureTaskPromise.html#onError(Closure<T>)" title="Method in FutureTaskPromise">onError(Closure&lt;T&gt;)</a></span> - Method in <a href="org/grails/async/factory/future/FutureTaskPromise.html">FutureTaskPromise</a>
 </dt><dd> <div class="block"></div></dd>
-<dt><span class="strong"><a href="org/grails/async/factory/gpars/GparsPromise.html#onError(groovy.lang.Closure)" title="Method in GparsPromise">onError(groovy.lang.Closure)</a></span> - Method in <a href="org/grails/async/factory/gpars/GparsPromise.html">GparsPromise</a>
+<dt><span class="strong"><a href="org/grails/async/factory/gpars/GparsPromise.html#onError(Closure<T>)" title="Method in GparsPromise">onError(Closure&lt;T&gt;)</a></span> - Method in <a href="org/grails/async/factory/gpars/GparsPromise.html">GparsPromise</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/grails/async/factory/gpars/GparsPromiseFactory.html#onError(List<Promise<T>>, Closure<?>)" title="Method in GparsPromiseFactory">onError(List&lt;Promise&lt;T&gt;&gt;, Closure&lt;?&gt;)</a></span> - Method in <a href="org/grails/async/factory/gpars/GparsPromiseFactory.html">GparsPromiseFactory</a>
 </dt><dd> <div class="block"></div></dd>
-<dt><span class="strong"><a href="grails/async/Promise.html#onError(groovy.lang.Closure)" title="Method in Promise">onError(groovy.lang.Closure)</a></span> - Method in <a href="grails/async/Promise.html">Promise</a>
+<dt><span class="strong"><a href="grails/async/Promise.html#onError(Closure<T>)" title="Method in Promise">onError(Closure&lt;T&gt;)</a></span> - Method in <a href="grails/async/Promise.html">Promise</a>
 </dt><dd> <div class="block">Execute the given closure when an error occurs</div></dd>
 <dt><span class="strong"><a href="grails/async/PromiseFactory.html#onError(List<Promise<T>>, Closure<?>)" title="Method in PromiseFactory">onError(List&lt;Promise&lt;T&gt;&gt;, Closure&lt;?&gt;)</a></span> - Method in <a href="grails/async/PromiseFactory.html">PromiseFactory</a>
 </dt><dd> <div class="block">Executes the given callback if an error occurs for the list of promises</div></dd>
 <dt><span class="strong"><a href="grails/async/PromiseList.html#onError(groovy.lang.Closure)" title="Method in PromiseList">onError(groovy.lang.Closure)</a></span> - Method in <a href="grails/async/PromiseList.html">PromiseList</a>
 </dt><dd> <div class="block"></div></dd>
-<dt><span class="strong"><a href="grails/async/PromiseMap.html#onError(groovy.lang.Closure)" title="Method in PromiseMap">onError(groovy.lang.Closure)</a></span> - Method in <a href="grails/async/PromiseMap.html">PromiseMap</a>
+<dt><span class="strong"><a href="grails/async/PromiseMap.html#onError(Closure<Map<K, V>>)" title="Method in PromiseMap">onError(Closure&lt;Map&lt;K, V&gt;&gt;)</a></span> - Method in <a href="grails/async/PromiseMap.html">PromiseMap</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="grails/async/Promises.html#onError(List<Promise<T>>, Closure<?>)" title="Method in Promises">onError(List&lt;Promise&lt;T&gt;&gt;, Closure&lt;?&gt;)</a></span> - Method in <a href="grails/async/Promises.html">Promises</a>
 </dt><dd> <div class="block"> <DL><DT><B>See Also:</B></DT><DD><a href='../../grails/async/PromiseFactory.html#onError(java.util.List, groovy.lang.Closure)' title='PromiseFactory.onError'>PromiseFactory.onError</a></DD></DL></div></dd>
@@ -926,7 +894,7 @@ if (location.href.indexOf('is-external=true') == -1) {
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/grails/async/factory/rxjava2/RxPromiseFactory.html#onError(List<Promise<T>>, Closure<?>)" title="Method in RxPromiseFactory">onError(List&lt;Promise&lt;T&gt;&gt;, Closure&lt;?&gt;)</a></span> - Method in <a href="org/grails/async/factory/rxjava2/RxPromiseFactory.html">RxPromiseFactory</a>
 </dt><dd> <div class="block"></div></dd>
-<dt><span class="strong"><a href="org/grails/async/factory/SynchronousPromise.html#onError(groovy.lang.Closure)" title="Method in SynchronousPromise">onError(groovy.lang.Closure)</a></span> - Method in <a href="org/grails/async/factory/SynchronousPromise.html">SynchronousPromise</a>
+<dt><span class="strong"><a href="org/grails/async/factory/SynchronousPromise.html#onError(Closure<T>)" title="Method in SynchronousPromise">onError(Closure&lt;T&gt;)</a></span> - Method in <a href="org/grails/async/factory/SynchronousPromise.html">SynchronousPromise</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/grails/async/factory/SynchronousPromiseFactory.html#onError(List<Promise<T>>, Closure<?>)" title="Method in SynchronousPromiseFactory">onError(List&lt;Promise&lt;T&gt;&gt;, Closure&lt;?&gt;)</a></span> - Method in <a href="org/grails/async/factory/SynchronousPromiseFactory.html">SynchronousPromiseFactory</a>
 </dt><dd> <div class="block"></div></dd>
@@ -985,8 +953,6 @@ if (location.href.indexOf('is-external=true') == -1) {
 </dt><dd><div class="block">Interface for classes that provide promise decorators to implement</div></dd>
 <dt><span class="strong"><a href="grails/async/PromiseFactory.html" title="Interface in grails.async">PromiseFactory</a></span> - Interface in <a href="./grails/async/package-summary.html">grails.async</a>
 </dt><dd><div class="block">An interface capable of creating <a href='../../grails/async/Promise.html' title='Promise'>Promise</a> instances. </div></dd>
-<dt><span class="strong"><a href="org/grails/async/factory/gpars/GparsPromise.html#promiseFactory" title="Property in GparsPromise">promiseFactory</a></span> - Property in <a href="org/grails/async/factory/gpars/GparsPromise.html">GparsPromise</a>
-</dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="grails/async/Promises.html#promiseFactory" title="Property in Promises">promiseFactory</a></span> - Property in <a href="grails/async/Promises.html">Promises</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="grails/async/web/WebPromises.html#promiseFactory" title="Property in WebPromises">promiseFactory</a></span> - Property in <a href="grails/async/web/WebPromises.html">WebPromises</a>
@@ -1028,9 +994,9 @@ if (location.href.indexOf('is-external=true') == -1) {
 </dt><dd><div class="block">A transform that transforms a method publishing the result to the given event</div></dd>
 <dt><span class="strong"><a href="org/grails/events/transform/PublisherTransform.html#PublisherTransform()" title="Constructor in PublisherTransform">PublisherTransform()</a></span> - Constructor in <a href="org/grails/events/transform/PublisherTransform.html">PublisherTransform</a>
 </dt><dd> <div class="block"></div></dd>
-<dt><span class="strong"><a href="grails/async/PromiseMap.html#put(K, groovy.lang.Closure)" title="Method in PromiseMap">put(K, groovy.lang.Closure)</a></span> - Method in <a href="grails/async/PromiseMap.html">PromiseMap</a>
-</dt><dd> <div class="block">Adds a promise for the given key</div></dd>
-<dt><span class="strong"><a href="grails/async/PromiseMap.html#putAt(java.lang.Integer, groovy.lang.Closure)" title="Method in PromiseMap">putAt(java.lang.Integer, groovy.lang.Closure)</a></span> - Method in <a href="grails/async/PromiseMap.html">PromiseMap</a>
+<dt><span class="strong"><a href="grails/async/PromiseMap.html#put(K, Closure<V>)" title="Method in PromiseMap">put(K, Closure&lt;V&gt;)</a></span> - Method in <a href="grails/async/PromiseMap.html">PromiseMap</a>
+</dt><dd> <div class="block">Adds a callable for the given key</div></dd>
+<dt><span class="strong"><a href="grails/async/PromiseMap.html#putAt(java.lang.Integer, Closure<V>)" title="Method in PromiseMap">putAt(java.lang.Integer, Closure&lt;V&gt;)</a></span> - Method in <a href="grails/async/PromiseMap.html">PromiseMap</a>
 </dt><dd> <div class="block">Adds a promise for the given key</div></dd>
 </dl>
 
@@ -1048,8 +1014,6 @@ if (location.href.indexOf('is-external=true') == -1) {
 
 <dt><span class="strong"><a href="org/grails/events/transform/AnnotatedSubscriber.html#registerMethods()" title="Method in AnnotatedSubscriber">registerMethods()</a></span> - Method in <a href="org/grails/events/transform/AnnotatedSubscriber.html">AnnotatedSubscriber</a>
 </dt><dd> <div class="block"></div></dd>
-<dt><span class="strong"><a href="reactor/bus/registry/Registration.html" title="Interface in reactor.bus.registry">Registration</a></span> - Interface in <a href="./reactor/bus/registry/package-summary.html">reactor.bus.registry</a>
-</dt><dd><div class="block"><DL><DT><B>deprecated:</B></DT><DD>Here for compatibility only.</DD></DL>  </div></dd>
 <dt><span class="strong"><a href="org/grails/async/factory/gpars/LoggingPoolFactory.2.html#rejectedExecution(java.lang.Runnable, java.util.concurrent.ThreadPoolExecutor)" title="Method in LoggingPoolFactory.2">rejectedExecution(java.lang.Runnable, java.util.concurrent.ThreadPoolExecutor)</a></span> - Method in <a href="org/grails/async/factory/gpars/LoggingPoolFactory.2.html">LoggingPoolFactory.2</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/grails/events/bus/AbstractEventBus.NotificationTrigger.html#reply" title="Property in AbstractEventBus.NotificationTrigger">reply</a></span> - Property in <a href="org/grails/events/bus/AbstractEventBus.NotificationTrigger.html">AbstractEventBus.NotificationTrigger</a>
@@ -1059,10 +1023,6 @@ if (location.href.indexOf('is-external=true') == -1) {
 <dt><span class="strong"><a href="org/grails/events/rxjava2/EventWithReply.html#reply" title="Property in EventWithReply">reply</a></span> - Property in <a href="org/grails/events/rxjava2/EventWithReply.html">EventWithReply</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/grails/events/spring/SpringEventBusEvent.html#replyTo" title="Property in SpringEventBusEvent">replyTo</a></span> - Property in <a href="org/grails/events/spring/SpringEventBusEvent.html">SpringEventBusEvent</a>
-</dt><dd> <div class="block"></div></dd>
-<dt><span class="strong"><a href="reactor/bus/Bus.html#respondsToKey(java.lang.Object)" title="Method in Bus">respondsToKey(java.lang.Object)</a></span> - Method in <a href="reactor/bus/Bus.html">Bus</a>
-</dt><dd> <div class="block">Are there any <a href='../../reactor/bus/registry/Subscription.html' title='Subscription'>Subscription</a>s with <a href='../../reactor/bus/selector/Selector.html' title='Selectors'>Selectors</a> that match the given <CODE>key</CODE>.</div></dd>
-<dt><span class="strong"><a href="reactor/bus/EventBus.html#respondsToKey(java.lang.Object)" title="Method in EventBus">respondsToKey(java.lang.Object)</a></span> - Method in <a href="reactor/bus/EventBus.html">EventBus</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/grails/events/bus/AbstractEventBus.1.html#run()" title="Method in AbstractEventBus.1">run()</a></span> - Method in <a href="org/grails/events/bus/AbstractEventBus.1.html">AbstractEventBus.1</a>
 </dt><dd> <div class="block"></div></dd>
@@ -1087,18 +1047,12 @@ if (location.href.indexOf('is-external=true') == -1) {
 
 <dt><span class="strong"><a href="org/grails/events/rxjava2/RxEventBus.html#scheduler" title="Property in RxEventBus">scheduler</a></span> - Property in <a href="org/grails/events/rxjava2/RxEventBus.html">RxEventBus</a>
 </dt><dd> <div class="block"></div></dd>
-<dt><span class="strong"><a href="reactor/spring/context/annotation/Selector.html" title="Annotation Type in reactor.spring.context.annotation">Selector</a></span> - Annotation Type in <a href="./reactor/spring/context/annotation/package-summary.html">reactor.spring.context.annotation</a>
-</dt><dd><div class="block"><DL><DT><B>deprecated:</B></DT><DD>Use <a href='../../../../grails/events/subscriber/Subscriber.html' title='Subscriber'>Subscriber</a> instead</DD></DL> </div></dd>
 <dt><span class="strong"><a href="org/grails/events/bus/AbstractEventBus.html#sendAndReceive(grails.events.Event, groovy.lang.Closure)" title="Method in AbstractEventBus">sendAndReceive(grails.events.Event, groovy.lang.Closure)</a></span> - Method in <a href="org/grails/events/bus/AbstractEventBus.html">AbstractEventBus</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="grails/events/emitter/EventEmitter.html#sendAndReceive(java.lang.CharSequence, java.lang.Object, groovy.lang.Closure)" title="Method in EventEmitter">sendAndReceive(java.lang.CharSequence, java.lang.Object, groovy.lang.Closure)</a></span> - Method in <a href="grails/events/emitter/EventEmitter.html">EventEmitter</a>
 </dt><dd> <div class="block">Send and event and receive a reply. </div></dd>
 <dt><span class="strong"><a href="grails/events/EventPublisher.html#sendAndReceive(java.lang.CharSequence, java.lang.Object, groovy.lang.Closure)" title="Method in EventPublisher">sendAndReceive(java.lang.CharSequence, java.lang.Object, groovy.lang.Closure)</a></span> - Method in <a href="grails/events/EventPublisher.html">EventPublisher</a>
 </dt><dd> <div class="block"> <DL><DT><B>See Also:</B></DT><DD><a href='../../grails/events/emitter/EventEmitter.html#sendAndReceive(Event, groovy.lang.Closure)' title='EventEmitter.sendAndReceive'>EventEmitter.sendAndReceive</a></DD></DL></div></dd>
-<dt><span class="strong"><a href="grails/events/Events.html#sendAndReceive(java.lang.Object, groovy.lang.Closure)" title="Method in Events">sendAndReceive(java.lang.Object, groovy.lang.Closure)</a></span> - Method in <a href="grails/events/Events.html">Events</a>
-</dt><dd> <div class="block"></div></dd>
-<dt><span class="strong"><a href="grails/artefact/Service.html" title="Trait in grails.artefact">Service</a></span> - Trait in <a href="./grails/artefact/package-summary.html">grails.artefact</a>
-</dt><dd><div class="block">A trait implemented for services that implement events</div></dd>
 <dt><span class="strong"><a href="org/grails/async/factory/future/FutureTaskPromise.html#set(T)" title="Method in FutureTaskPromise">set(T)</a></span> - Method in <a href="org/grails/async/factory/future/FutureTaskPromise.html">FutureTaskPromise</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/grails/events/spring/SpringEventTranslator.html#setApplicationContext(org.springframework.context.ApplicationContext)" title="Method in SpringEventTranslator">setApplicationContext(org.springframework.context.ApplicationContext)</a></span> - Method in <a href="org/grails/events/spring/SpringEventTranslator.html">SpringEventTranslator</a>
@@ -1109,8 +1063,6 @@ if (location.href.indexOf('is-external=true') == -1) {
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="grails/async/web/WebPromises.html#setPromiseFactory(grails.async.PromiseFactory)" title="Method in WebPromises">setPromiseFactory(grails.async.PromiseFactory)</a></span> - Method in <a href="grails/async/web/WebPromises.html">WebPromises</a>
 </dt><dd> <div class="block"></div></dd>
-<dt><span class="strong"><a href="reactor/bus/Event.html#setReplyTo(java.lang.Object)" title="Method in Event">setReplyTo(java.lang.Object)</a></span> - Method in <a href="reactor/bus/Event.html">Event</a>
-</dt><dd> <div class="block">Set the <CODE>key</CODE> that interested parties should send replies to.</div></dd>
 <dt><span class="strong"><a href="grails/events/bus/EventBusAware.html#setTargetEventBus(grails.events.bus.EventBus)" title="Method in EventBusAware">setTargetEventBus(grails.events.bus.EventBus)</a></span> - Method in <a href="grails/events/bus/EventBusAware.html">EventBusAware</a>
 </dt><dd> <div class="block">Sets the target event bus to use</div></dd>
 <dt><span class="strong"><a href="grails/async/PromiseMap.html#size()" title="Method in PromiseMap">size()</a></span> - Method in <a href="grails/async/PromiseMap.html">PromiseMap</a>
@@ -1159,8 +1111,8 @@ if (location.href.indexOf('is-external=true') == -1) {
 </dt><dd><div class="block">An AST transformation that adds the <a href='../../../../org/grails/events/transform/AnnotatedSubscriber.html' title='AnnotatedSubscriber'>AnnotatedSubscriber</a></div></dd>
 <dt><span class="strong"><a href="org/grails/events/transform/SubscriberTransform.html#SubscriberTransform()" title="Constructor in SubscriberTransform">SubscriberTransform()</a></span> - Constructor in <a href="org/grails/events/transform/SubscriberTransform.html">SubscriberTransform</a>
 </dt><dd> <div class="block"></div></dd>
-<dt><span class="strong"><a href="reactor/bus/registry/Subscription.html" title="Interface in reactor.bus.registry">Subscription</a></span> - Interface in <a href="./reactor/bus/registry/package-summary.html">reactor.bus.registry</a>
-</dt><dd><div class="block"><DL><DT><B>deprecated:</B></DT><DD>Here for compatibility only.</DD></DL>  </div></dd>
+<dt><span class="strong"><a href="grails/events/subscriber/Subscription.html" title="Interface in grails.events.subscriber">Subscription</a></span> - Interface in <a href="./grails/events/subscriber/package-summary.html">grails.events.subscriber</a>
+</dt><dd><div class="block">Represents a subscription to an event</div></dd>
 <dt><span class="strong"><a href="org/grails/events/bus/AbstractEventBus.html#subscriptions" title="Field in AbstractEventBus">subscriptions</a></span> - Field in <a href="org/grails/events/bus/AbstractEventBus.html">AbstractEventBus</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/grails/events/bus/AbstractEventBus.NotificationTrigger.html#subscriptions" title="Property in AbstractEventBus.NotificationTrigger">subscriptions</a></span> - Property in <a href="org/grails/events/bus/AbstractEventBus.NotificationTrigger.html">AbstractEventBus.NotificationTrigger</a>
@@ -1201,19 +1153,19 @@ if (location.href.indexOf('is-external=true') == -1) {
 </dt><dd> <div class="block"> <DL><DT><B>See Also:</B></DT><DD><a href='../../grails/async/PromiseFactory.html#createPromise(groovy.lang.Closure[])' title='PromiseFactory.createPromise'>PromiseFactory.createPromise</a></DD></DL></div></dd>
 <dt><span class="strong"><a href="grails/async/web/WebPromises.html#tasks(List<Closure<T>>)" title="Method in WebPromises">tasks(List&lt;Closure&lt;T&gt;&gt;)</a></span> - Method in <a href="grails/async/web/WebPromises.html">WebPromises</a>
 </dt><dd> <div class="block"> <DL><DT><B>See Also:</B></DT><DD><a href='../../../grails/async/PromiseFactory.html#createPromise(groovy.lang.Closure[])' title='PromiseFactory.createPromise'>PromiseFactory.createPromise</a></DD></DL></div></dd>
-<dt><span class="strong"><a href="org/grails/async/factory/BoundPromise.html#then(groovy.lang.Closure)" title="Method in BoundPromise">then(groovy.lang.Closure)</a></span> - Method in <a href="org/grails/async/factory/BoundPromise.html">BoundPromise</a>
+<dt><span class="strong"><a href="org/grails/async/factory/BoundPromise.html#then(Closure<T>)" title="Method in BoundPromise">then(Closure&lt;T&gt;)</a></span> - Method in <a href="org/grails/async/factory/BoundPromise.html">BoundPromise</a>
 </dt><dd> <div class="block"></div></dd>
-<dt><span class="strong"><a href="org/grails/async/factory/future/FutureTaskPromise.html#then(groovy.lang.Closure)" title="Method in FutureTaskPromise">then(groovy.lang.Closure)</a></span> - Method in <a href="org/grails/async/factory/future/FutureTaskPromise.html">FutureTaskPromise</a>
+<dt><span class="strong"><a href="org/grails/async/factory/future/FutureTaskPromise.html#then(Closure<T>)" title="Method in FutureTaskPromise">then(Closure&lt;T&gt;)</a></span> - Method in <a href="org/grails/async/factory/future/FutureTaskPromise.html">FutureTaskPromise</a>
 </dt><dd> <div class="block"></div></dd>
-<dt><span class="strong"><a href="org/grails/async/factory/gpars/GparsPromise.html#then(groovy.lang.Closure)" title="Method in GparsPromise">then(groovy.lang.Closure)</a></span> - Method in <a href="org/grails/async/factory/gpars/GparsPromise.html">GparsPromise</a>
+<dt><span class="strong"><a href="org/grails/async/factory/gpars/GparsPromise.html#then(Closure<T>)" title="Method in GparsPromise">then(Closure&lt;T&gt;)</a></span> - Method in <a href="org/grails/async/factory/gpars/GparsPromise.html">GparsPromise</a>
 </dt><dd> <div class="block"></div></dd>
-<dt><span class="strong"><a href="grails/async/Promise.html#then(groovy.lang.Closure)" title="Method in Promise">then(groovy.lang.Closure)</a></span> - Method in <a href="grails/async/Promise.html">Promise</a>
+<dt><span class="strong"><a href="grails/async/Promise.html#then(Closure<T>)" title="Method in Promise">then(Closure&lt;T&gt;)</a></span> - Method in <a href="grails/async/Promise.html">Promise</a>
 </dt><dd> <div class="block">Same as #onComplete</div></dd>
 <dt><span class="strong"><a href="grails/async/PromiseList.html#then(groovy.lang.Closure)" title="Method in PromiseList">then(groovy.lang.Closure)</a></span> - Method in <a href="grails/async/PromiseList.html">PromiseList</a>
 </dt><dd> <div class="block"></div></dd>
-<dt><span class="strong"><a href="grails/async/PromiseMap.html#then(groovy.lang.Closure)" title="Method in PromiseMap">then(groovy.lang.Closure)</a></span> - Method in <a href="grails/async/PromiseMap.html">PromiseMap</a>
+<dt><span class="strong"><a href="grails/async/PromiseMap.html#then(Closure<Map<K, V>>)" title="Method in PromiseMap">then(Closure&lt;Map&lt;K, V&gt;&gt;)</a></span> - Method in <a href="grails/async/PromiseMap.html">PromiseMap</a>
 </dt><dd> <div class="block"></div></dd>
-<dt><span class="strong"><a href="org/grails/async/factory/SynchronousPromise.html#then(groovy.lang.Closure)" title="Method in SynchronousPromise">then(groovy.lang.Closure)</a></span> - Method in <a href="org/grails/async/factory/SynchronousPromise.html">SynchronousPromise</a>
+<dt><span class="strong"><a href="org/grails/async/factory/SynchronousPromise.html#then(Closure<T>)" title="Method in SynchronousPromise">then(Closure&lt;T&gt;)</a></span> - Method in <a href="org/grails/async/factory/SynchronousPromise.html">SynchronousPromise</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="grails/async/web/AsyncGrailsWebRequest.html#timeout" title="Property in AsyncGrailsWebRequest">timeout</a></span> - Property in <a href="grails/async/web/AsyncGrailsWebRequest.html">AsyncGrailsWebRequest</a>
 </dt><dd> <div class="block"></div></dd>
@@ -1272,8 +1224,6 @@ if (location.href.indexOf('is-external=true') == -1) {
 <dt><span class="strong"><a href="grails/events/annotation/gorm/Listener.html#value()" title="Method in Listener">value()</a></span> - Method in <a href="grails/events/annotation/gorm/Listener.html">Listener</a>
 </dt><dd> <div class="block"> <DL><DT><B>Returns:</B></DT><DD>The types this listener listens for</DD></DL></div></dd>
 <dt><span class="strong"><a href="grails/events/annotation/Publisher.html#value()" title="Method in Publisher">value()</a></span> - Method in <a href="grails/events/annotation/Publisher.html">Publisher</a>
-</dt><dd> <div class="block"> <DL><DT><B>Returns:</B></DT><DD>The id of the event</DD></DL></div></dd>
-<dt><span class="strong"><a href="reactor/spring/context/annotation/Selector.html#value()" title="Method in Selector">value()</a></span> - Method in <a href="reactor/spring/context/annotation/Selector.html">Selector</a>
 </dt><dd> <div class="block"> <DL><DT><B>Returns:</B></DT><DD>The id of the event</DD></DL></div></dd>
 <dt><span class="strong"><a href="grails/events/annotation/Subscriber.html#value()" title="Method in Subscriber">value()</a></span> - Method in <a href="grails/events/annotation/Subscriber.html">Subscriber</a>
 </dt><dd> <div class="block"> <DL><DT><B>Returns:</B></DT><DD>The id of the event</DD></DL></div></dd>

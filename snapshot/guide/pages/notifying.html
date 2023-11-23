@@ -118,10 +118,9 @@ function addJsClass() {
 <pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">import</span> <span class="include">grails.events.annotation.*</span>
 ...
 class SumService {
+
     <span class="annotation">@Publisher</span>
-    <span class="type">int</span> sum(<span class="type">int</span> a, <span class="type">int</span> b) {
-        a + b
-    }
+    <span class="type">int</span> sum(<span class="type">int</span> a, <span class="type">int</span> b) { a + b }
 }</code></pre>
 </div>
 </div>
@@ -145,9 +144,10 @@ class SumService {
 <pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">import</span> <span class="include">grails.events.*</span>
 ...
 class SumService <span class="directive">implements</span> EventPublisher {
+
     <span class="type">int</span> sum(<span class="type">int</span> a, <span class="type">int</span> b) {
         <span class="type">int</span> result = a + b
-        notify(<span class="string"><span class="delimiter">&quot;</span><span class="content">sum</span><span class="delimiter">&quot;</span></span>, result)
+        notify(<span class="string"><span class="delimiter">'</span><span class="content">sum</span><span class="delimiter">'</span></span>, result)
         <span class="keyword">return</span> result
     }
 }</code></pre>
