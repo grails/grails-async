@@ -121,6 +121,13 @@ subprojects {
     repositories {
         mavenCentral()
         maven { url 'https://repo.grails.org/grails/core' }
+        if (libs.versions.groovy.asProvider().get().endsWith('-SNAPSHOT')) {
+            maven {
+                name 'JFrog Groovy snapshot repo'
+                url 'https://groovy.jfrog.io/artifactory/libs-snapshot-local/'
+            }
+        }
+
     }
 
     tasks.withType(Test).configureEach {
