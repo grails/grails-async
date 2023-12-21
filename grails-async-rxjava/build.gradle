@@ -14,7 +14,7 @@ dependencies {
 
     implementation project(':grails-async-core')
 
-    implementation libs.groovy
+    implementation libs.groovy.core
 
     implementation libs.rxjava
     implementation libs.slf4j.api

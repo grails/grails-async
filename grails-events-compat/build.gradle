@@ -13,18 +13,12 @@ group = 'org.grails'
 dependencies {
 
     implementation project(':grails-events-core')
-    testImplementation project(':grails-events-transform')
+    implementation project(':grails-events-transform')
 
     implementation libs.groovy.core
 
-    implementation libs.rxjava
     implementation libs.slf4j.api
     implementation libs.spring.tx
-
-    testImplementation libs.gorm.test, {
-        exclude group:'org.grails', module: 'grails-datastore-gorm-validation'
-    }
-    testImplementation libs.spock.core
 
 }
 
