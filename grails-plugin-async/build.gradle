@@ -14,6 +14,7 @@ plugins  {
 dependencies {
 
     api project(':grails-async-core')
+    api project(':grails-events-compat')
     api project(':grails-events-core')
 
     implementation 'org.grails:grails-core'
