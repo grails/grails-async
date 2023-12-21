@@ -23,7 +23,7 @@ grails-docs = { module = "org.grails:grails-docs", version.ref = "grails" }
 gpars = { module = 'org.codehaus.gpars:gpars', version.ref = 'gpars' }
 gorm = { module = 'org.grails:grails-datastore-gorm', version.ref = 'gorm' }
 gorm-test = { module = 'org.grails:grails-datastore-gorm-test', version.ref = 'gorm' }
-groovy = { module = 'org.codehaus.groovy:groovy', version.ref = 'groovy' }
+groovy-core = { module = 'org.codehaus.groovy:groovy', version.ref = 'groovy' }
 groovy-templates = { module = 'org.codehaus.groovy:groovy-templates', version.ref = 'groovy' }
 groovy-ant = { module = 'org.codehaus.groovy:groovy-ant', version.ref = 'groovy' }
 groovy-dateutil = { module = 'org.codehaus.groovy:groovy-dateutil', version.ref = 'groovy' }

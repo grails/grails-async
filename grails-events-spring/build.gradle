@@ -14,7 +14,7 @@ dependencies {
 
     implementation project(':grails-events-core')
 
-    implementation libs.groovy
+    implementation libs.groovy.core
 
     implementation libs.slf4j.api
     implementation libs.spring.context

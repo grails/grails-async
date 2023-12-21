@@ -39,7 +39,7 @@ configurations {
 }
 
 dependencies {
-    documentation libs.groovy
+    documentation libs.groovy.core
     documentation libs.groovy.templates
     documentation libs.groovy.ant
     documentation libs.groovy.dateutil
