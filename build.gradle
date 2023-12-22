@@ -1,7 +1,7 @@
 plugins {
     id 'groovy'
     id 'io.github.gradle-nexus.publish-plugin'
-    id "org.asciidoctor.jvm.convert" version "4.0.0-alpha.1"
+    id 'org.asciidoctor.jvm.convert' version '4.0.0-alpha.1'
 }
 
 version = projectVersion
@@ -47,36 +47,36 @@ dependencies {
 }
 
 tasks.withType(Groovydoc).configureEach {
-    group = "documentation"
+    group = 'documentation'
     docTitle = "${project.title} - ${project.version}"
-    destinationDir = project.file("build/docs/api")
+    destinationDir = project.file('build/docs/api')
     def files = []
     project.rootProject.subprojects
             .findAll { !it.name != 'docs' && !it.name.startsWith('examples') }
             .each { subproject ->
                 if(subproject.file('src/main/groovy').exists()) {
-                    files += subproject.files("src/main/groovy")
+                    files += subproject.files('src/main/groovy')
                 }
             }
     if(project.file('src/main/groovy').exists()) {
-        files += project.files("src/main/groovy")
+        files += project.files('src/main/groovy')
     }
     source = files
     classpath = configurations.documentation
 }
 
-tasks.register("publishGuide", grails.doc.gradle.PublishGuide) {
-    group = "documentation"
+tasks.register('publishGuide', grails.doc.gradle.PublishGuide) {
+    group = 'documentation'
     description = 'Generate Guide'
-    dependsOn = ["groovydoc"]
-    mustRunAfter = ["jar"]
+    dependsOn = ['groovydoc']
+    mustRunAfter = ['jar']
 
     targetDir = project.file("${buildDir}/docs")
     sourceRepo = "https://github.com/${githubSlug}/edit/${githubBranch}/src/main/docs"
-    sourceDir = new File(projectDir, "src/main/docs")
-    propertiesFiles = [new File(rootProject.projectDir, "gradle.properties")]
+    sourceDir = new File(projectDir, 'src/main/docs')
+    propertiesFiles = [new File(rootProject.projectDir, 'gradle.properties')]
     asciidoc = true
-    resourcesDir = project.layout.projectDirectory.dir("src/main/docs/resources").asFile
+    resourcesDir = project.layout.projectDirectory.dir('src/main/docs/resources').asFile
     properties = [
             'safe'     : 'UNSAFE',
             'version'  : project.version,
@@ -94,7 +94,7 @@ tasks.register("publishGuide", grails.doc.gradle.PublishGuide) {
     doLast {
         ant.move(file: "${project.buildDir}/docs/guide/single.html",
                 tofile: "${project.buildDir}/docs/guide/index.html", overwrite: true)
-        new File(project.buildDir, "docs/index.html").text = '''
+        new File(project.buildDir, 'docs/index.html').text = '''
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
 <head>
@@ -107,13 +107,13 @@ tasks.register("publishGuide", grails.doc.gradle.PublishGuide) {
     }
 }
 
-tasks.register("docs") {
-    group = "documentation"
-    dependsOn = ["groovydoc", "publishGuide"]
+tasks.register('docs') {
+    group = 'documentation'
+    dependsOn = ['groovydoc', 'publishGuide']
 }
 
-tasks.named("build") {
-    finalizedBy("docs")
+tasks.named('build') {
+    finalizedBy('docs')
 }
 
 subprojects {
