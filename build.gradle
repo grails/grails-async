@@ -112,7 +112,7 @@ tasks.register("docs") {
     dependsOn = ["groovydoc", "publishGuide"]
 }
 
-tasks.named("build").configure {
+tasks.named("build") {
     finalizedBy("docs")
 }
 
