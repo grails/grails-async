@@ -28,8 +28,8 @@ if(isReleaseVersion) {
             }
         }
         transitionCheckOptions {
-            maxRetries = 40
-            delayBetween = java.time.Duration.ofSeconds 2
+            maxRetries = 50
+            delayBetween = java.time.Duration.ofSeconds(3)
         }
     }
 }
