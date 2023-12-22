@@ -14,8 +14,19 @@ plugins  {
 dependencies {
 
     api project(':grails-async-core')
-    api project(':grails-events-compat')
-    api project(':grails-events-core')
+
+    // This project does not really depend on the events plugin
+    // but rather on the events-core and events-compat modules.
+    // This is a workaround because without this, plugins created with
+    // pre-Grails 3.3 will not get the events plugin automatically
+    // on the classpath and will get an error.
+    // (The async plugin is automatically added to the classpath by
+    // grails-core/grails-dependencies and now also the events plugin
+    // should be pulled in)
+    // https://github.com/grails/grails-core/issues/13324
+    api project(':grails-plugin-events')
+    //api project(':grails-events-compat')
+    //api project(':grails-events-core')
 
     implementation 'org.grails:grails-core'
     implementation 'org.grails:grails-plugin-controllers'
