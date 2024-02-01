@@ -17,10 +17,9 @@ plugins {
 gradleEnterprise {
     server = 'https://ge.grails.org'
     buildScan {
-//        publishAlwaysIf(System.getenv('CI') == 'true' )
-        publishAlways()
+        publishAlwaysIf(System.getenv('CI') == 'true')
         publishIfAuthenticated()
-        uploadInBackground = System.getenv("CI") == null
+        uploadInBackground = System.getenv('CI') == null
         capture {
             taskInputFiles = true
         }
@@ -37,8 +36,8 @@ buildCache {
             username = System.getenv('GRADLE_ENTERPRISE_BUILD_CACHE_NODE_USER')
             password = System.getenv('GRADLE_ENTERPRISE_BUILD_CACHE_NODE_KEY')
         }
-    }}
-
+    }
+}
 
 rootProject.name = 'grails-async'
 
