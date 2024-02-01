@@ -42,6 +42,18 @@ buildCache {
 
 rootProject.name = 'grails-async'
 
+dependencyResolutionManagement {
+    versionCatalogs {
+        libs {
+            def groovyVersion = System.getenv('GROOVY_VERSION')
+            if (groovyVersion) {
+                logger.warn "Using custom version $groovyVersion of Groovy due to GROOVY_VERSION being set."
+                version('groovy', groovyVersion)
+            }
+        }
+    }
+}
+
 include 'grails-async-core'
 include 'grails-async-gpars'
 include 'grails-async-rxjava'
