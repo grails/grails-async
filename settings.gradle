@@ -53,6 +53,7 @@ dependencyResolutionManagement {
     }
 }
 
+include 'docs'
 include 'grails-async-core'
 include 'grails-async-gpars'
 include 'grails-async-rxjava'

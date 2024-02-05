@@ -1,0 +1,133 @@
+import grails.doc.gradle.PublishGuide
+import org.asciidoctor.gradle.jvm.AsciidoctorTask
+
+plugins {
+    id 'org.asciidoctor.jvm.convert'
+}
+
+tasks.withType(AsciidoctorTask).configureEach {
+    baseDirFollowsSourceFile()
+
+    /* No src/docs/images directory in project
+    resources { from 'src/docs/images'; into './images' }
+    */
+
+    /* sourcedir attribute not used in asciidoc sources
+    def coreSourceDir = rootProject.allprojects.find({ it.name == 'views-core'}).layout.projectDirectory.dir('src/main/groovy').asFile
+     */
+    attributes 'experimental' : 'true',
+            'compat-mode'  : 'true',
+            'toc'          : 'left',
+            'icons'        : 'font',
+            'version'      : version
+    //'sourcedir'    : coreSourceDir
+}
+
+// Groovydoc task requires the Groovy version of Gradle
+configurations.register('groovydocImplementation')
+
+dependencies {
+    groovydocImplementation localGroovy(), {
+        because 'The Groovydoc task requires the Groovy version of Gradle'
+    }
+}
+
+tasks.register('apidocs', Groovydoc) {
+
+    group = 'documentation'
+    docTitle = "Grails Views $version"
+
+    def projectNames = ['views-core', 'views-json', 'views-json-testing-support', 'views-markup','views-gradle']
+    def projects = rootProject.allprojects.findAll { it.name in projectNames }
+    source projects.collect { it.layout.projectDirectory.dir('src/main/groovy') }
+    destinationDir = layout.buildDirectory.dir('docs/api').get().asFile
+}
+
+tasks.withType(Groovydoc).configureEach {
+    access = GroovydocAccess.PRIVATE
+    processScripts = false
+    includeMainForScripts = false
+    includeAuthor = true
+    classpath = configurations.groovydocImplementation
+    groovyClasspath = configurations.groovydocImplementation
+}
+
+tasks.register('docs') {
+    group = 'documentation'
+    dependsOn 'apidocs', 'asciidoctor'
+}
+
+
+
+/*
+
+tasks.withType(Groovydoc).configureEach {
+    group = 'documentation'
+    docTitle = "${project.findProperty('title') ?: 'Grails Async Framework'} - ${project.version}"
+    destinationDir = project.layout.buildDirectory.dir('docs/api').get().asFile
+    def files = []
+    project.rootProject.subprojects
+            .findAll { it.name == 'docs' && !it.name.startsWith('examples') }
+            .each { subproject ->
+                if(subproject.file('src/main/groovy').exists()) {
+                    files += subproject.files('src/main/groovy')
+                }
+            }
+    if(project.file('src/main/groovy').exists()) {
+        files += project.files('src/main/groovy')
+    }
+    source = files
+    classpath = configurations.documentation
+}
+
+tasks.register('publishGuide', PublishGuide) {
+    group = 'documentation'
+    description = 'Generate Guide'
+    dependsOn = ['groovydoc']
+    mustRunAfter = ['jar']
+
+    targetDir = project.layout.buildDirectory.dir('docs').get().asFile
+    sourceRepo = "https://github.com/${githubSlug}/edit/${githubBranch}/src/main/docs"
+    sourceDir = new File(projectDir, 'src/main/docs')
+    propertiesFiles = [new File(rootProject.projectDir, 'gradle.properties')]
+    asciidoc = true
+    resourcesDir = project.layout.projectDirectory.dir('src/main/docs/resources').asFile
+    properties = [
+            'safe'     : 'UNSAFE',
+            'version'  : project.version,
+            'subtitle' : project.projectDesc,
+            'api'      : '../api',
+            'sourceDir': rootProject.projectDir.absolutePath,
+            'sourcedir': rootProject.projectDir.absolutePath,
+            'javaee'   : 'https://docs.oracle.com/javaee/7/api/',
+            'javase'   : 'https://docs.oracle.com/en/java/javase/11/docs/api/',
+            'groovyapi': "https://docs.groovy-lang.org/${libs.versions.groovy.asProvider().get()}/html/gapi/",
+            'grailsapi': "https://docs.grails.org/${libs.versions.grails.asProvider().get()}/api/",
+            'gormapi'  : "https://gorm.grails.org/${libs.versions.gorm.get()}/api/",
+            'springapi': "https://docs.spring.io/spring/docs/${libs.versions.spring.get()}/javadoc-api/"
+    ]
+    doLast {
+        ant.move(file: "${project.buildDir}/docs/guide/single.html",
+                tofile: "${project.buildDir}/docs/guide/index.html", overwrite: true)
+        new File(project.buildDir, 'docs/index.html').text = '''
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<meta http-equiv="refresh" content="0; url=guide/index.html" />
+</head>
+
+</body>
+</html>
+'''
+    }
+}
+
+tasks.register('docs') {
+    group = 'documentation'
+    dependsOn = ['groovydoc', 'publishGuide']
+}
+
+tasks.named('build') {
+    finalizedBy('docs')
+}
+*/
