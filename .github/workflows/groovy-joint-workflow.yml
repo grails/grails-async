@@ -30,16 +30,29 @@ jobs:
             ~/.m2/repository
           key: cache-local-groovy-maven-${{ github.sha }}
 
-      - name: Checkout project to see which Groovy version it uses
+      - name: Checkout project to fetch some versions it uses
         uses: actions/checkout@v4
         with:
-          sparse-checkout: gradle/libs.versions.toml
           sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            settings.gradle
+            gradle/libs.versions.toml
+
+      - name: Get version of Gradle Enterprise plugin
+        id: gradle_enterprise_version
+        run: |
+          GE_PLUGIN_VERSION=$(grep -m 1 'id\s*\(\"com.gradle.enterprise\"\|'"'com.gradle.enterprise'"'\)\s*version' settings.gradle | sed -E "s/.*version[[:space:]]*['\"]?([0-9]+\.[0-9]+\.[0-9]+)['\"]?.*/\1/" | tr -d [:space:])
+          GE_USER_DATA_PLUGIN_VERSION=$(grep -m 1 'id\s*\(\"com.gradle.common-custom-user-data-gradle-plugin\"\|'"'com.gradle.common-custom-user-data-gradle-plugin'"'\)\s*version' settings.gradle | sed -E "s/.*version[[:space:]]*['\"]?([0-9]+\.[0-9]+\.[0-9]+)['\"]?.*/\1/" | tr -d [:space:])
+          echo "Project uses Gradle Enterprise Plugin version: $GE_PLUGIN_VERSION"
+          echo "Project uses Gradle Common Custom User Data Plugin version: $GE_USER_DATA_PLUGIN_VERSION"
+          echo "ge_plugin_version=$GE_PLUGIN_VERSION" >> $GITHUB_OUTPUT
+          echo "ge_user_data_plugin_version=$GE_USER_DATA_PLUGIN_VERSION" >> $GITHUB_OUTPUT
+          rm settings.gradle
 
       - name: Select Groovy Branch to checkout
         id: groovy_branch
         run: |
-          PROJECT_GROOVY_VERSION=$(cat gradle/libs.versions.toml | grep -m 1 groovy | cut -d\= -f2 | tr -d "[:space:]'\"")
+          PROJECT_GROOVY_VERSION=$(grep -m 1 groovy gradle/libs.versions.toml | cut -d\= -f2 | tr -d "[:space:]'\"")
           MAJOR_VERSION=$(echo $PROJECT_GROOVY_VERSION | cut -d'.' -f1)
           MINOR_VERSION=$(echo $PROJECT_GROOVY_VERSION | cut -d'.' -f2)
           BRANCH="GROOVY_${MAJOR_VERSION}_${MINOR_VERSION}_X"
@@ -65,8 +78,8 @@ jobs:
         run: |
           echo "VALUE<<EOF" >> $GITHUB_OUTPUT
           echo "plugins { " >> $GITHUB_OUTPUT
-          echo "    id 'com.gradle.enterprise' version '3.16.1'" >> $GITHUB_OUTPUT 
-          echo "    id 'com.gradle.common-custom-user-data-gradle-plugin' version '1.12.1'" >> $GITHUB_OUTPUT 
+          echo "    id 'com.gradle.enterprise' version '${{ steps.gradle_enterprise_version.outputs.ge_plugin_version }}'" >> $GITHUB_OUTPUT 
+          echo "    id 'com.gradle.common-custom-user-data-gradle-plugin' version '${{ steps.gradle_enterprise_version.outputs.ge_user_data_plugin_version }}'" >> $GITHUB_OUTPUT 
           echo "}" >> $GITHUB_OUTPUT 
           echo "" >> $GITHUB_OUTPUT 
           echo "gradleEnterprise {" >> $GITHUB_OUTPUT 
