@@ -4,15 +4,21 @@ import grails.events.Event
 import grails.events.annotation.Subscriber
 import groovy.transform.CompileStatic
 
+import java.util.concurrent.atomic.AtomicInteger
+
 @CompileStatic
 class TotalService {
 
-    int accumulatedTotal = 0
+    AtomicInteger accumulatedTotalInstance = new AtomicInteger(0)
+
+    int getAccumulatedTotal() {
+        accumulatedTotalInstance.get()
+    }
 
     @Subscriber
     @SuppressWarnings('unused')
     void onSum(int total) {
-        accumulatedTotal += total
+        accumulatedTotalInstance.addAndGet(total)
     }
 
     @Subscriber
