@@ -49,7 +49,7 @@ class EventBusGrailsPlugin extends Plugin {
             eventBus(EventBus, ref('grailsEventBus'))
 
 
-            // make it possible to disable reactor events
+            // make it possible to enable reactor events
             if(config.getProperty(TRANSLATE_SPRING_EVENTS, Boolean.class, false)) {
                 springEventTranslator(SpringEventTranslator, ref('grailsEventBus'))
             }
