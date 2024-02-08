@@ -24,7 +24,7 @@ class PubSubSpec extends Specification {
             sumService.sum(1, 2)
 
         then: 'the subscriber should receive the events'
-            new PollingConditions(initialDelay: 0.5, delay: 0.5, timeout: 10).eventually {
+            new PollingConditions().eventually {
                 totalService.accumulatedTotal == 6
             }
     }
