@@ -1,16 +1,12 @@
 [versions]
 gpars = '1.2.1'
 grails = '6.1.1'
-grails-gradle-plugin = '6.1.0'
-grails-views = '3.1.0'
 groovy = '3.0.19'
-groovy-doc = '1.0.1'
 gorm = '8.0.3'
 jansi = '2.4.1'
 javaparser = '3.25.7'
 javax-annotation = '1.3.2'
 jline2 = '2.14.6'
-nexus-publish-gradle-plugin = '1.3.0'
 picocli = '4.7.5'
 rxjava = '1.3.8'
 rxjava2 = '2.2.21'
@@ -19,7 +15,6 @@ spock = '2.1-groovy-3.0'
 spring = '5.3.31'
 
 [libraries]
-grails-docs = { module = "org.grails:grails-docs", version.ref = "grails" }
 gpars = { module = 'org.codehaus.gpars:gpars', version.ref = 'gpars' }
 gorm = { module = 'org.grails:grails-datastore-gorm', version.ref = 'gorm' }
 gorm-test = { module = 'org.grails:grails-datastore-gorm-test', version.ref = 'gorm' }
@@ -41,9 +36,3 @@ spring-aop = { module = 'org.springframework:spring-aop', version.ref = 'spring'
 spring-context = { module = 'org.springframework:spring-context', version.ref = 'spring' }
 spring-expression = { module = 'org.springframework:spring-expression', version.ref = 'spring' }
 spring-tx = { module = 'org.springframework:spring-tx', version.ref = 'spring' }
-
-#plugins
-grails-gradle-plugin = { module = 'org.grails:grails-gradle-plugin', version.ref = 'grails-gradle-plugin' }
-grails-views-gradle-plugin = { module = 'org.grails.plugins:views-gradle', version.ref = 'grails-views' }
-nexus-publish-gradle-plugin = { module = 'io.github.gradle-nexus:publish-plugin', version.ref = 'nexus-publish-gradle-plugin' }
-groovydoc-gradle-plugin = { module = 'io.github.groovylang.groovydoc:groovydoc-gradle-plugin', version.ref = 'groovy-doc' }
