@@ -4,6 +4,7 @@ plugins {
 }
 
 repositories {
+    gradlePluginPortal()
     mavenCentral()
     maven { url = 'https://repo.grails.org/grails/core' }
 }
@@ -11,7 +12,6 @@ repositories {
 dependencies {
 
     // Needs to be implementation as classes are referenced in build scripts
-    implementation buildsrcLibs.asciidoctor.gradle.plugin
     implementation buildsrcLibs.grails.docs
     implementation buildsrcLibs.nexus.publish.gradle.plugin
 
