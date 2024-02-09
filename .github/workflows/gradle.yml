@@ -6,60 +6,71 @@ on:
   pull_request:
     branches:
       - '[5-9]+.[0-9]+.x'
+
 jobs:
-  build:
-    name: build
+
+  build_project:
+    name: Build Project
     runs-on: ubuntu-latest
+
     strategy:
+      fail-fast: true
       matrix:
-        java: ['11', '14']
+        java: [11, 17]
+
     steps:
+
       - uses: actions/checkout@v4
-      - name: Set up JDK
-        uses: actions/setup-java@v3
+      - uses: gradle/wrapper-validation-action@v2
+      - uses: actions/setup-java@v4
         with:
-          distribution: 'adopt'
+          distribution: temurin
           java-version: ${{ matrix.java }}
-      - name: Run Build
-        id: build
-        uses: gradle/gradle-build-action@v2
+      - name: Run Gradle build
+        uses: gradle/actions/setup-gradle@v3
         env:
           GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
           GRADLE_ENTERPRISE_BUILD_CACHE_NODE_USER: ${{ secrets.GRADLE_ENTERPRISE_BUILD_CACHE_NODE_USER }}
           GRADLE_ENTERPRISE_BUILD_CACHE_NODE_KEY: ${{ secrets.GRADLE_ENTERPRISE_BUILD_CACHE_NODE_KEY }}
         with:
           arguments: build
-  publish:
+
+  publish_documentation:
     name: Publish Snapshot release
-    if: github.event_name == 'push'
-    needs: build
     runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    needs: build_project
+
     steps:
+
       - uses: actions/checkout@v4
-      - name: Set up JDK
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'adopt'
-          java-version: '11'
+      - uses: gradle/wrapper-validation-action@v2
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: 11 }
+
       - name: Publish to Artifactory (repo.grails.org)
-        uses: gradle/gradle-build-action@v2
+        uses: gradle/actions/setup-gradle@v3
         env:
           GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
           GRADLE_ENTERPRISE_BUILD_CACHE_NODE_USER: ${{ secrets.GRADLE_ENTERPRISE_BUILD_CACHE_NODE_USER }}
           GRADLE_ENTERPRISE_BUILD_CACHE_NODE_KEY: ${{ secrets.GRADLE_ENTERPRISE_BUILD_CACHE_NODE_KEY }}
-          ARTIFACTORY_USERNAME: ${{ secrets.ARTIFACTORY_USERNAME }}
-          ARTIFACTORY_PASSWORD: ${{ secrets.ARTIFACTORY_PASSWORD }}
+          ORG_GRADLE_PROJECT_artifactoryPublishUsername: ${{ secrets.ARTIFACTORY_USERNAME }}
+          ORG_GRADLE_PROJECT_artifactoryPublishPassword: ${{ secrets.ARTIFACTORY_PASSWORD }}
         with:
-          arguments: -Dorg.gradle.internal.publish.checksums.insecure=true publish
+          arguments: |
+            -Dorg.gradle.internal.publish.checksums.insecure=true
+            publish
+
       - name: Generate Documentation
         if: success()
-        uses: gradle/gradle-build-action@v2
-        with:
-          arguments: docs
+        uses: gradle/actions/setup-gradle@v3
         env:
           GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
           GRADLE_ENTERPRISE_BUILD_CACHE_NODE_USER: ${{ secrets.GRADLE_ENTERPRISE_BUILD_CACHE_NODE_USER }}
           GRADLE_ENTERPRISE_BUILD_CACHE_NODE_KEY: ${{ secrets.GRADLE_ENTERPRISE_BUILD_CACHE_NODE_KEY }}
+        with:
+          arguments: docs
+
       - name: Publish to Github Pages
         if: success()
         uses: micronaut-projects/github-pages-deploy-action@grails
@@ -67,7 +78,7 @@ jobs:
           TARGET_REPOSITORY: ${{ github.repository }}
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           BRANCH: gh-pages
-          FOLDER: build/docs
+          FOLDER: docs/build/docs
           DOC_FOLDER: gh-pages
           COMMIT_EMAIL: behlp@unityfoundation.io
           COMMIT_NAME: Puneet Behl
