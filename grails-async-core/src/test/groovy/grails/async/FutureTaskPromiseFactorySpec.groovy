@@ -93,8 +93,8 @@ class FutureTaskPromiseFactorySpec extends Specification {
         then: 'the onComplete handler is invoked and the onError handler is ignored'
             thrown(ExecutionException)
             new PollingConditions().eventually {
-                assert result == null
-                assert error != null
+                !result
+                error
             }
     }
 
