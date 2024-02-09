@@ -1,8 +1,6 @@
-ext['signing.keyId'] = project.findProperty("signing.keyId") ?: System.getenv('SIGNING_KEY')
-ext['signing.secretKeyRingFile'] = project.findProperty("signing.secretKeyRingFile") ?: "${System.properties['user.home']}${File.separator}.gnupg${File.separator}secring.gpg"
-ext['signing.password'] = project.findProperty("signing.password") ?: System.getenv('SIGNING_PASSPHRASE')
+ext.setProperty('signing.keyId', project.findProperty('signing.keyId') ?: System.getenv('SIGNING_KEY'))
+ext.setProperty('signing.password', project.findProperty('signing.password') ?: System.getenv('SIGNING_PASSPHRASE'))
 
-def isExample = project.projectDir.parentFile.name == 'examples'
 def isGrailsPlugin = project.group == 'org.grails.plugins'
 def isCoreModule = project.name.endsWith('-core')
 
@@ -13,8 +11,8 @@ def pomInfo = {
 
     delegate.licenses {
         delegate.license {
-            delegate.name 'The Apache Software License, Version 2.0'
-            delegate.url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+            delegate.name 'Apache-2.0'
+            delegate.url 'https://www.apache.org/licenses/LICENSE-2.0.txt'
             delegate.distribution 'repo'
         }
     }
@@ -37,58 +35,53 @@ def pomInfo = {
     }
 }
 
-if (!isExample) { // don't publish examples
+def javaComponent = components.named('java')
+project.extensions.configure(PublishingExtension) {
 
-    publishing {
+    it.publications.register('maven', MavenPublication) {
 
-        if (isSnapshot) {
-            repositories {
-                maven {
-                    credentials {
-                        username = System.getenv('ARTIFACTORY_USERNAME') ?: project.findProperty('artifactoryPublishUsername') ?: ''
-                        password = System.getenv('ARTIFACTORY_PASSWORD') ?: project.findProperty('artifactoryPublishPassword') ?: ''
-                    }
-                    url = isGrailsPlugin ?
-                        uri('https://repo.grails.org/grails/plugins3-snapshots-local') :
-                        uri('https://repo.grails.org/grails/libs-snapshots-local')
+        if (isGrailsPlugin) artifactId = project.name - 'grails-plugin-'
+        if (isCoreModule) artifactId = project.name - '-core'
 
-                }
-            }
+        from javaComponent.get()
+
+        versionMapping {
+            usage('java-api') { fromResolutionOf('runtimeClasspath') }
+            usage('java-runtime') { fromResolutionResult() }
         }
 
-        publications {
+        pom.withXml {
+            def pomNode = asNode()
+            pomNode.children().last() + pomInfo
 
-            maven(MavenPublication) {
+            // dependency management shouldn't be included
+            try { pomNode.dependencyManagement.replaceNode({}) } catch (Throwable ignore) {}
+        }
+    }
 
-                if (isGrailsPlugin) artifactId = project.name - 'grails-plugin-'
-                if (isCoreModule) artifactId = project.name - '-core'
-
-                from components.java
-
-                versionMapping {
-                    usage('java-api') { fromResolutionOf('runtimeClasspath') }
-                    usage('java-runtime') { fromResolutionResult() }
+    if (isSnapshot) {
+        repositories {
+            maven {
+                credentials {
+                    username = project.findProperty('artifactoryPublishUsername') ?: ''
+                    password = project.findProperty('artifactoryPublishPassword') ?: ''
                 }
+                url = isGrailsPlugin ?
+                    uri('https://repo.grails.org/grails/plugins3-snapshots-local') :
+                    uri('https://repo.grails.org/grails/libs-snapshots-local')
 
-                pom.withXml {
-                    def xml = asNode()
-                    xml.children().last() + pomInfo
-                    // dependency management shouldn't be included
-                    def n = xml.get('dependencyManagement')
-                    if (n) xml.remove(n)
-                }
             }
         }
     }
+}
 
-    afterEvaluate {
-        signing {
-            required { isReleaseVersion }
-            sign publishing.publications.maven
-        }
+afterEvaluate {
+    def mavenPublication = project.extensions.findByType(PublishingExtension).publications.named('maven')
+    project.extensions.configure(SigningExtension) {
+        it.required = { isReleaseVersion }
+        it.sign mavenPublication.get()
     }
-
-    tasks.withType(Sign).configureEach {
-        onlyIf { isReleaseVersion }
-    }
+}
+tasks.withType(Sign).configureEach {
+    onlyIf { isReleaseVersion }
 }
