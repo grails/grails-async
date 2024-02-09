@@ -1,132 +1,42 @@
+import io.github.gradlenexus.publishplugin.InitializeNexusStagingRepository
+
 plugins {
     id 'groovy'
     id 'io.github.gradle-nexus.publish-plugin'
 }
 
 version = projectVersion
-
-repositories {
-    mavenCentral()
-    maven { url 'https://repo.grails.org/grails/core' }
-}
-
-ext['isSnapshot'] = projectVersion.endsWith('-SNAPSHOT')
-ext['isReleaseVersion'] = !isSnapshot
+ext.set('grailsVersion', libs.versions.grails.get())
+ext.set('isSnapshot', projectVersion.endsWith('-SNAPSHOT'))
+ext.set('isReleaseVersion', !isSnapshot)
 
 if(isReleaseVersion) {
     nexusPublishing {
-        String nexusUser = System.getenv('SONATYPE_USERNAME') ?: project.findProperty('sonatypeOssUsername') ?: ''
-        String nexusPass = System.getenv('SONATYPE_PASSWORD') ?: project.findProperty('sonatypeOssPassword') ?: ''
-        String nexusStagingProfileId = System.getenv('SONATYPE_STAGING_PROFILE_ID') ?: project.findProperty('sonatypeOssStagingProfileId') ?: ''
+        String nexusUser = project.findProperty('sonatypeOssUsername')
+        String nexusPass = project.findProperty('sonatypeOssPassword')
+        String nexusStagingProfileId = project.findProperty('sonatypeOssStagingProfileId')
         repositories {
             sonatype {
-                nexusUrl = uri 'https://s01.oss.sonatype.org/service/local/'
+                nexusUrl = uri('https://s01.oss.sonatype.org/service/local/')
                 username = nexusUser
                 password = nexusPass
                 stagingProfileId = nexusStagingProfileId
             }
         }
-        transitionCheckOptions {
-            maxRetries = 50
-            delayBetween = java.time.Duration.ofSeconds(3)
-        }
     }
-}
-
-configurations {
-    documentation.extendsFrom compileClasspath
-}
-
-dependencies {
-    documentation libs.groovy.core
-    documentation libs.groovy.templates
-    documentation libs.groovy.ant
-    documentation libs.groovy.dateutil
-    documentation libs.groovy.cli.picocli
-}
-
-tasks.withType(Groovydoc).configureEach {
-    group = 'documentation'
-    docTitle = "${project.title} - ${project.version}"
-    destinationDir = project.file('build/docs/api')
-    def files = []
-    project.rootProject.subprojects
-            .findAll { !it.name != 'docs' && !it.name.startsWith('examples') }
-            .each { subproject ->
-                if(subproject.file('src/main/groovy').exists()) {
-                    files += subproject.files('src/main/groovy')
-                }
-            }
-    if(project.file('src/main/groovy').exists()) {
-        files += project.files('src/main/groovy')
-    }
-    source = files
-    classpath = configurations.documentation
-}
-
-tasks.register('publishGuide', grails.doc.gradle.PublishGuide) {
-    group = 'documentation'
-    description = 'Generate Guide'
-    dependsOn = ['groovydoc']
-    mustRunAfter = ['jar']
-
-    targetDir = project.file("${buildDir}/docs")
-    sourceRepo = "https://github.com/${githubSlug}/edit/${githubBranch}/src/main/docs"
-    sourceDir = new File(projectDir, 'src/main/docs')
-    propertiesFiles = [new File(rootProject.projectDir, 'gradle.properties')]
-    asciidoc = true
-    resourcesDir = project.layout.projectDirectory.dir('src/main/docs/resources').asFile
-    properties = [
-            'safe'     : 'UNSAFE',
-            'version'  : project.version,
-            'subtitle' : project.projectDesc,
-            'api'      : '../api',
-            'sourceDir': rootProject.projectDir.absolutePath,
-            'sourcedir': rootProject.projectDir.absolutePath,
-            'javaee'   : 'https://docs.oracle.com/javaee/7/api/',
-            'javase'   : 'https://docs.oracle.com/en/java/javase/11/docs/api/',
-            'groovyapi': "https://docs.groovy-lang.org/${libs.versions.groovy.asProvider().get()}/html/gapi/",
-            'grailsapi': "https://docs.grails.org/${libs.versions.grails.asProvider().get()}/api/",
-            'gormapi'  : "https://gorm.grails.org/${libs.versions.gorm.get()}/api/",
-            'springapi': "https://docs.spring.io/spring/docs/${libs.versions.spring.get()}/javadoc-api/"
-    ]
-    doLast {
-        ant.move(file: "${project.buildDir}/docs/guide/single.html",
-                tofile: "${project.buildDir}/docs/guide/index.html", overwrite: true)
-        new File(project.buildDir, 'docs/index.html').text = '''
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html lang="en">
-<head>
-<meta http-equiv="refresh" content="0; url=guide/index.html" />
-</head>
-
-</body>
-</html>
-'''
-    }
-}
-
-tasks.register('docs') {
-    group = 'documentation'
-    dependsOn = ['groovydoc', 'publishGuide']
-}
-
-tasks.named('build') {
-    finalizedBy('docs')
 }
 
 subprojects {
     version = rootProject.version
     repositories {
         mavenCentral()
-        maven { url 'https://repo.grails.org/grails/core' }
-        if (libs.versions.groovy.asProvider().get().endsWith('-SNAPSHOT')) {
+        maven { url = 'https://repo.grails.org/grails/core' }
+        if (libs.versions.groovy.get().endsWith('-SNAPSHOT')) {
             maven {
-                name 'JFrog Groovy snapshot repo'
-                url 'https://groovy.jfrog.io/artifactory/libs-snapshot-local/'
+                name = 'JFrog Groovy snapshot repo'
+                url = 'https://groovy.jfrog.io/artifactory/libs-snapshot-local/'
             }
         }
-
     }
 
     tasks.withType(Test).configureEach {
@@ -138,6 +48,6 @@ subprojects {
 }
 
 //do not generate extra load on Nexus with new staging repository if signing fails
-tasks.withType(io.github.gradlenexus.publishplugin.InitializeNexusStagingRepository).configureEach {
+tasks.withType(InitializeNexusStagingRepository).configureEach {
     shouldRunAfter tasks.withType(Sign)
 }
