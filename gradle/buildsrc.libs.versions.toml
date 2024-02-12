@@ -1,5 +1,5 @@
 [versions]
-grails = '6.1.1'
+grails = '6.1.2'
 grails-gradle-plugin = '6.1.1'
 grails-views = '3.1.2'
 groovy-doc = '1.0.1'
