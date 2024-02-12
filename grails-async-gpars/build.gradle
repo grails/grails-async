@@ -1,33 +1,31 @@
 plugins {
-
     id 'groovy'
     id 'java-library'
-
     id 'maven-publish'
     id 'signing'
-
 }
 
 group = 'org.grails'
 
 dependencies {
 
-    implementation project(':grails-async-core')
+    api project(':grails-async-core')
+    api libs.gpars, {
+        exclude group: 'org.multiverse', module: 'multiverse-core' // Multiverse Software Transactional Memory (STM) Engine not used
+        exclude group: 'org.codehaus.groovy', module: 'groovy-all' // Gpars 1.2.1 pulls in groovy-all:2.1.9
+    }
 
     implementation libs.groovy.core
-
-    implementation libs.gpars, {
-        exclude group: 'org.multiverse', module: 'multiverse-core'
-        exclude group: 'org.codehaus.groovy', module: 'groovy-all'
-    }
     implementation libs.slf4j.api
 
     testImplementation libs.spock.core
 
+    testRuntimeOnly libs.slf4j.nop // Get rid of warning about missing slf4j implementation during test task
+
 }
 
-apply from: file("$rootProject.projectDir/gradle/java-config.gradle")
-apply from: file("$rootProject.projectDir/gradle/publishing.gradle")
+apply from: rootProject.layout.projectDirectory.file('gradle/java-config.gradle')
+apply from: rootProject.layout.projectDirectory.file('gradle/publishing.gradle')
 
 
 

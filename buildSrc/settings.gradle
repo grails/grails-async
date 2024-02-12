@@ -1,9 +1,7 @@
-rootProject.name = 'grails-async'
-
 dependencyResolutionManagement {
     versionCatalogs {
-        libs {
-            from(files('../gradle/libs.versions.toml'))
+        buildsrcLibs {
+            from(files('../gradle/buildsrc.libs.versions.toml'))
         }
     }
 }

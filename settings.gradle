@@ -1,16 +1,5 @@
-pluginManagement {
-    repositories {
-        maven { url 'https://repo.grails.org/grails/core' }
-        gradlePluginPortal()
-    }
-    plugins {
-        id 'org.grails.grails-web' version "$grailsVersion"
-        id 'org.grails.plugins.views-json' version "$viewsVersion"
-    }
-}
-
 plugins {
-    id "com.gradle.enterprise" version "3.16.1"
+    id "com.gradle.enterprise" version '3.16.1'
     id 'com.gradle.common-custom-user-data-gradle-plugin' version '1.12.1'
 }
 
@@ -53,6 +42,7 @@ dependencyResolutionManagement {
     }
 }
 
+include 'docs'
 include 'grails-async-core'
 include 'grails-async-gpars'
 include 'grails-async-rxjava'
@@ -67,6 +57,7 @@ include 'grails-events-rxjava2'
 include 'grails-plugin-async'
 include 'grails-plugin-events'
 
-// examples
-include 'examples-pubsub-demo'
-project(':examples-pubsub-demo').projectDir = new File(settingsDir, 'examples/pubsub-demo')
+file('examples').eachDir { dir ->
+    include "examples-$dir.name"
+    project(":examples-$dir.name").projectDir = dir
+}

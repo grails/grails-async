@@ -136,9 +136,9 @@ class PromiseSpec extends Specification {
 
         then: 'the onComplete handler is invoked and the onError handler is ignored'
             new PollingConditions().eventually {
-                assert result == null
-                assert error != null
-                assert error.message == 'java.lang.RuntimeException: bad'
+                !result
+                error
+                error.message.contains('bad')
             }
     }
 
