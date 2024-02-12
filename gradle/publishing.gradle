@@ -36,9 +36,9 @@ def pomInfo = {
 }
 
 def javaComponent = components.named('java')
-project.extensions.configure(PublishingExtension) {
+project.extensions.configure(PublishingExtension) { PublishingExtension pe ->
 
-    it.publications.register('maven', MavenPublication) {
+    pe.publications.register('maven', MavenPublication) {
 
         if (isGrailsPlugin) artifactId = project.name - 'grails-plugin-'
         if (isCoreModule) artifactId = project.name - '-core'
@@ -77,9 +77,9 @@ project.extensions.configure(PublishingExtension) {
 
 afterEvaluate {
     def mavenPublication = project.extensions.findByType(PublishingExtension).publications.named('maven')
-    project.extensions.configure(SigningExtension) {
-        it.required = { isReleaseVersion }
-        it.sign mavenPublication.get()
+    project.extensions.configure(SigningExtension) { SigningExtension se ->
+        se.required = { isReleaseVersion }
+        se.sign mavenPublication.get()
     }
 }
 tasks.withType(Sign).configureEach {
