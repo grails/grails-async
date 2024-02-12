@@ -16,7 +16,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        java: [11, 17]
+        java: [17]
 
     steps:
 
@@ -46,7 +46,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: gradle/wrapper-validation-action@v2
       - uses: actions/setup-java@v4
-        with: { distribution: temurin, java-version: 11 }
+        with: { distribution: temurin, java-version: 17 }
 
       - name: Publish to Artifactory (repo.grails.org)
         uses: gradle/actions/setup-gradle@v3
