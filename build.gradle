@@ -10,7 +10,7 @@ ext.set('grailsVersion', libs.versions.grails.asProvider().get())
 ext.set('isSnapshot', projectVersion.endsWith('-SNAPSHOT'))
 ext.set('isReleaseVersion', !isSnapshot)
 
-if(isReleaseVersion) {
+if (isReleaseVersion) {
     nexusPublishing {
         String nexusUser = project.findProperty('sonatypeOssUsername')
         String nexusPass = project.findProperty('sonatypeOssPassword')
@@ -27,14 +27,18 @@ if(isReleaseVersion) {
 }
 
 subprojects {
+
     version = rootProject.version
+
     repositories {
         mavenCentral()
         maven { url = 'https://repo.grails.org/grails/core' }
         if (libs.versions.groovy.get().endsWith('-SNAPSHOT')) {
             maven {
-                name = 'JFrog Groovy snapshot repo'
-                url = 'https://groovy.jfrog.io/artifactory/libs-snapshot-local/'
+                name = 'Groovy Snapshot Repo'
+                url = libs.versions.groovy.get().startsWith('3') ?
+                    'https://groovy.jfrog.io/artifactory/libs-snapshot-local' :
+                    'https://repository.apache.org/content/repositories/snapshots'
             }
         }
     }

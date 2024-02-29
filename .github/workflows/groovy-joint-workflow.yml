@@ -10,45 +10,16 @@ on:
 permissions:
   contents: read
 jobs:
-  build_groovy:
+  get_groovy_snapshot_version:
     runs-on: ubuntu-latest
     outputs:
       groovySnapshotVersion: ${{ steps.groovy_snapshot_version.outputs.value }}
     steps:
-
-      - name: Set up JDK
-        uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: 11
-
-      - name: Cache local Maven repository & Groovy
-        uses: actions/cache@13aacd865c20de90d75de3b17ebe84f7a17d57d2 # v4
-        with:
-          path: |
-            ~/groovy
-            ~/.m2/repository
-          key: cache-local-groovy-maven-${{ github.sha }}
-
-      - name: Checkout project to fetch some versions it uses
+      - name: Checkout project to fetch which Groovy major version it uses
         uses: actions/checkout@v4
         with:
           sparse-checkout-cone-mode: false
-          sparse-checkout: |
-            settings.gradle
-            gradle/libs.versions.toml
-
-      - name: Get version of Gradle Enterprise plugin
-        id: gradle_enterprise_version
-        run: |
-          GE_PLUGIN_VERSION=$(grep -m 1 'id\s*\(\"com.gradle.enterprise\"\|'"'com.gradle.enterprise'"'\)\s*version' settings.gradle | sed -E "s/.*version[[:space:]]*['\"]?([0-9]+\.[0-9]+\.[0-9]+)['\"]?.*/\1/" | tr -d [:space:])
-          GE_USER_DATA_PLUGIN_VERSION=$(grep -m 1 'id\s*\(\"com.gradle.common-custom-user-data-gradle-plugin\"\|'"'com.gradle.common-custom-user-data-gradle-plugin'"'\)\s*version' settings.gradle | sed -E "s/.*version[[:space:]]*['\"]?([0-9]+\.[0-9]+\.[0-9]+)['\"]?.*/\1/" | tr -d [:space:])
-          echo "Project uses Gradle Enterprise Plugin version: $GE_PLUGIN_VERSION"
-          echo "Project uses Gradle Common Custom User Data Plugin version: $GE_USER_DATA_PLUGIN_VERSION"
-          echo "ge_plugin_version=$GE_PLUGIN_VERSION" >> $GITHUB_OUTPUT
-          echo "ge_user_data_plugin_version=$GE_USER_DATA_PLUGIN_VERSION" >> $GITHUB_OUTPUT
-          rm settings.gradle
-
+          sparse-checkout: gradle/libs.versions.toml
       - name: Select Groovy Branch to checkout
         id: groovy_branch
         run: |
@@ -59,13 +30,11 @@ jobs:
           echo "Project uses Groovy $PROJECT_GROOVY_VERSION"
           echo "value=$BRANCH" >> $GITHUB_OUTPUT
           rm -rf gradle
-
       - name: Checkout Groovy Snapshot
         run: |
           BRANCH=${{ steps.groovy_branch.outputs.value }}
           echo "Checking out Groovy branch $BRANCH"
           cd .. && git clone --depth 1 https://github.com/apache/groovy.git -b $BRANCH --single-branch
-
       - name: Set Groovy Snapshot version for project build
         id: groovy_snapshot_version
         run: |
@@ -73,96 +42,18 @@ jobs:
           GROOVY_SNAPSHOT_VERSION=$(cat gradle.properties | grep groovyVersion | cut -d\= -f2 |  tr -d "[:space:]")
           echo "value=$GROOVY_SNAPSHOT_VERSION" >> $GITHUB_OUTPUT
 
-      - name: Prepare Gradle Enterprise Set-up Configuration
-        id: ge_conf
-        run: |
-          echo "VALUE<<EOF" >> $GITHUB_OUTPUT
-          echo "plugins { " >> $GITHUB_OUTPUT
-          echo "    id 'com.gradle.enterprise' version '${{ steps.gradle_enterprise_version.outputs.ge_plugin_version }}'" >> $GITHUB_OUTPUT 
-          echo "    id 'com.gradle.common-custom-user-data-gradle-plugin' version '${{ steps.gradle_enterprise_version.outputs.ge_user_data_plugin_version }}'" >> $GITHUB_OUTPUT 
-          echo "}" >> $GITHUB_OUTPUT 
-          echo "" >> $GITHUB_OUTPUT 
-          echo "gradleEnterprise {" >> $GITHUB_OUTPUT 
-          echo "    server = 'https://ge.grails.org'" >> $GITHUB_OUTPUT 
-          echo "    buildScan {" >> $GITHUB_OUTPUT 
-          echo "        publishAlways()" >> $GITHUB_OUTPUT 
-          echo "        publishIfAuthenticated()" >> $GITHUB_OUTPUT 
-          echo "        uploadInBackground = false" >> $GITHUB_OUTPUT 
-          echo "        capture {" >> $GITHUB_OUTPUT 
-          echo "            taskInputFiles = true" >> $GITHUB_OUTPUT 
-          echo "        }" >> $GITHUB_OUTPUT 
-          echo "    }" >> $GITHUB_OUTPUT 
-          echo "}" >> $GITHUB_OUTPUT 
-          echo "" >> $GITHUB_OUTPUT
-          echo "buildCache {" >> $GITHUB_OUTPUT 
-          echo "    local { enabled = false }" >> $GITHUB_OUTPUT 
-          echo "    remote(HttpBuildCache) {" >> $GITHUB_OUTPUT 
-          echo "        push = true" >> $GITHUB_OUTPUT
-          echo "        enabled = true" >> $GITHUB_OUTPUT 
-          echo "        url = 'https://ge.grails.org/cache/'" >> $GITHUB_OUTPUT 
-          echo "        credentials {" >> $GITHUB_OUTPUT 
-          echo "            username = System.getenv('GRADLE_ENTERPRISE_BUILD_CACHE_NODE_USER')" >> $GITHUB_OUTPUT 
-          echo "            password = System.getenv('GRADLE_ENTERPRISE_BUILD_CACHE_NODE_KEY')" >> $GITHUB_OUTPUT 
-          echo "        }" >> $GITHUB_OUTPUT 
-          echo "    }" >> $GITHUB_OUTPUT 
-          echo "}" >> $GITHUB_OUTPUT 
-          echo "" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
-
-      - name: Gradle Enterprise Set-up
-        run: |
-          cd ../groovy
-          # Delete exiting plugins and build-scan from settings.gradle file
-          sed -i '21,31d' settings.gradle
-          # Add Gradle Enterprise set-up related configuration after line no 20 in settings.gradle
-          echo "${{ steps.ge_conf.outputs.value }}" | sed -i -e "20r /dev/stdin" settings.gradle
-
-      - name: Build and install Groovy (no docs)
-        uses: gradle/actions/setup-gradle@v3
-        env:
-          GRADLE_SCANS_ACCEPT: yes
-          GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
-          GRADLE_ENTERPRISE_BUILD_CACHE_NODE_USER: ${{ secrets.GRADLE_ENTERPRISE_BUILD_CACHE_NODE_USER }}
-          GRADLE_ENTERPRISE_BUILD_CACHE_NODE_KEY: ${{ secrets.GRADLE_ENTERPRISE_BUILD_CACHE_NODE_KEY }}
-        with:
-          build-root-directory: ../groovy
-          arguments: |
-            install
-            -x groovydoc
-            -x javadoc
-            -x javadocAll
-            -x groovydocAll
-            -x asciidoc
-            -x docGDK
-
   build_project:
-    needs: [build_groovy]
+    needs: [get_groovy_snapshot_version]
     runs-on: ubuntu-latest
     steps:
-
       - uses: actions/checkout@v4
-
-      - name: Set up JDK
-        uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: 11
-
-      - name: Cache local Maven repository & Groovy
-        uses: actions/cache@13aacd865c20de90d75de3b17ebe84f7a17d57d2 # v4
-        with:
-          path: |
-            ~/groovy
-            ~/.m2/repository
-          key: cache-local-groovy-maven-${{ github.sha }}
-
-      - name: Build Project
-        id: build_grails_project
-        uses: gradle/actions/setup-gradle@v3
+      - uses: actions/setup-java@v4
+        with: { java-version: 11, distribution: temurin }
+      - uses: gradle/actions/setup-gradle@v3
         env:
-          GROOVY_VERSION: ${{ needs.build_groovy.outputs.groovySnapshotVersion }}
-          CI_GROOVY_VERSION: ${{ needs.build_groovy.outputs.groovySnapshotVersion }}
-          ORG_GRADLE_PROJECT_groovyVersion: ${{ needs.build_groovy.outputs.groovySnapshotVersion }}
+          GROOVY_VERSION: ${{ needs.get_groovy_snapshot_version.outputs.groovySnapshotVersion }}
+          CI_GROOVY_VERSION: ${{ needs.get_groovy_snapshot_version.outputs.groovySnapshotVersion }}
+          ORG_GRADLE_PROJECT_groovyVersion: ${{ needs.get_groovy_snapshot_version.outputs.groovySnapshotVersion }}
           GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
           GRADLE_ENTERPRISE_BUILD_CACHE_NODE_USER: ${{ secrets.GRADLE_ENTERPRISE_BUILD_CACHE_NODE_USER }}
           GRADLE_ENTERPRISE_BUILD_CACHE_NODE_KEY: ${{ secrets.GRADLE_ENTERPRISE_BUILD_CACHE_NODE_KEY }}
