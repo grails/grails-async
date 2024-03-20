@@ -9,7 +9,7 @@ Since Grails 3.3, the asynchronous part of GORM is optional. To enable it you fi
 [source,groovy]
 .build.gradle
 ----
-compile "org.grails:grails-datastore-gorm-async"
+implementation "org.grails:grails-datastore-gorm-async"
 ----
 
 Then in your domain classes you wish to allow asynchronous processing you should use the `AsyncEntity` trait:
