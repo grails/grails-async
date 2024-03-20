@@ -116,7 +116,7 @@ function addJsClass() {
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Although GORM executes persistence operations asynchronously, these operations still block as the underlying database drivers are not asynchronous. Asynchornous GORM is designed to allow you to isolate these blocking operations onto a separate thread you can scale and control allowing your controller layer to remain non-blocking.
+Although GORM executes persistence operations asynchronously, these operations still block as the underlying database drivers are not asynchronous. Asynchronous GORM is designed to allow you to isolate these blocking operations onto a separate thread you can scale and control allowing your controller layer to remain non-blocking.
 </td>
 </tr>
 </table>
@@ -129,7 +129,7 @@ Although GORM executes persistence operations asynchronously, these operations s
 <div class="listingblock">
 <div class="title">build.gradle</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy">compile <span class="string"><span class="delimiter">&quot;</span><span class="content">org.grails:grails-datastore-gorm-async</span><span class="delimiter">&quot;</span></span></code></pre>
+<pre class="CodeRay highlight"><code data-lang="groovy">implementation <span class="string"><span class="delimiter">&quot;</span><span class="content">org.grails:grails-datastore-gorm-async</span><span class="delimiter">&quot;</span></span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -140,7 +140,7 @@ Although GORM executes persistence operations asynchronously, these operations s
 <pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">import</span> <span class="include">grails.gorm.async.*</span>
 
 <span class="type">class</span> <span class="class">MyEntity</span> <span class="directive">implements</span> AsyncEntity&lt;MyEntity&gt; {
-   ...
+   <span class="comment">//...</span>
 }</code></pre>
 </div>
 </div>
