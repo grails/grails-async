@@ -1264,9 +1264,9 @@ def index() {
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">import</span> <span class="include">static</span> <span class="include">grails.async.WebPromises.*</span>
-...
-def index() {
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">import</span> <span class="include">static</span> <span class="include">grails.async.web.WebPromises.*</span>
+<span class="comment">//...</span>
+<span class="keyword">def</span> <span class="function">index</span>() {
    render <span class="key">view</span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">myView</span><span class="delimiter">&quot;</span></span>, <span class="key">model</span>: tasks( <span class="key">one</span>:{ <span class="integer">2</span> * <span class="integer">2</span> },
                                        <span class="key">two</span>:{ <span class="integer">3</span> * <span class="integer">3</span> } )
 }</code></pre>
@@ -1280,7 +1280,8 @@ def index() {
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">import</span> <span class="include">static</span> <span class="include">grails.async.WebPromises.*</span>
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">import</span> <span class="include">static</span> <span class="include">grails.async.web.WebPromises.*</span>
+
 <span class="type">class</span> <span class="class">StockController</span> {
 
     <span class="keyword">def</span> <span class="function">stock</span>(<span class="predefined-type">String</span> ticker) {
