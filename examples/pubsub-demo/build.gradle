@@ -36,3 +36,8 @@ dependencies {
     testImplementation 'org.grails:grails-web-testing-support'
 
 }
+
+// Don't need groovydoc for example project
+tasks.named('groovydoc') {
+    enabled = false
+}
