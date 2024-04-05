@@ -1,7 +1,7 @@
 [versions]
 bytebuddy = '1.14.12'
 gpars = '1.2.1'
-grails = '6.1.2'
+grails = '6.2.0'
 grails-gsp = '6.2.1'
 groovy = '3.0.21'
 gorm = '8.1.2'
