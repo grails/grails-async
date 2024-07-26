@@ -17,8 +17,8 @@ package org.grails.plugins.web.async
 
 import grails.async.web.AsyncGrailsWebRequest
 
-import javax.servlet.AsyncContext
-import javax.servlet.AsyncListener
+import jakarta.servlet.AsyncContext
+import jakarta.servlet.AsyncListener
 
 import grails.persistence.support.PersistenceContextInterceptor
 import org.grails.web.servlet.mvc.GrailsWebRequest
@@ -28,8 +28,8 @@ import org.grails.web.util.WebUtils
 
 import com.opensymphony.sitemesh.webapp.SiteMeshWebAppContext
 
-import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.HttpServletResponse
+import jakarta.servlet.http.HttpServletRequest
+import jakarta.servlet.http.HttpServletResponse
 
 /**
  * Wraps an AsyncContext providing additional logic to provide the appropriate context to a Grails application.

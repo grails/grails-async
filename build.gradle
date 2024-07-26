@@ -26,6 +26,7 @@ if(isReleaseVersion) {
     }
 }
 
+
 subprojects {
     version = rootProject.version
     repositories {

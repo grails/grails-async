@@ -58,14 +58,14 @@ class FutureTaskChildPromise<T> implements Promise<T> {
 
     @Override
     Promise<T> onComplete(Closure<T> callable) {
-        def newPromise = new FutureTaskChildPromise(promiseFactory, this, callable)
+        Promise<T> newPromise = new FutureTaskChildPromise(promiseFactory, this as Promise<T>, callable)
         successCallbacks.add(newPromise)
         return newPromise
     }
 
     @Override
     Promise<T> onError(Closure<T> callable) {
-        def newPromise = new FutureTaskChildPromise(promiseFactory, this, callable)
+        Promise<T> newPromise = new FutureTaskChildPromise(promiseFactory, this as Promise<T>, callable)
         failureCallbacks.add(newPromise)
         return newPromise
     }
