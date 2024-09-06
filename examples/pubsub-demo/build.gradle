@@ -2,7 +2,7 @@ plugins {
     id 'application'
     id 'groovy'
     id 'org.grails.grails-web'
-    id 'org.grails.plugins.views-json'
+    //id 'org.grails.plugins.views-json'
 }
 
 group = 'pubsub.demo'
@@ -49,3 +49,16 @@ dependencies {
 tasks.named('groovydoc') {
     enabled = false
 }
+
+bootJar {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+}
+
+distTar {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+}
+
+distZip {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+}
+
