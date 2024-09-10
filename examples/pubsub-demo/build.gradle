@@ -2,7 +2,7 @@ plugins {
     id 'application'
     id 'groovy'
     id 'org.grails.grails-web'
-    //id 'org.grails.plugins.views-json'
+    //id 'org.grails.plugins.views-json' error loading when following documentation and not required for test
 }
 
 group = 'pubsub.demo'
@@ -30,12 +30,14 @@ dependencies {
     implementation 'org.grails:grails-web-boot'
 
     implementation 'org.grails.plugins:hibernate5'
-    implementation 'org.grails.plugins:views-json'
+    implementation libs.grails.views.json
+    implementation libs.grails.views.json.templates
 
     implementation 'org.springframework.boot:spring-boot-autoconfigure'
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-logging'
     implementation 'org.springframework.boot:spring-boot-starter-tomcat'
+    implementation libs.micronaut.serde.jackson
 
     runtimeOnly 'com.h2database:h2'
     runtimeOnly 'org.apache.tomcat:tomcat-jdbc'

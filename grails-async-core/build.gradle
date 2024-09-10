@@ -11,8 +11,9 @@ dependencies {
 
     implementation libs.groovy.core
     implementation libs.slf4j.api
+    implementation libs.jakarta.annotation.api
 
-    compileOnly libs.javax.annotation.api
+    compileOnly libs.jakarta.annotation.api
 
     testImplementation libs.spock.core
 
