@@ -4,19 +4,16 @@ plugins {
 }
 
 repositories {
-    mavenLocal()
     gradlePluginPortal()
     mavenCentral()
     maven { url = 'https://repo.grails.org/grails/core' }
 }
 
-dependencies {
+configurations.configureEach { exclude group: 'org.apache.groovy' }
 
+dependencies {
     // Needs to be implementation as classes are referenced in build scripts
-    implementation(buildsrcLibs.grails.docs) {
-        exclude group: 'org.apache.groovy', module: 'groovy'
-        exclude group: 'org.apache.groovy', module: 'groovy-ant'
-    }
+    implementation buildsrcLibs.grails.docs
     implementation buildsrcLibs.nexus.publish.gradle.plugin
 
     runtimeOnly buildsrcLibs.grails.gradle.plugin
