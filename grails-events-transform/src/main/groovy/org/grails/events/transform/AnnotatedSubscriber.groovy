@@ -11,7 +11,7 @@ import org.grails.datastore.mapping.engine.event.AbstractPersistenceEvent
 import org.grails.events.EventIdUtils
 import org.springframework.util.ReflectionUtils
 
-import javax.annotation.PostConstruct
+import jakarta.annotation.PostConstruct
 import java.beans.Introspector
 import java.lang.reflect.Method
 
