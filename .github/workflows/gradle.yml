@@ -25,7 +25,7 @@ jobs:
           GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
         with:
           arguments: build
-  publish_documentation:
+  publish:
     name: Publish Snapshot release
     runs-on: ubuntu-latest
     if: github.event_name == 'push'
@@ -48,7 +48,7 @@ jobs:
         with:
           arguments: |
             -Dorg.gradle.internal.publish.checksums.insecure=true
-            publish
+            publish --rerun-tasks
       - name: Generate Documentation
         if: success()
         uses: gradle/actions/setup-gradle@v3
