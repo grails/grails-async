@@ -43,8 +43,6 @@ jobs:
           GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
           ORG_GRADLE_PROJECT_artifactoryPublishUsername: ${{ secrets.ARTIFACTORY_USERNAME }}
           ORG_GRADLE_PROJECT_artifactoryPublishPassword: ${{ secrets.ARTIFACTORY_PASSWORD }}
-          ARTIFACTORY_USERNAME: ${{ secrets.ARTIFACTORY_USERNAME }}
-          ARTIFACTORY_PASSWORD: ${{ secrets.ARTIFACTORY_PASSWORD }}
         with:
           arguments: |
             -Dorg.gradle.internal.publish.checksums.insecure=true
