@@ -1,9 +1,8 @@
-ext.setProperty('signing.keyId', project.findProperty('signing.keyId') ?: System.getenv('SIGNING_KEY'))
-ext.setProperty('signing.password', project.findProperty('signing.password') ?: System.getenv('SIGNING_PASSPHRASE'))
+ext.set('signing.keyId', project.findProperty('signing.keyId') ?: System.getenv('SIGNING_KEY'))
+ext.set('signing.password', project.findProperty('signing.password') ?: System.getenv('SIGNING_PASSPHRASE'))
 
 def isGrailsPlugin = project.group == 'org.grails.plugins'
 def isCoreModule = project.name.endsWith('-core')
-
 def pomInfo = {
     delegate.name project.title
     delegate.description project.projectDesc
@@ -36,26 +35,25 @@ def pomInfo = {
 }
 
 def javaComponent = components.named('java')
-project.extensions.configure(PublishingExtension) { PublishingExtension pe ->
+publishing {
+    publications {
+        maven(MavenPublication) {
+            if (isGrailsPlugin) artifactId = project.name - 'grails-plugin-'
+            if (isCoreModule) artifactId = project.name - '-core'
+            from javaComponent.get()
 
-    pe.publications.register('maven', MavenPublication) {
+            versionMapping {
+                usage('java-api') { fromResolutionOf('runtimeClasspath') }
+                usage('java-runtime') { fromResolutionResult() }
+            }
 
-        if (isGrailsPlugin) artifactId = project.name - 'grails-plugin-'
-        if (isCoreModule) artifactId = project.name - '-core'
+            pom.withXml {
+                def pomNode = asNode()
+                pomNode.children().last() + pomInfo
 
-        from javaComponent.get()
-
-        versionMapping {
-            usage('java-api') { fromResolutionOf('runtimeClasspath') }
-            usage('java-runtime') { fromResolutionResult() }
-        }
-
-        pom.withXml {
-            def pomNode = asNode()
-            pomNode.children().last() + pomInfo
-
-            // dependency management shouldn't be included
-            try { pomNode.dependencyManagement.replaceNode({}) } catch (Throwable ignore) {}
+                // dependency management shouldn't be included
+                try { pomNode.dependencyManagement.replaceNode({}) } catch (Throwable ignore) {}
+            }
         }
     }
 
@@ -67,8 +65,8 @@ project.extensions.configure(PublishingExtension) { PublishingExtension pe ->
                     password = project.findProperty('artifactoryPublishPassword') ?: ''
                 }
                 url = isGrailsPlugin ?
-                    uri('https://repo.grails.org/grails/plugins3-snapshots-local') :
-                    uri('https://repo.grails.org/grails/libs-snapshots-local')
+                        uri('https://repo.grails.org/grails/plugins3-snapshots-local') :
+                        uri('https://repo.grails.org/grails/libs-snapshots-local')
 
             }
         }
@@ -76,12 +74,12 @@ project.extensions.configure(PublishingExtension) { PublishingExtension pe ->
 }
 
 afterEvaluate {
-    def mavenPublication = project.extensions.findByType(PublishingExtension).publications.named('maven')
-    project.extensions.configure(SigningExtension) { SigningExtension se ->
-        se.required = { isReleaseVersion }
-        se.sign mavenPublication.get()
+    signing {
+        required = { isReleaseVersion && gradle.taskGraph.hasTask('publish') }
+        sign(publishing.publications.maven)
     }
 }
+
 tasks.withType(Sign).configureEach {
     onlyIf { isReleaseVersion }
 }
