@@ -51,16 +51,3 @@ dependencies {
 tasks.named('groovydoc') {
     enabled = false
 }
-
-bootJar {
-    duplicatesStrategy = DuplicatesStrategy.INCLUDE
-}
-
-distTar {
-    duplicatesStrategy = DuplicatesStrategy.INCLUDE
-}
-
-distZip {
-    duplicatesStrategy = DuplicatesStrategy.INCLUDE
-}
-
