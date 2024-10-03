@@ -7,6 +7,7 @@ grails-views = '4.0.0-SNAPSHOT'
 groovy = '4.0.22'
 gorm = '9.0.0-SNAPSHOT'
 jakarta-annotation-api = '3.0.0'
+micronaut-http-client = '4.6.5'
 micronaut-serde-jackson = '2.10.2'
 objenesis = '3.3'
 rxjava = '1.3.8'
@@ -44,5 +45,6 @@ spring-context = { module = 'org.springframework:spring-context', version.ref = 
 spring-tx = { module = 'org.springframework:spring-tx', version.ref = 'spring' }
 spring-web = { module = 'org.springframework:spring-web', version.ref = 'spring' }
 micronaut-serde-jackson = { module = 'io.micronaut.serde:micronaut-serde-jackson', version.ref = 'micronaut-serde-jackson' }
+micronaut-http-client = { module = 'io.micronaut:micronaut-http-client', version.ref = 'micronaut-http-client' }
 grails-views-json = { module = 'org.grails.plugins:views-json', version.ref = 'grails-views' }
 grails-views-json-templates = { module = 'org.grails.plugins:views-json-templates', version.ref = 'grails-views' }
