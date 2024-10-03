@@ -2,7 +2,7 @@ plugins {
     id 'application'
     id 'groovy'
     id 'org.grails.grails-web'
-    //id 'org.grails.plugins.views-json' error loading when following documentation and not required for test
+    id 'org.grails.plugins.views-json'
 }
 
 group = 'pubsub.demo'
@@ -42,9 +42,8 @@ dependencies {
     runtimeOnly 'com.h2database:h2'
     runtimeOnly 'org.apache.tomcat:tomcat-jdbc'
 
-    testImplementation 'io.micronaut:micronaut-http-client'
+    testImplementation libs.micronaut.http.client
     testImplementation 'org.grails:grails-web-testing-support'
-
 }
 
 // Don't need groovydoc for example project
