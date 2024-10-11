@@ -58,9 +58,9 @@ jobs:
         if: success()
         uses: micronaut-projects/github-pages-deploy-action@grails
         env:
+          TARGET_REPOSITORY: ${{ github.repository }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
           BRANCH: gh-pages
-          COMMIT_EMAIL: ${{ env.GIT_USER_EMAIL }}
-          COMMIT_NAME: ${{ env.GIT_USER_NAME }}
           FOLDER: docs/build/docs
           DOC_FOLDER: gh-pages
           COMMIT_EMAIL: 'grails-build@users.noreply.github.com'

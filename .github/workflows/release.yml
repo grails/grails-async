@@ -15,21 +15,20 @@ jobs:
         with:
           distribution: temurin
           java-version: 17
-      - name: Get the current release version
-        id: release_version
-        run: |
-          echo "Release version: ${GITHUB_REF:11}"
-          echo "release_version=${GITHUB_REF:11}" >> $GITHUB_OUTPUT
 
-      - name: Set projectVersion to the release version
+      - name: Set the current release version
+        id: release_version
+        run: echo "release_version=${GITHUB_REF:11}" >> $GITHUB_OUTPUT
+
+      - name: Run pre-release
         uses: micronaut-projects/github-actions/pre-release@master
 
-      - name: Generate key file for artifact signing
+      - name: Generate secring file
         env:
           SECRING_FILE: ${{ secrets.SECRING_FILE }}
         run: echo $SECRING_FILE | base64 -d > ${{ github.workspace }}/secring.gpg
 
-      - name: Publish release artifacts to Sonatype
+      - name: Publish to Sonatype
         id: publish_to_sonatype
         uses: gradle/actions/setup-gradle@v3
         env:
@@ -60,15 +59,12 @@ jobs:
           TARGET_REPOSITORY: ${{ github.repository }}
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           BRANCH: gh-pages
-          COMMIT_EMAIL: ${{ env.GIT_USER_EMAIL }}
-          COMMIT_NAME: ${{ env.GIT_USER_NAME }}
           FOLDER: docs/build/docs
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
           VERSION: ${{ steps.release_version.outputs.release_version }}
           DOC_FOLDER: gh-pages
           COMMIT_EMAIL: 'grails-build@users.noreply.github.com'
           COMMIT_NAME: 'grails-build'
 
-      - name: Set projectVersion to the next snapshot version
+      - name: Run post-release
         if: steps.publish_to_sonatype.outcome == 'success'
         uses: micronaut-projects/github-actions/post-release@master
