@@ -11,7 +11,7 @@
 
             gtag('config', 'UA-82213539-2');
         </script>
-        <title>Grails Async Framework 6.0.0-SNAPSHOT</title>
+        <title>Grails Async Framework 7.0.0-SNAPSHOT</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8" />
         <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8" />
@@ -73,7 +73,7 @@ function addJsClass(el) {
                         <div class="project">
                             <h1>Grails Async Framework</h1>
                             <p><strong>Authors:</strong> Graeme Rocher</p>
-                            <p><strong>Version:</strong> 6.0.0-SNAPSHOT</p>
+                            <p><strong>Version:</strong> 7.0.0-SNAPSHOT</p>
                             
                         </div>
 
@@ -119,7 +119,7 @@ function addJsClass(el) {
 <h1 id="introduction">1 Introduction</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/6.0.x/src/main/docs/guide/introduction.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/7.0.x/src/main/docs/guide/introduction.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -136,7 +136,7 @@ function addJsClass(el) {
 <h1 id="promises">2 Promises</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/6.0.x/src/main/docs/guide/promises.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/7.0.x/src/main/docs/guide/promises.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -151,7 +151,7 @@ function addJsClass(el) {
 <div class="listingblock">
 <div class="title">build.gradle</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy">runtime "org.grails.plugins:async:6.0.0-SNAPSHOT"</code></pre>
+<pre class="CodeRay highlight"><code data-lang="groovy">implementation "org.grails.plugins:async:7.0.0-SNAPSHOT"</code></pre>
 </div>
 </div>
 <div class="sect2">
@@ -225,7 +225,7 @@ p.onComplete { result -&gt;
 <div class="sect2">
 <h3 id="_the_promisefactory_interface">The PromiseFactory Interface</h3>
 <div class="paragraph">
-<p>By default the <code>Promises</code> static methods use an instance of <code>PromiseFactory</code>. This <code>PromiseFactory</code> interface has various implementations. The default implementation is <a href="../api/org/grails/async/factory/future/CachedThreadPoolPromiseFactory.html">CachedThreadPoolPromiseFactory</a> which uses a thread pool that will create threads as needed (the same as <code>java.util.concurrent.Executors.newCachedThreadPool()</code>)</p>
+<p>By default, the <code>Promises</code> static methods use an instance of <code>PromiseFactory</code>. This <code>PromiseFactory</code> interface has various implementations. The default implementation is <a href="../api/org/grails/async/factory/future/CachedThreadPoolPromiseFactory.html">CachedThreadPoolPromiseFactory</a> which uses a thread pool that will create threads as needed (the same as <code>java.util.concurrent.Executors.newCachedThreadPool()</code>)</p>
 </div>
 <div class="paragraph">
 <p>However, the design of the Grails promises framework is such that you can swap out the underlying implementation for your own or one of the pre-supported implementations. For example to use RxJava 1.x simply add the RxJava dependency to <code>build.gradle</code>:</p>
@@ -233,7 +233,7 @@ p.onComplete { result -&gt;
 <div class="listingblock">
 <div class="title">build.gradle</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy">runtime "org.grails:grails-async-rxjava:6.0.0-SNAPSHOT"</code></pre>
+<pre class="CodeRay highlight"><code data-lang="groovy">runtimeOnly "org.grails:grails-async-rxjava:7.0.0-SNAPSHOT"</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -459,7 +459,7 @@ map.onComplete { <span class="predefined-type">Map</span> results -&gt;
 <h1 id="events">3 Events</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/6.0.x/src/main/docs/guide/events.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/7.0.x/src/main/docs/guide/events.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -477,7 +477,7 @@ map.onComplete { <span class="predefined-type">Map</span> results -&gt;
 <div class="listingblock">
 <div class="title">build.gradle</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy">runtime "org.grails.plugins:events:6.0.0-SNAPSHOT"</code></pre>
+<pre class="CodeRay highlight"><code data-lang="groovy">implementation "org.grails.plugins:events:7.0.0-SNAPSHOT"</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -489,7 +489,7 @@ map.onComplete { <span class="predefined-type">Map</span> results -&gt;
 <div class="listingblock">
 <div class="title">build.gradle</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy">runtime "org.grails:grails-events-rxjava:6.0.0-SNAPSHOT"</code></pre>
+<pre class="CodeRay highlight"><code data-lang="groovy">runtimeOnly "org.grails:grails-events-rxjava:7.0.0-SNAPSHOT"</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -532,7 +532,7 @@ map.onComplete { <span class="predefined-type">Map</span> results -&gt;
 <h2 id="notifying">3.1 Event Publishing</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/6.0.x/src/main/docs/guide/events/notifying.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/7.0.x/src/main/docs/guide/events/notifying.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -596,7 +596,7 @@ class SumService <span class="directive">implements</span> EventPublisher {
 <h2 id="consuming">3.2 Subscribing to Events</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/6.0.x/src/main/docs/guide/events/consuming.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/7.0.x/src/main/docs/guide/events/consuming.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -640,7 +640,7 @@ class TotalService {
 <div class="title">TotalService.groovy</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">import</span> <span class="include">grails.events.bus.EventBusAware</span>
-<span class="keyword">import</span> <span class="include">javax.annotation.PostConstruct</span>
+<span class="keyword">import</span> <span class="include">jakarta.annotation.PostConstruct</span>
 ...
 class TotalService <span class="directive">implements</span> EventBusAware {
 
@@ -663,7 +663,7 @@ class TotalService <span class="directive">implements</span> EventBusAware {
 <h2 id="annotations">3.3 Reactor Spring Annotations</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/6.0.x/src/main/docs/guide/events/annotations.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/7.0.x/src/main/docs/guide/events/annotations.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -693,7 +693,7 @@ class TotalService <span class="directive">implements</span> EventBusAware {
 <h2 id="gormEvents">3.4 Events from GORM</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/6.0.x/src/main/docs/guide/events/gormEvents.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/7.0.x/src/main/docs/guide/events/gormEvents.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -763,7 +763,7 @@ If you plan to modify properties of an entity being inserted, use the <code>Enti
 <h2 id="springEvents">3.5 Events from Spring</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/6.0.x/src/main/docs/guide/events/springEvents.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/7.0.x/src/main/docs/guide/events/springEvents.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -805,7 +805,7 @@ If you plan to modify properties of an entity being inserted, use the <code>Enti
 <h2 id="configure">3.6 Configure the Default Event Bus</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/6.0.x/src/main/docs/guide/events/configure.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/7.0.x/src/main/docs/guide/events/configure.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -845,7 +845,7 @@ beans = {
 <h1 id="asyncGorm">4 Asynchronous GORM</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/6.0.x/src/main/docs/guide/asyncGorm.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/7.0.x/src/main/docs/guide/asyncGorm.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -861,7 +861,7 @@ beans = {
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Although GORM executes persistence operations asynchronously, these operations still block as the underlying database drivers are not asynchronous. Asynchornous GORM is designed to allow you to isolate these blocking operations onto a separate thread you can scale and control allowing your controller layer to remain non-blocking.
+Although GORM executes persistence operations asynchronously, these operations still block as the underlying database drivers are not asynchronous. Asynchronous GORM is designed to allow you to isolate these blocking operations onto a separate thread you can scale and control allowing your controller layer to remain non-blocking.
 </td>
 </tr>
 </table>
@@ -874,7 +874,7 @@ Although GORM executes persistence operations asynchronously, these operations s
 <div class="listingblock">
 <div class="title">build.gradle</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy">compile <span class="string"><span class="delimiter">&quot;</span><span class="content">org.grails:grails-datastore-gorm-async</span><span class="delimiter">&quot;</span></span></code></pre>
+<pre class="CodeRay highlight"><code data-lang="groovy">implementation <span class="string"><span class="delimiter">&quot;</span><span class="content">org.grails:grails-datastore-gorm-async</span><span class="delimiter">&quot;</span></span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -885,7 +885,7 @@ Although GORM executes persistence operations asynchronously, these operations s
 <pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">import</span> <span class="include">grails.gorm.async.*</span>
 
 <span class="type">class</span> <span class="class">MyEntity</span> <span class="directive">implements</span> AsyncEntity&lt;MyEntity&gt; {
-   ...
+   <span class="comment">//...</span>
 }</code></pre>
 </div>
 </div>
@@ -1024,7 +1024,7 @@ Person updatedPerson = promise.get()</code></pre>
 <h1 id="rxjava">5 RxJava Support</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/6.0.x/src/main/docs/guide/rxjava.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/7.0.x/src/main/docs/guide/rxjava.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -1040,8 +1040,8 @@ Person updatedPerson = promise.get()</code></pre>
 <div class="title">build.gradle</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="groovy">dependencies {
-    ...
-    compile <span class="string"><span class="delimiter">'</span><span class="content">org.grails.plugins:rxjava</span><span class="delimiter">'</span></span>
+    <span class="comment">//...</span>
+    implementation <span class="string"><span class="delimiter">'</span><span class="content">org.grails.plugins:rxjava</span><span class="delimiter">'</span></span>
 }</code></pre>
 </div>
 </div>
@@ -1069,7 +1069,7 @@ Person updatedPerson = promise.get()</code></pre>
 <h2 id="serverSentEvents">5.1 Server Sent Events</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/6.0.x/src/main/docs/guide/rxjava/serverSentEvents.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/7.0.x/src/main/docs/guide/rxjava/serverSentEvents.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -1136,7 +1136,7 @@ Person updatedPerson = promise.get()</code></pre>
 <h2 id="rxGorm">5.2 RxGORM</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/6.0.x/src/main/docs/guide/rxjava/rxGorm.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/7.0.x/src/main/docs/guide/rxjava/rxGorm.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -1194,7 +1194,7 @@ Person updatedPerson = promise.get()</code></pre>
 <h1 id="asyncRequests">6 Asynchronous Request Handling</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/6.0.x/src/main/docs/guide/asyncRequests.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/7.0.x/src/main/docs/guide/asyncRequests.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -1264,9 +1264,9 @@ def index() {
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">import</span> <span class="include">static</span> <span class="include">grails.async.WebPromises.*</span>
-...
-def index() {
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">import</span> <span class="include">static</span> <span class="include">grails.async.web.WebPromises.*</span>
+<span class="comment">//...</span>
+<span class="keyword">def</span> <span class="function">index</span>() {
    render <span class="key">view</span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">myView</span><span class="delimiter">&quot;</span></span>, <span class="key">model</span>: tasks( <span class="key">one</span>:{ <span class="integer">2</span> * <span class="integer">2</span> },
                                        <span class="key">two</span>:{ <span class="integer">3</span> * <span class="integer">3</span> } )
 }</code></pre>
@@ -1280,7 +1280,8 @@ def index() {
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">import</span> <span class="include">static</span> <span class="include">grails.async.WebPromises.*</span>
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">import</span> <span class="include">static</span> <span class="include">grails.async.web.WebPromises.*</span>
+
 <span class="type">class</span> <span class="class">StockController</span> {
 
     <span class="keyword">def</span> <span class="function">stock</span>(<span class="predefined-type">String</span> ticker) {
@@ -1306,7 +1307,7 @@ def index() {
 <h1 id="asyncServletApi">7 Servlet 3.0 Async</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/6.0.x/src/main/docs/guide/asyncServletApi.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/grails/grails-async/edit/7.0.x/src/main/docs/guide/asyncServletApi.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
