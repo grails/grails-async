@@ -115,7 +115,7 @@ function addJsClass() {
 <div class="listingblock">
 <div class="title">build.gradle</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy">runtime "org.grails.plugins:async:6.0.0-SNAPSHOT"</code></pre>
+<pre class="CodeRay highlight"><code data-lang="groovy">implementation "org.grails.plugins:async:6.0.0-SNAPSHOT"</code></pre>
 </div>
 </div>
 <div class="sect2">
@@ -189,7 +189,7 @@ p.onComplete { result -&gt;
 <div class="sect2">
 <h3 id="_the_promisefactory_interface">The PromiseFactory Interface</h3>
 <div class="paragraph">
-<p>By default the <code>Promises</code> static methods use an instance of <code>PromiseFactory</code>. This <code>PromiseFactory</code> interface has various implementations. The default implementation is <a href="../api/org/grails/async/factory/future/CachedThreadPoolPromiseFactory.html">CachedThreadPoolPromiseFactory</a> which uses a thread pool that will create threads as needed (the same as <code>java.util.concurrent.Executors.newCachedThreadPool()</code>)</p>
+<p>By default, the <code>Promises</code> static methods use an instance of <code>PromiseFactory</code>. This <code>PromiseFactory</code> interface has various implementations. The default implementation is <a href="../api/org/grails/async/factory/future/CachedThreadPoolPromiseFactory.html">CachedThreadPoolPromiseFactory</a> which uses a thread pool that will create threads as needed (the same as <code>java.util.concurrent.Executors.newCachedThreadPool()</code>)</p>
 </div>
 <div class="paragraph">
 <p>However, the design of the Grails promises framework is such that you can swap out the underlying implementation for your own or one of the pre-supported implementations. For example to use RxJava 1.x simply add the RxJava dependency to <code>build.gradle</code>:</p>
@@ -197,7 +197,7 @@ p.onComplete { result -&gt;
 <div class="listingblock">
 <div class="title">build.gradle</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy">runtime "org.grails:grails-async-rxjava:6.0.0-SNAPSHOT"</code></pre>
+<pre class="CodeRay highlight"><code data-lang="groovy">runtimeOnly "org.grails:grails-async-rxjava:6.0.0-SNAPSHOT"</code></pre>
 </div>
 </div>
 <div class="paragraph">

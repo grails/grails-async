@@ -141,7 +141,7 @@ function addJsClass() {
 <div class="listingblock">
 <div class="title">build.gradle</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy">runtime "org.grails.plugins:events:6.0.0-SNAPSHOT"</code></pre>
+<pre class="CodeRay highlight"><code data-lang="groovy">implementation "org.grails.plugins:events:6.0.0-SNAPSHOT"</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -153,7 +153,7 @@ function addJsClass() {
 <div class="listingblock">
 <div class="title">build.gradle</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy">runtime "org.grails:grails-events-rxjava:6.0.0-SNAPSHOT"</code></pre>
+<pre class="CodeRay highlight"><code data-lang="groovy">runtimeOnly "org.grails:grails-events-rxjava:6.0.0-SNAPSHOT"</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -304,7 +304,7 @@ class TotalService {
 <div class="title">TotalService.groovy</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">import</span> <span class="include">grails.events.bus.EventBusAware</span>
-<span class="keyword">import</span> <span class="include">javax.annotation.PostConstruct</span>
+<span class="keyword">import</span> <span class="include">jakarta.annotation.PostConstruct</span>
 ...
 class TotalService <span class="directive">implements</span> EventBusAware {
 
