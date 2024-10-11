@@ -14,7 +14,6 @@ dependencies {
     api project(':grails-events-core')
     api libs.grails.core
     api libs.grails.web.common
-    api libs.grails.web.sitemesh
     api libs.groovy.core
     api libs.spring.beans
     api libs.spring.context
@@ -22,7 +21,6 @@ dependencies {
 
     implementation libs.grails.controllers
     implementation libs.grails.web.mvc
-    implementation libs.sitemesh
     implementation libs.spring.core
     implementation libs.spring.web
 
