@@ -17,19 +17,15 @@ package org.grails.plugins.web.async
 
 import grails.async.web.AsyncGrailsWebRequest
 
-import javax.servlet.AsyncContext
-import javax.servlet.AsyncListener
+import jakarta.servlet.AsyncContext
+import jakarta.servlet.AsyncListener
 
 import grails.persistence.support.PersistenceContextInterceptor
 import org.grails.web.servlet.mvc.GrailsWebRequest
-import org.grails.web.sitemesh.GrailsContentBufferingResponse
-import org.grails.web.sitemesh.GroovyPageLayoutFinder
 import org.grails.web.util.WebUtils
 
-import com.opensymphony.sitemesh.webapp.SiteMeshWebAppContext
-
-import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.HttpServletResponse
+import jakarta.servlet.http.HttpServletRequest
+import jakarta.servlet.http.HttpServletResponse
 
 /**
  * Wraps an AsyncContext providing additional logic to provide the appropriate context to a Grails application.
@@ -43,16 +39,11 @@ class GrailsAsyncContext implements AsyncContext {
 
     final @Delegate AsyncContext delegate
     final GrailsWebRequest originalWebRequest
-    final GroovyPageLayoutFinder groovyPageLayoutFinder
     final AsyncGrailsWebRequest asyncGrailsWebRequest
 
     GrailsAsyncContext(AsyncContext delegate, GrailsWebRequest webRequest, AsyncGrailsWebRequest asyncGrailsWebRequest = null) {
         this.delegate = delegate
         originalWebRequest = webRequest
-        def applicationContext = webRequest.getApplicationContext()
-        if (applicationContext && applicationContext.containsBean("groovyPageLayoutFinder")) {
-            groovyPageLayoutFinder = applicationContext.getBean("groovyPageLayoutFinder", GroovyPageLayoutFinder)
-        }
         this.asyncGrailsWebRequest = asyncGrailsWebRequest
     }
 
@@ -82,21 +73,6 @@ class GrailsAsyncContext implements AsyncContext {
     }
 
     void complete() {
-        if (response instanceof GrailsContentBufferingResponse) {
-            GrailsContentBufferingResponse bufferingResponse = (GrailsContentBufferingResponse) response
-            def targetResponse = bufferingResponse.getTargetResponse()
-            def content = bufferingResponse.getContent()
-            final httpRequest = (HttpServletRequest) request
-            if (content != null && groovyPageLayoutFinder != null) {
-                com.opensymphony.sitemesh.Decorator decorator = (com.opensymphony.sitemesh.Decorator)groovyPageLayoutFinder?.findLayout(httpRequest, content)
-                if (decorator) {
-                    decorator.render content,
-                        new SiteMeshWebAppContext(httpRequest, targetResponse, request.servletContext)
-                } else {
-                   content.writeOriginal(targetResponse.getWriter())
-                }
-            }
-        }
         delegate.complete()
      }
 

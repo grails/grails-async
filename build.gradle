@@ -26,9 +26,11 @@ if(isReleaseVersion) {
     }
 }
 
+
 subprojects {
     version = rootProject.version
     repositories {
+        mavenLocal() // Used by Groovy Joint Workflow
         mavenCentral()
         maven { url = 'https://repo.grails.org/grails/core' }
         if (libs.versions.groovy.get().endsWith('-SNAPSHOT')) {

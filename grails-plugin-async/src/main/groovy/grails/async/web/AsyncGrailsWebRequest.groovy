@@ -7,12 +7,12 @@ import org.springframework.context.ApplicationContext
 import org.springframework.util.Assert
 import org.springframework.web.context.request.async.AsyncWebRequest
 
-import javax.servlet.AsyncContext
-import javax.servlet.AsyncEvent
-import javax.servlet.AsyncListener
-import javax.servlet.ServletContext
-import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.HttpServletResponse
+import jakarta.servlet.AsyncContext
+import jakarta.servlet.AsyncEvent
+import jakarta.servlet.AsyncListener
+import jakarta.servlet.ServletContext
+import jakarta.servlet.http.HttpServletRequest
+import jakarta.servlet.http.HttpServletResponse
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.function.Consumer
 

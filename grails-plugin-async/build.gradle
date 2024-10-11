@@ -10,23 +10,10 @@ plugins  {
 dependencies {
 
     api project(':grails-async-core')
-
-    // This project does not really depend on the events plugin
-    // but rather on the events-core and events-compat modules.
-    // This is a workaround because without this, many plugins
-    // will not get the events plugin automatically on the classpath
-    // and will get an error.
-    // The async plugin is automatically added to the classpath by
-    // grails-core/grails-dependencies and now also the events plugin
-    // should be pulled in. This will be removed in Grails 7.
-    // https://github.com/grails/grails-core/issues/13324
-    api project(':grails-plugin-events')
-
     api project(':grails-events-compat')
     api project(':grails-events-core')
     api libs.grails.core
     api libs.grails.web.common
-    api libs.grails.web.sitemesh
     api libs.groovy.core
     api libs.spring.beans
     api libs.spring.context
@@ -34,7 +21,6 @@ dependencies {
 
     implementation libs.grails.controllers
     implementation libs.grails.web.mvc
-    implementation libs.sitemesh
     implementation libs.spring.core
     implementation libs.spring.web
 
@@ -48,4 +34,5 @@ dependencies {
 
 apply from: rootProject.layout.projectDirectory.file('gradle/grails-plugin-config.gradle')
 apply from: rootProject.layout.projectDirectory.file('gradle/java-config.gradle')
+apply from: rootProject.layout.projectDirectory.file('gradle/api-docs-config.gradle')
 apply from: rootProject.layout.projectDirectory.file('gradle/publishing.gradle')

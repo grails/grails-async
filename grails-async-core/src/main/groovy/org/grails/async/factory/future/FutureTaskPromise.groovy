@@ -93,7 +93,7 @@ class FutureTaskPromise<T> extends FutureTask<T> implements Promise<T> {
                 }
             }
             else {
-                Promise<T> newPromise = new FutureTaskChildPromise(promiseFactory, this, callable)
+                Promise<T> newPromise = new FutureTaskChildPromise(promiseFactory, this as Promise<T>, callable)
                 successCallbacks.add(newPromise)
                 return newPromise
             }
@@ -112,7 +112,7 @@ class FutureTaskPromise<T> extends FutureTask<T> implements Promise<T> {
                 }
             }
             else {
-                def newPromise = new FutureTaskChildPromise(promiseFactory, this, callable)
+                Promise<T> newPromise = new FutureTaskChildPromise(promiseFactory, this as Promise<T>, callable)
                 failureCallbacks.add(newPromise)
                 return newPromise
             }
