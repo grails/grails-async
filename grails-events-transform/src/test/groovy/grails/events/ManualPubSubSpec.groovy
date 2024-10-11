@@ -3,7 +3,7 @@ package grails.events
 import grails.events.bus.EventBusAware
 import spock.lang.Specification
 
-import javax.annotation.PostConstruct
+import jakarta.annotation.PostConstruct
 import java.util.concurrent.atomic.AtomicInteger
 
 /**

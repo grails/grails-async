@@ -6,8 +6,8 @@ To get started simply declare a dependency on the plugin in `build.gradle`:
 .build.gradle
 ----
 dependencies {
-    ...
-    compile 'org.grails.plugins:rxjava'
+    //...
+    implementation 'org.grails.plugins:rxjava'
 }
 ----
 

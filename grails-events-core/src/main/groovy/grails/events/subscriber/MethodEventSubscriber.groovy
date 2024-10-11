@@ -14,7 +14,7 @@ import java.lang.reflect.Method
  */
 @AutoFinal
 @CompileStatic
-class MethodEventSubscriber extends MethodSubscriber implements EventSubscriber {
+class MethodEventSubscriber<T> extends MethodSubscriber<Event,T> implements EventSubscriber<T> {
 
     MethodEventSubscriber(Object target, Method method) {
         super(target, method)

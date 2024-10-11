@@ -1,5 +1,6 @@
 package grails.events.subscriber
 
+import grails.events.Event
 import groovy.transform.AutoFinal
 import groovy.transform.CompileStatic
 import groovy.transform.EqualsAndHashCode
@@ -22,7 +23,7 @@ import java.lang.reflect.Method
 @CompileStatic
 @EqualsAndHashCode(includes = ['target', 'method'])
 @ToString(includes = ['method'])
-class MethodSubscriber implements Subscriber {
+class MethodSubscriber<T, R> implements Subscriber<T, R> {
 
     final Object target
     final Method method
@@ -44,19 +45,19 @@ class MethodSubscriber implements Subscriber {
     }
 
     @Override
-    Object call(Object arg) {
+    R call(T arg) {
         switch (parameterLength) {
             case 0:
-                return ReflectionUtils.invokeMethod(method, target)
+                return ReflectionUtils.invokeMethod(method, target) as R
             case 1:
                 Class parameterType = parameterTypes[0]
                 if(parameterType.isInstance(arg)) {
-                    return ReflectionUtils.invokeMethod(method, target, arg)
+                    return ReflectionUtils.invokeMethod(method, target, arg) as R
                 }
                 else {
                     def converted = conversionService.canConvert(arg.getClass(), parameterType) ? conversionService.convert(arg, parameterType) : null
                     if(converted != null) {
-                        return ReflectionUtils.invokeMethod(method, target, converted)
+                        return ReflectionUtils.invokeMethod(method, target, converted) as R
                     }
                     else {
                         log.debug('Could not convert Event argument [{}] to required type to invoke listener [{}]. Ignoring.', arg, method)
@@ -80,7 +81,7 @@ class MethodSubscriber implements Subscriber {
                             }
                             i++
                         }
-                        return ReflectionUtils.invokeMethod(method, target, converted)
+                        return ReflectionUtils.invokeMethod(method, target, converted) as R
                     }
                     else {
                         log.debug("Could not convert Event argument [{}] to required type to invoke listener [{}]. Ignoring.", arg, method)
