@@ -15,6 +15,7 @@ rxjava2 = '2.2.21'
 slf4j = '1.7.36'
 spock = '2.3-groovy-4.0'
 spring = '6.1.13'
+tomcat = '10.1.31'
 
 [libraries]
 bytebuddy = { module = 'net.bytebuddy:byte-buddy', version.ref = 'bytebuddy' }
@@ -39,9 +40,11 @@ spock-core = { module = 'org.spockframework:spock-core', version.ref = 'spock' }
 spring-beans = { module = 'org.springframework:spring-beans', version.ref = 'spring' }
 spring-core = { module = 'org.springframework:spring-core', version.ref = 'spring' }
 spring-context = { module = 'org.springframework:spring-context', version.ref = 'spring' }
+spring-test = { module = 'org.springframework:spring-test', version.ref = 'spring' }
 spring-tx = { module = 'org.springframework:spring-tx', version.ref = 'spring' }
 spring-web = { module = 'org.springframework:spring-web', version.ref = 'spring' }
 micronaut-serde-jackson = { module = 'io.micronaut.serde:micronaut-serde-jackson', version.ref = 'micronaut-serde-jackson' }
 micronaut-http-client = { module = 'io.micronaut:micronaut-http-client', version.ref = 'micronaut-http-client' }
 grails-views-json = { module = 'org.grails.plugins:views-json', version.ref = 'grails-views' }
 grails-views-json-templates = { module = 'org.grails.plugins:views-json-templates', version.ref = 'grails-views' }
+tomcat-servletApi = { module = 'org.apache.tomcat:tomcat-servlet-api', version.ref = 'tomcat' }
