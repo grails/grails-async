@@ -21,7 +21,7 @@ dependencies {
     testImplementation libs.spock.core
     testImplementation libs.spring.context
 
-    testRuntimeOnly libs.slf4j.nop // Get rid of warning about missing slf4j implementation during test task
+    testRuntimeOnly libs.slf4j.simple // Get rid of warning about missing slf4j implementation during test task
 
 }
 
