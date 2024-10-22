@@ -49,10 +49,7 @@ class RxJavaPromiseListSpec extends Specification{
             list << { 1 }
             def promise = list
                 .then { it << 2; it }
-                .then {
-                    Thread.dumpStack()
-                    it << 3; it
-                }
+                .then { it << 3; it }
             def result = promise.get()
 
         then: 'an appropriately populated list is produced'

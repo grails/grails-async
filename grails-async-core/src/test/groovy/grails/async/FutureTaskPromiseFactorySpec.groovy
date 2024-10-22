@@ -113,7 +113,7 @@ class FutureTaskPromiseFactorySpec extends Specification {
 
         when: 'a promise is chained'
             def promise = Promises.createPromise { 1 + 1 }
-            promise = promise.then { it * 2 } then { throw new RuntimeException('bad') } then { it + 6 }
+            promise = promise.then { it * 2 } then { throw new RuntimeException('explicitly forced exception') } then { it + 6 }
             def val = promise.get()
 
         then: 'the chain is executed'
