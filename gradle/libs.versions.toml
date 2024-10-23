@@ -1,5 +1,5 @@
 [versions]
-bytebuddy = '1.14.12'
+bytebuddy = '1.15.7'
 gpars = '1.2.1'
 grails = '7.0.0-SNAPSHOT'
 grails-gsp = '7.0.0-SNAPSHOT'
