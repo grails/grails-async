@@ -28,8 +28,11 @@ dependencies {
 
     testImplementation libs.spock.core
 
-    testRuntimeOnly libs.slf4j.nop // Get rid of warning about missing slf4j implementation during test task
+    testRuntimeOnly libs.slf4j.simple // Get rid of warning about missing slf4j implementation during test task
+    testRuntimeOnly libs.spring.test
+    testRuntimeOnly libs.tomcat.servletApi
 
+    testCompileOnly libs.spring.test
 }
 
 apply from: rootProject.layout.projectDirectory.file('gradle/grails-plugin-config.gradle')
