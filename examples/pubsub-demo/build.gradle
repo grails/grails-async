@@ -1,12 +1,10 @@
 plugins {
     id 'groovy'
+    id 'org.grails.grails-web'
 }
 
 version = rootProject.version
 group = 'pubsub.demo'
-
-// Must be applied after version is set
-apply plugin: 'org.grails.grails-web'
 
 dependencies {
 
