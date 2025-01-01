@@ -45,7 +45,7 @@ jobs:
           SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
           SIGNING_PASSPHRASE: ${{ secrets.SIGNING_PASSPHRASE }}
         run: >
-          ./gradlew
+          ./gradlew --no-build-cache
           -Psigning.secretKeyRingFile=${{ github.workspace }}/secring.gpg
           publishToSonatype
           closeSonatypeStagingRepository

@@ -61,7 +61,7 @@ subprojects {
         }
         if (System.getenv('GITHUB_MAVEN_PASSWORD') && !grailsVersion.endsWith('-SNAPSHOT')) {
             // Used during the release process to access modules temporarily published to GitHub Packages
-            System.out.println('Adding Grails Core Repo')
+            logger.warn("Adding Grails Core Repo to $name")
             maven {
                 url = 'https://maven.pkg.github.com/grails/grails-core'
                 credentials {
