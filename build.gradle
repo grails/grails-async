@@ -12,9 +12,9 @@ ext.set('isReleaseVersion', !isSnapshot)
 
 if(isReleaseVersion) {
     nexusPublishing {
-        String nexusUser = System.getenv("SONATYPE_USERNAME")
-        String nexusPass = System.getenv("SONATYPE_PASSWORD")
-        String nexusStagingProfileId = System.getenv("SONATYPE_STAGING_PROFILE_ID")
+        String nexusUser = System.getenv('SONATYPE_USERNAME')
+        String nexusPass = System.getenv('SONATYPE_PASSWORD')
+        String nexusStagingProfileId = System.getenv('SONATYPE_STAGING_PROFILE_ID')
         repositories {
             sonatype {
                 nexusUrl = uri('https://s01.oss.sonatype.org/service/local/')
@@ -32,22 +32,25 @@ subprojects {
 
     version = rootProject.version
     repositories {
-        mavenLocal() // Used by Groovy Joint Workflow
         mavenCentral()
         maven { url = 'https://repo.grails.org/grails/core' }
+        // mavenLocal() // Keep, this will be uncommented and used by CI (groovy-joint-workflow)
         if (libs.versions.groovy.get().endsWith('-SNAPSHOT')) {
+            // Used for testing locally against the latest snapshot of Groovy
+            // Usage: ./gradlew -PgroovyVersion=X.X.X-SNAPSHOT build
             maven {
-                name = 'JFrog Groovy snapshot repo'
-                url = 'https://groovy.jfrog.io/artifactory/libs-snapshot-local/'
+                name = 'ASF Snapshot repo'
+                url = 'https://repository.apache.org/content/repositories/snapshots'
             }
         }
-        if (System.getenv("GITHUB_MAVEN_PASSWORD") && !grailsVersion.endsWith('-SNAPSHOT')) {
-            System.out.println("Adding Grails Core Repo")
+        if (System.getenv('GITHUB_MAVEN_PASSWORD') && !grailsVersion.endsWith('-SNAPSHOT')) {
+            // Used during the release process to access modules temporarily published to GitHub Packages
+            System.out.println('Adding Grails Core Repo')
             maven {
                 url = 'https://maven.pkg.github.com/grails/grails-core'
                 credentials {
                     username = 'DOES_NOT_MATTER'
-                    password = System.getenv("GITHUB_MAVEN_PASSWORD")
+                    password = System.getenv('GITHUB_MAVEN_PASSWORD')
                 }
             }
         }

@@ -1,4 +1,4 @@
-name: Java CI
+name: "Java CI"
 on:
   push:
     branches:
@@ -7,62 +7,85 @@ on:
     branches:
       - '[5-9]+.[0-9]+.x'
 jobs:
-  build_project:
-    name: Build Project
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: true
+  build:
+    name: "Build Project"
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      packages: read
     steps:
-      - uses: actions/checkout@v4
-      - uses: gradle/wrapper-validation-action@v2
-      - uses: actions/setup-java@v4
+      - name: "📥 Checkout the repository"
+        uses: actions/checkout@v4
+      - name: "☕️ Setup JDK"
+        uses: actions/setup-java@v4
         with:
-          distribution: liberica
-          java-version: 17
-      - name: Run Gradle build
-        uses: gradle/actions/setup-gradle@v3
+          distribution: 'liberica'
+          java-version: '17'
+      - name: "🐘 Setup Gradle"
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          develocity-access-key: ${{ secrets.DEVELOCITY_ACCESS_KEY }}
+      - name: "🔨 Run Build"
+        id: build
         env:
-          GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
           GITHUB_MAVEN_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          arguments: build
-  publish_documentation:
-    name: Publish Snapshot release
-    runs-on: ubuntu-latest
+        run: ./gradlew build
+  publish:
     if: github.event_name == 'push'
-    needs: build_project
+    needs: build
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      packages: read
     steps:
-      - uses: actions/checkout@v4
-      - uses: gradle/wrapper-validation-action@v2
-      - uses: actions/setup-java@v4
+      - name: "📥 Checkout the repository"
+        uses: actions/checkout@v4
+      - name: "☕️ Setup JDK"
+        uses: actions/setup-java@v4
         with:
-          distribution: liberica
-          java-version: 17
-      - name: Publish to Artifactory (repo.grails.org)
-        uses: gradle/actions/setup-gradle@v3
+          distribution: 'liberica'
+          java-version: '17'
+      - name: "🐘 Setup Gradle"
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          develocity-access-key: ${{ secrets.DEVELOCITY_ACCESS_KEY }}
+      - name: "📤 Publish Snapshot to repo.grails.org"
         env:
-          GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
-          ORG_GRADLE_PROJECT_artifactoryPublishUsername: ${{ secrets.ARTIFACTORY_USERNAME }}
-          ORG_GRADLE_PROJECT_artifactoryPublishPassword: ${{ secrets.ARTIFACTORY_PASSWORD }}
+          GITHUB_MAVEN_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+          ARTIFACTORY_USERNAME: ${{ secrets.ARTIFACTORY_USERNAME }}
+          ARTIFACTORY_PASSWORD: ${{ secrets.ARTIFACTORY_PASSWORD }}
+        run: ./gradlew publish
+  docs:
+    if: github.event_name == 'push'
+    needs: build
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      packages: read
+    steps:
+      - name: "📥 Checkout the repository"
+        uses: actions/checkout@v4
+      - name: "☕️ Setup JDK"
+        uses: actions/setup-java@v4
         with:
-          arguments: |
-            -Dorg.gradle.internal.publish.checksums.insecure=true
-            publish
-      - name: Generate Documentation
-        if: success()
-        uses: gradle/actions/setup-gradle@v3
+          distribution: 'liberica'
+          java-version: '17'
+      - name: "🐘 Setup Gradle"
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          develocity-access-key: ${{ secrets.DEVELOCITY_ACCESS_KEY }}
+      - name: "🔨 Build Docs"
+        id: docs
         env:
-          GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
-        with:
-          arguments: docs
-      - name: Publish to Github Pages
-        if: success()
-        uses: grails/github-pages-deploy-action@grails
+          GITHUB_MAVEN_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+        run: ./gradlew docs
+      - name: "📤 Publish docs to Github Pages"
+        if: steps.docs.outcome == 'success'
+        uses: grails/github-pages-deploy-action@v2
         env:
           TARGET_REPOSITORY: ${{ github.repository }}
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           BRANCH: gh-pages
           FOLDER: docs/build/docs
-          DOC_FOLDER: gh-pages
-          COMMIT_EMAIL: 'grails-build@users.noreply.github.com'
-          COMMIT_NAME: 'grails-build'
+          COMMIT_EMAIL: grails-build@users.noreply.github.com
+          COMMIT_NAME: grails-build
