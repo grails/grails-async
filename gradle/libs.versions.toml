@@ -1,6 +1,6 @@
 [versions]
 gpars = '1.2.1'
-grails = '7.0.0-M1'
+grails = '7.0.0-SNAPSHOT'
 groovy = '4.0.24'
 gorm = '9.0.0-SNAPSHOT'
 micronaut-http-client = '4.6.5'
