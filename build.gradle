@@ -10,6 +10,11 @@ ext.set('grailsVersion', libs.versions.grails.get())
 ext.set('isSnapshot', projectVersion.endsWith('-SNAPSHOT'))
 ext.set('isReleaseVersion', !isSnapshot)
 
+def groovyVersion = findProperty('groovyVersion') ?: System.getenv('GROOVY_VERSION')
+if (groovyVersion) {
+    ext.set('groovy.version', groovyVersion)
+}
+
 if(isReleaseVersion) {
     nexusPublishing {
         String nexusUser = System.getenv('SONATYPE_USERNAME')
@@ -35,7 +40,7 @@ subprojects {
         mavenCentral()
         maven { url = 'https://repo.grails.org/grails/core' }
         // mavenLocal() // Keep, this will be uncommented and used by CI (groovy-joint-workflow)
-        if (libs.versions.groovy.get().endsWith('-SNAPSHOT')) {
+        if (groovyVersion?.endsWith('-SNAPSHOT')) {
             // Used for testing locally against the latest snapshot of Groovy
             // Usage: ./gradlew -PgroovyVersion=X.X.X-SNAPSHOT build
             maven {
