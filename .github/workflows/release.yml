@@ -7,6 +7,7 @@ env:
   GIT_USER_EMAIL: 'grails-build@users.noreply.github.com'
 jobs:
   publish:
+    name: "Publish to Sonatype Staging Repository"
     outputs:
       release_version: ${{ steps.release_version.outputs.value }}
     runs-on: ubuntu-24.04
@@ -49,6 +50,7 @@ jobs:
           publishToSonatype
           closeSonatypeStagingRepository
   release:
+    name: "Release Sonatype Staging Repository"
     needs: publish
     runs-on: ubuntu-24.04
     permissions:
@@ -82,6 +84,7 @@ jobs:
         if: success()
         uses: grails/github-actions/post-release@main
   docs:
+    name: "Publish Documentation"
     needs: publish
     runs-on: ubuntu-24.04
     permissions:

@@ -12,6 +12,7 @@ permissions:
   packages: read
 jobs:
   build_groovy:
+    name: "Build Groovy"
     runs-on: ubuntu-24.04
     outputs:
       groovyVersion: ${{ steps.groovy-version.outputs.value }}
@@ -104,6 +105,7 @@ jobs:
           ./gradlew pTML -x groovydoc -x javadoc -x javadocAll -x groovydocAll -x asciidoc -x docGDK
 
   build_project:
+    name: "Build Project"
     needs: build_groovy
     runs-on: ubuntu-24.04
     steps:

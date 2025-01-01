@@ -31,6 +31,7 @@ jobs:
           GITHUB_MAVEN_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
         run: ./gradlew build
   publish:
+    name: "Publish Snapshot"
     if: github.event_name == 'push'
     needs: build
     runs-on: ubuntu-24.04
@@ -56,6 +57,7 @@ jobs:
           ARTIFACTORY_PASSWORD: ${{ secrets.ARTIFACTORY_PASSWORD }}
         run: ./gradlew publish
   docs:
+    name: "Publish Snapshot Documentation"
     if: github.event_name == 'push'
     needs: build
     runs-on: ubuntu-24.04
