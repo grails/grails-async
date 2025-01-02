@@ -35,7 +35,7 @@ jobs:
         env:
           SECRING_FILE: ${{ secrets.SECRING_FILE }}
         run: echo $SECRING_FILE | base64 -d > ${{ github.workspace }}/secring.gpg
-      - name: "Publish to and close Sonatype staging repository"
+      - name: "📤 Publish to and close Sonatype staging repository"
         id: publish
         env:
           GITHUB_MAVEN_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
