@@ -61,8 +61,8 @@ publishing {
         repositories {
             maven {
                 credentials {
-                    username = project.findProperty('artifactoryPublishUsername') ?: ''
-                    password = project.findProperty('artifactoryPublishPassword') ?: ''
+                    username = System.getenv('ARTIFACTORY_USERNAME') ?: ''
+                    password = System.getenv('ARTIFACTORY_PASSWORD') ?: ''
                 }
                 url = isGrailsPlugin ?
                         uri('https://repo.grails.org/grails/plugins3-snapshots-local') :
